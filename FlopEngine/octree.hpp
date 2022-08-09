@@ -3,7 +3,9 @@
 
 #include "vector2.hpp"
 #include "rectangle.hpp"
+#include "i_octree_storable.hpp"
 
+//template<class ElemHolder>
 class Octree
 {
 private:

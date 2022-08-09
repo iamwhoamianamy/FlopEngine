@@ -2,9 +2,8 @@
 #include "GL/freeglut.h"
 
 #include "vector2.hpp"
-#include "octree.hpp"
 
-namespace drawing
+namespace draw
 {
     struct Color
     {
@@ -19,6 +18,5 @@ namespace drawing
     void drawPoint(Vector2 point, Color color, float size);
     void drawRect(Vector2 center, float halfWidth, float halfHeight, Color color);
     void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color);
-    void drawOctree(const Octree& octree);
 }
 

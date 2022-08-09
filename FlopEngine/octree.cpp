@@ -66,10 +66,10 @@ void Octree::subdivide()
 
     _children.reserve(4);
 
-    _children.emplace_back(new Octree(Rect({ x - w / 2, y - h / 2}, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Rect({ x + w / 2, y - h / 2}, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Rect({ x + w / 2, y + h / 2}, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Rect({ x - w / 2, y + h / 2}, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x - w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x + w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x + w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x - w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
 }
 
 void Octree::quarry(const Rect& range, std::vector<Vector2*>& found)

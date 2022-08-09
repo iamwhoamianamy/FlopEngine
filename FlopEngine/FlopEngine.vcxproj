@@ -128,8 +128,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="octree_help.cpp" />
     <ClCompile Include="octree_window.cpp" />
     <ClInclude Include="flop_engine.hpp" />
+    <ClInclude Include="i_octree_storable.hpp" />
+    <ClInclude Include="octree_help.hpp" />
     <ClInclude Include="octree_window.hpp" />
     <None Include="packages.config" />
     <ClCompile Include="rectangle.cpp" />

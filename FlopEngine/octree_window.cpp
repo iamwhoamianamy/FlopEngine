@@ -1,5 +1,6 @@
 #include "octree_window.hpp"
 #include "drawing.hpp"
+#include "octree_help.hpp"
 
 using namespace flp;
 
@@ -41,17 +42,17 @@ void OctreeWindow::display()
     glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    auto pointColor = drawing::Color(255, 255, 255);
+    auto pointColor = draw::Color(255, 255, 255);
 
     glEnable(GL_POINT_SMOOTH);
 
     for(auto& point : points)
     {
-        drawing::drawPoint(point, pointColor, 5);
+        draw::drawPoint(point, pointColor, 5);
     }
 
     Rect mouseBox(mousePos, Vector2(40, 40));
-    drawing::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
+    draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
 
     Octree octree(
         Rect(
@@ -63,14 +64,14 @@ void OctreeWindow::display()
     octree.insert(points);
     octree.quarry(mouseBox, foundPoints);
 
-    auto foundColor = drawing::Color(255, 0, 0);
+    auto foundColor = draw::Color(255, 0, 0);
 
     for(auto point : foundPoints)
     {
-        drawing::drawPoint(*point, foundColor, 5);
+        draw::drawPoint(*point, foundColor, 5);
     }
 
-    drawing::drawOctree(octree);
+    drawOctree(octree);
 
     glFinish();
 }

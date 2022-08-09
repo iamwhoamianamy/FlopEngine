@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Octree">
+      <UniqueIdentifier>{e00214ed-6311-461d-b6a8-a9aa3c41ab8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Boid">
+      <UniqueIdentifier>{f6eeee35-e7af-4784-92d6-4d207f500132}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -22,9 +28,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="glut_functions.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="octree.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="base_window.cpp">
@@ -42,15 +45,18 @@
     <ClCompile Include="rectangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="octree.cpp">
+      <Filter>Исходные файлы\Octree</Filter>
+    </ClCompile>
+    <ClCompile Include="octree_help.cpp">
+      <Filter>Исходные файлы\Octree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="drawing.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="glut_functions.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="octree.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="base_window.hpp">
@@ -67,6 +73,15 @@
     </ClInclude>
     <ClInclude Include="rectangle.hpp">
       <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="octree.hpp">
+      <Filter>Исходные файлы\Octree</Filter>
+    </ClInclude>
+    <ClInclude Include="octree_help.hpp">
+      <Filter>Исходные файлы\Octree</Filter>
+    </ClInclude>
+    <ClInclude Include="i_octree_storable.hpp">
+      <Filter>Исходные файлы\Octree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

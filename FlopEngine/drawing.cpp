@@ -1,6 +1,6 @@
 #include "drawing.hpp"
 
-namespace drawing
+namespace draw
 {
     Color::Color(UCHAR r, UCHAR g, UCHAR b, UCHAR a) :
         r(r), g(g), b(b), a(a)
@@ -42,22 +42,5 @@ namespace drawing
             glVertex3f(d.x, d.y, 0);
         }
         glEnd();
-    }
-
-    Color octreeColor(255, 255, 0);
-
-    void drawOctree(const Octree& octree)
-    {
-        drawRect(octree.box().center,
-            octree.box().halfDimensions.x,
-            octree.box().halfDimensions.y, octreeColor);
-
-        if(octree.subdivided())
-        {
-            for(auto child : octree.children())
-            {
-                drawOctree(*child);
-            }
-        }
     }
 }
