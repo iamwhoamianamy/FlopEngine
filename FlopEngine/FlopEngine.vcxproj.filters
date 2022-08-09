@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Исходные файлы\Octree">
-      <UniqueIdentifier>{e00214ed-6311-461d-b6a8-a9aa3c41ab8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Boid">
       <UniqueIdentifier>{f6eeee35-e7af-4784-92d6-4d207f500132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Quadtree">
+      <UniqueIdentifier>{e00214ed-6311-461d-b6a8-a9aa3c41ab8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,14 +39,14 @@
     <ClCompile Include="vector2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="octree_window.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="rectangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="octree_help.cpp">
-      <Filter>Исходные файлы\Octree</Filter>
+    <ClCompile Include="quadtree_help.cpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="quadtree_window.cpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,23 +62,23 @@
     <ClInclude Include="vector2.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="octree_window.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="flop_engine.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="rectangle.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="octree.hpp">
-      <Filter>Исходные файлы\Octree</Filter>
+    <ClInclude Include="quadtree.hpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
     </ClInclude>
-    <ClInclude Include="octree_help.hpp">
-      <Filter>Исходные файлы\Octree</Filter>
+    <ClInclude Include="quadtree_help.hpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
     </ClInclude>
-    <ClInclude Include="octree_implementation.hpp">
-      <Filter>Исходные файлы\Octree</Filter>
+    <ClInclude Include="quadtree_implementation.hpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="quadtree_window.hpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

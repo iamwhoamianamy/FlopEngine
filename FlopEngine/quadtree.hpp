@@ -20,28 +20,30 @@ public:
 };
 
 template<class Point>
-class Octree
+class Quadtree
 {
 private:
     size_t _capacity;
     Rect _rectangle;
     std::vector<Point*> _points;
-    std::vector<Octree*> _children;
+    std::vector<Quadtree*> _children;
 
 public:
-    Octree(const Rect& _Rect, const size_t capacity);
+    Quadtree(const Rect& _Rect, const size_t capacity = 1);
 
     void insert(std::vector<Point>& points);
     void insert(Point* point);
     void subdivide();
-    void quarry(const Rect& box, std::vector<Point*>& found);
+    std::vector<Point*> quarry(const Rect& box);
 
     inline const Rect& box() const;
     inline const bool subdivided() const;
-    inline std::vector<Octree*>& children();
-    inline const std::vector<Octree*>& children() const;
+    inline std::vector<Quadtree*>& children();
+    inline const std::vector<Quadtree*>& children() const;
 
-    ~Octree();
+    ~Quadtree();
+private:
+    void quarry(const Rect& box, std::vector<Point*>& found);
 };
 
-#include "octree_implementation.hpp"
+#include "quadtree_implementation.hpp"

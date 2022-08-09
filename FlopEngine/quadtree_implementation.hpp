@@ -1,15 +1,15 @@
 #pragma once
-#include "octree.hpp"
+#include "quadtree.hpp"
 
 template<class Point>
-Octree<Point>::Octree(const Rect& _Rect, const size_t capacity) :
+Quadtree<Point>::Quadtree(const Rect& _Rect, const size_t capacity) :
     _rectangle(_Rect), _capacity(capacity)
 {
 
 }
 
 template<class Point>
-void Octree<Point>::insert(std::vector<Point>& points)
+void Quadtree<Point>::insert(std::vector<Point>& points)
 {
     for(auto& point : points)
     {
@@ -18,7 +18,7 @@ void Octree<Point>::insert(std::vector<Point>& points)
 }
 
 template<class Point>
-void Octree<Point>::insert(Point* point)
+void Quadtree<Point>::insert(Point* point)
 {
     if(!_rectangle.contains(*point))
     {
@@ -58,7 +58,7 @@ void Octree<Point>::insert(Point* point)
 }
 
 template<class Point>
-void Octree<Point>::subdivide()
+void Quadtree<Point>::subdivide()
 {
     float x = _rectangle.center.x;
     float y = _rectangle.center.y;
@@ -70,14 +70,23 @@ void Octree<Point>::subdivide()
 
     _children.reserve(4);
 
-    _children.emplace_back(new Octree(Rect({ x - w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Rect({ x + w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Rect({ x + w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Rect({ x - w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Quadtree(Rect({ x - w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Quadtree(Rect({ x + w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Quadtree(Rect({ x + w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Quadtree(Rect({ x - w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
 }
 
 template<class Point>
-void Octree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
+inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& box)
+{
+    std::vector<Point*> found;
+    quarry(box, found);
+
+    return found;
+}
+
+template<class Point>
+void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
 {
     if(!_rectangle.intersects(range))
     {
@@ -106,31 +115,31 @@ void Octree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
 }
 
 template<class Point>
-inline const Rect& Octree<Point>::box() const
+inline const Rect& Quadtree<Point>::box() const
 {
     return this->_rectangle;
 }
 
 template<class Point>
-inline const bool Octree<Point>::subdivided() const
+inline const bool Quadtree<Point>::subdivided() const
 {
     return _children.size();
 }
 
 template<class Point>
-inline std::vector<Octree<Point>*>& Octree<Point>::children()
+inline std::vector<Quadtree<Point>*>& Quadtree<Point>::children()
 {
     return _children;
 }
 
 template<class Point>
-inline const std::vector<Octree<Point>*>& Octree<Point>::children() const
+inline const std::vector<Quadtree<Point>*>& Quadtree<Point>::children() const
 {
     return _children;
 }
 
 template<class Point>
-Octree<Point>::~Octree()
+Quadtree<Point>::~Quadtree()
 {
     if(subdivided())
     {

@@ -1,10 +1,10 @@
-#include "octree_window.hpp"
+#include "quadtree_window.hpp"
 #include "drawing.hpp"
-#include "octree_help.hpp"
+#include "quadtree_help.hpp"
 
 using namespace flp;
 
-OctreeWindow::OctreeWindow(
+QuadtreeWindow::QuadtreeWindow(
     int argc, char** argv,
     float screenWidth, float screenHeight,
     std::string name) :
@@ -13,12 +13,12 @@ OctreeWindow::OctreeWindow(
 
 }
 
-void OctreeWindow::keyboardLetters(unsigned char key, int x, int y)
+void QuadtreeWindow::keyboardLetters(unsigned char key, int x, int y)
 {
 
 }
 
-void OctreeWindow::mouse(int button, int state, int x, int y)
+void QuadtreeWindow::mouse(int button, int state, int x, int y)
 {
     if(state == 0)
     {
@@ -26,18 +26,18 @@ void OctreeWindow::mouse(int button, int state, int x, int y)
     }
 }
 
-void OctreeWindow::mousePassive(int x, int y)
+void QuadtreeWindow::mousePassive(int x, int y)
 {
     mousePos.x = x;
     mousePos.y = y;
 }
 
-void OctreeWindow::exitingFunction()
+void QuadtreeWindow::exitingFunction()
 {
     std::cout << "DONE!";
 }
 
-void OctreeWindow::display()
+void QuadtreeWindow::display()
 {
     glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -54,16 +54,12 @@ void OctreeWindow::display()
     Rect mouseBox(mousePos, Vector2(40, 40));
     draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
 
-    Octree<Vector2> octree(
-        Rect(
+    Quadtree<Vector2> octree(Rect(
             Vector2(screenWidth / 2, screenHeight / 2),
-            Vector2(screenWidth / 2, screenHeight / 2)),
-        1);
-    std::vector<Vector2*> foundPoints;
+            Vector2(screenWidth / 2, screenHeight / 2)));
 
     octree.insert(points);
-    octree.quarry(mouseBox, foundPoints);
-
+    auto foundPoints = octree.quarry(mouseBox);
     auto foundColor = draw::Color(255, 0, 0);
 
     for(auto point : foundPoints)

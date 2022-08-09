@@ -5,7 +5,7 @@
 #include "GL/freeglut.h"
 
 #include "vector2.hpp"
-#include "octree.hpp"
+#include "quadtree.hpp"
 #include "base_window.hpp"
 
 template<>
@@ -23,12 +23,12 @@ public:
     }
 };
 
-class OctreeWindow : public flp::BaseWindow
+class QuadtreeWindow : public flp::BaseWindow
 {
 private:
     std::vector<Vector2> points;
 public:
-    OctreeWindow(int argc, char** argv,
+    QuadtreeWindow(int argc, char** argv,
         float screenWidth, float screenHeight, std::string name);
 
     void display();
