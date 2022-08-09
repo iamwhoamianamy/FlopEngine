@@ -1,6 +1,9 @@
 ﻿#include <iostream>
+#include "flop_engine.hpp"
+#include "octree_window.hpp"
 
-int main()
+int main(int argc, char** argv)
 {
-    std::cout << "Hello World!\n";
+   window = new OctreeWindow(argc, argv, 800, 800, "Octree");
+   window->run(30);
 }
