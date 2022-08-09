@@ -6,7 +6,7 @@ using namespace flp;
 BaseWindow::BaseWindow(
     int argc, char** argv,
     float screenWidth, float screenHeight,
-    std::string name) : 
+    std::string name) :
     screenWidth(screenWidth), screenHeight(screenHeight), name(name)
 {
     glutInit(&argc, argv);

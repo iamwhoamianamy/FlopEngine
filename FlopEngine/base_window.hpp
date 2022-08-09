@@ -1,11 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
-
 #include "GL/freeglut.h"
-
 #include "vector3.hpp"
-#include "octree.hpp"
 
 namespace flp
 {
