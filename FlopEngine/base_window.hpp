@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "GL/freeglut.h"
-#include "vector3.hpp"
+#include "vector2.hpp"
 
 namespace flp
 {
@@ -14,7 +14,7 @@ namespace flp
         float screenWidth = 400;
         float screenHeight = 400;
         std::string name = "New Window";
-        Vector3 mousePos;
+        Vector2 mousePos;
     public:
         BaseWindow(
             int argc, char** argv,

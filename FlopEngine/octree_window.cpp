@@ -20,7 +20,9 @@ void OctreeWindow::keyboardLetters(unsigned char key, int x, int y)
 void OctreeWindow::mouse(int button, int state, int x, int y)
 {
     if(state == 0)
-        points.push_back(Vector3(x, y, 0));
+    {
+        points.emplace_back(x, y);
+    }
 }
 
 void OctreeWindow::mousePassive(int x, int y)
@@ -48,14 +50,15 @@ void OctreeWindow::display()
         drawing::drawPoint(point, pointColor, 5);
     }
 
-    Box mouseBox(mousePos, Vector3(40, 40, 40));
-    drawing::drawRectangle(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
+    Rect mouseBox(mousePos, Vector2(40, 40));
+    drawing::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
 
     Octree octree(
-        Box(Vector3(screenWidth / 2, screenHeight / 2, 0),
-        Vector3(screenWidth / 2, screenHeight / 2, 50)),
+        Rect(
+            Vector2(screenWidth / 2, screenHeight / 2),
+            Vector2(screenWidth / 2, screenHeight / 2)),
         1);
-    std::vector<Vector3*> foundPoints;
+    std::vector<Vector2*> foundPoints;
 
     octree.insert(points);
     octree.quarry(mouseBox, foundPoints);

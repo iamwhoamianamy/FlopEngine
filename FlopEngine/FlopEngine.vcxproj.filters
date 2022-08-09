@@ -30,16 +30,16 @@
     <ClCompile Include="base_window.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="box.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="vector3.cpp">
+    <ClCompile Include="vector2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="octree_window.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="rectangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,16 +56,16 @@
     <ClInclude Include="base_window.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="box.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="vector3.hpp">
+    <ClInclude Include="vector2.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="octree_window.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="flop_engine.hpp">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="rectangle.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

@@ -132,15 +132,16 @@
     <ClInclude Include="flop_engine.hpp" />
     <ClInclude Include="octree_window.hpp" />
     <None Include="packages.config" />
-    <ClCompile Include="vector3.cpp">
+    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="vector2.cpp">
       <FileType>Document</FileType>
     </ClCompile>
-    <ClInclude Include="vector3.hpp">
+    <ClInclude Include="rectangle.hpp" />
+    <ClInclude Include="vector2.hpp">
       <FileType>Document</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="box.cpp" />
     <ClCompile Include="drawing.cpp" />
     <ClCompile Include="glut_functions.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,7 +149,6 @@
     <ClCompile Include="base_window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="box.hpp" />
     <ClInclude Include="drawing.hpp" />
     <ClInclude Include="glut_functions.hpp" />
     <ClInclude Include="octree.hpp" />

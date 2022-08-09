@@ -7,31 +7,31 @@ namespace drawing
     {
     }
 
-    void drawPoint(Vector3 point, Color color, float size)
+    void drawPoint(Vector2 point, Color color, float size)
     {
         glColor3ub(color.r, color.g, color.b);
         glPointSize(size);
         glBegin(GL_POINTS);
         {
-            glVertex3f(point.x, point.y, point.z);
+            glVertex2f(point.x, point.y);
         }
         glEnd();
     }
 
-    void drawRectangle(Vector3 center, float halfWidth, float halfHeight, Color color)
+    void drawRect(Vector2 center, float halfWidth, float halfHeight, Color color)
     {
         glColor3ub(color.r, color.g, color.b);
         glBegin(GL_LINE_LOOP);
         {
-            glVertex3f(center.x - halfWidth, center.y - halfHeight, 0);
-            glVertex3f(center.x + halfWidth, center.y - halfHeight, 0);
-            glVertex3f(center.x + halfWidth, center.y + halfHeight, 0);
-            glVertex3f(center.x - halfWidth, center.y + halfHeight, 0);
+            glVertex2f(center.x - halfWidth, center.y - halfHeight);
+            glVertex2f(center.x + halfWidth, center.y - halfHeight);
+            glVertex2f(center.x + halfWidth, center.y + halfHeight);
+            glVertex2f(center.x - halfWidth, center.y + halfHeight);
         }
         glEnd();
     }
 
-    void drawRectangle(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color color)
+    void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color)
     {
         glColor3ub(color.r, color.g, color.b);
         glBegin(GL_LINE_LOOP);
@@ -48,7 +48,7 @@ namespace drawing
 
     void drawOctree(const Octree& octree)
     {
-        drawRectangle(octree.box().center,
+        drawRect(octree.box().center,
             octree.box().halfDimensions.x,
             octree.box().halfDimensions.y, octreeColor);
 

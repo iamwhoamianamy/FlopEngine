@@ -1,12 +1,12 @@
 #include "octree.hpp"
 
-Octree::Octree(const Box& _box, const size_t capacity) :
-    _box(_box), _capacity(capacity)
+Octree::Octree(const Rect& _Rect, const size_t capacity) :
+    _Rect(_Rect), _capacity(capacity)
 {
 
 }
 
-void Octree::insert(std::vector<Vector3>& points)
+void Octree::insert(std::vector<Vector2>& points)
 {
     for(auto& point : points)
     {
@@ -14,9 +14,9 @@ void Octree::insert(std::vector<Vector3>& points)
     }
 }
 
-void Octree::insert(Vector3& point)
+void Octree::insert(Vector2& point)
 {
-    if(!_box.contains(point))
+    if(!_Rect.contains(point))
     {
         return;
     }
@@ -56,32 +56,25 @@ void Octree::insert(Vector3& point)
 
 void Octree::subdivide()
 {
-    float x = _box.center.x;
-    float y = _box.center.y;
-    float z = _box.center.z;
+    float x = _Rect.center.x;
+    float y = _Rect.center.y;
 
-    float w = _box.halfDimensions.x;
-    float h = _box.halfDimensions.y;
-    float d = _box.halfDimensions.z;
+    float w = _Rect.halfDimensions.x;
+    float h = _Rect.halfDimensions.y;
 
-    Vector3 childrenHalfDimensions(w / 2, h / 2, d / 2);
+    Vector2 childrenHalfDimensions(w / 2, h / 2);
 
-    _children.reserve(8);
+    _children.reserve(4);
 
-    _children.emplace_back(new Octree(Box({ x - w / 2, y - h / 2, z - d / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Box({ x + w / 2, y - h / 2, z - d / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Box({ x + w / 2, y + h / 2, z - d / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Box({ x - w / 2, y + h / 2, z - d / 2 }, childrenHalfDimensions), _capacity));
-
-    _children.emplace_back(new Octree(Box({ x - w / 2, y - h / 2, z + d / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Box({ x + w / 2, y - h / 2, z + d / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Box({ x + w / 2, y + h / 2, z + d / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Octree(Box({ x - w / 2, y + h / 2, z + d / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x - w / 2, y - h / 2}, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x + w / 2, y - h / 2}, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x + w / 2, y + h / 2}, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Octree(Rect({ x - w / 2, y + h / 2}, childrenHalfDimensions), _capacity));
 }
 
-void Octree::quarry(const Box& range, std::vector<Vector3*>& found)
+void Octree::quarry(const Rect& range, std::vector<Vector2*>& found)
 {
-    if(!this->_box.intersects(range))
+    if(!this->_Rect.intersects(range))
     {
         return;
     }
@@ -105,9 +98,9 @@ void Octree::quarry(const Box& range, std::vector<Vector3*>& found)
     }
 }
 
-const Box& Octree::box() const
+const Rect& Octree::box() const
 {
-    return this->_box;
+    return this->_Rect;
 }
 
 const bool Octree::subdivided() const

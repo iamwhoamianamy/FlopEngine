@@ -4,14 +4,14 @@
 
 #include "GL/freeglut.h"
 
-#include "vector3.hpp"
+#include "vector2.hpp"
 #include "octree.hpp"
 #include "base_window.hpp"
 
 class OctreeWindow : public flp::BaseWindow
 {
 private:
-    std::vector<Vector3> points;
+    std::vector<Vector2> points;
 public:
     OctreeWindow(int argc, char** argv,
         float screenWidth, float screenHeight, std::string name);

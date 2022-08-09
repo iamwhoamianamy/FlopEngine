@@ -1,26 +1,26 @@
 #pragma once
 #include <vector>
 
-#include "vector3.hpp"
-#include "box.hpp"
+#include "vector2.hpp"
+#include "rectangle.hpp"
 
 class Octree
 {
 private:
     size_t _capacity;
-    Box _box;
-    std::vector<Vector3*> _points;
+    Rect _Rect;
+    std::vector<Vector2*> _points;
     std::vector<Octree*> _children;
 
 public:
-    Octree(const Box& _box, const size_t capacity);
+    Octree(const Rect& _Rect, const size_t capacity);
 
-    void insert(Vector3& point);
-    void insert(std::vector<Vector3>& points);
+    void insert(Vector2& point);
+    void insert(std::vector<Vector2>& points);
     void subdivide();
-    void quarry(const Box& box, std::vector<Vector3*>& found);
+    void quarry(const Rect& box, std::vector<Vector2*>& found);
 
-    const Box& box() const;
+    const Rect& box() const;
     const bool subdivided() const;
     const std::vector<Octree*> children() const;
 
