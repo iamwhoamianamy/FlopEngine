@@ -8,21 +8,6 @@
 #include "quadtree.hpp"
 #include "base_window.hpp"
 
-template<>
-class OctreePointHolder<Vector2>
-{
-public:
-    static float x(Vector2* vec)
-    {
-        return vec->x;
-    }
-
-    static float y(Vector2* vec)
-    {
-        return vec->y;
-    }
-};
-
 class QuadtreeWindow : public flp::BaseWindow
 {
 private:

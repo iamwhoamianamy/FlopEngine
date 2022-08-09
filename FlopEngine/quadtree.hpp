@@ -5,7 +5,7 @@
 #include "rectangle.hpp"
 
 template<class Point>
-class OctreePointHolder
+class QuadtreePointHolder
 {
 public:
     static float x(Point*)

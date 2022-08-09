@@ -4,6 +4,21 @@
 
 using namespace flp;
 
+template<>
+class QuadtreePointHolder<Vector2>
+{
+public:
+    static float x(Vector2* vec)
+    {
+        return vec->x;
+    }
+
+    static float y(Vector2* vec)
+    {
+        return vec->y;
+    }
+};
+
 QuadtreeWindow::QuadtreeWindow(
     int argc, char** argv,
     float screenWidth, float screenHeight,

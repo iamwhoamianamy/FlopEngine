@@ -97,8 +97,8 @@ void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
         for(auto point : _points)
         {
             if(range.contains({
-                OctreePointHolder<Point>::x(point),
-                OctreePointHolder<Point>::y(point) }))
+                QuadtreePointHolder<Point>::x(point),
+                QuadtreePointHolder<Point>::y(point) }))
             {
                 found.push_back(point);
             }
