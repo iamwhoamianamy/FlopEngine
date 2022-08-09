@@ -1,22 +1,26 @@
+#pragma once
 #include "octree.hpp"
 
-Octree::Octree(const Rect& _Rect, const size_t capacity) :
-    _Rect(_Rect), _capacity(capacity)
+template<class OctreePoint>
+Octree<OctreePoint>::Octree(const Rect& _Rect, const size_t capacity) :
+    _rectangle(_Rect), _capacity(capacity)
 {
 
 }
 
-void Octree::insert(std::vector<Vector2>& points)
+template<class OctreePoint>
+void Octree<OctreePoint>::insert(std::vector<OctreePoint>& points)
 {
     for(auto& point : points)
     {
-        insert(point);
+        insert(&point);
     }
 }
 
-void Octree::insert(Vector2& point)
+template<class OctreePoint>
+void Octree<OctreePoint>::insert(OctreePoint* point)
 {
-    if(!_Rect.contains(point))
+    if(!_rectangle.contains(*point))
     {
         return;
     }
@@ -25,7 +29,7 @@ void Octree::insert(Vector2& point)
     {
         if(!subdivided())
         {
-            _points.push_back(&point);
+            _points.push_back(point);
         }
         else
         {
@@ -38,14 +42,13 @@ void Octree::insert(Vector2& point)
     else
     {
         subdivide();
-
-        _points.push_back(&point);
+        _points.push_back(point);
 
         for(auto p : _points)
         {
             for(auto& child : _children)
             {
-                child->insert(*p);
+                child->insert(p);
             }
         }
 
@@ -54,13 +57,14 @@ void Octree::insert(Vector2& point)
     }
 }
 
-void Octree::subdivide()
+template<class OctreePoint>
+void Octree<OctreePoint>::subdivide()
 {
-    float x = _Rect.center.x;
-    float y = _Rect.center.y;
+    float x = _rectangle.center.x;
+    float y = _rectangle.center.y;
 
-    float w = _Rect.halfDimensions.x;
-    float h = _Rect.halfDimensions.y;
+    float w = _rectangle.halfDimensions.x;
+    float h = _rectangle.halfDimensions.y;
 
     Vector2 childrenHalfDimensions(w / 2, h / 2);
 
@@ -72,9 +76,10 @@ void Octree::subdivide()
     _children.emplace_back(new Octree(Rect({ x - w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
 }
 
-void Octree::quarry(const Rect& range, std::vector<Vector2*>& found)
+template<class OctreePoint>
+void Octree<OctreePoint>::quarry(const Rect& range, std::vector<OctreePoint*>& found)
 {
-    if(!this->_Rect.intersects(range))
+    if(!_rectangle.intersects(range))
     {
         return;
     }
@@ -82,7 +87,9 @@ void Octree::quarry(const Rect& range, std::vector<Vector2*>& found)
     {
         for(auto point : _points)
         {
-            if(range.contains(*point))
+            if(range.contains({
+                OctreePointHolder<OctreePoint>::x(point),
+                OctreePointHolder<OctreePoint>::y(point) }))
             {
                 found.push_back(point);
             }
@@ -98,22 +105,32 @@ void Octree::quarry(const Rect& range, std::vector<Vector2*>& found)
     }
 }
 
-const Rect& Octree::box() const
+template<class OctreePoint>
+inline const Rect& Octree<OctreePoint>::box() const
 {
-    return this->_Rect;
+    return this->_rectangle;
 }
 
-const bool Octree::subdivided() const
+template<class OctreePoint>
+inline const bool Octree<OctreePoint>::subdivided() const
 {
     return _children.size();
 }
 
-const std::vector<Octree*> Octree::children() const
+template<class OctreePoint>
+inline std::vector<Octree<OctreePoint>*>& Octree<OctreePoint>::children()
 {
     return _children;
 }
 
-Octree::~Octree()
+template<class OctreePoint>
+inline const std::vector<Octree<OctreePoint>*>& Octree<OctreePoint>::children() const
+{
+    return _children;
+}
+
+template<class OctreePoint>
+Octree<OctreePoint>::~Octree()
 {
     if(subdivided())
     {

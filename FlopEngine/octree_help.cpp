@@ -3,7 +3,7 @@
 
 draw::Color octreeColor(255, 255, 0);
 
-void drawOctree(const Octree& octree)
+void drawOctree(const Octree<Vector2>& octree)
 {
     draw::drawRect(octree.box().center,
         octree.box().halfDimensions.x,

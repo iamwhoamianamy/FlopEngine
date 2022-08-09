@@ -9,15 +9,21 @@ Rect::Rect(const Vector2& center, const Vector2& halfDimensions) :
 
 bool inRange(float value, float rangeCenter, float rangeHalfWidth)
 {
-    return (rangeCenter - rangeHalfWidth <= value &&
-        value < rangeCenter + rangeHalfWidth);
+    return 
+        rangeCenter - rangeHalfWidth <= value &&
+        value < rangeCenter + rangeHalfWidth;
 }
 
-bool Rect::contains(const Vector2& point) const
+bool Rect::contains(float x, float y) const
 {
-    return 
-        inRange(point.x, center.x, halfDimensions.x) &&
-        inRange(point.y, center.y, halfDimensions.y);
+    return
+        inRange(x, center.x, halfDimensions.x) &&
+        inRange(y, center.y, halfDimensions.y);
+}
+
+inline bool Rect::contains(const Vector2& point) const
+{
+    return contains(point.x, point.y);
 }
 
 bool Rect::intersects(const Rect& _Rect) const

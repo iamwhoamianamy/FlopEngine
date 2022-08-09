@@ -131,8 +131,8 @@
     <ClCompile Include="octree_help.cpp" />
     <ClCompile Include="octree_window.cpp" />
     <ClInclude Include="flop_engine.hpp" />
-    <ClInclude Include="i_octree_storable.hpp" />
     <ClInclude Include="octree_help.hpp" />
+    <ClInclude Include="octree_implementation.hpp" />
     <ClInclude Include="octree_window.hpp" />
     <None Include="packages.config" />
     <ClCompile Include="rectangle.cpp" />
@@ -148,7 +148,6 @@
     <ClCompile Include="drawing.cpp" />
     <ClCompile Include="glut_functions.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="octree.cpp" />
     <ClCompile Include="base_window.cpp" />
   </ItemGroup>
   <ItemGroup>

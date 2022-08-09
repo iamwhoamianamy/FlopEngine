@@ -27,10 +27,10 @@ public:
     Vector2& operator *=(float fac);
     Vector2& operator /=(float fac);
 
-    float lengthSquared() const;
-    float length() const;
+    inline float lengthSquared() const;
+    inline float length() const;
     Vector2 normalized() const;
-    Vector2 perp() const;
+    inline Vector2 perp() const;
 
     void normalize();
     void limit(float limitLength);
@@ -39,7 +39,7 @@ public:
     static Vector2 direction(const Vector2& from, const Vector2& to);
     static float distanceSquared(const Vector2& vec1, const Vector2& vec2);
     static float dot(const Vector2& vec1, const Vector2& vec2);
-    float cross(const Vector2& vec1, const Vector2& vec2);
+    static float cross(const Vector2& vec1, const Vector2& vec2);
 
     static Vector2 xAxis();
     static Vector2 yAxis();

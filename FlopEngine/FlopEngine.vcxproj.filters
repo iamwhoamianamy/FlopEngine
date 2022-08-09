@@ -45,9 +45,6 @@
     <ClCompile Include="rectangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="octree.cpp">
-      <Filter>Исходные файлы\Octree</Filter>
-    </ClCompile>
     <ClCompile Include="octree_help.cpp">
       <Filter>Исходные файлы\Octree</Filter>
     </ClCompile>
@@ -80,7 +77,7 @@
     <ClInclude Include="octree_help.hpp">
       <Filter>Исходные файлы\Octree</Filter>
     </ClInclude>
-    <ClInclude Include="i_octree_storable.hpp">
+    <ClInclude Include="octree_implementation.hpp">
       <Filter>Исходные файлы\Octree</Filter>
     </ClInclude>
   </ItemGroup>

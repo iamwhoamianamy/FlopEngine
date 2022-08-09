@@ -125,12 +125,12 @@ Vector2& Vector2::operator /=(float fac)
     return *this;
 }
 
-float Vector2::lengthSquared() const
+inline float Vector2::lengthSquared() const
 {
     return x * x + y * y;
 }
 
-float Vector2::length() const
+inline float Vector2::length() const
 {
     return sqrt(lengthSquared());
 }
@@ -176,15 +176,14 @@ void Vector2::setLength(float newLength)
     operator*=(newLength);
 }
 
-Vector2 Vector2::perp() const
+inline Vector2 Vector2::perp() const
 {
     return Vector2(-y, x);
 }
 
 Vector2 Vector2::direction(const Vector2& from, const Vector2& to)
 {
-    Vector2 res = to - from;
-    return res.normalized();
+    return (to - from).normalized();
 }
 
 float Vector2::distanceSquared(const Vector2& vec1, const Vector2& vec2)

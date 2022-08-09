@@ -54,7 +54,7 @@ void OctreeWindow::display()
     Rect mouseBox(mousePos, Vector2(40, 40));
     draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
 
-    Octree octree(
+    Octree<Vector2> octree(
         Rect(
             Vector2(screenWidth / 2, screenHeight / 2),
             Vector2(screenWidth / 2, screenHeight / 2)),

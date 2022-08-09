@@ -3,28 +3,45 @@
 
 #include "vector2.hpp"
 #include "rectangle.hpp"
-#include "i_octree_storable.hpp"
 
-//template<class ElemHolder>
+template<class OctreePoint>
+class OctreePointHolder
+{
+public:
+    static float x(OctreePoint*)
+    {
+        return 0;
+    }
+
+    static float y(OctreePoint*)
+    {
+        return 0;
+    }
+};
+
+template<class OctreePoint>
 class Octree
 {
 private:
     size_t _capacity;
-    Rect _Rect;
-    std::vector<Vector2*> _points;
+    Rect _rectangle;
+    std::vector<OctreePoint*> _points;
     std::vector<Octree*> _children;
 
 public:
     Octree(const Rect& _Rect, const size_t capacity);
 
-    void insert(Vector2& point);
-    void insert(std::vector<Vector2>& points);
+    void insert(std::vector<OctreePoint>& points);
+    void insert(OctreePoint* point);
     void subdivide();
-    void quarry(const Rect& box, std::vector<Vector2*>& found);
+    void quarry(const Rect& box, std::vector<OctreePoint*>& found);
 
-    const Rect& box() const;
-    const bool subdivided() const;
-    const std::vector<Octree*> children() const;
+    inline const Rect& box() const;
+    inline const bool subdivided() const;
+    inline std::vector<Octree*>& children();
+    inline const std::vector<Octree*>& children() const;
 
     ~Octree();
 };
+
+#include "octree_implementation.hpp"
