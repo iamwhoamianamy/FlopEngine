@@ -1,6 +1,8 @@
 #include "base_window.hpp"
 #include "glut_functions.hpp"
 
+using namespace flp;
+
 BaseWindow::BaseWindow(
     int argc, char** argv,
     float screenWidth, float screenHeight,

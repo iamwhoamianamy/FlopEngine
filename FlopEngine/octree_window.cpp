@@ -1,6 +1,8 @@
 #include "octree_window.hpp"
 #include "drawing.hpp"
 
+using namespace flp;
+
 OctreeWindow::OctreeWindow(int argc, char** argv, float screenWidth, float screenHeight, std::string name) :
    BaseWindow(argc, argv, screenWidth, screenHeight, name)
 {

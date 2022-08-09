@@ -2,57 +2,60 @@
 #include "glut_functions.hpp"
 #include "flop_engine.hpp"
 
-BaseWindow* window;
-
-void registerFunctions()
+namespace flp
 {
-   glutDisplayFunc(glutDisplay);
-   glutReshapeFunc(glutReshape);
-   glutKeyboardFunc(glutKeyboardLetters);
-   glutMouseFunc(glutMouse);
-   glutPassiveMotionFunc(glutMousePassive);
-   atexit(glutExitingFunction);
-   glutTimerFunc(0, glutOnTimer, 0);
-}
+    BaseWindow* window;
 
-void glutOnTimer(int millisec)
-{
-   if(window)
-      window->baseOnTimer(millisec);
-}
+    void registerFunctions()
+    {
+        glutDisplayFunc(glutDisplay);
+        glutReshapeFunc(glutReshape);
+        glutKeyboardFunc(glutKeyboardLetters);
+        glutMouseFunc(glutMouse);
+        glutPassiveMotionFunc(glutMousePassive);
+        atexit(glutExitingFunction);
+        glutTimerFunc(0, glutOnTimer, 0);
+    }
 
-void glutExitingFunction()
-{
-   if(window)
-      window->baseExitingFunction();
-}
+    void glutOnTimer(int millisec)
+    {
+        if(window)
+            window->baseOnTimer(millisec);
+    }
 
-void glutDisplay()
-{
-   if(window)
-      window->baseDisplay();
-}
+    void glutExitingFunction()
+    {
+        if(window)
+            window->baseExitingFunction();
+    }
 
-void glutReshape(GLint w, GLint h)
-{
-   if(window)
-      window->baseReshape(w, h);
-}
+    void glutDisplay()
+    {
+        if(window)
+            window->baseDisplay();
+    }
 
-void glutKeyboardLetters(unsigned char key, int x, int y)
-{
-   if(window)
-      window->baseKeyboardLetters(key, x, y);
-}
+    void glutReshape(GLint w, GLint h)
+    {
+        if(window)
+            window->baseReshape(w, h);
+    }
 
-void glutMouse(int button, int state, int x, int y)
-{
-   if(window)
-      window->baseMouse(button, state, x, y);
-}
+    void glutKeyboardLetters(unsigned char key, int x, int y)
+    {
+        if(window)
+            window->baseKeyboardLetters(key, x, y);
+    }
 
-void glutMousePassive(int x, int y)
-{
-   if(window)
-      window->baseMousePassive(x, y);
+    void glutMouse(int button, int state, int x, int y)
+    {
+        if(window)
+            window->baseMouse(button, state, x, y);
+    }
+
+    void glutMousePassive(int x, int y)
+    {
+        if(window)
+            window->baseMousePassive(x, y);
+    }
 }

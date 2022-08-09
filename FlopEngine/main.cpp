@@ -4,6 +4,6 @@
 
 int main(int argc, char** argv)
 {
-   window = new OctreeWindow(argc, argv, 800, 800, "Octree");
-   window->run(30);
+   flp::window = new OctreeWindow(argc, argv, 800, 800, "Octree");
+   flp::window->run(30);
 }
