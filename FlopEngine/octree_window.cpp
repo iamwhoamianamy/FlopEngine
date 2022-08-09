@@ -51,8 +51,10 @@ void OctreeWindow::display()
     Box mouseBox(mousePos, Vector3(40, 40, 40));
     drawing::drawRectangle(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
 
-    Octree octree(Box(Vector3(screenWidth / 2, screenHeight / 2, 0),
-        Vector3(screenWidth / 2, screenHeight / 2, 50)), 1);
+    Octree octree(
+        Box(Vector3(screenWidth / 2, screenHeight / 2, 0),
+        Vector3(screenWidth / 2, screenHeight / 2, 50)),
+        1);
     std::vector<Vector3*> foundPoints;
 
     octree.insert(points);

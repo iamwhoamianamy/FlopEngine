@@ -7,7 +7,6 @@
 class Octree
 {
 private:
-    bool _isSubdivided;
     size_t _capacity;
     Box _box;
     std::vector<Vector3*> _points;
@@ -22,7 +21,7 @@ public:
     void quarry(const Box& box, std::vector<Vector3*>& found);
 
     const Box& box() const;
-    const bool isSubdivided() const;
+    const bool subdivided() const;
     const std::vector<Octree*> children() const;
 
     ~Octree();

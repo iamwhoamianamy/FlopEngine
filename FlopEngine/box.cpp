@@ -1,27 +1,28 @@
-#include "box.hpp"
 #include <math.h>
+
+#include "box.hpp"
 
 Box::Box(const Vector3& center, const Vector3& halfDimensions) :
     center(center), halfDimensions(halfDimensions)
 {
 }
 
-bool isInRange(float value, float rangeCenter, float rangeHalfWidth)
+bool inRange(float value, float rangeCenter, float rangeHalfWidth)
 {
     return (rangeCenter - rangeHalfWidth <= value &&
         value < rangeCenter + rangeHalfWidth);
 }
 
-bool Box::doContain(const Vector3& point) const
+bool Box::contains(const Vector3& point) const
 {
-    return (isInRange(point.x, center.x, halfDimensions.x) &&
-        isInRange(point.y, center.y, halfDimensions.y) &&
-        isInRange(point.z, center.z, halfDimensions.z));
+    return (inRange(point.x, center.x, halfDimensions.x) &&
+        inRange(point.y, center.y, halfDimensions.y) &&
+        inRange(point.z, center.z, halfDimensions.z));
 }
 
-bool Box::doIntersect(const Box& _box) const
+bool Box::intersects(const Box& _box) const
 {
-    return Box(_box.center, halfDimensions + _box.halfDimensions).doContain(center);
+    return Box(_box.center, halfDimensions + _box.halfDimensions).contains(center);
 }
 
 //

@@ -52,7 +52,7 @@ namespace drawing
             octree.box().halfDimensions.x,
             octree.box().halfDimensions.y, octreeColor);
 
-        if(octree.isSubdivided())
+        if(octree.subdivided())
         {
             for(auto child : octree.children())
             {

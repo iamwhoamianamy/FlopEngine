@@ -1,7 +1,7 @@
 #include "octree.hpp"
 
 Octree::Octree(const Box& _box, const size_t capacity) :
-    _box(_box), _capacity(capacity), _isSubdivided(false)
+    _box(_box), _capacity(capacity)
 {
 
 }
@@ -16,14 +16,14 @@ void Octree::insert(std::vector<Vector3>& points)
 
 void Octree::insert(Vector3& point)
 {
-    if(!_box.doContain(point))
+    if(!_box.contains(point))
     {
         return;
     }
 
     if(_points.size() < _capacity)
     {
-        if(!_isSubdivided)
+        if(!subdivided())
         {
             _points.push_back(&point);
         }
@@ -38,7 +38,6 @@ void Octree::insert(Vector3& point)
     else
     {
         subdivide();
-        _isSubdivided = true;
 
         _points.push_back(&point);
 
@@ -51,6 +50,7 @@ void Octree::insert(Vector3& point)
         }
 
         _points.clear();
+        _points.shrink_to_fit();
     }
 }
 
@@ -81,7 +81,7 @@ void Octree::subdivide()
 
 void Octree::quarry(const Box& range, std::vector<Vector3*>& found)
 {
-    if(!this->_box.doIntersect(range))
+    if(!this->_box.intersects(range))
     {
         return;
     }
@@ -89,13 +89,13 @@ void Octree::quarry(const Box& range, std::vector<Vector3*>& found)
     {
         for(auto point : _points)
         {
-            if(range.doContain(*point))
+            if(range.contains(*point))
             {
                 found.push_back(point);
             }
         }
 
-        if(_isSubdivided)
+        if(subdivided())
         {
             for(auto& child : _children)
             {
@@ -110,9 +110,9 @@ const Box& Octree::box() const
     return this->_box;
 }
 
-const bool Octree::isSubdivided() const
+const bool Octree::subdivided() const
 {
-    return _isSubdivided;
+    return _children.size();
 }
 
 const std::vector<Octree*> Octree::children() const
@@ -122,7 +122,7 @@ const std::vector<Octree*> Octree::children() const
 
 Octree::~Octree()
 {
-    if(_isSubdivided)
+    if(subdivided())
     {
         for(auto child : _children)
         {
