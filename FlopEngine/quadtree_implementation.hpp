@@ -2,6 +2,21 @@
 #include "quadtree.hpp"
 
 template<class Point>
+class QuadtreePointHolder
+{
+public:
+    static float x(Point*)
+    {
+        return 0;
+    }
+
+    static float y(Point*)
+    {
+        return 0;
+    }
+};
+
+template<class Point>
 Quadtree<Point>::Quadtree(const Rect& _Rect, const size_t capacity) :
     _rectangle(_Rect), _capacity(capacity)
 {
@@ -96,9 +111,9 @@ void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
     {
         for(auto point : _points)
         {
-            if(range.contains({
+            if(range.contains(
                 QuadtreePointHolder<Point>::x(point),
-                QuadtreePointHolder<Point>::y(point) }))
+                QuadtreePointHolder<Point>::y(point)))
             {
                 found.push_back(point);
             }

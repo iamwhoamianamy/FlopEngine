@@ -5,21 +5,6 @@
 #include "rectangle.hpp"
 
 template<class Point>
-class QuadtreePointHolder
-{
-public:
-    static float x(Point*)
-    {
-        return 0;
-    }
-
-    static float y(Point*)
-    {
-        return 0;
-    }
-};
-
-template<class Point>
 class Quadtree
 {
 private:
