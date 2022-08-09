@@ -11,15 +11,15 @@ namespace flp
     {
     protected:
         int FPS = 60;
-        float screenWidth = 400;
-        float screenHeight = 400;
-        std::string name = "New Window";
+        float screenWidth;
+        float screenHeight;
+        std::string name;
         Vector2 mousePos;
     public:
         BaseWindow(
             int argc, char** argv,
-            float screenWidth, float screenHeight,
-            std::string name);
+            float screenWidth = 400, float screenHeight = 400,
+            std::string name = "New Window");
 
         virtual void display() = 0;
         virtual void keyboardLetters(unsigned char key, int x, int y) = 0;
