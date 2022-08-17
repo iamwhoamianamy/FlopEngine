@@ -27,10 +27,23 @@ public:
     Vector2& operator *=(float fac);
     Vector2& operator /=(float fac);
 
-    inline float lengthSquared() const;
-    inline float length() const;
+
+    inline float lengthSquared() const
+    {
+        return x * x + y * y;
+    }
+
+    inline float length() const
+    {
+        return sqrt(lengthSquared());
+    }
+
     Vector2 normalized() const;
-    inline Vector2 perp() const;
+
+    inline Vector2 perp() const
+    {
+        return Vector2(-y, x);
+    }
 
     void normalize();
     void limit(float limitLength);

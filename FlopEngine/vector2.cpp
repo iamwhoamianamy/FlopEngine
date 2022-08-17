@@ -125,16 +125,6 @@ Vector2& Vector2::operator /=(float fac)
     return *this;
 }
 
-inline float Vector2::lengthSquared() const
-{
-    return x * x + y * y;
-}
-
-inline float Vector2::length() const
-{
-    return sqrt(lengthSquared());
-}
-
 Vector2 Vector2::normalized() const
 {
     Vector2 res;
@@ -174,11 +164,6 @@ void Vector2::setLength(float newLength)
 {
     normalize();
     operator*=(newLength);
-}
-
-inline Vector2 Vector2::perp() const
-{
-    return Vector2(-y, x);
 }
 
 Vector2 Vector2::direction(const Vector2& from, const Vector2& to)
