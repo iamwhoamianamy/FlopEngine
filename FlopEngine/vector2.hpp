@@ -27,7 +27,6 @@ public:
     Vector2& operator *=(float fac);
     Vector2& operator /=(float fac);
 
-
     inline float lengthSquared() const
     {
         return x * x + y * y;
@@ -43,6 +42,12 @@ public:
     inline Vector2 perp() const
     {
         return Vector2(-y, x);
+    }
+
+    inline void zero()
+    {
+        x = 0;
+        y = 0;
     }
 
     void normalize();
