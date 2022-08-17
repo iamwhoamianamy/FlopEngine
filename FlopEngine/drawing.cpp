@@ -1,4 +1,5 @@
 #include "drawing.hpp"
+#include "math.hpp"
 
 namespace draw
 {
@@ -68,5 +69,13 @@ namespace draw
             glVertex3f(c.x, c.y, 0);
         }
         glEnd();
+    }
+
+    Color generateRandomColor()
+    {
+        return Color(
+            math::randomInRange(0, 255),
+            math::randomInRange(0, 255),
+            math::randomInRange(0, 255));
     }
 }

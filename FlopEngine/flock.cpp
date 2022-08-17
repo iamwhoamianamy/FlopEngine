@@ -185,6 +185,25 @@ void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
     }
 }
 
+void Flock::performFleeing(const Flock& flock, float ellapsed)
+{
+    for(auto& boid : _boids)
+    {
+        auto boidsToFleeFrom = flock.quadtree().quarry(
+            Rect(boid.position, _boidParams.fleeVision));
+
+        for(const auto& boidToFleeFrom : boidsToFleeFrom)
+        {
+            boid.avoid(boidToFleeFrom->position, _boidParams.fleeStrength, ellapsed);
+        }
+    }
+}
+
+draw::Color& Flock::color()
+{
+    return _color;
+}
+
 const std::vector<Boid>& Flock::boids() const
 {
     return _boids;
@@ -230,4 +249,9 @@ void Flock::draw() const
             break;
         }
     }
+}
+
+const Quadtree<Boid>& Flock::quadtree() const
+{
+    return _quadtree;
 }

@@ -12,6 +12,7 @@ BoidsWindow::BoidsWindow(
     for(auto& flock : _flocks)
     {
         flock.initRandomOnScreen(screenWidth, screenHeight);
+        flock.color() = draw::generateRandomColor();
     }
 }
 
@@ -40,6 +41,16 @@ void BoidsWindow::display()
 
 void BoidsWindow::keyboardLetters(unsigned char key, int x, int y)
 {
+    switch(key)
+    {
+        case 'c':
+        {
+            for(auto& flock : _flocks)
+            {
+                flock.color() = draw::generateRandomColor();
+            }
+        }
+    }
 }
 
 void BoidsWindow::mouse(int button, int state, int x, int y)

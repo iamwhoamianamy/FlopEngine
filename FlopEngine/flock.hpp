@@ -22,6 +22,9 @@ struct BoidParameters
     float gatherVision = 50;
     float gatherStrength = 500;
 
+    float fleeVision = 50;
+    float fleeStrength = 40;
+
     float wanderStrength = 0.01;
 
     float size = 10;
@@ -43,18 +46,20 @@ public:
     void initRandomOnScreen(
         float screenWidth,
         float screenHeight,
-        size_t boidsCount = 3000,
+        size_t boidsCount = 500,
         float maxSpeed = 40);
 
     void updateBoidPositions(float viscosity, float ellapsed);
     void formQuadtree(const Rect& boidFieldBorders, size_t capacity);
     void performFlockingBehaviour(float ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
-    //void performFleeing()
+    void performFleeing(const Flock& flock, float ellapsed);
 
+    draw::Color& color();
     const std::vector<Boid>& boids() const;
     FlockDrawType drawType() const;
     void draw() const;
+    const Quadtree<Boid>& quadtree() const;
 private:
     void performAvoiding(Boid& boid, float ellapsed);
     void performAligning(Boid& boid, float ellapsed);

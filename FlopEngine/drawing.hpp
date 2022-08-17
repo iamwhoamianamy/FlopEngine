@@ -19,6 +19,7 @@ namespace draw
     void drawRect(Vector2 center, float halfWidth, float halfHeight);
     void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d);
     void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled);
+    Color generateRandomColor();
 
     inline void setColor(Color color)
     {
