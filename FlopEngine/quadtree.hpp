@@ -14,7 +14,7 @@ private:
     std::vector<Quadtree*> _children;
 
 public:
-    Quadtree(const Rect& _Rect, const size_t capacity = 1);
+    Quadtree(const Rect& rectangle, const size_t capacity = 1);
 
     void insert(std::vector<Point>& points);
     void insert(Point* point);

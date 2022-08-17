@@ -17,8 +17,8 @@ public:
 };
 
 template<class Point>
-Quadtree<Point>::Quadtree(const Rect& _Rect, const size_t capacity) :
-    _rectangle(_Rect), _capacity(capacity)
+Quadtree<Point>::Quadtree(const Rect& rectangle, const size_t capacity) :
+    _rectangle(rectangle), _capacity(capacity)
 {
 
 }
