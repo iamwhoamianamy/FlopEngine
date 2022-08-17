@@ -14,6 +14,8 @@ private:
     std::vector<Quadtree*> _children;
 
 public:
+    Quadtree(const Quadtree& quadtree);
+    Quadtree(Quadtree&& quadtree);
     Quadtree(const Rect& rectangle, const size_t capacity = 1);
 
     void insert(std::vector<Point>& points);
@@ -26,9 +28,15 @@ public:
     inline std::vector<Quadtree*>& children();
     inline const std::vector<Quadtree*>& children() const;
 
+    Quadtree<Point>& operator =(const Quadtree<Point>& quadtree);
+    Quadtree<Point>& operator =(Quadtree<Point>&& quadtree);
+
     ~Quadtree();
 private:
     void quarry(const Rect& box, std::vector<Point*>& found);
+    void clearData();
+    void copyFields(const Quadtree& quadtree);
+    void moveFields(Quadtree&& quadtree);
 };
 
 #include "quadtree_implementation.hpp"

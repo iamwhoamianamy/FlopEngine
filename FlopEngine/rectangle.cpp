@@ -2,6 +2,11 @@
 
 #include "rectangle.hpp"
 
+Rect::Rect() :
+    center({ 0, 0 }), halfDimensions({ 0, 0 })
+{
+}
+
 Rect::Rect(const Vector2& center, const Vector2& halfDimensions) :
     center(center), halfDimensions(halfDimensions)
 {

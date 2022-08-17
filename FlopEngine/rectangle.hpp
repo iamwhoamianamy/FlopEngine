@@ -6,6 +6,7 @@ struct Rect
     Vector2 center;
     Vector2 halfDimensions;
 
+    Rect();
     Rect(const Vector2& center, const Vector2& halfDimensions);
     Rect(const Vector2& center, float radius);
     bool contains(float x, float y) const;

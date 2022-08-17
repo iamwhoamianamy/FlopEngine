@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "quadtree.hpp"
 
 template<class Point>
@@ -12,10 +13,21 @@ public:
 };
 
 template<class Point>
+inline Quadtree<Point>::Quadtree(const Quadtree& quadtree)
+{
+    copyFields(quadtree);
+}
+
+template<class Point>
+inline Quadtree<Point>::Quadtree(Quadtree&& quadtree)
+{
+    moveFields(quadtree);
+}
+
+template<class Point>
 Quadtree<Point>::Quadtree(const Rect& rectangle, const size_t capacity) :
     _rectangle(rectangle), _capacity(capacity)
 {
-
 }
 
 template<class Point>
@@ -123,6 +135,36 @@ void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
 }
 
 template<class Point>
+inline void Quadtree<Point>::clearData()
+{
+    if (subdivided())
+    {
+        for (auto child : _children)
+        {
+            delete child;
+        }
+
+        _children.clear();
+    }
+}
+
+template<class Point>
+inline void Quadtree<Point>::copyFields(const Quadtree& quadtree)
+{
+    _rectangle = quadtree._rectangle;
+    _capacity = quadtree._capacity;
+    _points = quadtree._points;
+}
+
+template<class Point>
+inline void Quadtree<Point>::moveFields(Quadtree&& quadtree)
+{
+    _rectangle = quadtree._rectangle;
+    _capacity = quadtree._capacity;
+    _points = std::move(quadtree._points);
+}
+
+template<class Point>
 inline const Rect& Quadtree<Point>::box() const
 {
     return this->_rectangle;
@@ -147,10 +189,25 @@ inline const std::vector<Quadtree<Point>*>& Quadtree<Point>::children() const
 }
 
 template<class Point>
+inline Quadtree<Point>& Quadtree<Point>::operator=(const Quadtree<Point>& quadtree)
+{
+    clearData();
+    copyFields(quadtree);
+
+    return *this;
+}
+
+template<class Point>
+inline Quadtree<Point>& Quadtree<Point>::operator=(Quadtree<Point>&& quadtree)
+{
+    clearData();
+    moveFields(std::move(quadtree));
+
+    return *this;
+}
+
+template<class Point>
 Quadtree<Point>::~Quadtree()
 {
-    for (auto child : _children)
-    {
-        delete child;
-    }
+    clearData();
 }
