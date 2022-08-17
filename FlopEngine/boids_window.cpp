@@ -75,7 +75,8 @@ void BoidsWindow::keyboardLetters(unsigned char key, int x, int y)
         {
             for(auto& flock : _flocks)
             {
-                flock.drawType() = (FlockDrawType)(((int)flock.drawType() + 1) % FLOCK_DRAW_TYPE_COUNT);
+                flock.drawType() = (FlockDrawType)(
+                    ((int)flock.drawType() + 1) % FLOCK_DRAW_TYPE_COUNT);
             }
 
             break;

@@ -4,13 +4,14 @@
 #include "drawing.hpp"
 #include "quadtree.hpp"
 
-constexpr size_t FLOCK_DRAW_TYPE_COUNT = 3;
+constexpr size_t FLOCK_DRAW_TYPE_COUNT = 4;
 
 enum class FlockDrawType
 {
     Points = 0,
     Triangles,
-    TrianglesFilled
+    TrianglesFilled,
+    Letter
 };
 
 struct BoidParameters

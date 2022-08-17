@@ -21,6 +21,14 @@ namespace draw
     void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled);
     Color generateRandomColor();
 
+    void renderString(Vector2 position, float size, const std::string& string);
+    void renderLetter(Vector2 position, float size, char letter);
+
+    inline void setColor(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 255)
+    {
+        glColor4ub(r, g, b, a);
+    }
+
     inline void setColor(Color color)
     {
         glColor4ub(color.r, color.g, color.b, color.a);

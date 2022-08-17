@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <limits>
 #include "flock.hpp"
 #include "math.hpp"
 #include "utility.hpp"
@@ -247,6 +248,22 @@ void Flock::draw() const
                     perpDirection * _boidParams.size / 3;
 
                 draw::drawTriangle(a, b, c, _drawType == FlockDrawType::TrianglesFilled);
+            }
+
+            break;
+        }
+        case FlockDrawType::Letter:
+        {
+            char code = _color.r ^ _color.g ^ _color.b;
+            char letter = math::map(
+                code,
+                std::numeric_limits<char>::min(),
+                std::numeric_limits<char>::max(),
+                '0', '9');
+
+            for(const auto& boid : _boids)
+            {
+                draw::renderLetter(boid.position, _boidParams.size, letter);
             }
 
             break;

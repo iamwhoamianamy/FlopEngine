@@ -44,7 +44,6 @@ void BaseWindow::baseReshape(GLint w, GLint h)
     glLoadIdentity();
     glOrtho(0, screenWidth, screenHeight, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 }
 
 void BaseWindow::baseKeyboardLetters(unsigned char key, int x, int y)

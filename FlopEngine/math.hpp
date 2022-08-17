@@ -13,4 +13,10 @@ namespace math
 
     Vector2 generateRandomVector();
     float randomInRange(float low, float high);
+    
+    template <class T>
+    T map(T x, T oldLow, T oldHigh, T newLow, T newHigh)
+    {
+        return newLow + (float)(x - oldLow) / (oldHigh - oldLow) * (newHigh - newLow);
+    }
 }
