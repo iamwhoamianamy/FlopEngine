@@ -7,6 +7,16 @@ namespace draw
     {
     }
 
+    void drawLine(Vector2 a, Vector2 b)
+    {
+        glBegin(GL_LINES);
+        {
+            glVertex2f(a.x, a.y);
+            glVertex2f(b.x, b.y);
+        }
+        glEnd();
+    }
+
     void drawPoint(Vector2 point, float size)
     {
         glPointSize(size);

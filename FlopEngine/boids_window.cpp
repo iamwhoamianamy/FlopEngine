@@ -30,8 +30,12 @@ void BoidsWindow::display()
 
     for(auto& flock : _flocks)
     {
-        flock.updateBoidPositions(1.0 / FPS);
+        flock.formQuadtree(Rect({ screenWidth / 2, screenHeight / 2 }, { screenWidth / 2, screenHeight / 2 }), 4);
+        flock.performFlockingBehaviour(1.0 / FPS);
+
+        flock.updateBoidPositions(_viscosity, 1.0 / FPS);
         flock.goThroughWindowBorders(screenWidth, screenHeight);
+
         flock.draw();
     }
 

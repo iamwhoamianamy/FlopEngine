@@ -8,8 +8,16 @@ Boid::Boid(
 {
 }
 
-void Boid::updatePosition(float ellapsed)
+void Boid::updatePosition(float viscosity, float ellapsed)
 {
     velocity += acceleration * ellapsed;
     position += velocity * ellapsed;
+    acceleration.zero();
+    velocity *= viscosity;
+}
+
+void Boid::avoid(Vector2 target, float strength, float ellapsed)
+{
+    Vector2 direction = Vector2::direction(position, target);
+    acceleration -= direction * strength * ellapsed;
 }

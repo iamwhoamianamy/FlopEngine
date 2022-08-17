@@ -13,8 +13,9 @@ class BoidsWindow : public flp::BaseWindow
 {
 private:
     const size_t _flockCount = 1;
-    const size_t _boidsPerFlock = 50;
+    const size_t _boidsPerFlock = 100;
     std::vector<Flock> _flocks;
+    const float _viscosity = 0.999;
 public:
     BoidsWindow(int argc, char** argv,
         float screenWidth, float screenHeight, std::string name);

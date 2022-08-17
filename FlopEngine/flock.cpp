@@ -2,9 +2,20 @@
 #include "flock.hpp"
 #include "math.hpp"
 
+template <>
+class QuadtreePointHolder<Boid>
+{
+public:
+    static Vector2 position(Boid* boid)
+    {
+        return boid->position;
+    }
+};
+
 Flock::Flock() :
     _drawType(FlockDrawType::Triangles),
-    _color(255, 100, 100)
+    _color(255, 100, 100),
+    _quadtree(Rect(Vector2(), Vector2()), 0)
 {
 }
 
@@ -26,11 +37,32 @@ void Flock::initRandomOnScreen(
     }
 }
 
-void Flock::updateBoidPositions(float ellapsed)
+void Flock::updateBoidPositions(float viscosity, float ellapsed)
 {
     for(auto& boid : _boids)
     {
-        boid.updatePosition(ellapsed);
+        boid.updatePosition(viscosity, ellapsed);
+    }
+}
+
+void Flock::formQuadtree(const Rect& boidFieldBorders, size_t capacity)
+{
+    _quadtree = Quadtree<Boid>(boidFieldBorders, capacity);
+    _quadtree.insert(_boids);
+}
+
+void Flock::performFlockingBehaviour(float ellapsed)
+{
+    for (auto& boid : _boids)
+    {
+        auto boidsToAvoid = _quadtree.quarry(Rect(boid.position, _boidParams.avoidVision));
+        
+        for (auto& boidToAvoid : boidsToAvoid)
+        {
+            boid.avoid(boidToAvoid->position, _boidParams.avoidStrength, ellapsed);
+            draw::setColor(draw::Color(255, 255, 255));
+            draw::drawLine(boid.position, boidToAvoid->position);
+        }
     }
 }
 

@@ -99,10 +99,10 @@ void Quadtree<Point>::subdivide()
 }
 
 template<class Point>
-inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& box)
+inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& range)
 {
     std::vector<Point*> found;
-    quarry(box, found);
+    quarry(range, found);
 
     return found;
 }

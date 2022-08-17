@@ -21,7 +21,8 @@ public:
     void insert(std::vector<Point>& points);
     void insert(Point* point);
     void subdivide();
-    std::vector<Point*> quarry(const Rect& box);
+
+    std::vector<Point*> quarry(const Rect& range);
 
     inline const Rect& box() const;
     inline const bool subdivided() const;
@@ -33,7 +34,7 @@ public:
 
     ~Quadtree();
 private:
-    void quarry(const Rect& box, std::vector<Point*>& found);
+    void quarry(const Rect& range, std::vector<Point*>& found);
     void clearData();
     void copyFields(const Quadtree& quadtree);
     void moveFields(Quadtree&& quadtree);
