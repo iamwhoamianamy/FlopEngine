@@ -63,6 +63,13 @@ void BoidsWindow::keyboardLetters(unsigned char key, int x, int y)
             {
                 flock.color() = draw::generateRandomColor();
             }
+
+            break;
+        }
+        case 'f':
+        {
+            glutFullScreenToggle();
+            break;
         }
     }
 }
