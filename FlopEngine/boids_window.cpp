@@ -71,6 +71,15 @@ void BoidsWindow::keyboardLetters(unsigned char key, int x, int y)
             glutFullScreenToggle();
             break;
         }
+        case 'r':
+        {
+            for(auto& flock : _flocks)
+            {
+                flock.drawType() = (FlockDrawType)(((int)flock.drawType() + 1) % FLOCK_DRAW_TYPE_COUNT);
+            }
+
+            break;
+        }
     }
 }
 

@@ -4,6 +4,8 @@
 #include "drawing.hpp"
 #include "quadtree.hpp"
 
+constexpr size_t FLOCK_DRAW_TYPE_COUNT = 3;
+
 enum class FlockDrawType
 {
     Points = 0,
@@ -27,7 +29,7 @@ struct BoidParameters
 
     float wanderStrength = 0.01;
 
-    float size = 10;
+    float size = 8;
 };
 
 class Flock
@@ -38,6 +40,7 @@ private:
     draw::Color _color;
     Quadtree<Boid> _quadtree;
     BoidParameters _boidParams;
+    float _maxSpeed;
 public:
     bool debug = false;
 
@@ -47,7 +50,7 @@ public:
         float screenWidth,
         float screenHeight,
         size_t boidsCount = 500,
-        float maxSpeed = 40);
+        float maxSpeed = 80);
 
     void updateBoidPositions(float viscosity, float ellapsed);
     void formQuadtree(const Rect& boidFieldBorders, size_t capacity);
@@ -57,7 +60,7 @@ public:
 
     draw::Color& color();
     const std::vector<Boid>& boids() const;
-    FlockDrawType drawType() const;
+    FlockDrawType& drawType();
     void draw() const;
     const Quadtree<Boid>& quadtree() const;
 private:

@@ -36,6 +36,8 @@ void Flock::initRandomOnScreen(
             math::randomInRange(0, screenHeight) };
         _boids.emplace_back(position, math::generateRandomVector() * maxSpeed);
     }
+
+    _maxSpeed = maxSpeed;
 }
 
 void Flock::updateBoidPositions(float viscosity, float ellapsed)
@@ -43,6 +45,7 @@ void Flock::updateBoidPositions(float viscosity, float ellapsed)
     for(auto& boid : _boids)
     {
         boid.updatePosition(viscosity, ellapsed);
+        boid.velocity.limit(_maxSpeed);
     }
 }
 
@@ -209,7 +212,7 @@ const std::vector<Boid>& Flock::boids() const
     return _boids;
 }
 
-FlockDrawType Flock::drawType() const
+FlockDrawType& Flock::drawType()
 {
     return _drawType;
 }
