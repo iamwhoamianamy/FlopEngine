@@ -8,14 +8,9 @@ template<>
 class QuadtreePointHolder<Vector2>
 {
 public:
-    static float x(Vector2* vec)
+    static Vector2 position(Vector2* vec)
     {
-        return vec->x;
-    }
-
-    static float y(Vector2* vec)
-    {
-        return vec->y;
+        return *vec;
     }
 };
 

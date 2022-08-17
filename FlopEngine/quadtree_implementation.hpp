@@ -5,12 +5,7 @@ template<class Point>
 class QuadtreePointHolder
 {
 public:
-    static float x(Point*)
-    {
-        return 0;
-    }
-
-    static float y(Point*)
+    static Vector2 position(Point*)
     {
         return 0;
     }
@@ -35,7 +30,7 @@ void Quadtree<Point>::insert(std::vector<Point>& points)
 template<class Point>
 void Quadtree<Point>::insert(Point* point)
 {
-    if(!_rectangle.contains(*point))
+    if(!_rectangle.contains(QuadtreePointHolder<Point>::position(point)))
     {
         return;
     }
@@ -111,9 +106,7 @@ void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
     {
         for(auto point : _points)
         {
-            if(range.contains(
-                QuadtreePointHolder<Point>::x(point),
-                QuadtreePointHolder<Point>::y(point)))
+            if(range.contains(QuadtreePointHolder<Point>::position(point)))
             {
                 found.push_back(point);
             }
