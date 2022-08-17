@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "flock.hpp"
 #include "math.hpp"
+#include "utility.hpp"
 
 template <>
 class QuadtreePointHolder<Boid>
@@ -55,14 +56,44 @@ void Flock::performFlockingBehaviour(float ellapsed)
 {
     for (auto& boid : _boids)
     {
-        auto boidsToAvoid = _quadtree.quarry(Rect(boid.position, _boidParams.avoidVision));
-        
-        for (auto& boidToAvoid : boidsToAvoid)
+        //performAvoiding(boid, ellapsed);
+        performAligning(boid, ellapsed);
+    }
+}
+
+void Flock::performAvoiding(Boid& boid, float ellapsed)
+{
+    auto boidsToAvoid = _quadtree.quarry(
+        Rect(boid.position, _boidParams.avoidVision));
+
+    for(auto& boidToAvoid : boidsToAvoid)
+    {
+        boid.avoid(boidToAvoid->position, _boidParams.avoidStrength, ellapsed);
+        draw::setColor(draw::Color(255, 255, 255));
+        draw::drawLine(boid.position, boidToAvoid->position);
+    }
+}
+
+void Flock::performAligning(Boid& boid, float ellapsed)
+{
+    struct Transformer
+    {
+        Vector2 operator()(Boid* boid)
         {
-            boid.avoid(boidToAvoid->position, _boidParams.avoidStrength, ellapsed);
-            draw::setColor(draw::Color(255, 255, 255));
-            draw::drawLine(boid.position, boidToAvoid->position);
+            return boid->position;
         }
+    };
+
+    auto boidsToAlignTo = _quadtree.quarry(Rect(boid.position, _boidParams.alignVision));
+    auto velocitiesToAlignTo = 
+        util::transform<Boid*, Vector2, Transformer>(boidsToAlignTo);
+
+    boid.align(velocitiesToAlignTo, _boidParams.alignStrength, ellapsed);
+
+    for(auto& boidToAlignTo : boidsToAlignTo)
+    {
+        draw::setColor(draw::Color(255, 255, 0));
+        draw::drawLine(boid.position, boidToAlignTo->position);
     }
 }
 

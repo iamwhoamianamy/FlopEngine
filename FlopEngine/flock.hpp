@@ -14,6 +14,9 @@ struct BoidParameters
 {
     float avoidVision = 30;
     float avoidStrength = 5000;
+
+    float alignVision = 50;
+    float alignStrength = 500;
 };
 
 class Flock
@@ -41,4 +44,7 @@ public:
     const std::vector<Boid>& boids() const;
     FlockDrawType drawType() const;
     void draw() const;
+private:
+    void performAvoiding(Boid& boid, float ellapsed);
+    void performAligning(Boid& boid, float ellapsed);
 };

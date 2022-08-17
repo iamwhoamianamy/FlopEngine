@@ -13,13 +13,6 @@ BoidsWindow::BoidsWindow(
     {
         flock.initRandomOnScreen(_boidsPerFlock, screenWidth, screenHeight);
     }
-
-    /*_flocks.reserve(_flockCount);
-
-    for(int i = 0; i < _flockCount; i++)
-    {
-        _flocks.emplace(_flocks.begin() + i);
-    }*/
 }
 
 void BoidsWindow::display()

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "vector2.hpp"
 
 constexpr float BOID_SIZE = 10.0f;
@@ -16,7 +17,8 @@ public:
         const Vector2& acceleration = Vector2());
 
     void updatePosition(float viscosity, float ellapsed);
+
     void avoid(Vector2 target, float strength, float ellapsed);
-    void allign(const std::vector<Vector2>& target, float strength, float ellapsed);
+    void align(const std::vector<Vector2>& targets, float strength, float ellapsed);
 };
 

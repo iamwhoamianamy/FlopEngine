@@ -50,6 +50,11 @@ public:
         y = 0;
     }
 
+    static inline Vector2 lerp(Vector2 a, Vector2 b, float factor)
+    {
+        return a + (b - a) * factor;
+    }
+
     void normalize();
     void limit(float limitLength);
     void setLength(float newLength);
