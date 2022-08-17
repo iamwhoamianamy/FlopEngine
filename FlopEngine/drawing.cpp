@@ -51,9 +51,17 @@ namespace draw
         glEnd();
     }
     
-    void drawTriangle(Vector2 a, Vector2 b, Vector2 c)
+    void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled)
     {
-        glBegin(GL_LINE_LOOP);
+        if(filled)
+        {
+            glBegin(GL_TRIANGLES);
+        }
+        else
+        {
+            glBegin(GL_LINE_LOOP);
+        }
+
         {
             glVertex3f(a.x, a.y, 0);
             glVertex3f(b.x, b.y, 0);

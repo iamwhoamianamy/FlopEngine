@@ -18,7 +18,7 @@ namespace draw
     void drawPoint(Vector2 point, float size);
     void drawRect(Vector2 center, float halfWidth, float halfHeight);
     void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d);
-    void drawTriangle(Vector2 a, Vector2 b, Vector2 c);
+    void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled);
 
     inline void setColor(Color color)
     {

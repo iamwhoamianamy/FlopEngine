@@ -2,8 +2,6 @@
 #include <vector>
 #include "vector2.hpp"
 
-constexpr float BOID_SIZE = 10.0f;
-
 class Boid
 {
 public:
@@ -23,4 +21,3 @@ public:
     void gather(const std::vector<Vector2>& targets, float strength, float ellapsed);
     void wander(float strength, float ellapsed);
 };
-

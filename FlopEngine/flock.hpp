@@ -7,7 +7,8 @@
 enum class FlockDrawType
 {
     Points = 0,
-    Triangles
+    Triangles,
+    TrianglesFilled
 };
 
 struct BoidParameters
@@ -15,13 +16,15 @@ struct BoidParameters
     float avoidVision = 15;
     float avoidStrength = 40;
 
-    float alignVision = 100;
+    float alignVision = 50;
     float alignStrength = 0.01;
 
     float gatherVision = 50;
     float gatherStrength = 500;
 
-    float wanderStrength = 2;
+    float wanderStrength = 0.01;
+
+    float size = 10;
 };
 
 class Flock
@@ -38,15 +41,16 @@ public:
     Flock();
 
     void initRandomOnScreen(
-        size_t boidsCount,
         float screenWidth,
         float screenHeight,
+        size_t boidsCount = 3000,
         float maxSpeed = 40);
 
     void updateBoidPositions(float viscosity, float ellapsed);
     void formQuadtree(const Rect& boidFieldBorders, size_t capacity);
     void performFlockingBehaviour(float ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
+    //void performFleeing()
 
     const std::vector<Boid>& boids() const;
     FlockDrawType drawType() const;

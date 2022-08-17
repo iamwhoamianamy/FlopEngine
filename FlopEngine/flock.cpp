@@ -14,16 +14,16 @@ public:
 };
 
 Flock::Flock() :
-    _drawType(FlockDrawType::Triangles),
+    _drawType(FlockDrawType::TrianglesFilled),
     _color(255, 255, 255),
     _quadtree(Rect(Vector2(), Vector2()), 0)
 {
 }
 
 void Flock::initRandomOnScreen(
-    size_t boidsCount,
     float screenWidth,
     float screenHeight,
+    size_t boidsCount,
     float maxSpeed)
 {
     _boids.clear();
@@ -205,23 +205,26 @@ void Flock::draw() const
         {
             for (const auto& boid : _boids)
             {
-                draw::drawPoint(boid.position, BOID_SIZE);
+                draw::drawPoint(boid.position, _boidParams.size);
             }
 
             break;
         }
         case FlockDrawType::Triangles:
+        case FlockDrawType::TrianglesFilled:
         {
             for (const auto& boid : _boids)
             {
                 Vector2 direction = boid.velocity.normalized();
                 Vector2 perpDirection = direction.perp();
 
-                Vector2 a = boid.position + direction * BOID_SIZE / 2;
-                Vector2 b = boid.position - direction * BOID_SIZE / 2 + perpDirection * BOID_SIZE / 3;
-                Vector2 c = boid.position - direction * BOID_SIZE / 2 - perpDirection * BOID_SIZE / 3;
+                Vector2 a = boid.position + direction * _boidParams.size / 2;
+                Vector2 b = boid.position - direction * _boidParams.size / 2 + 
+                    perpDirection * _boidParams.size / 3;
+                Vector2 c = boid.position - direction * _boidParams.size / 2 - 
+                    perpDirection * _boidParams.size / 3;
 
-                draw::drawTriangle(a, b, c);
+                draw::drawTriangle(a, b, c, _drawType == FlockDrawType::TrianglesFilled);
             }
 
             break;

@@ -11,7 +11,7 @@ BoidsWindow::BoidsWindow(
 
     for(auto& flock : _flocks)
     {
-        flock.initRandomOnScreen(_boidsPerFlock, screenWidth, screenHeight);
+        flock.initRandomOnScreen(screenWidth, screenHeight);
     }
 }
 
@@ -23,7 +23,10 @@ void BoidsWindow::display()
 
     for(auto& flock : _flocks)
     {
-        flock.formQuadtree(Rect({ screenWidth / 2, screenHeight / 2 }, { screenWidth / 2, screenHeight / 2 }), 4);
+        flock.formQuadtree(
+            Rect({ screenWidth / 2, screenHeight / 2 },
+                { screenWidth / 2, screenHeight / 2 }),
+            8);
         flock.performFlockingBehaviour(1.0 / FPS);
 
         flock.updateBoidPositions(_viscosity, 1.0 / FPS);

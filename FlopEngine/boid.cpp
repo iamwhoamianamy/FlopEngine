@@ -57,8 +57,9 @@ void Boid::gather(const std::vector<Vector2>& targets, float strength, float ell
 
 void Boid::wander(float strength, float ellapsed)
 {
-    Vector2 direction = math::generateRandomVector() * strength + velocity * 2;
+    Vector2 direction = math::generateRandomVector() * velocity.length();
+    direction += velocity.normalized() * 2;
     direction.setLength(velocity.length());
 
-    velocity = direction;
+    velocity = Vector2::lerp(velocity, direction, strength);
 }
