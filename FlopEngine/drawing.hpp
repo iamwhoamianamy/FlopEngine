@@ -21,6 +21,6 @@ namespace draw
 
     inline void setColor(Color color)
     {
-        glColor4b(color.r, color.g, color.b, color.a);
+        glColor4ub(color.r, color.g, color.b, color.a);
     }
 }

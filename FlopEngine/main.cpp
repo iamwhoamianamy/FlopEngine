@@ -8,5 +8,5 @@ int main(int argc, char** argv)
 {
     //flp::window = new QuadtreeWindow(argc, argv, 800, 800, "Octree");
     flp::window = new BoidsWindow(argc, argv, 1000, 600, "Boids");
-    flp::window->run(30);
+    flp::window->run(60);
 }

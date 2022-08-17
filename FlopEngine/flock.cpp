@@ -81,13 +81,14 @@ FlockDrawType Flock::drawType() const
 
 void Flock::draw() const
 {
+    draw::setColor(_color);
+
     switch(_drawType)
     {
         case FlockDrawType::Points:
         {
             for(const auto& boid : _boids)
             {
-                draw::setColor(_color);
                 draw::drawPoint(boid.position, 10);
             }
 
