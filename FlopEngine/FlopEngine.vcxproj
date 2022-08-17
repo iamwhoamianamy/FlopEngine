@@ -146,10 +146,12 @@
     <ClInclude Include="quadtree_window.hpp" />
     <None Include="packages.config" />
     <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="utility.cpp" />
     <ClCompile Include="vector2.cpp">
       <FileType>Document</FileType>
     </ClCompile>
     <ClInclude Include="rectangle.hpp" />
+    <ClInclude Include="utility.hpp" />
     <ClInclude Include="vector2.hpp">
       <FileType>Document</FileType>
     </ClInclude>

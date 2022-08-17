@@ -63,6 +63,9 @@
     <ClCompile Include="boids_helper.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="utility.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="drawing.hpp">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="boids_helper.hpp">
       <Filter>Исходные файлы\Boids</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.hpp">
+      <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
