@@ -1,4 +1,5 @@
 #include "boid.hpp"
+#include "math.hpp"
 
 Boid::Boid(
     const Vector2& position,
@@ -19,6 +20,7 @@ void Boid::updatePosition(float viscosity, float ellapsed)
 void Boid::avoid(Vector2 target, float strength, float ellapsed)
 {
     Vector2 direction = Vector2::direction(position, target);
+    strength *= (strength + sqrt(Vector2::distanceSquared(position, target)));
     acceleration -= direction * strength * ellapsed;
 }
 
@@ -34,6 +36,29 @@ void Boid::align(const std::vector<Vector2>& velocities, float strength, float e
     direction /= velocities.size();
     direction.setLength(velocity.length());
     direction = Vector2::lerp(velocity, direction, strength);
+
+    velocity = direction;
+}
+
+void Boid::gather(const std::vector<Vector2>& targets, float strength, float ellapsed)
+{
+    Vector2 direction;
+    
+    for(const auto& target : targets)
+    {
+        direction += target;
+    }
+
+    direction /= targets.size();
+    direction = Vector2::direction(position, direction);
+
+    acceleration += direction * strength * ellapsed;
+}
+
+void Boid::wander(float strength, float ellapsed)
+{
+    Vector2 direction = math::generateRandomVector() * strength + velocity * 2;
+    direction.setLength(velocity.length());
 
     velocity = direction;
 }

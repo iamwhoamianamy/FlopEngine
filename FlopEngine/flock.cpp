@@ -15,7 +15,7 @@ public:
 
 Flock::Flock() :
     _drawType(FlockDrawType::Triangles),
-    _color(255, 100, 100),
+    _color(255, 255, 255),
     _quadtree(Rect(Vector2(), Vector2()), 0)
 {
 }
@@ -56,8 +56,10 @@ void Flock::performFlockingBehaviour(float ellapsed)
 {
     for (auto& boid : _boids)
     {
-        //performAvoiding(boid, ellapsed);
+        performAvoiding(boid, ellapsed);
         performAligning(boid, ellapsed);
+        performGathering(boid, ellapsed);
+        //performWandering(boid, ellapsed);
     }
 }
 
@@ -66,13 +68,24 @@ void Flock::performAvoiding(Boid& boid, float ellapsed)
     auto boidsToAvoid = _quadtree.quarry(
         Rect(boid.position, _boidParams.avoidVision));
 
+    if(debug)
+    {
+        draw::setColor(draw::Color(255, 0, 0));
+        glLineWidth(3);
+
+    }
+
     for(auto& boidToAvoid : boidsToAvoid)
     {
         boid.avoid(boidToAvoid->position, _boidParams.avoidStrength, ellapsed);
-        draw::setColor(draw::Color(255, 255, 255));
-        draw::drawLine(boid.position, boidToAvoid->position);
+        
+        if(debug)
+        {
+            draw::drawLine(boid.position, boidToAvoid->position);
+        }
     }
 }
+
 
 void Flock::performAligning(Boid& boid, float ellapsed)
 {
@@ -90,11 +103,50 @@ void Flock::performAligning(Boid& boid, float ellapsed)
 
     boid.align(velocitiesToAlignTo, _boidParams.alignStrength, ellapsed);
 
-    for(auto& boidToAlignTo : boidsToAlignTo)
+    if(debug)
     {
         draw::setColor(draw::Color(255, 255, 0));
-        draw::drawLine(boid.position, boidToAlignTo->position);
+        glLineWidth(2);
+
+        for(auto& boidToAlignTo : boidsToAlignTo)
+        {
+            draw::drawLine(boid.position, boidToAlignTo->position);
+        }
     }
+
+}
+
+void Flock::performGathering(Boid& boid, float ellapsed)
+{
+    struct Transformer
+    {
+        Vector2 operator()(Boid* boid)
+        {
+            return boid->position;
+        }
+    };
+
+    auto positionsToGatherWith =
+        util::transform<Boid*, Vector2, Transformer>(
+            _quadtree.quarry(Rect(boid.position, _boidParams.gatherVision)));
+
+    boid.gather(positionsToGatherWith, _boidParams.gatherStrength, ellapsed);
+
+    if(debug)
+    {
+        draw::setColor(draw::Color(0, 255, 0));
+        glLineWidth(1);
+
+        for(auto& position : positionsToGatherWith)
+        {
+            draw::drawLine(boid.position, position);
+        }
+    }
+}
+
+void Flock::performWandering(Boid& boid,float ellapsed)
+{
+    boid.wander(_boidParams.wanderStrength, ellapsed);
 }
 
 void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)

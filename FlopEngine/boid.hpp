@@ -19,6 +19,8 @@ public:
     void updatePosition(float viscosity, float ellapsed);
 
     void avoid(Vector2 target, float strength, float ellapsed);
-    void align(const std::vector<Vector2>& targets, float strength, float ellapsed);
+    void align(const std::vector<Vector2>& velocities, float strength, float ellapsed);
+    void gather(const std::vector<Vector2>& targets, float strength, float ellapsed);
+    void wander(float strength, float ellapsed);
 };
 

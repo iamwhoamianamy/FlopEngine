@@ -12,11 +12,16 @@ enum class FlockDrawType
 
 struct BoidParameters
 {
-    float avoidVision = 30;
-    float avoidStrength = 5000;
+    float avoidVision = 15;
+    float avoidStrength = 40;
 
-    float alignVision = 50;
-    float alignStrength = 1;
+    float alignVision = 100;
+    float alignStrength = 0.01;
+
+    float gatherVision = 50;
+    float gatherStrength = 500;
+
+    float wanderStrength = 2;
 };
 
 class Flock
@@ -28,6 +33,8 @@ private:
     Quadtree<Boid> _quadtree;
     BoidParameters _boidParams;
 public:
+    bool debug = false;
+
     Flock();
 
     void initRandomOnScreen(
@@ -47,4 +54,6 @@ public:
 private:
     void performAvoiding(Boid& boid, float ellapsed);
     void performAligning(Boid& boid, float ellapsed);
+    void performGathering(Boid& boid, float ellapsed);
+    void performWandering(Boid& boid, float ellapsed);
 };
