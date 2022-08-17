@@ -16,7 +16,7 @@ struct BoidParameters
     float avoidStrength = 5000;
 
     float alignVision = 50;
-    float alignStrength = 500;
+    float alignStrength = 1;
 };
 
 class Flock

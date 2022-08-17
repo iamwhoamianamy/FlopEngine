@@ -80,7 +80,7 @@ void Flock::performAligning(Boid& boid, float ellapsed)
     {
         Vector2 operator()(Boid* boid)
         {
-            return boid->position;
+            return boid->velocity;
         }
     };
 

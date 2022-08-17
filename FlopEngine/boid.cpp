@@ -22,15 +22,18 @@ void Boid::avoid(Vector2 target, float strength, float ellapsed)
     acceleration -= direction * strength * ellapsed;
 }
 
-void Boid::align(const std::vector<Vector2>& targets, float strength, float ellapsed)
+void Boid::align(const std::vector<Vector2>& velocities, float strength, float ellapsed)
 {
     Vector2 direction;
 
-    for(const auto& target : targets)
+    for(const auto& velocity : velocities)
     {
-        direction += target;
+        direction += velocity;
     }
 
-    direction.normalize();
-    acceleration += direction * strength * ellapsed;
+    direction /= velocities.size();
+    direction.setLength(velocity.length());
+    direction = Vector2::lerp(velocity, direction, strength);
+
+    velocity = direction;
 }
