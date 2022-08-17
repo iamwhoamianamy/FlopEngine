@@ -11,7 +11,8 @@ Flock::Flock() :
 void Flock::initRandomOnScreen(
     size_t boidsCount,
     float screenWidth,
-    float screenHeight)
+    float screenHeight,
+    float maxSpeed)
 {
     _boids.clear();
     _boids.reserve(boidsCount);
@@ -21,7 +22,7 @@ void Flock::initRandomOnScreen(
         Vector2 position = {
             math::randomInRange(0, screenWidth),
             math::randomInRange(0, screenHeight) };
-        _boids.emplace_back(position, math::generateRandomVector() * 10);
+        _boids.emplace_back(position, math::generateRandomVector() * maxSpeed);
     }
 }
 

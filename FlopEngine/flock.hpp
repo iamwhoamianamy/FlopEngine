@@ -21,7 +21,8 @@ public:
     void initRandomOnScreen(
         size_t boidsCount,
         float screenWidth,
-        float screenHeight);
+        float screenHeight,
+        float maxSpeed = 15);
 
     void updateBoidPositions(float ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
