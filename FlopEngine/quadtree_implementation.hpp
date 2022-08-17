@@ -156,11 +156,8 @@ inline const std::vector<Quadtree<Point>*>& Quadtree<Point>::children() const
 template<class Point>
 Quadtree<Point>::~Quadtree()
 {
-    if(subdivided())
+    for (auto child : _children)
     {
-        for(auto child : _children)
-        {
-            delete child;
-        }
+        delete child;
     }
 }
