@@ -3,7 +3,7 @@
 #include "math.hpp"
 
 Flock::Flock() :
-    _drawType(FlockDrawType::Points),
+    _drawType(FlockDrawType::Triangles),
     _color(255, 100, 100)
 {
 }
@@ -83,13 +83,29 @@ void Flock::draw() const
 {
     draw::setColor(_color);
 
-    switch(_drawType)
+    switch (_drawType)
     {
         case FlockDrawType::Points:
         {
-            for(const auto& boid : _boids)
+            for (const auto& boid : _boids)
             {
-                draw::drawPoint(boid.position, 10);
+                draw::drawPoint(boid.position, BOID_SIZE);
+            }
+
+            break;
+        }
+        case FlockDrawType::Triangles:
+        {
+            for (const auto& boid : _boids)
+            {
+                Vector2 direction = boid.velocity.normalized();
+                Vector2 perpDirection = direction.perp();
+
+                Vector2 a = boid.position + direction * BOID_SIZE / 2;
+                Vector2 b = boid.position - direction * BOID_SIZE / 2 + perpDirection * BOID_SIZE / 3;
+                Vector2 c = boid.position - direction * BOID_SIZE / 2 - perpDirection * BOID_SIZE / 3;
+
+                draw::drawTriangle(a, b, c);
             }
 
             break;

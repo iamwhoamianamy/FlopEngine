@@ -1,6 +1,8 @@
 #pragma once
 #include "vector2.hpp"
 
+constexpr float BOID_SIZE = 15.0f;
+
 class Boid
 {
 public:

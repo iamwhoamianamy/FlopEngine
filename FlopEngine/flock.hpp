@@ -22,6 +22,7 @@ public:
         size_t boidsCount,
         float screenWidth,
         float screenHeight);
+
     void updateBoidPositions(float ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
 
