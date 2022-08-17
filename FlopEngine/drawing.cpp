@@ -7,9 +7,8 @@ namespace draw
     {
     }
 
-    void drawPoint(Vector2 point, Color color, float size)
+    void drawPoint(Vector2 point, float size)
     {
-        glColor3ub(color.r, color.g, color.b);
         glPointSize(size);
         glBegin(GL_POINTS);
         {
@@ -18,9 +17,8 @@ namespace draw
         glEnd();
     }
 
-    void drawRect(Vector2 center, float halfWidth, float halfHeight, Color color)
+    void drawRect(Vector2 center, float halfWidth, float halfHeight)
     {
-        glColor3ub(color.r, color.g, color.b);
         glBegin(GL_LINE_LOOP);
         {
             glVertex2f(center.x - halfWidth, center.y - halfHeight);
@@ -31,15 +29,25 @@ namespace draw
         glEnd();
     }
 
-    void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color)
+    void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
     {
-        glColor3ub(color.r, color.g, color.b);
         glBegin(GL_LINE_LOOP);
         {
             glVertex3f(a.x, a.y, 0);
             glVertex3f(b.x, b.y, 0);
             glVertex3f(c.x, c.y, 0);
             glVertex3f(d.x, d.y, 0);
+        }
+        glEnd();
+    }
+    
+    void drawTriangle(Vector2 a, Vector2 b, Vector2 c)
+    {
+        glBegin(GL_LINE_LOOP);
+        {
+            glVertex3f(a.x, a.y, 0);
+            glVertex3f(b.x, b.y, 0);
+            glVertex3f(c.x, c.y, 0);
         }
         glEnd();
     }

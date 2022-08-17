@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "flock.hpp"
 #include "math.hpp"
 
@@ -20,7 +21,7 @@ void Flock::initRandomOnScreen(
         Vector2 position = {
             math::randomInRange(0, screenWidth),
             math::randomInRange(0, screenHeight) };
-        _boids.emplace_back(position, math::generateRandomVector());
+        _boids.emplace_back(position, math::generateRandomVector() * 10);
     }
 }
 
@@ -29,6 +30,42 @@ void Flock::updateBoidPositions(float ellapsed)
     for(auto& boid : _boids)
     {
         boid.updatePosition(ellapsed);
+    }
+}
+
+void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
+{
+    for (auto& boid : _boids)
+    {
+        float x = boid.position.x;
+        float y = boid.position.y;
+
+        if (x < 0)
+        {
+            boid.position.x = screenWidth - 1;
+        }
+        else
+        {
+            if (x >= screenWidth)
+            {
+                boid.position.x = 0;
+            }
+        }
+
+        if (y < 0)
+        {
+            boid.position.y = screenHeight - 1;
+        }
+        else
+        {
+            if (y >= screenHeight)
+            {
+                boid.position.y = 0;
+            }
+        }
+
+        //boid.position.x = std::max(std::min(boid.position.x, screenWidth - 1), 0.0f);
+        //boid.position.y = std::max(std::min(boid.position.y, screenWidth - 1), 0.0f);
     }
 }
 
@@ -50,7 +87,8 @@ void Flock::draw() const
         {
             for(const auto& boid : _boids)
             {
-                draw::drawPoint(boid.position, _color, 10);
+                draw::setColor(_color);
+                draw::drawPoint(boid.position, 10);
             }
 
             break;

@@ -3,7 +3,7 @@
 
 namespace math
 {
-    constexpr float PI = 3.141592;
+    constexpr float PI = 3.141592f;
     constexpr float TWO_PI = 2 * PI;
 
     inline float randomNormed()

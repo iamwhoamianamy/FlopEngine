@@ -31,6 +31,7 @@ void BoidsWindow::display()
     for(auto& flock : _flocks)
     {
         flock.updateBoidPositions(1.0 / FPS);
+        flock.goThroughWindowBorders(screenWidth, screenHeight);
         flock.draw();
     }
 

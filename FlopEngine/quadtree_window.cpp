@@ -63,11 +63,13 @@ void QuadtreeWindow::display()
 
     for(auto& point : points)
     {
-        draw::drawPoint(point, pointColor, 5);
+        draw::setColor(pointColor);
+        draw::drawPoint(point, 5);
     }
 
     Rect mouseBox(mousePos, Vector2(40, 40));
-    draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y, pointColor);
+    draw::setColor(pointColor);
+    draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y);
 
     Quadtree<Vector2> octree(Rect(
             Vector2(screenWidth / 2, screenHeight / 2),
@@ -79,7 +81,8 @@ void QuadtreeWindow::display()
 
     for(auto point : foundPoints)
     {
-        draw::drawPoint(*point, foundColor, 5);
+        draw::setColor(foundColor);
+        draw::drawPoint(*point, 5);
     }
 
     drawOctree(octree);

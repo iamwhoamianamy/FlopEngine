@@ -17,11 +17,14 @@ private:
     draw::Color _color;
 public:
     Flock();
+
     void initRandomOnScreen(
         size_t boidsCount,
         float screenWidth,
         float screenHeight);
     void updateBoidPositions(float ellapsed);
+    void goThroughWindowBorders(float screenWidth, float screenHeight);
+
     const std::vector<Boid>& boids() const;
     FlockDrawType drawType() const;
     void draw() const;
