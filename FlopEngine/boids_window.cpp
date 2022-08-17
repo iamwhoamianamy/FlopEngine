@@ -11,7 +11,7 @@ BoidsWindow::BoidsWindow(
 
     for(auto& flock : _flocks)
     {
-        flock.initRandomOnScreen(screenWidth, screenHeight);
+        flock.initRandomOnScreen(screenWidth, screenHeight, _boidPerFlock);
         flock.color() = draw::generateRandomColor();
     }
 }
@@ -29,6 +29,20 @@ void BoidsWindow::display()
                 { screenWidth / 2, screenHeight / 2 }),
             8);
         flock.performFlockingBehaviour(1.0 / FPS);
+
+    }
+
+    for(size_t i = 0; i < _flocks.size(); i++)
+    {
+        for(size_t j = 0; j < i; j++)
+        {
+            _flocks[i].performFleeing(_flocks[j], 1.0 / FPS);
+            _flocks[j].performFleeing(_flocks[i], 1.0 / FPS);
+        }
+    }
+
+    for(auto& flock : _flocks)
+    {
 
         flock.updateBoidPositions(_viscosity, 1.0 / FPS);
         flock.goThroughWindowBorders(screenWidth, screenHeight);

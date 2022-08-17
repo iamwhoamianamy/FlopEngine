@@ -13,7 +13,7 @@ enum class FlockDrawType
 
 struct BoidParameters
 {
-    float avoidVision = 15;
+    float avoidVision = 10;
     float avoidStrength = 40;
 
     float alignVision = 50;
@@ -22,8 +22,8 @@ struct BoidParameters
     float gatherVision = 50;
     float gatherStrength = 500;
 
-    float fleeVision = 50;
-    float fleeStrength = 40;
+    float fleeVision = 25;
+    float fleeStrength = 30;
 
     float wanderStrength = 0.01;
 
