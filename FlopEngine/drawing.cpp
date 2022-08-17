@@ -107,7 +107,7 @@ namespace draw
             glPushMatrix();
             glTranslatef(position.x, position.y, 0);
             glScalef(LETTER_SCALE * size, -LETTER_SCALE * size, -LETTER_SCALE * size);
-            glutStrokeCharacter(GLUT_STROKE_ROMAN, letter);
+            glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, letter);
             glPopMatrix();
         }
         glMatrixMode(GL_MODELVIEW);

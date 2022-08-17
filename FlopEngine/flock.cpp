@@ -24,8 +24,7 @@ Flock::Flock() :
 void Flock::initRandomOnScreen(
     float screenWidth,
     float screenHeight,
-    size_t boidsCount,
-    float maxSpeed)
+    size_t boidsCount)
 {
     _boids.clear();
     _boids.reserve(boidsCount);
@@ -35,10 +34,8 @@ void Flock::initRandomOnScreen(
         Vector2 position = {
             math::randomInRange(0, screenWidth),
             math::randomInRange(0, screenHeight) };
-        _boids.emplace_back(position, math::generateRandomVector() * maxSpeed);
+        _boids.emplace_back(position, math::generateRandomVector() * _boidParams.maxSpeed);
     }
-
-    _maxSpeed = maxSpeed;
 }
 
 void Flock::updateBoidPositions(float viscosity, float ellapsed)
@@ -46,7 +43,20 @@ void Flock::updateBoidPositions(float viscosity, float ellapsed)
     for(auto& boid : _boids)
     {
         boid.updatePosition(viscosity, ellapsed);
-        boid.velocity.limit(_maxSpeed);
+
+        float speed = boid.velocity.length();
+
+        if(speed < _boidParams.minSpeed)
+        {
+            boid.velocity.setLength(_boidParams.minSpeed);
+        }
+        else
+        {
+            if(_boidParams.maxSpeed < speed)
+            {
+                boid.velocity.limit(_boidParams.maxSpeed);
+            }
+        }
     }
 }
 

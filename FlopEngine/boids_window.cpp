@@ -43,7 +43,6 @@ void BoidsWindow::display()
 
     for(auto& flock : _flocks)
     {
-
         flock.updateBoidPositions(_viscosity, 1.0 / FPS);
         flock.goThroughWindowBorders(screenWidth, screenHeight);
 

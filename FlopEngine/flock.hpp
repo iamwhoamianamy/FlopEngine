@@ -31,6 +31,9 @@ struct BoidParameters
     float wanderStrength = 0.01;
 
     float size = 8;
+
+    float maxSpeed = 80;
+    float minSpeed = 20;
 };
 
 class Flock
@@ -41,7 +44,6 @@ private:
     draw::Color _color;
     Quadtree<Boid> _quadtree;
     BoidParameters _boidParams;
-    float _maxSpeed;
 public:
     bool debug = false;
 
@@ -50,8 +52,7 @@ public:
     void initRandomOnScreen(
         float screenWidth,
         float screenHeight,
-        size_t boidsCount = 500,
-        float maxSpeed = 80);
+        size_t boidsCount = 500);
 
     void updateBoidPositions(float viscosity, float ellapsed);
     void formQuadtree(const Rect& boidFieldBorders, size_t capacity);
