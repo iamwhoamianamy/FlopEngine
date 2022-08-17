@@ -7,6 +7,11 @@ Rect::Rect(const Vector2& center, const Vector2& halfDimensions) :
 {
 }
 
+Rect::Rect(const Vector2& center, float radius) :
+    center(center), halfDimensions(radius, radius)
+{
+}
+
 bool inRange(float value, float rangeCenter, float rangeHalfWidth)
 {
     return 
