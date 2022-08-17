@@ -99,7 +99,7 @@ void Quadtree<Point>::subdivide()
 }
 
 template<class Point>
-inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& range)
+inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& range) const
 {
     std::vector<Point*> found;
     quarry(range, found);
@@ -108,7 +108,7 @@ inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& range)
 }
 
 template<class Point>
-void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found)
+void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found) const
 {
     if(!_rectangle.intersects(range))
     {
