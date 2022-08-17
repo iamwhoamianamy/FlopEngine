@@ -128,9 +128,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="boid.cpp" />
+    <ClCompile Include="boids_helper.cpp" />
+    <ClCompile Include="boids_window.cpp" />
+    <ClCompile Include="flock.cpp" />
+    <ClCompile Include="math.cpp" />
     <ClCompile Include="quadtree_help.cpp" />
     <ClCompile Include="quadtree_window.cpp" />
+    <ClInclude Include="boid.hpp" />
+    <ClInclude Include="boids_helper.hpp" />
+    <ClInclude Include="boids_window.hpp" />
+    <ClInclude Include="flock.hpp" />
     <ClInclude Include="flop_engine.hpp" />
+    <ClInclude Include="math.hpp" />
     <ClInclude Include="quadtree_help.hpp" />
     <ClInclude Include="quadtree_implementation.hpp" />
     <ClInclude Include="quadtree_window.hpp" />

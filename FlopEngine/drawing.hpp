@@ -19,4 +19,3 @@ namespace draw
     void drawRect(Vector2 center, float halfWidth, float halfHeight, Color color);
     void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color color);
 }
-
