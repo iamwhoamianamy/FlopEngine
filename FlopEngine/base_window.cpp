@@ -65,7 +65,3 @@ void BaseWindow::baseDisplay()
 {
     display();
 }
-
-void baseDisplay()
-{
-}
