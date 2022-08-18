@@ -1,3 +1,5 @@
+#include <thread>
+#include <type_traits>
 #include "boids_window.hpp"
 #include "drawing.hpp"
 
@@ -18,16 +20,14 @@ BoidsWindow::BoidsWindow(
     _marchingGrid = MarchingGrid(500, 250);
 }
 
-void BoidsWindow::display()
+void flockPhysics(
+    std::vector<Flock>& _flocks, float screenWidth, float screenHeight, float FPS)
 {
-    glClearColor(0, 0, 0, 255);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glEnable(GL_POINT_SMOOTH);
-
     for(auto& flock : _flocks)
     {
         flock.formQuadtree(
-            Rect({ screenWidth / 2, screenHeight / 2 },
+            Rect(
+                { screenWidth / 2, screenHeight / 2 },
                 { screenWidth / 2, screenHeight / 2 }),
             8);
         flock.performFlockingBehaviour(1.0 / FPS);
@@ -41,15 +41,12 @@ void BoidsWindow::display()
             _flocks[j].performFleeing(_flocks[i], 1.0 / FPS);
         }
     }
+}
 
-    for(auto& flock : _flocks)
-    {
-        flock.updateBoidPositions(_viscosity, 1.0 / FPS);
-        flock.goThroughWindowBorders(screenWidth, screenHeight);
-
-        flock.draw();
-    }
-
+void marchingPhysics(
+    std::vector<Flock>& _flocks, MarchingGrid& _marchingGrid,
+    float screenWidth, float screenHeight)
+{
     for(const auto& flock : _flocks)
     {
         for(const auto& boid : flock.boids())
@@ -57,11 +54,44 @@ void BoidsWindow::display()
             _marchingGrid.addContributionBump(boid.position, 15, screenWidth, screenHeight);
         }
     }
+}
 
-    //_marchingGrid.draw(screenWidth, screenHeight);
-    glLineWidth(2);
-    draw::setColor(_flocks[0].color());
-    _marchingGrid.marchAllCells(screenWidth, screenHeight);
+void BoidsWindow::display()
+{
+    glClearColor(0, 0, 0, 255);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_POINT_SMOOTH);
+
+    std::thread flockPhysicsHandler(
+        flockPhysics, std::ref(_flocks), screenWidth, screenHeight, FPS);
+
+    std::thread marchingPhysicsHandler(
+        marchingPhysics, std::ref(_flocks), std::ref(_marchingGrid), screenWidth, screenHeight);
+
+    flockPhysicsHandler.join();
+    marchingPhysicsHandler.join();
+
+    for(auto& flock : _flocks)
+    {
+        flock.updateBoidPositions(_viscosity, 1.0 / FPS);
+        flock.goThroughWindowBorders(screenWidth, screenHeight);
+    }
+
+    if(_drawBoids)
+    {
+        for(auto& flock : _flocks)
+        {
+            flock.draw();
+        }
+    }
+
+    if(_drawMarchingSquares)
+    {
+        glLineWidth(2);
+        draw::setColor(_flocks[0].color());
+        _marchingGrid.marchAllCells(screenWidth, screenHeight);
+    }
+
     _marchingGrid.clear();
 
     glFinish();
@@ -92,6 +122,18 @@ void BoidsWindow::keyboardLetters(unsigned char key, int x, int y)
                 flock.drawType() = (FlockDrawType)(
                     ((int)flock.drawType() + 1) % FLOCK_DRAW_TYPE_COUNT);
             }
+
+            break;
+        }
+        case 'b':
+        {
+            _drawBoids = !_drawBoids;
+
+            break;
+        }
+        case 'm':
+        {
+            _drawMarchingSquares = !_drawMarchingSquares;
 
             break;
         }

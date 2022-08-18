@@ -18,6 +18,8 @@ private:
     const float _viscosity = 1;
     const size_t _boidPerFlock = 1000;
     MarchingGrid _marchingGrid;
+    bool _drawBoids = true;
+    bool _drawMarchingSquares = false;
 
 public:
     BoidsWindow(int argc, char** argv,

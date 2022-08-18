@@ -33,7 +33,7 @@ struct BoidParameters
     float size = 8;
 
     float maxSpeed = 80;
-    float minSpeed = 20;
+    float minSpeed = 60;
 };
 
 class Flock
