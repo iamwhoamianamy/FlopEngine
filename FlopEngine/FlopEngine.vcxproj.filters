@@ -5,41 +5,24 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Исходные файлы\Quadtree">
       <UniqueIdentifier>{e00214ed-6311-461d-b6a8-a9aa3c41ab8b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Исходные файлы\Boids">
       <UniqueIdentifier>{f6eeee35-e7af-4784-92d6-4d207f500132}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Math">
+      <UniqueIdentifier>{7a54563b-1e9a-4106-adf6-418678da1eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Graphics">
+      <UniqueIdentifier>{666c0bc7-e08f-45db-a2de-0e11b4d917d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="drawing.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="glut_functions.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="base_window.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="vector2.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="rectangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="quadtree_help.cpp">
@@ -54,38 +37,35 @@
     <ClCompile Include="boid.cpp">
       <Filter>Исходные файлы\Boids</Filter>
     </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="flock.cpp">
       <Filter>Исходные файлы\Boids</Filter>
     </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Исходные файлы\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="rectangle.cpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="vector2.cpp">
+      <Filter>Исходные файлы\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="base_window.cpp">
+      <Filter>Исходные файлы\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="boids_helper.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Boids</Filter>
+    </ClCompile>
+    <ClCompile Include="drawing.cpp">
+      <Filter>Исходные файлы\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="glut_functions.cpp">
+      <Filter>Исходные файлы\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="utility.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="drawing.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="glut_functions.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="base_window.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="vector2.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="flop_engine.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="rectangle.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="quadtree.hpp">
       <Filter>Исходные файлы\Quadtree</Filter>
     </ClInclude>
@@ -104,17 +84,35 @@
     <ClInclude Include="boid.hpp">
       <Filter>Исходные файлы\Boids</Filter>
     </ClInclude>
-    <ClInclude Include="math.hpp">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="flock.hpp">
       <Filter>Исходные файлы\Boids</Filter>
     </ClInclude>
     <ClInclude Include="boids_helper.hpp">
       <Filter>Исходные файлы\Boids</Filter>
     </ClInclude>
+    <ClInclude Include="math.hpp">
+      <Filter>Исходные файлы\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="rectangle.hpp">
+      <Filter>Исходные файлы\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.hpp">
+      <Filter>Исходные файлы\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="base_window.hpp">
+      <Filter>Исходные файлы\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="drawing.hpp">
+      <Filter>Исходные файлы\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="flop_engine.hpp">
+      <Filter>Исходные файлы\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="glut_functions.hpp">
+      <Filter>Исходные файлы\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="utility.hpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
