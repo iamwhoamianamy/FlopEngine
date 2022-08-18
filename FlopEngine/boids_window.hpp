@@ -16,7 +16,7 @@ private:
     const size_t _flockCount = 1;
     std::vector<Flock> _flocks;
     const float _viscosity = 1;
-    const size_t _boidPerFlock = 500;
+    const size_t _boidPerFlock = 1000;
     MarchingGrid _marchingGrid;
 
 public:

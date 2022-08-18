@@ -118,7 +118,6 @@ void MarchingGrid::marchAllCells(float screenWidth, float screenHeigh)
     float cellWidth = screenWidth / (_nodeCountX - 1);
     float cellHeight = screenHeigh / (_nodeCountY - 1);
     const float treshold = 0.5f;
-    draw::setColor();
 
     struct Corner
     {
