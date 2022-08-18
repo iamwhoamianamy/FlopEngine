@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
 #include "base_window.hpp"
+#include "marching_grid.hpp"
 
 class MarchingWindow : public flp::BaseWindow
 {
 private:
     Vector2 _mousePosition;
+    MarchingGrid _marchingGrid;
 public:
     MarchingWindow(
         int argc, char** argv,

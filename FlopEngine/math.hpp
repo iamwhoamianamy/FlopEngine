@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "vector2.hpp"
 
 namespace math
@@ -15,7 +16,13 @@ namespace math
     float randomInRange(float low, float high);
     
     template <class T>
-    T map(T x, T oldLow, T oldHigh, T newLow, T newHigh)
+    T limit(T x, T low, T high)
+    {
+        return std::max(std::min(x, high), low);
+    }
+
+    template <class Old, class New>
+    New map(Old x, Old oldLow, Old oldHigh, New newLow, New newHigh)
     {
         return newLow + (float)(x - oldLow) / (oldHigh - oldLow) * (newHigh - newLow);
     }
