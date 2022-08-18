@@ -132,6 +132,8 @@
     <ClCompile Include="boids_helper.cpp" />
     <ClCompile Include="boids_window.cpp" />
     <ClCompile Include="flock.cpp" />
+    <ClCompile Include="marching_grid.cpp" />
+    <ClCompile Include="marching_window.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="quadtree_help.cpp" />
     <ClCompile Include="quadtree_window.cpp" />
@@ -140,6 +142,8 @@
     <ClInclude Include="boids_window.hpp" />
     <ClInclude Include="flock.hpp" />
     <ClInclude Include="flop_engine.hpp" />
+    <ClInclude Include="marching_grid.hpp" />
+    <ClInclude Include="marching_window.hpp" />
     <ClInclude Include="math.hpp" />
     <ClInclude Include="quadtree_help.hpp" />
     <ClInclude Include="quadtree_implementation.hpp" />

@@ -17,6 +17,9 @@
     <Filter Include="Исходные файлы\Graphics">
       <UniqueIdentifier>{666c0bc7-e08f-45db-a2de-0e11b4d917d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\MarchingSquares">
+      <UniqueIdentifier>{1cd98b9f-46a9-44f2-8203-e4c77c42e1a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -63,6 +66,12 @@
     </ClCompile>
     <ClCompile Include="utility.cpp">
       <Filter>Исходные файлы\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="marching_grid.cpp">
+      <Filter>Исходные файлы\MarchingSquares</Filter>
+    </ClCompile>
+    <ClCompile Include="marching_window.cpp">
+      <Filter>Исходные файлы\MarchingSquares</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +122,12 @@
     </ClInclude>
     <ClInclude Include="utility.hpp">
       <Filter>Исходные файлы\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="marching_grid.hpp">
+      <Filter>Исходные файлы\MarchingSquares</Filter>
+    </ClInclude>
+    <ClInclude Include="marching_window.hpp">
+      <Filter>Исходные файлы\MarchingSquares</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
