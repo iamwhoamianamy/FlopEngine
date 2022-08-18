@@ -26,4 +26,9 @@ namespace math
     {
         return newLow + (float)(x - oldLow) / (oldHigh - oldLow) * (newHigh - newLow);
     }
+
+    inline float lerp(float low, float high)
+    {
+        return low + (high - low) / 2;
+    }
 }

@@ -14,4 +14,8 @@ public:
     void clear();
     void addContribution(const Vector2& point, float maxX, float maxY);
     void draw(float screenWidth, float screenHeigh) const;
+    void marchAllCells(float screenWidth, float screenHeigh);
+
+    const std::vector<std::vector<float>>& grid() const;
+private:
 };

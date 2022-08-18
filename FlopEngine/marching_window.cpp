@@ -1,5 +1,6 @@
 #include "marching_window.hpp"
 #include "drawing.hpp"
+#include "GL/freeglut.h"
 
 MarchingWindow::MarchingWindow(
     int argc, char** argv,
@@ -7,7 +8,9 @@ MarchingWindow::MarchingWindow(
     std::string name) :
     BaseWindow(argc, argv, screenWidth, screenHeight, name)
 {
-    _marchingGrid = MarchingGrid(100, 50);
+    //_marchingGrid = MarchingGrid(100, 50);
+    //_marchingGrid = MarchingGrid(20, 10);
+    _marchingGrid = MarchingGrid(50, 25);
 }
 
 void MarchingWindow::display()
@@ -18,6 +21,7 @@ void MarchingWindow::display()
 
     _marchingGrid.addContribution(_mousePosition, screenWidth, screenHeight);
     _marchingGrid.draw(screenWidth, screenHeight);
+    _marchingGrid.marchAllCells(screenWidth, screenHeight);
     _marchingGrid.clear();
 
     draw::setColor(255);

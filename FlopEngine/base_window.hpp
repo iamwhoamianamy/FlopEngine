@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 
-#include "GL/freeglut.h"
 #include "vector2.hpp"
 
 namespace flp
@@ -32,7 +31,7 @@ namespace flp
         friend void glutOnTimer(int millisec);
         friend void glutExitingFunction();
         friend void glutDisplay();
-        friend void glutReshape(GLint w, GLint h);
+        friend void glutReshape(int w, int h);
         friend void glutKeyboardLetters(unsigned char key, int x, int y);
         friend void glutMouse(int button, int state, int x, int y);
         friend void glutMousePassive(int x, int y);
@@ -40,7 +39,7 @@ namespace flp
         void baseDisplay();
         void baseOnTimer(int millisec);
         void baseExitingFunction();
-        void baseReshape(GLint w, GLint h);
+        void baseReshape(int w, int h);
 
         void baseKeyboardLetters(unsigned char key, int x, int y);
         void baseMouse(int button, int state, int x, int y);
