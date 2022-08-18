@@ -59,11 +59,11 @@ public:
     void performFlockingBehaviour(float ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
     void performFleeing(const Flock& flock, float ellapsed);
+    void draw() const;
 
     draw::Color& color();
     const std::vector<Boid>& boids() const;
     FlockDrawType& drawType();
-    void draw() const;
     const Quadtree<Boid>& quadtree() const;
 private:
     void performAvoiding(Boid& boid, float ellapsed);
