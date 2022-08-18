@@ -8,9 +8,9 @@ MarchingWindow::MarchingWindow(
     std::string name) :
     BaseWindow(argc, argv, screenWidth, screenHeight, name)
 {
-    //_marchingGrid = MarchingGrid(100, 50);
+    _marchingGrid = MarchingGrid(100, 50);
     //_marchingGrid = MarchingGrid(20, 10);
-    _marchingGrid = MarchingGrid(50, 25);
+    //_marchingGrid = MarchingGrid(50, 25);
 }
 
 void MarchingWindow::display()
@@ -19,7 +19,8 @@ void MarchingWindow::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    _marchingGrid.addContributionReverseSquare(_mousePosition, 50, screenWidth, screenHeight);
+    _marchingGrid.addContributionBump(_mousePosition, 100, screenWidth, screenHeight);
+    //_marchingGrid.addContributionReverseSquare(_mousePosition, 100, screenWidth, screenHeight);
     _marchingGrid.draw(screenWidth, screenHeight);
     _marchingGrid.marchAllCells(screenWidth, screenHeight);
     _marchingGrid.clear();

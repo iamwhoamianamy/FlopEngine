@@ -8,14 +8,17 @@
 #include "quadtree.hpp"
 #include "base_window.hpp"
 #include "flock.hpp"
+#include "marching_grid.hpp"
 
 class BoidsWindow : public flp::BaseWindow
 {
 private:
-    const size_t _flockCount = 3;
+    const size_t _flockCount = 1;
     std::vector<Flock> _flocks;
     const float _viscosity = 1;
-    const size_t _boidPerFlock = 1000;
+    const size_t _boidPerFlock = 500;
+    MarchingGrid _marchingGrid;
+
 public:
     BoidsWindow(int argc, char** argv,
         float screenWidth, float screenHeight, std::string name);

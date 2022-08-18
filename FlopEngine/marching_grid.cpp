@@ -1,18 +1,19 @@
+#include <cmath>
 #include "marching_grid.hpp"
 #include "math.hpp"
 #include "drawing.hpp"
 
 MarchingGrid::MarchingGrid(size_t nodeCountX, size_t nodeCountY) :
-    nodeCountX(nodeCountX), nodeCountY(nodeCountY)
+    _nodeCountX(nodeCountX), _nodeCountY(nodeCountY)
 {
     _grid.resize(nodeCountY, std::vector<float>(nodeCountX));
 }
 
 void MarchingGrid::clear()
 {
-    for(size_t y = 0; y < nodeCountY; y++)
+    for(size_t y = 0; y < _nodeCountY; y++)
     {
-        for(size_t x = 0; x < nodeCountX; x++)
+        for(size_t x = 0; x < _nodeCountX; x++)
         {
             _grid[y][x] = 0;
         }
@@ -22,47 +23,100 @@ void MarchingGrid::clear()
 void MarchingGrid::addContributionReverseSquare(
     const Vector2& point, float contribution, float maxX, float maxY)
 {
-    float cellWidth = maxX / (nodeCountX - 1);
-    float cellHeight = maxY / (nodeCountY - 1);
+    float cellWidth = maxX / (_nodeCountX - 1);
+    float cellHeight = maxY / (_nodeCountY - 1);
 
-    for(size_t y = 0; y < nodeCountY; y++)
+    for(size_t yId = 0; yId < _nodeCountY; yId++)
     {
-        for(size_t x = 0; x < nodeCountX; x++)
+        for(size_t xId = 0; xId < _nodeCountX; xId++)
         {
             float saturation = contribution / sqrt(
-                Vector2::distanceSquared(point, { x * cellWidth, y * cellHeight }));
+                Vector2::distanceSquared(point, { xId * cellWidth, yId * cellHeight }));
 
-            _grid[y][x] = std::min(_grid[y][x] + saturation, 1.0f);
+            _grid[yId][xId] = std::min(_grid[yId][xId] + saturation, 1.0f);
+        }
+    }
+}
+
+void MarchingGrid::addContributionBump(
+    const Vector2& point, float contribution, float maxX, float maxY)
+{
+    size_t centerX = math::map(point.x, 0.0f, maxX, (size_t)0, _nodeCountX);
+    size_t centerY = math::map(point.y, 0.0f, maxY, (size_t)0, _nodeCountY);
+
+    float cellWidth = maxX / (_nodeCountX - 1);
+    float cellHeight = maxY / (_nodeCountY - 1);
+
+    size_t radiusX = contribution / cellWidth;
+    size_t radiusY = contribution / cellHeight;
+
+    size_t lowX = math::limit(
+        (long long)centerX - (long long)radiusX - 1,
+        (long long)0,
+        (long long)(_nodeCountX));
+
+    size_t highX = math::limit(
+        (long long)centerX + (long long)radiusX + 1,
+        (long long)0,
+        (long long)(_nodeCountX));
+
+    size_t lowY = math::limit(
+        (long long)centerY - (long long)radiusY - 1,
+        (long long)0,
+        (long long)(_nodeCountY));
+
+    size_t highY = math::limit(
+        (long long)centerY + (long long)radiusY + 1,
+        (long long)0,
+        (long long)(_nodeCountY));
+
+    for(size_t yId = lowY; yId < highY; yId++)
+    //for(size_t yId = 0; yId < _nodeCountY; yId++)
+    {
+        float y = cellHeight * yId;
+
+        for(size_t xId = lowX; xId < highX; xId++)
+        //for(size_t xId = 0; xId < _nodeCountX; xId++)
+        {
+            float x = cellWidth * xId;
+            float r = std::sqrt(std::pow(point.x - x, 2) + std::pow(point.y - y, 2));
+
+            if(std::abs(r) < contribution)
+            {
+                float contrSquared = contribution * contribution;
+                float f = std::exp(-0.5 * contrSquared / (contrSquared - r * r));
+                _grid[yId][xId] = std::min(_grid[yId][xId] + f, 1.0f);
+            }
         }
     }
 }
 
 void MarchingGrid::draw(float screenWidth, float screenHeigh) const
 {
-    float cellWidth = screenWidth / (nodeCountX - 1);
-    float cellHeight = screenHeigh / (nodeCountY - 1);
+    float cellWidth = screenWidth / (_nodeCountX - 1);
+    float cellHeight = screenHeigh / (_nodeCountY - 1);
 
-    for(size_t y = 0; y < nodeCountY; y++)
+    for(size_t yId = 0; yId < _nodeCountY; yId++)
     {
-        float currentY = cellHeight * y;
+        float y = cellHeight * yId;
 
-        for(size_t x = 0; x < nodeCountX; x++)
+        for(size_t xId = 0; xId < _nodeCountX; xId++)
         {
-            float currentX = cellWidth * x;
+            float x = cellWidth * xId;
 
-            UCHAR intencity = math::map(_grid[y][x], 0.0f, 1.0f, 0, 255);
+            UCHAR intencity = math::map(_grid[yId][xId], 0.0f, 1.0f, 0, 255);
             draw::setColor(intencity, 0, 0);
 
-            float saturation = math::map(_grid[y][x], 0.0f, 1.0f, 1, 10);
-            draw::drawPoint({ currentX, currentY }, saturation);
+            float saturation = math::map(_grid[yId][xId], 0.0f, 1.0f, 1, 10);
+            draw::drawPoint({ x, y }, saturation);
         }
     }
 }
 
 void MarchingGrid::marchAllCells(float screenWidth, float screenHeigh)
 {
-    float cellWidth = screenWidth / (nodeCountX - 1);
-    float cellHeight = screenHeigh / (nodeCountY - 1);
+    float cellWidth = screenWidth / (_nodeCountX - 1);
+    float cellHeight = screenHeigh / (_nodeCountY - 1);
     const float treshold = 0.5f;
     draw::setColor();
 
@@ -72,18 +126,18 @@ void MarchingGrid::marchAllCells(float screenWidth, float screenHeigh)
         Vector2 loc;
     };
 
-    for(int i = 0; i < nodeCountY - 1; i++)
+    for(int yId = 0; yId < _nodeCountY - 1; yId++)
     {
-        float currentY = cellHeight * i;
+        float currentY = cellHeight * yId;
 
-        for(int j = 0; j < nodeCountX - 1; j++)
+        for(int xId = 0; xId < _nodeCountX - 1; xId++)
         {
-            float currentX = cellWidth * j;
+            float currentX = cellWidth * xId;
 
-            Corner c1 = { _grid[i][j], Vector2(currentX, currentY) };
-            Corner c2 = { _grid[i][j + 1], Vector2(currentX + cellWidth, currentY) };
-            Corner c3 = { _grid[i + 1][j + 1], Vector2(currentX + cellWidth, currentY + cellHeight) };
-            Corner c4 = { _grid[i + 1][j], Vector2(currentX, currentY + cellHeight) };
+            Corner c1 = { _grid[yId][xId], Vector2(currentX, currentY) };
+            Corner c2 = { _grid[yId][xId + 1], Vector2(currentX + cellWidth, currentY) };
+            Corner c3 = { _grid[yId + 1][xId + 1], Vector2(currentX + cellWidth, currentY + cellHeight) };
+            Corner c4 = { _grid[yId + 1][xId], Vector2(currentX, currentY + cellHeight) };
 
             float x, y;
 

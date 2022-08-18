@@ -14,6 +14,8 @@ BoidsWindow::BoidsWindow(
         flock.initRandomOnScreen(screenWidth, screenHeight, _boidPerFlock);
         flock.color() = draw::generateRandomColor();
     }
+
+    _marchingGrid = MarchingGrid(200, 100);
 }
 
 void BoidsWindow::display()
@@ -29,7 +31,6 @@ void BoidsWindow::display()
                 { screenWidth / 2, screenHeight / 2 }),
             8);
         flock.performFlockingBehaviour(1.0 / FPS);
-
     }
 
     for(size_t i = 0; i < _flocks.size(); i++)
@@ -48,6 +49,18 @@ void BoidsWindow::display()
 
         flock.draw();
     }
+
+    for(const auto& flock : _flocks)
+    {
+        for(const auto& boid : flock.boids())
+        {
+            _marchingGrid.addContributionBump(boid.position, 30, screenWidth, screenHeight);
+        }
+    }
+
+    //_marchingGrid.draw(screenWidth, screenHeight);
+    _marchingGrid.marchAllCells(screenWidth, screenHeight);
+    _marchingGrid.clear();
 
     glFinish();
 }

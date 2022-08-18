@@ -7,8 +7,8 @@ class MarchingGrid
 private:
     std::vector<std::vector<float>> _grid;
 
-    size_t nodeCountX;
-    size_t nodeCountY;
+    size_t _nodeCountX;
+    size_t _nodeCountY;
 public:
     MarchingGrid(size_t nodeCountX = 0, size_t nodeCountY = 0);
     void clear();
