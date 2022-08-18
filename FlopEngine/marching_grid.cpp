@@ -19,8 +19,8 @@ void MarchingGrid::clear()
     }
 }
 
-void MarchingGrid::addContribution(
-    const Vector2& point, float maxX, float maxY)
+void MarchingGrid::addContributionReverseSquare(
+    const Vector2& point, float contribution, float maxX, float maxY)
 {
     float cellWidth = maxX / (nodeCountX - 1);
     float cellHeight = maxY / (nodeCountY - 1);
@@ -29,7 +29,7 @@ void MarchingGrid::addContribution(
     {
         for(size_t x = 0; x < nodeCountX; x++)
         {
-            float saturation = 50 / sqrt(
+            float saturation = contribution / sqrt(
                 Vector2::distanceSquared(point, { x * cellWidth, y * cellHeight }));
 
             _grid[y][x] = std::min(_grid[y][x] + saturation, 1.0f);
@@ -53,7 +53,7 @@ void MarchingGrid::draw(float screenWidth, float screenHeigh) const
             UCHAR intencity = math::map(_grid[y][x], 0.0f, 1.0f, 0, 255);
             draw::setColor(intencity, 0, 0);
 
-            float saturation = math::map(_grid[y][x], 0.0f, 1.0f, 0, 10);
+            float saturation = math::map(_grid[y][x], 0.0f, 1.0f, 1, 10);
             draw::drawPoint({ currentX, currentY }, saturation);
         }
     }

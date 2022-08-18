@@ -12,7 +12,13 @@ private:
 public:
     MarchingGrid(size_t nodeCountX = 0, size_t nodeCountY = 0);
     void clear();
-    void addContribution(const Vector2& point, float maxX, float maxY);
+
+    void addContributionReverseSquare(
+        const Vector2& point, float contribution, float maxX, float maxY);
+
+    void addContributionBump(
+        const Vector2& point, float contribution, float maxX, float maxY);
+
     void draw(float screenWidth, float screenHeigh) const;
     void marchAllCells(float screenWidth, float screenHeigh);
 

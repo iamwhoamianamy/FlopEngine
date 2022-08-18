@@ -19,7 +19,7 @@ void MarchingWindow::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    _marchingGrid.addContribution(_mousePosition, screenWidth, screenHeight);
+    _marchingGrid.addContributionReverseSquare(_mousePosition, 50, screenWidth, screenHeight);
     _marchingGrid.draw(screenWidth, screenHeight);
     _marchingGrid.marchAllCells(screenWidth, screenHeight);
     _marchingGrid.clear();
