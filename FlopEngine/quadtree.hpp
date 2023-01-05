@@ -1,14 +1,12 @@
 #pragma once
 #include <vector>
 
-#include "vector2.hpp"
 #include "rectangle.hpp"
 
-template<class Point>
+template<class Point, size_t capacity>
 class Quadtree
 {
 private:
-    size_t _capacity;
     Rect _rectangle;
     std::vector<Point*> _points;
     std::vector<Quadtree*> _children;
@@ -16,7 +14,7 @@ private:
 public:
     Quadtree(const Quadtree& quadtree);
     Quadtree(Quadtree&& quadtree);
-    Quadtree(const Rect& rectangle, const size_t capacity = 1);
+    explicit Quadtree(const Rect& rectangle);
 
     void insert(std::vector<Point>& points);
     void insert(Point* point);
@@ -24,13 +22,14 @@ public:
 
     std::vector<Point*> quarry(const Rect& range) const;
 
-    inline const Rect& box() const;
-    inline const bool subdivided() const;
-    inline std::vector<Quadtree*>& children();
-    inline const std::vector<Quadtree*>& children() const;
+    auto& box() const;
+    auto subdivided() const;
+    auto& children();
+    auto& children() const;
+    constexpr auto get_capacity() const;
 
-    Quadtree<Point>& operator =(const Quadtree<Point>& quadtree);
-    Quadtree<Point>& operator =(Quadtree<Point>&& quadtree);
+    auto& operator =(const Quadtree<Point, capacity>& quadtree);
+    auto& operator =(Quadtree<Point, capacity>&& quadtree) noexcept;
 
     ~Quadtree();
 private:

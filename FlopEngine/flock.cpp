@@ -17,7 +17,7 @@ public:
 Flock::Flock() :
     _drawType(FlockDrawType::TrianglesFilled),
     _color(255, 255, 255),
-    _quadtree(Rect(Vector2(), Vector2()), 0)
+    _quadtree(Rect(Vector2(), Vector2()))
 {
 }
 
@@ -60,9 +60,9 @@ void Flock::updateBoidPositions(float viscosity, float ellapsed)
     }
 }
 
-void Flock::formQuadtree(const Rect& boidFieldBorders, size_t capacity)
+void Flock::formQuadtree(const Rect& boidFieldBorders)
 {
-    _quadtree = Quadtree<Boid>(boidFieldBorders, capacity);
+    _quadtree = quadtree_t(boidFieldBorders);
     _quadtree.insert(_boids);
 }
 
@@ -281,7 +281,7 @@ void Flock::draw() const
     }
 }
 
-const Quadtree<Boid>& Flock::quadtree() const
+const quadtree_t& Flock::quadtree() const
 {
     return _quadtree;
 }

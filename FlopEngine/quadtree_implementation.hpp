@@ -12,26 +12,25 @@ public:
     }
 };
 
-template<class Point>
-inline Quadtree<Point>::Quadtree(const Quadtree& quadtree)
+template<class Point, size_t capacity>
+inline Quadtree<Point, capacity>::Quadtree(const Quadtree& quadtree)
 {
     copyFields(quadtree);
 }
 
-template<class Point>
-inline Quadtree<Point>::Quadtree(Quadtree&& quadtree)
+template<class Point, size_t capacity>
+inline Quadtree<Point, capacity>::Quadtree(Quadtree&& quadtree)
 {
     moveFields(quadtree);
 }
 
-template<class Point>
-Quadtree<Point>::Quadtree(const Rect& rectangle, const size_t capacity) :
-    _rectangle(rectangle), _capacity(capacity)
+template<class Point, size_t capacity>
+Quadtree<Point, capacity>::Quadtree(const Rect& rectangle) : _rectangle(rectangle)
 {
 }
 
-template<class Point>
-void Quadtree<Point>::insert(std::vector<Point>& points)
+template<class Point, size_t capacity>
+void Quadtree<Point, capacity>::insert(std::vector<Point>& points)
 {
     for(auto& point : points)
     {
@@ -39,15 +38,15 @@ void Quadtree<Point>::insert(std::vector<Point>& points)
     }
 }
 
-template<class Point>
-void Quadtree<Point>::insert(Point* point)
+template<class Point, size_t capacity>
+void Quadtree<Point, capacity>::insert(Point* point)
 {
     if(!_rectangle.contains(QuadtreePointHolder<Point>::position(point)))
     {
         return;
     }
 
-    if(_points.size() < _capacity)
+    if(_points.size() < capacity)
     {
         if(!subdivided())
         {
@@ -79,8 +78,8 @@ void Quadtree<Point>::insert(Point* point)
     }
 }
 
-template<class Point>
-void Quadtree<Point>::subdivide()
+template<class Point, size_t capacity>
+void Quadtree<Point, capacity>::subdivide()
 {
     float x = _rectangle.center.x;
     float y = _rectangle.center.y;
@@ -92,14 +91,14 @@ void Quadtree<Point>::subdivide()
 
     _children.reserve(4);
 
-    _children.emplace_back(new Quadtree(Rect({ x - w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Quadtree(Rect({ x + w / 2, y - h / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Quadtree(Rect({ x + w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
-    _children.emplace_back(new Quadtree(Rect({ x - w / 2, y + h / 2 }, childrenHalfDimensions), _capacity));
+    _children.emplace_back(new Quadtree(Rect({ x - w / 2, y - h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new Quadtree(Rect({ x + w / 2, y - h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new Quadtree(Rect({ x + w / 2, y + h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new Quadtree(Rect({ x - w / 2, y + h / 2 }, childrenHalfDimensions)));
 }
 
-template<class Point>
-inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& range) const
+template<class Point, size_t capacity>
+inline std::vector<Point*> Quadtree<Point, capacity>::quarry(const Rect& range) const
 {
     std::vector<Point*> found;
     quarry(range, found);
@@ -107,8 +106,8 @@ inline std::vector<Point*> Quadtree<Point>::quarry(const Rect& range) const
     return found;
 }
 
-template<class Point>
-void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found) const
+template<class Point, size_t capacity>
+void Quadtree<Point, capacity>::quarry(const Rect& range, std::vector<Point*>& found) const
 {
     if(!_rectangle.intersects(range))
     {
@@ -134,8 +133,8 @@ void Quadtree<Point>::quarry(const Rect& range, std::vector<Point*>& found) cons
     }
 }
 
-template<class Point>
-inline void Quadtree<Point>::clearData()
+template<class Point, size_t capacity>
+inline void Quadtree<Point, capacity>::clearData()
 {
     if (subdivided())
     {
@@ -148,48 +147,52 @@ inline void Quadtree<Point>::clearData()
     }
 }
 
-template<class Point>
-inline void Quadtree<Point>::copyFields(const Quadtree& quadtree)
+template<class Point, size_t capacity>
+inline void Quadtree<Point, capacity>::copyFields(const Quadtree& quadtree)
 {
     _rectangle = quadtree._rectangle;
-    _capacity = quadtree._capacity;
     _points = quadtree._points;
 }
 
-template<class Point>
-inline void Quadtree<Point>::moveFields(Quadtree&& quadtree)
+template<class Point, size_t capacity>
+inline void Quadtree<Point, capacity>::moveFields(Quadtree&& quadtree)
 {
     _rectangle = quadtree._rectangle;
-    _capacity = quadtree._capacity;
     _points = std::move(quadtree._points);
 }
 
-template<class Point>
-inline const Rect& Quadtree<Point>::box() const
+template<class Point, size_t capacity>
+auto& Quadtree<Point, capacity>::box() const
 {
     return this->_rectangle;
 }
 
-template<class Point>
-inline const bool Quadtree<Point>::subdivided() const
+template<class Point, size_t capacity>
+auto Quadtree<Point, capacity>::subdivided() const
 {
     return _children.size();
 }
 
-template<class Point>
-inline std::vector<Quadtree<Point>*>& Quadtree<Point>::children()
+template<class Point, size_t capacity>
+auto& Quadtree<Point, capacity>::children()
 {
     return _children;
 }
 
-template<class Point>
-inline const std::vector<Quadtree<Point>*>& Quadtree<Point>::children() const
+template<class Point, size_t capacity>
+auto& Quadtree<Point, capacity>::children() const
 {
     return _children;
 }
 
-template<class Point>
-inline Quadtree<Point>& Quadtree<Point>::operator=(const Quadtree<Point>& quadtree)
+template<class Point, size_t capacity>
+constexpr auto Quadtree<Point, capacity>::get_capacity() const
+{
+    return capacity;
+}
+
+template<class Point, size_t capacity>
+auto& Quadtree<Point, capacity>::operator=(const Quadtree<Point, capacity>& quadtree)
 {
     clearData();
     copyFields(quadtree);
@@ -197,8 +200,8 @@ inline Quadtree<Point>& Quadtree<Point>::operator=(const Quadtree<Point>& quadtr
     return *this;
 }
 
-template<class Point>
-inline Quadtree<Point>& Quadtree<Point>::operator=(Quadtree<Point>&& quadtree)
+template<class Point, size_t capacity>
+auto& Quadtree<Point, capacity>::operator=(Quadtree<Point, capacity>&& quadtree) noexcept
 {
     clearData();
     moveFields(std::move(quadtree));
@@ -206,8 +209,8 @@ inline Quadtree<Point>& Quadtree<Point>::operator=(Quadtree<Point>&& quadtree)
     return *this;
 }
 
-template<class Point>
-Quadtree<Point>::~Quadtree()
+template<class Point, size_t capacity>
+Quadtree<Point, capacity>::~Quadtree()
 {
     clearData();
 }

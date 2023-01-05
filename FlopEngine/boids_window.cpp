@@ -26,8 +26,8 @@ void flockPhysics(
         flock.formQuadtree(
             Rect(
                 { screenWidth / 2, screenHeight / 2 },
-                { screenWidth / 2, screenHeight / 2 }),
-            8);
+                { screenWidth / 2, screenHeight / 2 })
+        );
         flock.performFlockingBehaviour(1.0 / FPS);
     }
 

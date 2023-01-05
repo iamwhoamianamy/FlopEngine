@@ -66,7 +66,7 @@ void QuadtreeWindow::display()
     draw::setColor(pointColor);
     draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y);
 
-    Quadtree<Vector2> octree(Rect(
+    Quadtree<Vector2, 8> octree(Rect(
             Vector2(screenWidth / 2, screenHeight / 2),
             Vector2(screenWidth / 2, screenHeight / 2)));
 

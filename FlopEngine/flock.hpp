@@ -36,13 +36,15 @@ struct BoidParameters
     float minSpeed = 60;
 };
 
+using quadtree_t = Quadtree<Boid, 8>;
+
 class Flock
 {
 private:
     std::vector<Boid> _boids;
     FlockDrawType _drawType;
     draw::Color _color;
-    Quadtree<Boid> _quadtree;
+    quadtree_t _quadtree;
     BoidParameters _boidParams;
 public:
     bool debug = false;
@@ -55,7 +57,7 @@ public:
         size_t boidsCount = 500);
 
     void updateBoidPositions(float viscosity, float ellapsed);
-    void formQuadtree(const Rect& boidFieldBorders, size_t capacity);
+    void formQuadtree(const Rect& boidFieldBorders);
     void performFlockingBehaviour(float ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
     void performFleeing(const Flock& flock, float ellapsed);
@@ -64,7 +66,7 @@ public:
     draw::Color& color();
     const std::vector<Boid>& boids() const;
     FlockDrawType& drawType();
-    const Quadtree<Boid>& quadtree() const;
+    const quadtree_t& quadtree() const;
 private:
     void performAvoiding(Boid& boid, float ellapsed);
     void performAligning(Boid& boid, float ellapsed);
