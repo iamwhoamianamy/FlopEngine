@@ -1,5 +1,7 @@
 #include <thread>
 #include <type_traits>
+#include <filesystem>
+
 #include "boids_window.hpp"
 #include "drawing.hpp"
 
@@ -55,20 +57,39 @@ void marchingPhysics(
     }
 }
 
+void BoidsWindow::watchForBoidParamFileChange()
+{
+    auto lastModified = std::filesystem::last_write_time(boidParamFilename);
+    auto now = std::chrono::file_clock::now();
+    auto deb = decltype(lastModified)::clock::time_point(lastModified);
+    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now - deb);
+
+    if (seconds.count() < 5)
+    {
+        readBoidParams();
+    }
+}
+
 void BoidsWindow::display()
 {
     glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    std::thread flockPhysicsHandler(
-        flockPhysics, std::ref(_flocks), screenWidth, screenHeight, FPS);
+    watchForBoidParamFileChange();
 
-    std::thread marchingPhysicsHandler(
-        marchingPhysics, std::ref(_flocks), std::ref(_marchingGrid), screenWidth, screenHeight);
+    if (_drawMarchingSquares)
+    {
+        std::jthread flockPhysicsHandler(
+            flockPhysics, std::ref(_flocks), screenWidth, screenHeight, FPS);
 
-    flockPhysicsHandler.join();
-    marchingPhysicsHandler.join();
+        std::jthread marchingPhysicsHandler(
+            marchingPhysics, std::ref(_flocks), std::ref(_marchingGrid), screenWidth, screenHeight);
+    }
+    else
+    {
+        flockPhysics(_flocks, screenWidth, screenHeight, FPS);
+    }
 
     for(auto& flock : _flocks)
     {
@@ -158,6 +179,10 @@ void BoidsWindow::keyboardLetters(unsigned char key, int x, int y)
 
             break;
         }
+        case 'o':
+        {
+            readBoidParams();
+        }
     }
 }
 
@@ -171,4 +196,21 @@ void BoidsWindow::mousePassive(int x, int y)
 
 void BoidsWindow::exitingFunction()
 {
+}
+
+void BoidsWindow::readBoidParams()
+{
+    try
+    {
+        auto newParams = BoidParameters::readParamsFromFile(boidParamFilename);
+
+        for (auto& flock : _flocks)
+        {
+            flock.setParams(newParams);
+        }
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << ex.what() << std::endl;
+    }
 }

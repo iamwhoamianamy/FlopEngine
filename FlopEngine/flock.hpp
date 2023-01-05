@@ -34,6 +34,8 @@ struct BoidParameters
 
     float maxSpeed = 80;
     float minSpeed = 60;
+
+    static BoidParameters readParamsFromFile(const std::string& filename);
 };
 
 using quadtree_t = Quadtree<Boid, 8>;
@@ -67,6 +69,7 @@ public:
     const std::vector<Boid>& boids() const;
     FlockDrawType& drawType();
     const quadtree_t& quadtree() const;
+    void setParams(const BoidParameters& newParams);
 private:
     void performAvoiding(Boid& boid, float ellapsed);
     void performAligning(Boid& boid, float ellapsed);

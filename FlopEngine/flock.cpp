@@ -1,5 +1,8 @@
 #include <algorithm>
 #include <limits>
+#include <fstream>
+
+#include "json.hpp"
 #include "flock.hpp"
 #include "math.hpp"
 #include "utility.hpp"
@@ -19,6 +22,26 @@ Flock::Flock() :
     _color(255, 255, 255),
     _quadtree(Rect(Vector2(), Vector2()))
 {
+}
+
+BoidParameters BoidParameters::readParamsFromFile(const std::string& filename)
+{
+    auto json = nlohmann::json::parse(std::ifstream(filename.data()));
+
+    return {
+        .avoidVision = json["avoidVision"],
+        .avoidStrength = json["avoidStrength"],
+        .alignVision = json["alignVision"],
+        .alignStrength = json["alignStrength"],
+        .gatherVision = json["gatherVision"],
+        .gatherStrength = json["gatherStrength"],
+        .fleeVision = json["fleeVision"],
+        .fleeStrength = json["fleeStrength"],
+        .wanderStrength = json["wanderStrength"],
+        .size = json["size"],
+        .maxSpeed = json["maxSpeed"],
+        .minSpeed = json["minSpeed"]
+    };
 }
 
 void Flock::initRandomOnScreen(
@@ -284,4 +307,9 @@ void Flock::draw() const
 const quadtree_t& Flock::quadtree() const
 {
     return _quadtree;
+}
+
+void Flock::setParams(const BoidParameters& newParams)
+{
+    _boidParams = newParams;
 }

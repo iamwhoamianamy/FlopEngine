@@ -123,5 +123,8 @@
     <ClInclude Include="marching_window.hpp">
       <Filter>Исходные файлы\MarchingSquares</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

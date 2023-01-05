@@ -143,6 +143,7 @@
     <ClInclude Include="boids_window.hpp" />
     <ClInclude Include="flock.hpp" />
     <ClInclude Include="flop_engine.hpp" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="marching_grid.hpp" />
     <ClInclude Include="marching_window.hpp" />
     <ClInclude Include="math.hpp" />

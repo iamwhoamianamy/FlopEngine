@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <mutex>
 
 #include "GL/freeglut.h"
 
@@ -11,6 +12,8 @@
 
 using marching_grid_t = MarchingGrid<500, 250>;
 const size_t flockCount = 3;
+
+const auto boidParamFilename = "params.json";
 
 class BoidsWindow : public flp::BaseWindow
 {
@@ -33,4 +36,6 @@ public:
     void mousePassive(int x, int y);
     void exitingFunction();
 private:
+    void watchForBoidParamFileChange();
+    void readBoidParams();
 };
