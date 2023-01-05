@@ -10,7 +10,7 @@ BaseWindow::BaseWindow(
     screenWidth(screenWidth), screenHeight(screenHeight), name(name)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB);
+    glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE);
     glutInitWindowSize(screenWidth, screenHeight);
     glutCreateWindow(name.c_str());
 

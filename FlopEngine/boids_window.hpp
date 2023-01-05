@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <vector>
 
 #include "GL/freeglut.h"
 
@@ -11,18 +10,18 @@
 #include "marching_grid.hpp"
 
 using marching_grid_t = MarchingGrid<500, 250>;
+const size_t flockCount = 3;
 
 class BoidsWindow : public flp::BaseWindow
 {
 private:
-
-    const size_t _flockCount = 1;
-    std::vector<Flock> _flocks;
+    std::array<Flock, flockCount> _flocks;
     const float _viscosity = 1;
-    const size_t _boidPerFlock = 1000;
-    marching_grid_t _marchingGrid;
+    const size_t _boidPerFlock = 750;
+    std::array<marching_grid_t, flockCount> _marchingGrid;
     bool _drawBoids = true;
     bool _drawMarchingSquares = false;
+    bool _smooth = false;
 
 public:
     BoidsWindow(int argc, char** argv,

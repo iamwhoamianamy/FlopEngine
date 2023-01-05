@@ -25,8 +25,8 @@ struct BoidParameters
     float gatherVision = 50;
     float gatherStrength = 500;
 
-    float fleeVision = 25;
-    float fleeStrength = 30;
+    float fleeVision = 50;
+    float fleeStrength = 60;
 
     float wanderStrength = 0.01;
 
