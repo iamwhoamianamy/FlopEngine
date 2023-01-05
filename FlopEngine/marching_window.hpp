@@ -7,7 +7,7 @@ class MarchingWindow : public flp::BaseWindow
 {
 private:
     Vector2 _mousePosition;
-    MarchingGrid _marchingGrid;
+    MarchingGrid<500, 250> _marchingGrid;
 public:
     MarchingWindow(
         int argc, char** argv,

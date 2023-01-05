@@ -16,8 +16,6 @@ BoidsWindow::BoidsWindow(
         flock.initRandomOnScreen(screenWidth, screenHeight, _boidPerFlock);
         flock.color() = draw::generateRandomColor();
     }
-
-    _marchingGrid = MarchingGrid(500, 250);
 }
 
 void flockPhysics(
@@ -44,7 +42,7 @@ void flockPhysics(
 }
 
 void marchingPhysics(
-    std::vector<Flock>& _flocks, MarchingGrid& _marchingGrid,
+    std::vector<Flock>& _flocks, marching_grid_t& _marchingGrid,
     float screenWidth, float screenHeight)
 {
     for(const auto& flock : _flocks)

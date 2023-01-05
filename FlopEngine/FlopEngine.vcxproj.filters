@@ -67,9 +67,6 @@
     <ClCompile Include="utility.cpp">
       <Filter>Исходные файлы\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="marching_grid.cpp">
-      <Filter>Исходные файлы\MarchingSquares</Filter>
-    </ClCompile>
     <ClCompile Include="marching_window.cpp">
       <Filter>Исходные файлы\MarchingSquares</Filter>
     </ClCompile>

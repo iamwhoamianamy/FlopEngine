@@ -14,10 +14,10 @@ namespace draw
         Color(UCHAR r = 0, UCHAR g = 0, UCHAR b = 0, UCHAR a = 255);
     };
 
-    void drawLine(Vector2 a, Vector2 b);
-    void drawPoint(Vector2 point, float size);
-    void drawRect(Vector2 center, float halfWidth, float halfHeight);
-    void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d);
+    inline void drawLine(Vector2 a, Vector2 b);
+    inline void drawPoint(Vector2 point, float size);
+    inline void drawRect(Vector2 center, float halfWidth, float halfHeight);
+    inline void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d);
     void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled);
     Color generateRandomColor();
 
@@ -33,4 +33,48 @@ namespace draw
     {
         glColor4ub(color.r, color.g, color.b, color.a);
     }
+}
+
+inline void draw::drawLine(Vector2 a, Vector2 b)
+{
+    glBegin(GL_LINES);
+    {
+        glVertex2f(a.x, a.y);
+        glVertex2f(b.x, b.y);
+    }
+    glEnd();
+}
+
+inline void draw::drawPoint(Vector2 point, float size)
+{
+    glPointSize(size);
+    glBegin(GL_POINTS);
+    {
+        glVertex2f(point.x, point.y);
+    }
+    glEnd();
+}
+
+inline void draw::drawRect(Vector2 center, float halfWidth, float halfHeight)
+{
+    glBegin(GL_LINE_LOOP);
+    {
+        glVertex2f(center.x - halfWidth, center.y - halfHeight);
+        glVertex2f(center.x + halfWidth, center.y - halfHeight);
+        glVertex2f(center.x + halfWidth, center.y + halfHeight);
+        glVertex2f(center.x - halfWidth, center.y + halfHeight);
+    }
+    glEnd();
+}
+
+inline void draw::drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
+{
+    glBegin(GL_LINE_LOOP);
+    {
+        glVertex3f(a.x, a.y, 0);
+        glVertex3f(b.x, b.y, 0);
+        glVertex3f(c.x, c.y, 0);
+        glVertex3f(d.x, d.y, 0);
+    }
+    glEnd();
 }

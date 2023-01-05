@@ -10,14 +10,17 @@
 #include "flock.hpp"
 #include "marching_grid.hpp"
 
+using marching_grid_t = MarchingGrid<500, 250>;
+
 class BoidsWindow : public flp::BaseWindow
 {
 private:
+
     const size_t _flockCount = 1;
     std::vector<Flock> _flocks;
     const float _viscosity = 1;
     const size_t _boidPerFlock = 1000;
-    MarchingGrid _marchingGrid;
+    marching_grid_t _marchingGrid;
     bool _drawBoids = true;
     bool _drawMarchingSquares = false;
 

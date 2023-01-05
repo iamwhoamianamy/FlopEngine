@@ -22,7 +22,7 @@ namespace math
     }
 
     template <class Old, class New>
-    New map(Old x, Old oldLow, Old oldHigh, New newLow, New newHigh)
+    constexpr New map(Old x, Old oldLow, Old oldHigh, New newLow, New newHigh)
     {
         return newLow + (float)(x - oldLow) / (oldHigh - oldLow) * (newHigh - newLow);
     }

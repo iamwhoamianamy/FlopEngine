@@ -134,7 +134,6 @@
     <ClCompile Include="boids_helper.cpp" />
     <ClCompile Include="boids_window.cpp" />
     <ClCompile Include="flock.cpp" />
-    <ClCompile Include="marching_grid.cpp" />
     <ClCompile Include="marching_window.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="quadtree_help.cpp" />
