@@ -13,7 +13,7 @@ namespace draw
 
         Color(UCHAR r = 0, UCHAR g = 0, UCHAR b = 0, UCHAR a = 255);
     };
-
+     
     inline void drawLine(Vector2 a, Vector2 b);
     inline void drawPoint(Vector2 point, float size);
     inline void drawRect(Vector2 center, float halfWidth, float halfHeight);

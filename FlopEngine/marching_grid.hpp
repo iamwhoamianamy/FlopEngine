@@ -136,7 +136,6 @@ inline void MarchingGrid<nodeCountX, nodeCountY>::draw(float screenWidth, float 
 
 template<size_t nodeCountX, size_t nodeCountY>
 inline void MarchingGrid<nodeCountX, nodeCountY>::marchAllCells(float screenWidth, float screenHeigh)
-
 {
     float cellWidth = screenWidth / (nodeCountX - 1);
     float cellHeight = screenHeigh / (nodeCountY - 1);

@@ -86,7 +86,7 @@ void BoidsWindow::display()
 
     if(_drawMarchingSquares)
     {
-        glLineWidth(2);
+        glLineWidth(1);
 
         for (size_t i = 0; i < flockCount; i++)
         {

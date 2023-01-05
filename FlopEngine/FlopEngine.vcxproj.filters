@@ -49,9 +49,6 @@
     <ClCompile Include="rectangle.cpp">
       <Filter>Исходные файлы\Quadtree</Filter>
     </ClCompile>
-    <ClCompile Include="vector2.cpp">
-      <Filter>Исходные файлы\Math</Filter>
-    </ClCompile>
     <ClCompile Include="base_window.cpp">
       <Filter>Исходные файлы\Graphics</Filter>
     </ClCompile>
