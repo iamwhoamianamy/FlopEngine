@@ -13,13 +13,19 @@ BoidsWindow::BoidsWindow(
 {
     for(auto& flock : _flocks)
     {
-        flock.initRandomOnScreen(screenWidth, screenHeight, _boidPerFlock);
+        flock.initRandomOnScreen(screenWidth, screenHeight, boidPerFlock);
         flock.color() = draw::generateRandomColor();
     }
+
+    _lock = std::unique_lock(_mutex, std::defer_lock);
+    std::jthread([this]()
+    {
+        watchForBoidParamFileChange();
+    }).detach();
 }
 
 void flockPhysics(
-    std::array<Flock, flockCount>& flocks,
+    std::array<Flock, BoidsWindow::flockCount>& flocks,
     float screenWidth, float screenHeight,
     float FPS)
 {
@@ -44,11 +50,11 @@ void flockPhysics(
 }
 
 void marchingPhysics(
-    std::array<Flock, flockCount>& flocks, 
-    std::array<marching_grid_t, flockCount>& marchingGrids,
+    std::array<Flock, BoidsWindow::flockCount>& flocks,
+    std::array<marching_grid_t, BoidsWindow::flockCount>& marchingGrids,
     float screenWidth, float screenHeight)
 {
-    for (size_t i = 0; i < flockCount; i++)
+    for (size_t i = 0; i < BoidsWindow::flockCount; i++)
     {
         for (const auto& boid : flocks[i].boids())
         {
@@ -59,24 +65,58 @@ void marchingPhysics(
 
 void BoidsWindow::watchForBoidParamFileChange()
 {
-    auto lastModified = std::filesystem::last_write_time(boidParamFilename);
-    auto now = std::chrono::file_clock::now();
-    auto deb = decltype(lastModified)::clock::time_point(lastModified);
-    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now - deb);
-
-    if (seconds.count() < 5)
+    while (true)
     {
-        readBoidParams();
+        auto lastModified = std::filesystem::last_write_time(boidParamFilename);
+        auto now = std::chrono::file_clock::now();
+        auto deb = decltype(lastModified)::clock::time_point(lastModified);
+        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now - deb);
+
+        if (seconds.count() < 5)
+        {
+            if (_lock.try_lock())
+            {
+                readBoidParams();
+
+                _lock.unlock();
+                _cv.notify_all();
+            }
+            else
+            {
+                _cv.wait(_lock);
+
+                _lock.lock();
+                readBoidParams();
+                _lock.unlock();
+                _cv.notify_all();
+            }
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
 void BoidsWindow::display()
 {
-    glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
+    
+    try
+    {
+        if (_lock.try_lock())
+        {
+            _lock.unlock();
+            _cv.notify_all();
+        }
+        else
+        {
+            _cv.wait(_lock);
+        }
+    }
+    catch(...)
+    {
 
-    watchForBoidParamFileChange();
+    }
 
     if (_drawMarchingSquares)
     {

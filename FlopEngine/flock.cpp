@@ -96,7 +96,7 @@ void Flock::performFlockingBehaviour(float ellapsed)
         performAvoiding(boid, ellapsed);
         performAligning(boid, ellapsed);
         performGathering(boid, ellapsed);
-        //performWandering(boid, ellapsed);
+        performWandering(boid, ellapsed);
     }
 }
 

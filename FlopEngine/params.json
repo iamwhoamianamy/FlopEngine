@@ -11,10 +11,10 @@
     "fleeVision": 50,
     "fleeStrength": 60,
 
-    "wanderStrength": 0.01,
+    "wanderStrength": 0.05,
     "size": 8,
 
-    "maxSpeed": 500,
+    "maxSpeed": 80,
     "minSpeed": 60,
 
 	"original_avoidVision": 10,
