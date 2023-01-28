@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <execution>
 #include <limits>
 #include <fstream>
 
@@ -63,24 +64,25 @@ void Flock::initRandomOnScreen(
 
 void Flock::updateBoidPositions(float viscosity, float ellapsed)
 {
-    for(auto& boid : _boids)
-    {
-        boid.updatePosition(viscosity, ellapsed);
-
-        float speed = boid.velocity.length();
-
-        if(speed < _boidParams.minSpeed)
+    std::for_each(std::execution::par, _boids.begin(), _boids.end(),
+        [this, viscosity, ellapsed](Boid& boid)
         {
-            boid.velocity.setLength(_boidParams.minSpeed);
-        }
-        else
-        {
-            if(_boidParams.maxSpeed < speed)
+            boid.updatePosition(viscosity, ellapsed);
+
+            float speed = boid.velocity.length();
+
+            if (speed < _boidParams.minSpeed)
             {
-                boid.velocity.limit(_boidParams.maxSpeed);
+                boid.velocity.setLength(_boidParams.minSpeed);
             }
-        }
-    }
+            else
+            {
+                if (_boidParams.maxSpeed < speed)
+                {
+                    boid.velocity.limit(_boidParams.maxSpeed);
+                }
+            }
+        });
 }
 
 void Flock::formQuadtree(const Rect& boidFieldBorders)
@@ -91,13 +93,14 @@ void Flock::formQuadtree(const Rect& boidFieldBorders)
 
 void Flock::performFlockingBehaviour(float ellapsed)
 {
-    for (auto& boid : _boids)
-    {
-        performAvoiding(boid, ellapsed);
-        performAligning(boid, ellapsed);
-        performGathering(boid, ellapsed);
-        performWandering(boid, ellapsed);
-    }
+    std::for_each(std::execution::par, _boids.begin(), _boids.end(),
+        [this, ellapsed](Boid& boid)
+        {
+            performAvoiding(boid, ellapsed);
+            performAligning(boid, ellapsed);
+            performGathering(boid, ellapsed);
+            performWandering(boid, ellapsed);
+        });
 }
 
 void Flock::performAvoiding(Boid& boid, float ellapsed)
@@ -123,22 +126,20 @@ void Flock::performAvoiding(Boid& boid, float ellapsed)
     }
 }
 
-
 void Flock::performAligning(Boid& boid, float ellapsed)
 {
-    struct Transformer
+    struct projection
     {
-        Vector2 operator()(Boid* boid)
+        auto operator()(Boid* boid)
         {
             return boid->velocity;
         }
     };
 
-    auto boidsToAlignTo = _quadtree.quarry(Rect(boid.position, _boidParams.alignVision));
-    auto velocitiesToAlignTo = 
-        util::transform<Boid*, Vector2, Transformer>(boidsToAlignTo);
+    auto boidsToAlignTo = _quadtree.quarry(
+        Rect(boid.position, _boidParams.alignVision));
 
-    boid.align(velocitiesToAlignTo, _boidParams.alignStrength, ellapsed);
+    boid.align(boidsToAlignTo, _boidParams.alignStrength, ellapsed, projection{});
 
     if(debug)
     {
@@ -155,30 +156,18 @@ void Flock::performAligning(Boid& boid, float ellapsed)
 
 void Flock::performGathering(Boid& boid, float ellapsed)
 {
-    struct Transformer
+    struct projection
     {
-        Vector2 operator()(Boid* boid)
+        auto operator()(Boid* boid)
         {
             return boid->position;
         }
     };
 
-    auto positionsToGatherWith =
-        util::transform<Boid*, Vector2, Transformer>(
-            _quadtree.quarry(Rect(boid.position, _boidParams.gatherVision)));
+    auto boidsToGatherWith =
+        _quadtree.quarry(Rect(boid.position, _boidParams.gatherVision));
 
-    boid.gather(positionsToGatherWith, _boidParams.gatherStrength, ellapsed);
-
-    if(debug)
-    {
-        draw::setColor(draw::Color(0, 255, 0));
-        glLineWidth(1);
-
-        for(auto& position : positionsToGatherWith)
-        {
-            draw::drawLine(boid.position, position);
-        }
-    }
+    boid.gather(boidsToGatherWith, _boidParams.gatherStrength, ellapsed, projection{});
 }
 
 void Flock::performWandering(Boid& boid,float ellapsed)

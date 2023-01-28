@@ -1,5 +1,5 @@
 {
-    "avoidVision": 10,
+    "avoidVision": 20,
     "avoidStrength": 40,
 
     "alignVision": 50,
@@ -11,7 +11,7 @@
     "fleeVision": 50,
     "fleeStrength": 60,
 
-    "wanderStrength": 0.05,
+    "wanderStrength": 0.1,
     "size": 8,
 
     "maxSpeed": 80,

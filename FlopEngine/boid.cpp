@@ -24,37 +24,6 @@ void Boid::avoid(Vector2 target, float strength, float ellapsed)
     acceleration -= direction * strength * ellapsed;
 }
 
-void Boid::align(const std::vector<Vector2>& velocities, float strength, float ellapsed)
-{
-    Vector2 direction;
-
-    for(const auto& velocity : velocities)
-    {
-        direction += velocity;
-    }
-
-    direction /= velocities.size();
-    direction.setLength(velocity.length());
-    direction = Vector2::lerp(velocity, direction, strength);
-
-    velocity = direction;
-}
-
-void Boid::gather(const std::vector<Vector2>& targets, float strength, float ellapsed)
-{
-    Vector2 direction;
-    
-    for(const auto& target : targets)
-    {
-        direction += target;
-    }
-
-    direction /= targets.size();
-    direction = Vector2::direction(position, direction);
-
-    acceleration += direction * strength * ellapsed;
-}
-
 void Boid::wander(float strength, float ellapsed)
 {
     Vector2 direction = math::generateRandomVector() * velocity.length();

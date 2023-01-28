@@ -1,6 +1,8 @@
 #include <thread>
 #include <type_traits>
 #include <filesystem>
+#include <algorithm>
+#include <execution>
 
 #include "boids_window.hpp"
 #include "drawing.hpp"
@@ -29,15 +31,16 @@ void flockPhysics(
     float screenWidth, float screenHeight,
     float FPS)
 {
-    for(auto& flock : flocks)
-    {
-        flock.formQuadtree(
-            Rect(
-                { screenWidth / 2, screenHeight / 2 },
-                { screenWidth / 2, screenHeight / 2 })
-        );
-        flock.performFlockingBehaviour(1.0 / FPS);
-    }
+    std::for_each(std::execution::par, flocks.begin(), flocks.end(),
+        [=](Flock& flock)
+        {
+            flock.formQuadtree(
+                Rect(
+                    {screenWidth / 2, screenHeight / 2},
+                    {screenWidth / 2, screenHeight / 2})
+            );
+            flock.performFlockingBehaviour(1.0 / FPS);
+        });
 
     for(size_t i = 0; i < flocks.size(); i++)
     {
