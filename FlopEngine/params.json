@@ -9,7 +9,7 @@
     "gatherStrength": 500,
 
     "fleeVision": 50,
-    "fleeStrength": 60,
+    "fleeStrength": 30,
 
     "wanderStrength": 0.1,
     "size": 8,

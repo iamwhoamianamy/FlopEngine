@@ -62,7 +62,7 @@ void Flock::initRandomOnScreen(
     }
 }
 
-void Flock::updateBoidPositions(float viscosity, float ellapsed)
+void Flock::updateBoidPositions(float viscosity, std::chrono::milliseconds ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
         [this, viscosity, ellapsed](Boid& boid)
@@ -91,7 +91,7 @@ void Flock::formQuadtree(const Rect& boidFieldBorders)
     _quadtree.insert(_boids);
 }
 
-void Flock::performFlockingBehaviour(float ellapsed)
+void Flock::performFlockingBehaviour(std::chrono::milliseconds ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
         [this, ellapsed](Boid& boid)
@@ -103,7 +103,7 @@ void Flock::performFlockingBehaviour(float ellapsed)
         });
 }
 
-void Flock::performAvoiding(Boid& boid, float ellapsed)
+void Flock::performAvoiding(Boid& boid, std::chrono::milliseconds ellapsed)
 {
     auto boidsToAvoid = _quadtree.quarry(
         Rect(boid.position, _boidParams.avoidVision));
@@ -126,7 +126,7 @@ void Flock::performAvoiding(Boid& boid, float ellapsed)
     }
 }
 
-void Flock::performAligning(Boid& boid, float ellapsed)
+void Flock::performAligning(Boid& boid, std::chrono::milliseconds ellapsed)
 {
     struct projection
     {
@@ -154,7 +154,7 @@ void Flock::performAligning(Boid& boid, float ellapsed)
 
 }
 
-void Flock::performGathering(Boid& boid, float ellapsed)
+void Flock::performGathering(Boid& boid, std::chrono::milliseconds ellapsed)
 {
     struct projection
     {
@@ -170,7 +170,7 @@ void Flock::performGathering(Boid& boid, float ellapsed)
     boid.gather(boidsToGatherWith, _boidParams.gatherStrength, ellapsed, projection{});
 }
 
-void Flock::performWandering(Boid& boid,float ellapsed)
+void Flock::performWandering(Boid& boid, std::chrono::milliseconds ellapsed)
 {
     boid.wander(_boidParams.wanderStrength, ellapsed);
 }
@@ -211,7 +211,7 @@ void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
     }
 }
 
-void Flock::performFleeing(const Flock& flock, float ellapsed)
+void Flock::performFleeing(const Flock& flock, std::chrono::milliseconds ellapsed)
 {
     for(auto& boid : _boids)
     {

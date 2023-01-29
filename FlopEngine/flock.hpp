@@ -58,11 +58,11 @@ public:
         float screenHeight,
         size_t boidsCount = 500);
 
-    void updateBoidPositions(float viscosity, float ellapsed);
+    void updateBoidPositions(float viscosity, std::chrono::milliseconds ellapsed);
     void formQuadtree(const Rect& boidFieldBorders);
-    void performFlockingBehaviour(float ellapsed);
+    void performFlockingBehaviour(std::chrono::milliseconds ellapsed);
     void goThroughWindowBorders(float screenWidth, float screenHeight);
-    void performFleeing(const Flock& flock, float ellapsed);
+    void performFleeing(const Flock& flock, std::chrono::milliseconds ellapsed);
     void draw() const;
 
     draw::Color& color();
@@ -71,8 +71,8 @@ public:
     const quadtree_t& quadtree() const;
     void setParams(const BoidParameters& newParams);
 private:
-    void performAvoiding(Boid& boid, float ellapsed);
-    void performAligning(Boid& boid, float ellapsed);
-    void performGathering(Boid& boid, float ellapsed);
-    void performWandering(Boid& boid, float ellapsed);
+    void performAvoiding(Boid& boid, std::chrono::milliseconds ellapsed);
+    void performAligning(Boid& boid, std::chrono::milliseconds ellapsed);
+    void performGathering(Boid& boid, std::chrono::milliseconds ellapsed);
+    void performWandering(Boid& boid, std::chrono::milliseconds ellapsed);
 };

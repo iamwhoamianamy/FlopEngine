@@ -19,19 +19,34 @@ BoidsWindow::BoidsWindow(
         flock.color() = draw::generateRandomColor();
     }
 
-    _lock = std::unique_lock(_mutex, std::defer_lock);
-    std::jthread([this]()
-    {
-        watchForBoidParamFileChange();
-    }).detach();
+    readBoidParams();
+    startWatchingForBoidParamFileChange();
+    startPhysics();
 }
 
-void flockPhysics(
-    std::array<Flock, BoidsWindow::flockCount>& flocks,
-    float screenWidth, float screenHeight,
-    float FPS)
+void BoidsWindow::startWatchingForBoidParamFileChange()
 {
-    std::for_each(std::execution::par, flocks.begin(), flocks.end(),
+    _lock = std::unique_lock(_mutex, std::defer_lock);
+    std::jthread([this]()
+        {
+            watchForBoidParamFileChange();
+        }).detach();
+}
+
+void BoidsWindow::startPhysics()
+{
+    std::jthread([this]
+        {
+            while (true)
+            {
+                performPhysicsLoop();
+            }
+        }).detach();
+}
+
+void BoidsWindow::performFlockingPhysics()
+{
+    std::for_each(std::execution::par, _flocks.begin(), _flocks.end(),
         [=](Flock& flock)
         {
             flock.formQuadtree(
@@ -39,31 +54,45 @@ void flockPhysics(
                     {screenWidth / 2, screenHeight / 2},
                     {screenWidth / 2, screenHeight / 2})
             );
-            flock.performFlockingBehaviour(1.0 / FPS);
+            flock.performFlockingBehaviour(_lastEllapsed);
         });
 
-    for(size_t i = 0; i < flocks.size(); i++)
+    for (size_t i = 0; i < _flocks.size(); i++)
     {
-        for(size_t j = 0; j < i; j++)
+        for (size_t j = 0; j < i; j++)
         {
-            flocks[i].performFleeing(flocks[j], 1.0 / FPS);
-            flocks[j].performFleeing(flocks[i], 1.0 / FPS);
+            _flocks[i].performFleeing(_flocks[j], _lastEllapsed);
+            _flocks[j].performFleeing(_flocks[i], _lastEllapsed);
         }
     }
 }
 
-void marchingPhysics(
-    std::array<Flock, BoidsWindow::flockCount>& flocks,
-    std::array<marching_grid_t, BoidsWindow::flockCount>& marchingGrids,
-    float screenWidth, float screenHeight)
+void BoidsWindow::performMarchingPhysics()
 {
     for (size_t i = 0; i < BoidsWindow::flockCount; i++)
     {
-        for (const auto& boid : flocks[i].boids())
+        for (const auto& boid : _flocks[i].boids())
         {
-            marchingGrids[i].addContributionBump(boid.position, 15, screenWidth, screenHeight);
+            _marchingGrids[i].addContributionBump(boid.position, 15, screenWidth, screenHeight);
         }
     }
+}
+
+void BoidsWindow::performPhysicsLoop()
+{
+    auto start = std::chrono::steady_clock::now();
+    auto desirable_end = start + physics_interval;
+    performFlockingPhysics();
+
+    for (auto& flock : _flocks)
+    {
+        flock.updateBoidPositions(_viscosity, _lastEllapsed);
+        flock.goThroughWindowBorders(screenWidth, screenHeight);
+    }
+
+    std::this_thread::sleep_until(desirable_end);
+    _lastEllapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start);
 }
 
 void BoidsWindow::watchForBoidParamFileChange()
@@ -121,24 +150,24 @@ void BoidsWindow::display()
 
     }
 
-    if (_drawMarchingSquares)
-    {
-        std::jthread flockPhysicsHandler(
-            flockPhysics, std::ref(_flocks), screenWidth, screenHeight, FPS);
+    //if (_drawMarchingSquares)
+    //{
+    //    std::jthread flockPhysicsHandler(
+    //        flockPhysics, std::ref(_flocks), screenWidth, screenHeight, FPS);
 
-        std::jthread marchingPhysicsHandler(
-            marchingPhysics, std::ref(_flocks), std::ref(_marchingGrid), screenWidth, screenHeight);
-    }
-    else
-    {
-        flockPhysics(_flocks, screenWidth, screenHeight, FPS);
-    }
+    //    std::jthread marchingPhysicsHandler(
+    //        marchingPhysics, std::ref(_flocks), std::ref(_marchingGrid), screenWidth, screenHeight);
+    //}
+    //else
+    //{
+    //    flockPhysics(_flocks, screenWidth, screenHeight, FPS);
+    //}
 
-    for(auto& flock : _flocks)
-    {
-        flock.updateBoidPositions(_viscosity, 1.0 / FPS);
-        flock.goThroughWindowBorders(screenWidth, screenHeight);
-    }
+    //for(auto& flock : _flocks)
+    //{
+    //    flock.updateBoidPositions(_viscosity, 1.0 / FPS);
+    //    flock.goThroughWindowBorders(screenWidth, screenHeight);
+    //}
 
     if(_drawBoids)
     {
@@ -155,8 +184,8 @@ void BoidsWindow::display()
         for (size_t i = 0; i < flockCount; i++)
         {
             draw::setColor(_flocks[i].color());
-            _marchingGrid[i].marchAllCells(screenWidth, screenHeight);
-            _marchingGrid[i].clear();
+            _marchingGrids[i].marchAllCells(screenWidth, screenHeight);
+            _marchingGrids[i].clear();
         }
     }
 

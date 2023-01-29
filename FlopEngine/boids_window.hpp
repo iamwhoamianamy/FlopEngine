@@ -23,7 +23,7 @@ public:
 private:
     std::array<Flock, flockCount> _flocks;
     const float _viscosity = 1;
-    std::array<marching_grid_t, flockCount> _marchingGrid;
+    std::array<marching_grid_t, flockCount> _marchingGrids;
     bool _drawBoids = true;
     bool _drawMarchingSquares = false;
     bool _smooth = false;
@@ -31,6 +31,8 @@ private:
     std::mutex _mutex;
     std::condition_variable _cv;
     std::unique_lock<std::mutex> _lock;
+
+    std::chrono::milliseconds _lastEllapsed = BaseWindow::physics_interval;
 
 public:
     BoidsWindow(int argc, char** argv,
@@ -41,8 +43,13 @@ public:
     void mouse(int button, int state, int x, int y);
     void mousePassive(int x, int y);
     void exitingFunction();
-private:
-    void watchForBoidParamFileChange();
 
+private:
+    void startWatchingForBoidParamFileChange();
+    void startPhysics();
+    void performFlockingPhysics();
+    void performMarchingPhysics();
+    void watchForBoidParamFileChange();
     void readBoidParams();
+    void performPhysicsLoop();
 };

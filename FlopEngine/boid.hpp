@@ -18,33 +18,30 @@ public:
         const Vector2& velocity = Vector2(),
         const Vector2& acceleration = Vector2());
 
-    void updatePosition(float viscosity, float ellapsed);
-
-    void avoid(Vector2 target, float strength, float ellapsed);
-
-    void align(const auto& velocities, float strength, float ellapsed, auto projection);
-    void gather(const auto& targets, float strength, float ellapsed, auto projection);
-
-    void wander(float strength, float ellapsed);
+    void updatePosition(float viscosity, std::chrono::milliseconds ellapsed);
+    void avoid(Vector2 target, float strength, std::chrono::milliseconds ellapsed);
+    void align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection);
+    void gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection);
+    void wander(float strength, std::chrono::milliseconds ellapsed);
 };
 
-inline void Boid::align(const auto& velocities, float strength, float ellapsed, auto projection)
+inline void Boid::align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection)
 {
     Vector2 direction =
         std::transform_reduce(
-            velocities.begin(), velocities.end(),
+            friends.begin(), friends.end(),
             Vector2{},
             std::plus{},
             projection);
 
-    direction /= velocities.size();
+    direction /= friends.size();
     direction.setLength(velocity.length());
     direction = Vector2::lerp(velocity, direction, strength);
 
     velocity = direction;
 }
 
-void Boid::gather(const auto& targets, float strength, float ellapsed, auto projection)
+void Boid::gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection)
 {
     Vector2 direction =
         std::transform_reduce(
@@ -56,5 +53,5 @@ void Boid::gather(const auto& targets, float strength, float ellapsed, auto proj
     direction /= targets.size();
     direction = Vector2::direction(position, direction);
 
-    acceleration += direction * strength * ellapsed;
+    acceleration += direction * strength * ellapsed.count() / 1000;
 }

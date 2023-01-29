@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 #include "vector2.hpp"
 
@@ -9,7 +10,9 @@ namespace flp
     class BaseWindow
     {
     protected:
-        int FPS = 60;
+        std::chrono::milliseconds drawing_interval{1000 / 60};
+        std::chrono::milliseconds physics_interval{1000 / 60};
+
         float screenWidth;
         float screenHeight;
         std::string name;
@@ -26,7 +29,7 @@ namespace flp
         virtual void mousePassive(int x, int y) = 0;
         virtual void exitingFunction() = 0;
 
-        void run(int FPS);
+        void run();
 
         friend void glutOnTimer(int millisec);
         friend void glutExitingFunction();

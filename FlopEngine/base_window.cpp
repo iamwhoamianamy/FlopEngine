@@ -17,16 +17,15 @@ BaseWindow::BaseWindow(
     registerFunctions();
 }
 
-void BaseWindow::run(int FPS)
+void BaseWindow::run()
 {
-    this->FPS = FPS;
     glutMainLoop();
 }
 
 void BaseWindow::baseOnTimer(int millisec)
 {
     glutPostRedisplay();
-    glutTimerFunc(1000 / FPS, glutOnTimer, 0);
+    glutTimerFunc(drawing_interval.count(), glutOnTimer, 0);
 }
 
 void BaseWindow::baseExitingFunction()
