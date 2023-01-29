@@ -4,10 +4,10 @@
 static draw::Color octreeColor(255, 255, 0);
 
 template <size_t capacity>
-void drawOctree(const Quadtree<Vector2, capacity>& octree)
+void drawOctree(const quadtree<vector2, capacity>& octree)
 {
-    draw::setColor(octreeColor);
-    draw::drawRect(octree.box().center,
+    draw::set_color(octreeColor);
+    draw::draw_rect(octree.box().center,
         octree.box().halfDimensions.x,
         octree.box().halfDimensions.y);
 

@@ -14,28 +14,28 @@ namespace draw
         Color(UCHAR r = 0, UCHAR g = 0, UCHAR b = 0, UCHAR a = 255);
     };
      
-    inline void drawLine(Vector2 a, Vector2 b);
-    inline void drawPoint(Vector2 point, float size);
-    inline void drawRect(Vector2 center, float halfWidth, float halfHeight);
-    inline void drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d);
-    void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled);
-    Color generateRandomColor();
+    inline void draw_line(vector2 a, vector2 b);
+    inline void draw_point(vector2 point, float size);
+    inline void draw_rect(vector2 center, float half_width, float half_height);
+    inline void draw_rect(vector2 a, vector2 b, vector2 c, vector2 d);
+    void draw_triangle(vector2 a, vector2 b, vector2 c, bool filled);
+    Color generate_random_color();
 
-    void renderString(Vector2 position, float size, const std::string& string);
-    void renderLetter(Vector2 position, float size, char letter);
+    void render_string(vector2 position, float size, const std::string& string);
+    void render_letter(vector2 position, float size, char letter);
 
-    inline void setColor(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 255)
+    inline void set_color(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 255)
     {
         glColor4ub(r, g, b, a);
     }
 
-    inline void setColor(Color color)
+    inline void set_color(Color color)
     {
         glColor4ub(color.r, color.g, color.b, color.a);
     }
 }
 
-inline void draw::drawLine(Vector2 a, Vector2 b)
+inline void draw::draw_line(vector2 a, vector2 b)
 {
     glBegin(GL_LINES);
     {
@@ -45,7 +45,7 @@ inline void draw::drawLine(Vector2 a, Vector2 b)
     glEnd();
 }
 
-inline void draw::drawPoint(Vector2 point, float size)
+inline void draw::draw_point(vector2 point, float size)
 {
     glPointSize(size);
     glBegin(GL_POINTS);
@@ -55,19 +55,19 @@ inline void draw::drawPoint(Vector2 point, float size)
     glEnd();
 }
 
-inline void draw::drawRect(Vector2 center, float halfWidth, float halfHeight)
+inline void draw::draw_rect(vector2 center, float half_width, float half_height)
 {
     glBegin(GL_LINE_LOOP);
     {
-        glVertex2f(center.x - halfWidth, center.y - halfHeight);
-        glVertex2f(center.x + halfWidth, center.y - halfHeight);
-        glVertex2f(center.x + halfWidth, center.y + halfHeight);
-        glVertex2f(center.x - halfWidth, center.y + halfHeight);
+        glVertex2f(center.x - half_width, center.y - half_height);
+        glVertex2f(center.x + half_width, center.y - half_height);
+        glVertex2f(center.x + half_width, center.y + half_height);
+        glVertex2f(center.x - half_width, center.y + half_height);
     }
     glEnd();
 }
 
-inline void draw::drawRect(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
+inline void draw::draw_rect(vector2 a, vector2 b, vector2 c, vector2 d)
 {
     glBegin(GL_LINE_LOOP);
     {

@@ -3,5 +3,5 @@
 
 namespace flp
 {
-    extern BaseWindow* window;
+    extern base_window* window;
 }

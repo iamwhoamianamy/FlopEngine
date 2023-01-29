@@ -5,10 +5,10 @@
 using namespace flp;
 
 template<>
-class QuadtreePointHolder<Vector2>
+class quadtree_point_holder<vector2>
 {
 public:
-    static Vector2 position(Vector2* vec)
+    static vector2 position(vector2* vec)
     {
         return *vec;
     }
@@ -16,14 +16,14 @@ public:
 
 QuadtreeWindow::QuadtreeWindow(
     int argc, char** argv,
-    float screenWidth, float screenHeight,
+    float _screen_width, float _screen_height,
     std::string name) :
-    BaseWindow(argc, argv, screenWidth, screenHeight, name)
+    base_window(argc, argv, _screen_width, _screen_height, name)
 {
 
 }
 
-void QuadtreeWindow::keyboardLetters(unsigned char key, int x, int y)
+void QuadtreeWindow::keyboard_letters(unsigned char key, int x, int y)
 {
 
 }
@@ -36,13 +36,13 @@ void QuadtreeWindow::mouse(int button, int state, int x, int y)
     }
 }
 
-void QuadtreeWindow::mousePassive(int x, int y)
+void QuadtreeWindow::mouse_passive(int x, int y)
 {
-    mousePos.x = x;
-    mousePos.y = y;
+    _mouse_pos.x = x;
+    _mouse_pos.y = y;
 }
 
-void QuadtreeWindow::exitingFunction()
+void QuadtreeWindow::exiting_function()
 {
     std::cout << "DONE!";
 }
@@ -58,17 +58,17 @@ void QuadtreeWindow::display()
 
     for(auto& point : points)
     {
-        draw::setColor(pointColor);
-        draw::drawPoint(point, 5);
+        draw::set_color(pointColor);
+        draw::draw_point(point, 5);
     }
 
-    Rect mouseBox(mousePos, Vector2(40, 40));
-    draw::setColor(pointColor);
-    draw::drawRect(mousePos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y);
+    rectangle mouseBox(_mouse_pos, vector2(40, 40));
+    draw::set_color(pointColor);
+    draw::draw_rect(_mouse_pos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y);
 
-    Quadtree<Vector2, 8> octree(Rect(
-            Vector2(screenWidth / 2, screenHeight / 2),
-            Vector2(screenWidth / 2, screenHeight / 2)));
+    quadtree<vector2, 8> octree(rectangle(
+            vector2(_screen_width / 2, _screen_height / 2),
+            vector2(_screen_width / 2, _screen_height / 2)));
 
     octree.insert(points);
     auto foundPoints = octree.quarry(mouseBox);
@@ -76,8 +76,8 @@ void QuadtreeWindow::display()
 
     for(auto point : foundPoints)
     {
-        draw::setColor(foundColor);
-        draw::drawPoint(*point, 5);
+        draw::set_color(foundColor);
+        draw::draw_point(*point, 5);
     }
 
     drawOctree(octree);

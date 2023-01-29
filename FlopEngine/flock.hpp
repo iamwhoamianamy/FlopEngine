@@ -4,75 +4,84 @@
 #include "drawing.hpp"
 #include "quadtree.hpp"
 
-constexpr size_t FLOCK_DRAW_TYPE_COUNT = 4;
-
-enum class FlockDrawType
+enum class flock_draw_type
 {
-    Points = 0,
-    Triangles,
-    TrianglesFilled,
-    Letter
+    points = 0,
+    triangles,
+    triangles_filled,
+    letter,
+    COUNT
 };
 
-struct BoidParameters
+struct boid_parameters
 {
-    float avoidVision = 10;
-    float avoidStrength = 40;
+    float avoid_vision = 10;
+    float avoid_strength = 40;
 
-    float alignVision = 50;
-    float alignStrength = 0.01;
+    float align_vision = 50;
+    float align_strength = 0.01;
 
-    float gatherVision = 50;
-    float gatherStrength = 500;
+    float gather_vision = 50;
+    float gather_strength = 500;
 
-    float fleeVision = 50;
-    float fleeStrength = 60;
+    float flee_vision = 50;
+    float flee_strength = 60;
 
-    float wanderStrength = 0.01;
+    float wander_strength = 0.01;
 
     float size = 8;
 
-    float maxSpeed = 80;
-    float minSpeed = 60;
+    float max_speed = 80;
+    float min_speed = 60;
 
-    static BoidParameters readParamsFromFile(const std::string& filename);
+    static boid_parameters create_from_file(const std::string& filename);
 };
 
-using quadtree_t = Quadtree<Boid, 8>;
+template <>
+class quadtree_point_holder<boid_t>
+{
+public:
+    static vector2 position(boid_t* boid)
+    {
+        return boid->position;
+    }
+};
 
-class Flock
+using quadtree_t = quadtree<boid_t, 8>;
+
+class flock_t
 {
 private:
-    std::vector<Boid> _boids;
-    FlockDrawType _drawType;
+    std::vector<boid_t> _boids;
+    flock_draw_type _drawType;
     draw::Color _color;
     quadtree_t _quadtree;
-    BoidParameters _boidParams;
+    boid_parameters _boid_params;
 public:
     bool debug = false;
 
-    Flock();
+    flock_t();
 
-    void initRandomOnScreen(
-        float screenWidth,
-        float screenHeight,
-        size_t boidsCount = 500);
+    void init_random_on_screen(
+        float screen_width,
+        float screen_height,
+        size_t boids_count = 500);
 
-    void updateBoidPositions(float viscosity, std::chrono::milliseconds ellapsed);
-    void formQuadtree(const Rect& boidFieldBorders);
-    void performFlockingBehaviour(std::chrono::milliseconds ellapsed);
-    void goThroughWindowBorders(float screenWidth, float screenHeight);
-    void performFleeing(const Flock& flock, std::chrono::milliseconds ellapsed);
+    void update_boid_positions(float viscosity, std::chrono::milliseconds ellapsed);
+    void form_quadtree(const rectangle& screen_borders);
+    void perform_flocking_behaviour(std::chrono::milliseconds ellapsed);
+    void go_through_window_borders(float screen_width, float screen_height);
+    void perform_fleeing(const flock_t& flock, std::chrono::milliseconds ellapsed);
     void draw() const;
 
     draw::Color& color();
-    const std::vector<Boid>& boids() const;
-    FlockDrawType& drawType();
+    const std::vector<boid_t>& boids() const;
+    flock_draw_type& drawType();
     const quadtree_t& quadtree() const;
-    void setParams(const BoidParameters& newParams);
+    void set_params(const boid_parameters& new_params);
 private:
-    void performAvoiding(Boid& boid, std::chrono::milliseconds ellapsed);
-    void performAligning(Boid& boid, std::chrono::milliseconds ellapsed);
-    void performGathering(Boid& boid, std::chrono::milliseconds ellapsed);
-    void performWandering(Boid& boid, std::chrono::milliseconds ellapsed);
+    void perform_avoiding(boid_t& boid, std::chrono::milliseconds ellapsed);
+    void perform_aligning(boid_t& boid, std::chrono::milliseconds ellapsed);
+    void perform_gathering(boid_t& boid, std::chrono::milliseconds ellapsed);
+    void perform_wandering(boid_t& boid, std::chrono::milliseconds ellapsed);
 };

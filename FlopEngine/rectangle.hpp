@@ -1,15 +1,15 @@
 #pragma once
 #include "vector2.hpp"
 
-struct Rect
+struct rectangle
 {
-    Vector2 center;
-    Vector2 halfDimensions;
+    vector2 center;
+    vector2 halfDimensions;
 
-    Rect();
-    Rect(const Vector2& center, const Vector2& halfDimensions);
-    Rect(const Vector2& center, float radius);
+    rectangle();
+    rectangle(const vector2& center, const vector2& halfDimensions);
+    rectangle(const vector2& center, float radius);
     bool contains(float x, float y) const;
-    inline bool contains(const Vector2& point) const;
-    bool intersects(const Rect& _rectangle) const;
+    inline bool contains(const vector2& point) const;
+    bool intersects(const rectangle& _rectangle) const;
 };

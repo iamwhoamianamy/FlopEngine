@@ -1,21 +1,21 @@
 {
-    "avoidVision": 20,
-    "avoidStrength": 40,
+    "avoid_vision": 20,
+    "avoid_strength": 40,
 
-    "alignVision": 50,
-    "alignStrength": 0.01,
+    "align_vision": 50,
+    "align_strength": 0.01,
 
-    "gatherVision": 50,
-    "gatherStrength": 500,
+    "gather_vision": 50,
+    "gather_strength": 500,
 
-    "fleeVision": 50,
-    "fleeStrength": 30,
+    "flee_vision": 50,
+    "flee_strength": 30,
 
-    "wanderStrength": 0.1,
+    "wander_strength": 0.1,
     "size": 8,
 
-    "maxSpeed": 80,
-    "minSpeed": 60,
+    "max_speed": 80,
+    "min_speed": 60,
 
 	"original_avoidVision": 10,
     "original_avoidStrength": 40,

@@ -8,7 +8,7 @@ namespace draw
     {
     }
     
-    void drawTriangle(Vector2 a, Vector2 b, Vector2 c, bool filled)
+    void draw_triangle(vector2 a, vector2 b, vector2 c, bool filled)
     {
         if(filled)
         {
@@ -27,17 +27,17 @@ namespace draw
         glEnd();
     }
 
-    Color generateRandomColor()
+    Color generate_random_color()
     {
         return Color(
-            math::randomInRange(0, 255),
-            math::randomInRange(0, 255),
-            math::randomInRange(0, 255));
+            math::random_in_range(0, 255),
+            math::random_in_range(0, 255),
+            math::random_in_range(0, 255));
     }
 
     constexpr float LETTER_SCALE = 0.01;
 
-    void renderString(Vector2 position, float size, const std::string& string)
+    void render_string(vector2 position, float size, const std::string& string)
     {
         glMatrixMode(GL_PROJECTION);
         {
@@ -56,7 +56,7 @@ namespace draw
     }
     
 
-    void renderLetter(Vector2 position, float size, char letter)
+    void render_letter(vector2 position, float size, char letter)
     {
         glMatrixMode(GL_PROJECTION);
         {

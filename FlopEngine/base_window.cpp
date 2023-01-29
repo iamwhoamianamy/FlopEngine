@@ -3,64 +3,64 @@
 
 using namespace flp;
 
-BaseWindow::BaseWindow(
+base_window::base_window(
     int argc, char** argv,
-    float screenWidth, float screenHeight,
+    float screen_width, float screen_height,
     std::string name) :
-    screenWidth(screenWidth), screenHeight(screenHeight), name(name)
+    _screen_width(screen_width), _screen_height(screen_height), name(name)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE);
-    glutInitWindowSize(screenWidth, screenHeight);
+    glutInitWindowSize(_screen_width, _screen_height);
     glutCreateWindow(name.c_str());
 
     registerFunctions();
 }
 
-void BaseWindow::run()
+void base_window::run()
 {
     glutMainLoop();
 }
 
-void BaseWindow::baseOnTimer(int millisec)
+void base_window::base_on_timer(int millisec)
 {
     glutPostRedisplay();
     glutTimerFunc(drawing_interval.count(), glutOnTimer, 0);
 }
 
-void BaseWindow::baseExitingFunction()
+void base_window::base_exiting_function()
 {
-    exitingFunction();
+    exiting_function();
 }
 
-void BaseWindow::baseReshape(GLint w, GLint h)
+void base_window::base_reshape(GLint w, GLint h)
 {
-    screenWidth = w;
-    screenHeight = h;
+    _screen_width = w;
+    _screen_height = h;
 
-    glViewport(0, 0, screenWidth, screenHeight);
+    glViewport(0, 0, _screen_width, _screen_height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, screenWidth, screenHeight, 0, -1.0, 1.0);
+    glOrtho(0, _screen_width, _screen_height, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 }
 
-void BaseWindow::baseKeyboardLetters(unsigned char key, int x, int y)
+void base_window::base_keyboard_letters(unsigned char key, int x, int y)
 {
-    keyboardLetters(key, x, y);
+    keyboard_letters(key, x, y);
 }
 
-void BaseWindow::baseMouse(int button, int state, int x, int y)
+void base_window::base_mouse(int button, int state, int x, int y)
 {
     mouse(button, state, x, y);
 }
 
-void BaseWindow::baseMousePassive(int x, int y)
+void base_window::base_mouse_passive(int x, int y)
 {
-    mousePassive(x, y);
+    mouse_passive(x, y);
 }
 
-void BaseWindow::baseDisplay()
+void base_window::base_display()
 {
     display();
 }

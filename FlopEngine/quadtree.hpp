@@ -3,40 +3,57 @@
 
 #include "rectangle.hpp"
 
-template<class Point, size_t capacity>
-class Quadtree
+template<class Point>
+class quadtree_point_holder
+{
+public:
+    static vector2 position(Point*)
+    {
+        return 0;
+    }
+};
+
+template<typename T>
+concept quadtree_point = requires(T p)
+{
+    { quadtree_point_holder<T>::position(p) } -> std::convertible_to<vector2>;
+};
+
+template<typename Point, size_t capacity>
+class quadtree
 {
 private:
-    Rect _rectangle;
+    rectangle _rectangle;
     std::vector<Point*> _points;
-    std::vector<Quadtree*> _children;
+    std::vector<quadtree*> _children;
 
 public:
-    Quadtree(const Quadtree& quadtree);
-    Quadtree(Quadtree&& quadtree);
-    explicit Quadtree(const Rect& rectangle);
+    quadtree(const quadtree& other);
+    quadtree(quadtree&& other);
+    explicit quadtree(const rectangle& rectangle);
 
     void insert(std::vector<Point>& points);
     void insert(Point* point);
     void subdivide();
 
-    std::vector<Point*> quarry(const Rect& range) const;
+    std::vector<Point*> quarry(const rectangle& range) const;
+
+    bool subdivided() const;
 
     auto& box() const;
-    auto subdivided() const;
     auto& children();
     auto& children() const;
     constexpr auto get_capacity() const;
 
-    auto& operator =(const Quadtree<Point, capacity>& quadtree);
-    auto& operator =(Quadtree<Point, capacity>&& quadtree) noexcept;
+    auto& operator =(const quadtree<Point, capacity>& other);
+    auto& operator =(quadtree<Point, capacity>&& other) noexcept;
 
-    ~Quadtree();
+    ~quadtree();
 private:
-    void quarry(const Rect& range, std::vector<Point*>& found) const;
-    void clearData();
-    void copyFields(const Quadtree& quadtree);
-    void moveFields(Quadtree&& quadtree);
+    void quarry(const rectangle& range, std::vector<Point*>& found) const;
+    void clear_data();
+    void copy_fields(const quadtree& other);
+    void move_fields(quadtree&& other);
 };
 
 #include "quadtree_implementation.hpp"

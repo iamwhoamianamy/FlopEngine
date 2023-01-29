@@ -7,27 +7,28 @@
 
 namespace flp
 {
-    class BaseWindow
+    class base_window
     {
     protected:
         std::chrono::milliseconds drawing_interval{1000 / 60};
         std::chrono::milliseconds physics_interval{1000 / 60};
 
-        float screenWidth;
-        float screenHeight;
+        float _screen_width;
+        float _screen_height;
         std::string name;
-        Vector2 mousePos;
+        vector2 _mouse_pos;
+
     public:
-        BaseWindow(
+        base_window(
             int argc, char** argv,
-            float screenWidth = 400, float screenHeight = 400,
+            float screen_width = 400, float screen_height = 400,
             std::string name = "New Window");
 
         virtual void display() = 0;
-        virtual void keyboardLetters(unsigned char key, int x, int y) = 0;
+        virtual void keyboard_letters(unsigned char key, int x, int y) = 0;
         virtual void mouse(int button, int state, int x, int y) = 0;
-        virtual void mousePassive(int x, int y) = 0;
-        virtual void exitingFunction() = 0;
+        virtual void mouse_passive(int x, int y) = 0;
+        virtual void exiting_function() = 0;
 
         void run();
 
@@ -39,13 +40,13 @@ namespace flp
         friend void glutMouse(int button, int state, int x, int y);
         friend void glutMousePassive(int x, int y);
     private:
-        void baseDisplay();
-        void baseOnTimer(int millisec);
-        void baseExitingFunction();
-        void baseReshape(int w, int h);
+        void base_display();
+        void base_on_timer(int millisec);
+        void base_exiting_function();
+        void base_reshape(int w, int h);
 
-        void baseKeyboardLetters(unsigned char key, int x, int y);
-        void baseMouse(int button, int state, int x, int y);
-        void baseMousePassive(int x, int y);
+        void base_keyboard_letters(unsigned char key, int x, int y);
+        void base_mouse(int button, int state, int x, int y);
+        void base_mouse_passive(int x, int y);
     };
 }

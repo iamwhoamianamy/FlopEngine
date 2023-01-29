@@ -7,13 +7,13 @@ namespace math
     constexpr float PI = 3.141592f;
     constexpr float TWO_PI = 2 * PI;
 
-    inline float randomNormed()
+    inline float random_normed()
     {
         return (float)rand() / RAND_MAX;
     }
 
-    Vector2 generateRandomVector();
-    float randomInRange(float low, float high);
+    vector2 generate_random_vector();
+    float random_in_range(float low, float high);
     
     template <class T>
     T limit(T x, T low, T high)

@@ -4,7 +4,7 @@
 
 namespace flp
 {
-    BaseWindow* window;
+    base_window* window;
 
     void registerFunctions()
     {
@@ -20,42 +20,42 @@ namespace flp
     void glutOnTimer(int millisec)
     {
         if(window)
-            window->baseOnTimer(millisec);
+            window->base_on_timer(millisec);
     }
 
     void glutExitingFunction()
     {
         if(window)
-            window->baseExitingFunction();
+            window->base_exiting_function();
     }
 
     void glutDisplay()
     {
         if(window)
-            window->baseDisplay();
+            window->base_display();
     }
 
     void glutReshape(GLint w, GLint h)
     {
         if(window)
-            window->baseReshape(w, h);
+            window->base_reshape(w, h);
     }
 
     void glutKeyboardLetters(unsigned char key, int x, int y)
     {
         if(window)
-            window->baseKeyboardLetters(key, x, y);
+            window->base_keyboard_letters(key, x, y);
     }
 
     void glutMouse(int button, int state, int x, int y)
     {
         if(window)
-            window->baseMouse(button, state, x, y);
+            window->base_mouse(button, state, x, y);
     }
 
     void glutMousePassive(int x, int y)
     {
         if(window)
-            window->baseMousePassive(x, y);
+            window->base_mouse_passive(x, y);
     }
 }

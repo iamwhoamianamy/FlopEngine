@@ -3,20 +3,20 @@
 #include "base_window.hpp"
 #include "marching_grid.hpp"
 
-class MarchingWindow : public flp::BaseWindow
+class MarchingWindow : public flp::base_window
 {
 private:
-    Vector2 _mousePosition;
-    MarchingGrid<500, 250> _marchingGrid;
+    vector2 _mousePosition;
+    marching_grid<500, 250> _marchingGrid;
 public:
     MarchingWindow(
         int argc, char** argv,
-        float screenWidth = 400, float screenHeight = 400,
+        float _screen_width = 400, float _screen_height = 400,
         std::string name = "New Window");
 
     void display();
-    void mousePassive(int x, int y);
-    void keyboardLetters(unsigned char key, int x, int y);
+    void mouse_passive(int x, int y);
+    void keyboard_letters(unsigned char key, int x, int y);
     void mouse(int button, int state, int x, int y);
-    void exitingFunction();
+    void exiting_function();
 };

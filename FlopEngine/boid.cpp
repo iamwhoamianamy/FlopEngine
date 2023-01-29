@@ -1,15 +1,15 @@
 #include "boid.hpp"
 #include "math.hpp"
 
-Boid::Boid(
-    const Vector2& position,
-    const Vector2& velocity,
-    const Vector2& acceleration) :
+boid_t::boid_t(
+    const vector2& position,
+    const vector2& velocity,
+    const vector2& acceleration) :
     position(position), velocity(velocity), acceleration(acceleration)
 {
 }
 
-void Boid::updatePosition(float viscosity, std::chrono::milliseconds ellapsed)
+void boid_t::update_position(float viscosity, std::chrono::milliseconds ellapsed)
 {
     velocity += acceleration * ellapsed.count() / 1000;
     position += velocity * ellapsed.count() / 1000;
@@ -17,18 +17,18 @@ void Boid::updatePosition(float viscosity, std::chrono::milliseconds ellapsed)
     velocity *= viscosity;
 }
 
-void Boid::avoid(Vector2 target, float strength, std::chrono::milliseconds ellapsed)
+void boid_t::avoid(vector2 target, float strength, std::chrono::milliseconds ellapsed)
 {
-    Vector2 direction = Vector2::direction(position, target);
-    strength *= (strength + sqrt(Vector2::distanceSquared(position, target)));
+    vector2 direction = vector2::direction(position, target);
+    strength *= (strength + sqrt(vector2::distance_squared(position, target)));
     acceleration -= direction * strength * ellapsed.count() / 1000;
 }
 
-void Boid::wander(float strength, std::chrono::milliseconds ellapsed)
+void boid_t::wander(float strength, std::chrono::milliseconds ellapsed)
 {
-    Vector2 direction = math::generateRandomVector() * velocity.length();
+    vector2 direction = math::generate_random_vector() * velocity.length();
     direction += velocity.normalized() * 2;
-    direction.setLength(velocity.length());
+    direction.set_length(velocity.length());
 
-    velocity = Vector2::lerp(velocity, direction, strength);
+    velocity = vector2::lerp(velocity, direction, strength);
 }

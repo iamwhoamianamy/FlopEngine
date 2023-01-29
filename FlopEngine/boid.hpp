@@ -6,52 +6,52 @@
 #include <functional>
 #include "vector2.hpp"
 
-class Boid
+class boid_t
 {
 public:
-    Vector2 position;
-    Vector2 velocity;
-    Vector2 acceleration;
+    vector2 position;
+    vector2 velocity;
+    vector2 acceleration;
 
-    Boid(
-        const Vector2& position = Vector2(),
-        const Vector2& velocity = Vector2(),
-        const Vector2& acceleration = Vector2());
+    boid_t(
+        const vector2& position = vector2(),
+        const vector2& velocity = vector2(),
+        const vector2& acceleration = vector2());
 
-    void updatePosition(float viscosity, std::chrono::milliseconds ellapsed);
-    void avoid(Vector2 target, float strength, std::chrono::milliseconds ellapsed);
+    void update_position(float viscosity, std::chrono::milliseconds ellapsed);
+    void avoid(vector2 target, float strength, std::chrono::milliseconds ellapsed);
     void align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection);
     void gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection);
     void wander(float strength, std::chrono::milliseconds ellapsed);
 };
 
-inline void Boid::align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection)
+inline void boid_t::align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection)
 {
-    Vector2 direction =
+    vector2 direction =
         std::transform_reduce(
             friends.begin(), friends.end(),
-            Vector2{},
+            vector2{},
             std::plus{},
             projection);
 
     direction /= friends.size();
-    direction.setLength(velocity.length());
-    direction = Vector2::lerp(velocity, direction, strength);
+    direction.set_length(velocity.length());
+    direction = vector2::lerp(velocity, direction, strength);
 
     velocity = direction;
 }
 
-void Boid::gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection)
+void boid_t::gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection)
 {
-    Vector2 direction =
+    vector2 direction =
         std::transform_reduce(
             targets.begin(), targets.end(),
-            Vector2{},
+            vector2{},
             std::plus{},
             projection);
 
     direction /= targets.size();
-    direction = Vector2::direction(position, direction);
+    direction = vector2::direction(position, direction);
 
     acceleration += direction * strength * ellapsed.count() / 1000;
 }

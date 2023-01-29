@@ -4,9 +4,9 @@
 
 MarchingWindow::MarchingWindow(
     int argc, char** argv,
-    float screenWidth, float screenHeight,
+    float _screen_width, float _screen_height,
     std::string name) :
-    BaseWindow(argc, argv, screenWidth, screenHeight, name)
+    base_window(argc, argv, _screen_width, _screen_height, name)
 {
 }
 
@@ -16,25 +16,25 @@ void MarchingWindow::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    _marchingGrid.addContributionBump(_mousePosition, 100, screenWidth, screenHeight);
+    _marchingGrid.add_contribution_bump(_mousePosition, 100, _screen_width, _screen_height);
     //_marchingGrid.addContributionReverseSquare(_mousePosition, 100, screenWidth, screenHeight);
-    _marchingGrid.draw(screenWidth, screenHeight);
-    _marchingGrid.marchAllCells(screenWidth, screenHeight);
+    _marchingGrid.draw(_screen_width, _screen_height);
+    _marchingGrid.march_all_cells(_screen_width, _screen_height);
     _marchingGrid.clear();
 
-    draw::setColor(255);
-    draw::drawPoint(_mousePosition, 10);
+    draw::set_color(255);
+    draw::draw_point(_mousePosition, 10);
 
     glFinish();
 }
 
-void MarchingWindow::mousePassive(int x, int y)
+void MarchingWindow::mouse_passive(int x, int y)
 {
     _mousePosition.x = x;
     _mousePosition.y = y;
 }
 
-void MarchingWindow::keyboardLetters(unsigned char key, int x, int y)
+void MarchingWindow::keyboard_letters(unsigned char key, int x, int y)
 {
 }
 
@@ -42,6 +42,6 @@ void MarchingWindow::mouse(int button, int state, int x, int y)
 {
 }
 
-void MarchingWindow::exitingFunction()
+void MarchingWindow::exiting_function()
 {
 }

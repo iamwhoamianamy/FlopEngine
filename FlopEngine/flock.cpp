@@ -8,46 +8,36 @@
 #include "math.hpp"
 #include "utility.hpp"
 
-template <>
-class QuadtreePointHolder<Boid>
-{
-public:
-    static Vector2 position(Boid* boid)
-    {
-        return boid->position;
-    }
-};
-
-Flock::Flock() :
-    _drawType(FlockDrawType::TrianglesFilled),
+flock_t::flock_t() :
+    _drawType(flock_draw_type::triangles_filled),
     _color(255, 255, 255),
-    _quadtree(Rect(Vector2(), Vector2()))
+    _quadtree(rectangle(vector2(), vector2()))
 {
 }
 
-BoidParameters BoidParameters::readParamsFromFile(const std::string& filename)
+boid_parameters boid_parameters::create_from_file(const std::string& filename)
 {
     auto json = nlohmann::json::parse(std::ifstream(filename.data()));
 
     return {
-        .avoidVision = json["avoidVision"],
-        .avoidStrength = json["avoidStrength"],
-        .alignVision = json["alignVision"],
-        .alignStrength = json["alignStrength"],
-        .gatherVision = json["gatherVision"],
-        .gatherStrength = json["gatherStrength"],
-        .fleeVision = json["fleeVision"],
-        .fleeStrength = json["fleeStrength"],
-        .wanderStrength = json["wanderStrength"],
+        .avoid_vision = json["avoid_vision"],
+        .avoid_strength = json["avoid_strength"],
+        .align_vision = json["align_vision"],
+        .align_strength = json["align_strength"],
+        .gather_vision = json["gather_vision"],
+        .gather_strength = json["gather_strength"],
+        .flee_vision = json["flee_vision"],
+        .flee_strength = json["flee_strength"],
+        .wander_strength = json["wander_strength"],
         .size = json["size"],
-        .maxSpeed = json["maxSpeed"],
-        .minSpeed = json["minSpeed"]
+        .max_speed = json["max_speed"],
+        .min_speed = json["min_speed"]
     };
 }
 
-void Flock::initRandomOnScreen(
-    float screenWidth,
-    float screenHeight,
+void flock_t::init_random_on_screen(
+    float screen_width,
+    float screen_height,
     size_t boidsCount)
 {
     _boids.clear();
@@ -55,127 +45,127 @@ void Flock::initRandomOnScreen(
 
     for(size_t i = 0; i < boidsCount; i++)
     {
-        Vector2 position = {
-            math::randomInRange(0, screenWidth),
-            math::randomInRange(0, screenHeight) };
-        _boids.emplace_back(position, math::generateRandomVector() * _boidParams.maxSpeed);
+        vector2 position = {
+            math::random_in_range(0, screen_width),
+            math::random_in_range(0, screen_height) };
+        _boids.emplace_back(position, math::generate_random_vector() * _boid_params.max_speed);
     }
 }
 
-void Flock::updateBoidPositions(float viscosity, std::chrono::milliseconds ellapsed)
+void flock_t::update_boid_positions(float viscosity, std::chrono::milliseconds ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
-        [this, viscosity, ellapsed](Boid& boid)
+        [this, viscosity, ellapsed](boid_t& boid)
         {
-            boid.updatePosition(viscosity, ellapsed);
+            boid.update_position(viscosity, ellapsed);
 
             float speed = boid.velocity.length();
 
-            if (speed < _boidParams.minSpeed)
+            if (speed < _boid_params.min_speed)
             {
-                boid.velocity.setLength(_boidParams.minSpeed);
+                boid.velocity.set_length(_boid_params.min_speed);
             }
             else
             {
-                if (_boidParams.maxSpeed < speed)
+                if (_boid_params.max_speed < speed)
                 {
-                    boid.velocity.limit(_boidParams.maxSpeed);
+                    boid.velocity.limit(_boid_params.max_speed);
                 }
             }
         });
 }
 
-void Flock::formQuadtree(const Rect& boidFieldBorders)
+void flock_t::form_quadtree(const rectangle& screen_borders)
 {
-    _quadtree = quadtree_t(boidFieldBorders);
+    _quadtree = quadtree_t(screen_borders);
     _quadtree.insert(_boids);
 }
 
-void Flock::performFlockingBehaviour(std::chrono::milliseconds ellapsed)
+void flock_t::perform_flocking_behaviour(std::chrono::milliseconds ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
-        [this, ellapsed](Boid& boid)
+        [this, ellapsed](boid_t& boid)
         {
-            performAvoiding(boid, ellapsed);
-            performAligning(boid, ellapsed);
-            performGathering(boid, ellapsed);
-            performWandering(boid, ellapsed);
+            perform_avoiding(boid, ellapsed);
+            perform_aligning(boid, ellapsed);
+            perform_gathering(boid, ellapsed);
+            perform_wandering(boid, ellapsed);
         });
 }
 
-void Flock::performAvoiding(Boid& boid, std::chrono::milliseconds ellapsed)
+void flock_t::perform_avoiding(boid_t& boid, std::chrono::milliseconds ellapsed)
 {
     auto boidsToAvoid = _quadtree.quarry(
-        Rect(boid.position, _boidParams.avoidVision));
+        rectangle(boid.position, _boid_params.avoid_vision));
 
     if(debug)
     {
-        draw::setColor(draw::Color(255, 0, 0));
+        draw::set_color(draw::Color(255, 0, 0));
         glLineWidth(3);
 
     }
 
     for(auto& boidToAvoid : boidsToAvoid)
     {
-        boid.avoid(boidToAvoid->position, _boidParams.avoidStrength, ellapsed);
+        boid.avoid(boidToAvoid->position, _boid_params.avoid_strength, ellapsed);
         
         if(debug)
         {
-            draw::drawLine(boid.position, boidToAvoid->position);
+            draw::draw_line(boid.position, boidToAvoid->position);
         }
     }
 }
 
-void Flock::performAligning(Boid& boid, std::chrono::milliseconds ellapsed)
+void flock_t::perform_aligning(boid_t& boid, std::chrono::milliseconds ellapsed)
 {
     struct projection
     {
-        auto operator()(Boid* boid)
+        auto operator()(boid_t* boid)
         {
             return boid->velocity;
         }
     };
 
-    auto boidsToAlignTo = _quadtree.quarry(
-        Rect(boid.position, _boidParams.alignVision));
+    auto boids_to_align_to = _quadtree.quarry(
+        rectangle(boid.position, _boid_params.align_vision));
 
-    boid.align(boidsToAlignTo, _boidParams.alignStrength, ellapsed, projection{});
+    boid.align(boids_to_align_to, _boid_params.align_strength, ellapsed, projection{});
 
     if(debug)
     {
-        draw::setColor(draw::Color(255, 255, 0));
+        draw::set_color(draw::Color(255, 255, 0));
         glLineWidth(2);
 
-        for(auto& boidToAlignTo : boidsToAlignTo)
+        for(auto& boid_to_align_to : boids_to_align_to)
         {
-            draw::drawLine(boid.position, boidToAlignTo->position);
+            draw::draw_line(boid.position, boid_to_align_to->position);
         }
     }
 
 }
 
-void Flock::performGathering(Boid& boid, std::chrono::milliseconds ellapsed)
+void flock_t::perform_gathering(boid_t& boid, std::chrono::milliseconds ellapsed)
 {
     struct projection
     {
-        auto operator()(Boid* boid)
+        auto operator()(boid_t* boid)
         {
             return boid->position;
         }
     };
 
     auto boidsToGatherWith =
-        _quadtree.quarry(Rect(boid.position, _boidParams.gatherVision));
+        _quadtree.quarry(rectangle(boid.position, _boid_params.gather_vision));
 
-    boid.gather(boidsToGatherWith, _boidParams.gatherStrength, ellapsed, projection{});
+    boid.gather(boidsToGatherWith, _boid_params.gather_strength, ellapsed, projection{});
 }
 
-void Flock::performWandering(Boid& boid, std::chrono::milliseconds ellapsed)
+void flock_t::perform_wandering(boid_t& boid, std::chrono::milliseconds ellapsed)
 {
-    boid.wander(_boidParams.wanderStrength, ellapsed);
+    boid.wander(_boid_params.wander_strength, ellapsed);
 }
 
-void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
+void flock_t::go_through_window_borders(float _screen_width, float _screen_height)
 {
     for (auto& boid : _boids)
     {
@@ -184,11 +174,11 @@ void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
 
         if (x < 0)
         {
-            boid.position.x = screenWidth - 1;
+            boid.position.x = _screen_width - 1;
         }
         else
         {
-            if (x >= screenWidth)
+            if (x >= _screen_width)
             {
                 boid.position.x = 0;
             }
@@ -196,11 +186,11 @@ void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
 
         if (y < 0)
         {
-            boid.position.y = screenHeight - 1;
+            boid.position.y = _screen_height - 1;
         }
         else
         {
-            if (y >= screenHeight)
+            if (y >= _screen_height)
             {
                 boid.position.y = 0;
             }
@@ -211,70 +201,70 @@ void Flock::goThroughWindowBorders(float screenWidth, float screenHeight)
     }
 }
 
-void Flock::performFleeing(const Flock& flock, std::chrono::milliseconds ellapsed)
+void flock_t::perform_fleeing(const flock_t& flock, std::chrono::milliseconds ellapsed)
 {
     for(auto& boid : _boids)
     {
-        auto boidsToFleeFrom = flock.quadtree().quarry(
-            Rect(boid.position, _boidParams.fleeVision));
+        auto boids_to_flee_from = flock.quadtree().quarry(
+            rectangle(boid.position, _boid_params.flee_vision));
 
-        for(const auto& boidToFleeFrom : boidsToFleeFrom)
+        for(const auto& boid_to_flee_from : boids_to_flee_from)
         {
-            boid.avoid(boidToFleeFrom->position, _boidParams.fleeStrength, ellapsed);
+            boid.avoid(boid_to_flee_from->position, _boid_params.flee_strength, ellapsed);
         }
     }
 }
 
-draw::Color& Flock::color()
+draw::Color& flock_t::color()
 {
     return _color;
 }
 
-const std::vector<Boid>& Flock::boids() const
+const std::vector<boid_t>& flock_t::boids() const
 {
     return _boids;
 }
 
-FlockDrawType& Flock::drawType()
+flock_draw_type& flock_t::drawType()
 {
     return _drawType;
 }
 
-void Flock::draw() const
+void flock_t::draw() const
 {
-    draw::setColor(_color);
+    draw::set_color(_color);
 
     switch (_drawType)
     {
-        case FlockDrawType::Points:
+        case flock_draw_type::points:
         {
             for (const auto& boid : _boids)
             {
-                draw::drawPoint(boid.position, _boidParams.size);
+                draw::draw_point(boid.position, _boid_params.size);
             }
 
             break;
         }
-        case FlockDrawType::Triangles:
-        case FlockDrawType::TrianglesFilled:
+        case flock_draw_type::triangles:
+        case flock_draw_type::triangles_filled:
         {
             for (const auto& boid : _boids)
             {
-                Vector2 direction = boid.velocity.normalized();
-                Vector2 perpDirection = direction.perp();
+                vector2 direction = boid.velocity.normalized();
+                vector2 perpDirection = direction.perp();
 
-                Vector2 a = boid.position + direction * _boidParams.size / 2;
-                Vector2 b = boid.position - direction * _boidParams.size / 2 + 
-                    perpDirection * _boidParams.size / 3;
-                Vector2 c = boid.position - direction * _boidParams.size / 2 - 
-                    perpDirection * _boidParams.size / 3;
+                vector2 a = boid.position + direction * _boid_params.size / 2;
+                vector2 b = boid.position - direction * _boid_params.size / 2 + 
+                    perpDirection * _boid_params.size / 3;
+                vector2 c = boid.position - direction * _boid_params.size / 2 - 
+                    perpDirection * _boid_params.size / 3;
 
-                draw::drawTriangle(a, b, c, _drawType == FlockDrawType::TrianglesFilled);
+                draw::draw_triangle(a, b, c, _drawType == flock_draw_type::triangles_filled);
             }
 
             break;
         }
-        case FlockDrawType::Letter:
+        case flock_draw_type::letter:
         {
             char code = _color.r ^ _color.g ^ _color.b;
             char letter = math::map(
@@ -285,7 +275,7 @@ void Flock::draw() const
 
             for(const auto& boid : _boids)
             {
-                draw::renderLetter(boid.position, _boidParams.size, letter);
+                draw::render_letter(boid.position, _boid_params.size, letter);
             }
 
             break;
@@ -293,12 +283,12 @@ void Flock::draw() const
     }
 }
 
-const quadtree_t& Flock::quadtree() const
+const quadtree_t& flock_t::quadtree() const
 {
     return _quadtree;
 }
 
-void Flock::setParams(const BoidParameters& newParams)
+void flock_t::set_params(const boid_parameters& new_params)
 {
-    _boidParams = newParams;
+    _boid_params = new_params;
 }
