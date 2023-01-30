@@ -39,7 +39,14 @@ void boids_window::start_physics()
         {
             while (true)
             {
+                auto start = std::chrono::steady_clock::now();
+                auto desirable_end = start + physics_interval;
+
                 perform_physics_loop();
+
+                std::this_thread::sleep_until(desirable_end);
+                _last_ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - start);
             }
         }).detach();
 }
@@ -80,8 +87,6 @@ void boids_window::perform_marching_physics()
 
 void boids_window::perform_physics_loop()
 {
-    auto start = std::chrono::steady_clock::now();
-    auto desirable_end = start + physics_interval;
     perform_flocking_physics();
 
     for (auto& flock : _flocks)
@@ -89,10 +94,6 @@ void boids_window::perform_physics_loop()
         flock.update_boid_positions(_viscosity, _last_ellapsed);
         flock.go_through_window_borders(_screen_width, _screen_height);
     }
-
-    std::this_thread::sleep_until(desirable_end);
-    _last_ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::steady_clock::now() - start);
 }
 
 void boids_window::watch_for_boid_param_file_change()
