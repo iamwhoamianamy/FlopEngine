@@ -1,6 +1,6 @@
 {
-    "avoid_vision": 20,
-    "avoid_strength": 40,
+    "avoid_vision": 10,
+    "avoid_strength": 20,
 
     "align_vision": 50,
     "align_strength": 0.01,
@@ -11,11 +11,11 @@
     "flee_vision": 50,
     "flee_strength": 30,
 
-    "wander_strength": 0.1,
-    "size": 8,
+    "wander_strength": 0.05,
+    "size": 7,
 
     "max_speed": 80,
-    "min_speed": 60,
+    "min_speed": 30,
 
 	"original_avoidVision": 10,
     "original_avoidStrength": 40,

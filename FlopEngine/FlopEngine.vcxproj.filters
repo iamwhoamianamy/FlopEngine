@@ -1,24 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
+    <Filter Include="Source">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Исходные файлы\Quadtree">
+    <Filter Include="Source\Quadtree">
       <UniqueIdentifier>{e00214ed-6311-461d-b6a8-a9aa3c41ab8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\Boids">
+    <Filter Include="Source\Boids">
       <UniqueIdentifier>{f6eeee35-e7af-4784-92d6-4d207f500132}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\Math">
+    <Filter Include="Source\Math">
       <UniqueIdentifier>{7a54563b-1e9a-4106-adf6-418678da1eb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\Graphics">
+    <Filter Include="Source\Graphics">
       <UniqueIdentifier>{666c0bc7-e08f-45db-a2de-0e11b4d917d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\MarchingSquares">
+    <Filter Include="Source\MarchingSquares">
       <UniqueIdentifier>{1cd98b9f-46a9-44f2-8203-e4c77c42e1a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utils">
+      <UniqueIdentifier>{7faa1a5b-07ff-4a15-8a6f-a4a598eb17cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,105 +29,111 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="quadtree_help.cpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClCompile>
     <ClCompile Include="quadtree_window.cpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClCompile>
     <ClCompile Include="boids_window.cpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClCompile>
     <ClCompile Include="boid.cpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClCompile>
     <ClCompile Include="flock.cpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClCompile>
     <ClCompile Include="math.cpp">
-      <Filter>Исходные файлы\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="rectangle.cpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClCompile>
     <ClCompile Include="base_window.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="boids_helper.cpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClCompile>
     <ClCompile Include="drawing.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="glut_functions.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="utility.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="marching_window.cpp">
-      <Filter>Исходные файлы\MarchingSquares</Filter>
+      <Filter>Source\MarchingSquares</Filter>
+    </ClCompile>
+    <ClCompile Include="file_observer.cpp">
+      <Filter>Source\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quadtree.hpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="quadtree_help.hpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="quadtree_implementation.hpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="quadtree_window.hpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="boids_window.hpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClInclude>
     <ClInclude Include="boid.hpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClInclude>
     <ClInclude Include="flock.hpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClInclude>
     <ClInclude Include="boids_helper.hpp">
-      <Filter>Исходные файлы\Boids</Filter>
+      <Filter>Source\Boids</Filter>
     </ClInclude>
     <ClInclude Include="math.hpp">
-      <Filter>Исходные файлы\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="rectangle.hpp">
-      <Filter>Исходные файлы\Quadtree</Filter>
+      <Filter>Source\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="vector2.hpp">
-      <Filter>Исходные файлы\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="base_window.hpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="drawing.hpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="flop_engine.hpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="glut_functions.hpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="utility.hpp">
-      <Filter>Исходные файлы\Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="marching_grid.hpp">
-      <Filter>Исходные файлы\MarchingSquares</Filter>
+      <Filter>Source\MarchingSquares</Filter>
     </ClInclude>
     <ClInclude Include="marching_window.hpp">
-      <Filter>Исходные файлы\MarchingSquares</Filter>
+      <Filter>Source\MarchingSquares</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="file_observer.hpp">
+      <Filter>Source\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

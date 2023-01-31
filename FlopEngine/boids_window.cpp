@@ -7,11 +7,14 @@
 #include "boids_window.hpp"
 #include "drawing.hpp"
 
+using namespace std::chrono_literals;
+
 boids_window::boids_window(
     int argc, char** argv,
     float screen_width, float screen_height,
     std::string name) :
-    base_window(argc, argv, screen_width, screen_height, name)
+    base_window(argc, argv, screen_width, screen_height, name),
+    _boid_param_file_observer{boid_param_filename, 100ms, [this](){ read_boid_params(); }}
 {
     for(auto& flock_entry : _flocks)
     {
@@ -19,18 +22,7 @@ boids_window::boids_window(
         flock_entry.color() = draw::generate_random_color();
     }
 
-    read_boid_params();
-    start_watching_for_boid_param_file_change();
     start_physics();
-}
-
-void boids_window::start_watching_for_boid_param_file_change()
-{
-    _lock = std::unique_lock(_mutex, std::defer_lock);
-    std::jthread([this]()
-        {
-            watch_for_boid_param_file_change();
-        }).detach();
 }
 
 void boids_window::start_physics()
@@ -96,39 +88,6 @@ void boids_window::perform_physics_loop()
     }
 }
 
-void boids_window::watch_for_boid_param_file_change()
-{
-    while (true)
-    {
-        auto last_modified = std::filesystem::last_write_time(boid_param_filename);
-        auto now = std::chrono::file_clock::now();
-        auto deb = decltype(last_modified)::clock::time_point(last_modified);
-        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now - deb);
-
-        if (seconds.count() < 5)
-        {
-            if (_lock.try_lock())
-            {
-                read_boid_params();
-
-                _lock.unlock();
-                _cv.notify_all();
-            }
-            else
-            {
-                _cv.wait(_lock);
-
-                _lock.lock();
-                read_boid_params();
-                _lock.unlock();
-                _cv.notify_all();
-            }
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-}
-
 void boids_window::display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -136,15 +95,7 @@ void boids_window::display()
     
     try
     {
-        if (_lock.try_lock())
-        {
-            _lock.unlock();
-            _cv.notify_all();
-        }
-        else
-        {
-            _cv.wait(_lock);
-        }
+        _boid_param_file_observer.block_if_needed();
     }
     catch(...)
     {
