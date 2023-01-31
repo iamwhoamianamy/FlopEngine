@@ -24,7 +24,7 @@ public:
         std::string_view filename,
         auto observe_interval,
         auto&& on_change,
-        bool initial_in_change_call = true);
+        bool initial_on_change_call = true);
 
     void block_if_needed();
 
@@ -41,11 +41,11 @@ file_observer::file_observer(
     std::string_view filename,
     auto observe_interval,
     auto&& on_change,
-    bool initial_in_change_call)
+    bool initial_on_change_call)
 {
     _lock = std::unique_lock{_mutex, std::defer_lock};
 
-    if (initial_in_change_call)
+    if (initial_on_change_call)
     {
         call_on_change(on_change);
     }
