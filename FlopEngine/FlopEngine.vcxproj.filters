@@ -70,9 +70,6 @@
     <ClCompile Include="marching_window.cpp">
       <Filter>Source\MarchingSquares</Filter>
     </ClCompile>
-    <ClCompile Include="file_observer.cpp">
-      <Filter>Source\Utils</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quadtree.hpp">
@@ -133,6 +130,12 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="file_observer.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="blocker.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
       <Filter>Source\Utils</Filter>
     </ClInclude>
   </ItemGroup>
