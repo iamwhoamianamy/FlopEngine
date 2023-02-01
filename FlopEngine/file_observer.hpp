@@ -1,17 +1,19 @@
 #pragma once
 #include <mutex>
 #include <filesystem>
-#include <chrono>
+
+#include "blocker.hpp"
 
 namespace utils
 {
 
+template<typename DurationType>
 class file_observer
 {
 private:
-    std::mutex _mutex;
-    std::condition_variable _cv;
-    std::unique_lock<std::mutex> _lock;
+    blocker_t _blocker;
+    DurationType _observe_interval;
+    DurationType _since_last_modified;
 
 public:
     file_observer() = delete;
@@ -26,28 +28,26 @@ public:
         auto&& on_change,
         bool initial_on_change_call = true);
 
-    void block_if_needed();
+    void wait_for_unblocking();
 
 private:
     void perform_observing_loop(
         std::string_view filename,
         auto observe_interval,
         auto on_change);
-
-    void call_on_change(auto on_change);
 };
 
-file_observer::file_observer(
+template<typename DurationType>
+file_observer<DurationType>::file_observer(
     std::string_view filename,
     auto observe_interval,
     auto&& on_change,
-    bool initial_on_change_call)
+    bool initial_on_change_call) :
+    _observe_interval{observe_interval}
 {
-    _lock = std::unique_lock{_mutex, std::defer_lock};
-
     if (initial_on_change_call)
     {
-        call_on_change(on_change);
+        on_change();
     }
 
     std::jthread([this, filename, observe_interval, on_change]()
@@ -59,20 +59,14 @@ file_observer::file_observer(
         }).detach();
 }
 
-inline void file_observer::block_if_needed()
+template<typename DurationType>
+inline void file_observer<DurationType>::wait_for_unblocking()
 {
-    if (_lock.try_lock())
-    {
-        _lock.unlock();
-        _cv.notify_all();
-    }
-    else
-    {
-        _cv.wait(_lock);
-    }
+    _blocker.wait_for_unblocking();
 }
 
-inline void file_observer::perform_observing_loop(
+template<typename DurationType>
+inline void file_observer<DurationType>::perform_observing_loop(
     std::string_view filename,
     auto observe_interval,
     auto on_change)
@@ -86,32 +80,18 @@ inline void file_observer::perform_observing_loop(
     auto since_last_modified = 
         std::chrono::duration_cast<decltype(observe_interval)>(now - last_modified_time_point);
 
-    if (since_last_modified < observe_interval)
-    {
-        call_on_change(on_change);
-    }
+    _blocker.block_on_success(
+        [since_last_modified, observe_interval]()
+            {
+                return since_last_modified < observe_interval;
+            },
+        [on_change]()
+            {
+                on_change();
+            }
+    );
 
     std::this_thread::sleep_for(observe_interval);
-}
-
-inline void file_observer::call_on_change(auto on_change)
-{
-    if (_lock.try_lock())
-    {
-        on_change();
-
-        _lock.unlock();
-        _cv.notify_all();
-    }
-    else
-    {
-        _cv.wait(_lock);
-
-        _lock.lock();
-        on_change();
-        _lock.unlock();
-        _cv.notify_all();
-    }
 }
 
 }

@@ -95,7 +95,7 @@ void boids_window::display()
     
     try
     {
-        _boid_param_file_observer.block_if_needed();
+        _boid_param_file_observer.wait_for_unblocking();
     }
     catch(...)
     {
