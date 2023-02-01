@@ -6,31 +6,12 @@
 
 namespace utils
 {
-//
-//struct file_observer_test_predicate
-//{
-//    bool operator()(auto since_last_modified, auto observe_interval)
-//    {
-//        return since_last_modified < observe_interval;
-//    }
-//};
-//
-//struct file_observer_blocking_func
-//{
-//    void operator()(auto blocking_func)
-//    {
-//        blocking_func();
-//    }
-//};
 
 template<typename DurationType>
 class file_observer
 {
-public:
-    using blocker_type = blocker_t<std::function<bool()>, std::function<void()>>;
-
 private:
-    blocker_type _blocker;
+    blocker_t _blocker;
     DurationType _observe_interval;
     DurationType _since_last_modified;
 
@@ -62,10 +43,7 @@ file_observer<DurationType>::file_observer(
     auto observe_interval,
     auto&& on_change,
     bool initial_on_change_call) :
-    _observe_interval{observe_interval},
-    _blocker{
-        std::move(std::function<bool()>{[this]() -> bool { return _since_last_modified < _observe_interval; }}),
-        std::move(std::function<void()>{[this, &on_change]() { on_change(); }})}
+    _observe_interval{observe_interval}
 {
     if (initial_on_change_call)
     {
@@ -102,7 +80,16 @@ inline void file_observer<DurationType>::perform_observing_loop(
     auto since_last_modified = 
         std::chrono::duration_cast<decltype(observe_interval)>(now - last_modified_time_point);
 
-    _blocker.block_on_success();
+    _blocker.block_on_success(
+        [since_last_modified, observe_interval]()
+            {
+                return since_last_modified < observe_interval;
+            },
+        [on_change]()
+            {
+                on_change();
+            }
+    );
 
     std::this_thread::sleep_for(observe_interval);
 }
