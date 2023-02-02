@@ -4,7 +4,9 @@
 #include <numeric>
 #include <execution>
 #include <functional>
+
 #include "vector2.hpp"
+#include "concepts.hpp"
 
 class boid_t
 {
@@ -20,12 +22,12 @@ public:
 
     void update_position(float viscosity, std::chrono::milliseconds ellapsed);
     void avoid(vector2 target, float strength, std::chrono::milliseconds ellapsed);
-    void align(const std::ranges::range auto& friends, float strength, std::chrono::milliseconds ellapsed, auto&& projection);
-    void gather(const std::ranges::range auto& targets, float strength, std::chrono::milliseconds ellapsed, auto&& projection);
+    void align(const std::ranges::range auto& friends, float strength, flp::duration auto ellapsed, auto&& projection);
+    void gather(const std::ranges::range auto& targets, float strength, flp::duration auto ellapsed, auto&& projection);
     void wander(float strength, std::chrono::milliseconds ellapsed);
 };
 
-inline void boid_t::align(const std::ranges::range auto& friends, float strength, std::chrono::milliseconds ellapsed, auto&& projection)
+inline void boid_t::align(const std::ranges::range auto& friends, float strength, flp::duration auto ellapsed, auto&& projection)
 {
     vector2 direction =
         std::transform_reduce(
@@ -37,11 +39,10 @@ inline void boid_t::align(const std::ranges::range auto& friends, float strength
     direction /= friends.size();
     direction.set_length(velocity.length());
     direction = vector2::lerp(velocity, direction, strength);
-
     velocity = direction;
 }
 
-void boid_t::gather(const std::ranges::range auto& targets, float strength, std::chrono::milliseconds ellapsed, auto&& projection)
+void boid_t::gather(const std::ranges::range auto& targets, float strength, flp::duration auto ellapsed, auto&& projection)
 {
     vector2 direction =
         std::transform_reduce(

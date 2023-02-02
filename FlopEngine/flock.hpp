@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
+
 #include "boid.hpp"
 #include "drawing.hpp"
 #include "quadtree.hpp"
+#include "concepts.hpp"
 
 enum class flock_draw_type
 {
@@ -71,11 +73,11 @@ public:
         float screen_height,
         size_t boids_count = 500);
 
-    void update_boid_positions(float viscosity, std::chrono::milliseconds ellapsed);
+    void update_boid_positions(float viscosity, flp::duration auto ellapsed);
     void form_quadtree(const rectangle_t& screen_borders);
-    void perform_flocking_behaviour(std::chrono::milliseconds ellapsed);
+    void perform_flocking_behaviour(flp::duration auto ellapsed);
     void go_through_window_borders(float screen_width, float screen_height);
-    void perform_fleeing(const flock_t& flock, std::chrono::milliseconds ellapsed);
+    void perform_fleeing(const flock_t& flock, flp::duration auto ellapsed);
     void draw() const;
 
     draw::Color& color();
@@ -84,8 +86,8 @@ public:
     const quadtree_t& quadtree() const;
     void set_params(const boid_parameters& new_params);
 private:
-    void perform_avoiding(boid_t& boid, std::chrono::milliseconds ellapsed);
-    void perform_aligning(boid_t& boid, std::chrono::milliseconds ellapsed);
-    void perform_gathering(boid_t& boid, std::chrono::milliseconds ellapsed);
-    void perform_wandering(boid_t& boid, std::chrono::milliseconds ellapsed);
+    void perform_avoiding(boid_t& boid, flp::duration auto ellapsed);
+    void perform_aligning(boid_t& boid, flp::duration auto ellapsed);
+    void perform_gathering(boid_t& boid, flp::duration auto ellapsed);
+    void perform_wandering(boid_t& boid, flp::duration auto ellapsed);
 };

@@ -9,7 +9,7 @@ boid_t::boid_t(
 {
 }
 
-void boid_t::update_position(float viscosity, std::chrono::milliseconds ellapsed)
+void boid_t::update_position(float viscosity, flp::duration auto ellapsed)
 {
     velocity += acceleration * ellapsed.count() / 1000;
     position += velocity * ellapsed.count() / 1000;
@@ -17,14 +17,14 @@ void boid_t::update_position(float viscosity, std::chrono::milliseconds ellapsed
     velocity *= viscosity;
 }
 
-void boid_t::avoid(vector2 target, float strength, std::chrono::milliseconds ellapsed)
+void boid_t::avoid(vector2 target, float strength, flp::duration auto ellapsed)
 {
     vector2 direction = vector2::direction(position, target);
     strength *= (strength + sqrt(vector2::distance_squared(position, target)));
     acceleration -= direction * strength * ellapsed.count() / 1000;
 }
 
-void boid_t::wander(float strength, std::chrono::milliseconds ellapsed)
+void boid_t::wander(float strength, flp::duration auto ellapsed)
 {
     vector2 direction = math::generate_random_vector() * velocity.length();
     direction += velocity.normalized() * 2;
