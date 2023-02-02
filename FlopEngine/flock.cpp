@@ -11,7 +11,7 @@
 flock_t::flock_t() :
     _drawType(flock_draw_type::triangles_filled),
     _color(255, 255, 255),
-    _quadtree(rectangle(vector2(), vector2()))
+    _quadtree(rectangle_t(vector2(), vector2()))
 {
 }
 
@@ -75,7 +75,7 @@ void flock_t::update_boid_positions(float viscosity, std::chrono::milliseconds e
         });
 }
 
-void flock_t::form_quadtree(const rectangle& screen_borders)
+void flock_t::form_quadtree(const rectangle_t& screen_borders)
 {
     _quadtree = quadtree_t(screen_borders);
     _quadtree.insert(_boids);
@@ -96,7 +96,7 @@ void flock_t::perform_flocking_behaviour(std::chrono::milliseconds ellapsed)
 void flock_t::perform_avoiding(boid_t& boid, std::chrono::milliseconds ellapsed)
 {
     auto boids_to_avoid = _quadtree.quarry(
-        rectangle(boid.position, _boid_params.avoid_vision));
+        rectangle_t(boid.position, _boid_params.avoid_vision));
 
     if(debug)
     {
@@ -127,7 +127,7 @@ void flock_t::perform_aligning(boid_t& boid, std::chrono::milliseconds ellapsed)
     };
 
     auto boids_to_align_to = _quadtree.quarry(
-        rectangle(boid.position, _boid_params.align_vision));
+        rectangle_t(boid.position, _boid_params.align_vision));
 
     boid.align(boids_to_align_to, _boid_params.align_strength, ellapsed, projection{});
 
@@ -155,7 +155,7 @@ void flock_t::perform_gathering(boid_t& boid, std::chrono::milliseconds ellapsed
     };
 
     auto boidsToGatherWith =
-        _quadtree.quarry(rectangle(boid.position, _boid_params.gather_vision));
+        _quadtree.quarry(rectangle_t(boid.position, _boid_params.gather_vision));
 
     boid.gather(boidsToGatherWith, _boid_params.gather_strength, ellapsed, projection{});
 }
@@ -206,7 +206,7 @@ void flock_t::perform_fleeing(const flock_t& flock, std::chrono::milliseconds el
     for(auto& boid : _boids)
     {
         auto boids_to_flee_from = flock.quadtree().quarry(
-            rectangle(boid.position, _boid_params.flee_vision));
+            rectangle_t(boid.position, _boid_params.flee_vision));
 
         for(const auto& boid_to_flee_from : boids_to_flee_from)
         {

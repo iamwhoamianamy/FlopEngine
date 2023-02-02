@@ -15,7 +15,7 @@ inline quadtree<Point, capacity>::quadtree(quadtree&& other)
 }
 
 template<traits::quadtree_point Point, size_t capacity>
-quadtree<Point, capacity>::quadtree(const rectangle& rectangle) : _rectangle(rectangle)
+quadtree<Point, capacity>::quadtree(const rectangle_t& rectangle) : _rectangle(rectangle)
 {
 }
 
@@ -81,14 +81,14 @@ void quadtree<Point, capacity>::subdivide()
 
     _children.reserve(4);
 
-    _children.emplace_back(new quadtree(rectangle({ x - w / 2, y - h / 2 }, childrenHalfDimensions)));
-    _children.emplace_back(new quadtree(rectangle({ x + w / 2, y - h / 2 }, childrenHalfDimensions)));
-    _children.emplace_back(new quadtree(rectangle({ x + w / 2, y + h / 2 }, childrenHalfDimensions)));
-    _children.emplace_back(new quadtree(rectangle({ x - w / 2, y + h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new quadtree(rectangle_t({ x - w / 2, y - h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new quadtree(rectangle_t({ x + w / 2, y - h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new quadtree(rectangle_t({ x + w / 2, y + h / 2 }, childrenHalfDimensions)));
+    _children.emplace_back(new quadtree(rectangle_t({ x - w / 2, y + h / 2 }, childrenHalfDimensions)));
 }
 
 template<traits::quadtree_point Point, size_t capacity>
-inline std::vector<Point*> quadtree<Point, capacity>::quarry(const rectangle& range) const
+inline std::vector<Point*> quadtree<Point, capacity>::quarry(const rectangle_t& range) const
 {
     std::vector<Point*> found;
     quarry(range, found);
@@ -97,7 +97,7 @@ inline std::vector<Point*> quadtree<Point, capacity>::quarry(const rectangle& ra
 }
 
 template<traits::quadtree_point Point, size_t capacity>
-void quadtree<Point, capacity>::quarry(const rectangle& range, std::vector<Point*>& found) const
+void quadtree<Point, capacity>::quarry(const rectangle_t& range, std::vector<Point*>& found) const
 {
     if(!_rectangle.intersects(range))
     {

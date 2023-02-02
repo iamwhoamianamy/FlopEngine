@@ -23,20 +23,20 @@ template<traits::quadtree_point Point, size_t capacity>
 class quadtree
 {
 private:
-    rectangle _rectangle;
+    rectangle_t _rectangle;
     std::vector<Point*> _points;
     std::vector<quadtree*> _children;
 
 public:
     quadtree(const quadtree& other);
     quadtree(quadtree&& other);
-    explicit quadtree(const rectangle& rectangle);
+    explicit quadtree(const rectangle_t& rectangle);
 
     void insert(std::vector<Point>& points);
     void insert(Point* point);
     void subdivide();
 
-    std::vector<Point*> quarry(const rectangle& range) const;
+    std::vector<Point*> quarry(const rectangle_t& range) const;
 
     bool subdivided() const;
 
@@ -50,7 +50,7 @@ public:
 
     ~quadtree();
 private:
-    void quarry(const rectangle& range, std::vector<Point*>& found) const;
+    void quarry(const rectangle_t& range, std::vector<Point*>& found) const;
     void clear_data();
     void copy_fields(const quadtree& other);
     void move_fields(quadtree&& other);

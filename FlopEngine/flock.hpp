@@ -72,7 +72,7 @@ public:
         size_t boids_count = 500);
 
     void update_boid_positions(float viscosity, std::chrono::milliseconds ellapsed);
-    void form_quadtree(const rectangle& screen_borders);
+    void form_quadtree(const rectangle_t& screen_borders);
     void perform_flocking_behaviour(std::chrono::milliseconds ellapsed);
     void go_through_window_borders(float screen_width, float screen_height);
     void perform_fleeing(const flock_t& flock, std::chrono::milliseconds ellapsed);
