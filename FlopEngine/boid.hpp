@@ -7,6 +7,7 @@
 
 #include "vector2.hpp"
 #include "concepts.hpp"
+#include "math.hpp"
 
 class boid_t
 {
@@ -20,12 +21,27 @@ public:
         const vector2& velocity = vector2(),
         const vector2& acceleration = vector2());
 
-    void update_position(float viscosity, std::chrono::milliseconds ellapsed);
-    void avoid(vector2 target, float strength, std::chrono::milliseconds ellapsed);
+    void update_position(float viscosity, flp::duration auto ellapsed);
+    void avoid(vector2 target, float strength, flp::duration auto ellapsed);
     void align(const std::ranges::range auto& friends, float strength, flp::duration auto ellapsed, auto&& projection);
     void gather(const std::ranges::range auto& targets, float strength, flp::duration auto ellapsed, auto&& projection);
-    void wander(float strength, std::chrono::milliseconds ellapsed);
+    void wander(float strength, flp::duration auto ellapsed);
 };
+
+inline void boid_t::update_position(float viscosity, flp::duration auto ellapsed)
+{
+    velocity += acceleration * ellapsed.count() / 1000;
+    position += velocity * ellapsed.count() / 1000;
+    acceleration.zero();
+    velocity *= viscosity;
+}
+
+inline void boid_t::avoid(vector2 target, float strength, flp::duration auto ellapsed)
+{
+    vector2 direction = vector2::direction(position, target);
+    strength *= (strength + sqrt(vector2::distance_squared(position, target)));
+    acceleration -= direction * strength * ellapsed.count() / 1000;
+}
 
 inline void boid_t::align(const std::ranges::range auto& friends, float strength, flp::duration auto ellapsed, auto&& projection)
 {
@@ -42,7 +58,7 @@ inline void boid_t::align(const std::ranges::range auto& friends, float strength
     velocity = direction;
 }
 
-void boid_t::gather(const std::ranges::range auto& targets, float strength, flp::duration auto ellapsed, auto&& projection)
+inline void boid_t::gather(const std::ranges::range auto& targets, float strength, flp::duration auto ellapsed, auto&& projection)
 {
     vector2 direction =
         std::transform_reduce(
@@ -55,4 +71,13 @@ void boid_t::gather(const std::ranges::range auto& targets, float strength, flp:
     direction = vector2::direction(position, direction);
 
     acceleration += direction * strength * ellapsed.count() / 1000;
+}
+
+inline void boid_t::wander(float strength, flp::duration auto ellapsed)
+{
+    vector2 direction = math::generate_random_vector() * velocity.length();
+    direction += velocity.normalized() * 2;
+    direction.set_length(velocity.length());
+
+    velocity = vector2::lerp(velocity, direction, strength);
 }

@@ -5,7 +5,6 @@
 
 #include "json.hpp"
 #include "flock.hpp"
-#include "math.hpp"
 #include "utility.hpp"
 
 flock_t::flock_t() :
@@ -52,119 +51,6 @@ void flock_t::init_random_on_screen(
     }
 }
 
-void flock_t::update_boid_positions(float viscosity, flp::duration auto ellapsed)
-{
-    std::for_each(std::execution::par, _boids.begin(), _boids.end(),
-        [this, viscosity, ellapsed](boid_t& boid)
-        {
-            boid.update_position(viscosity, ellapsed);
-
-            float speed = boid.velocity.length();
-
-            if (speed < _boid_params.min_speed)
-            {
-                boid.velocity.set_length(_boid_params.min_speed);
-            }
-            else
-            {
-                if (_boid_params.max_speed < speed)
-                {
-                    boid.velocity.limit(_boid_params.max_speed);
-                }
-            }
-        });
-}
-
-void flock_t::form_quadtree(const rectangle_t& screen_borders)
-{
-    _quadtree = quadtree_t(screen_borders);
-    _quadtree.insert(_boids);
-}
-
-void flock_t::perform_flocking_behaviour(flp::duration auto ellapsed)
-{
-    std::for_each(std::execution::par, _boids.begin(), _boids.end(),
-        [this, ellapsed](boid_t& boid)
-        {
-            perform_avoiding(boid, ellapsed);
-            perform_aligning(boid, ellapsed);
-            perform_gathering(boid, ellapsed);
-            perform_wandering(boid, ellapsed);
-        });
-}
-
-void flock_t::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
-{
-    auto boids_to_avoid = _quadtree.quarry(
-        rectangle_t(boid.position, _boid_params.avoid_vision));
-
-    if(debug)
-    {
-        draw::set_color(draw::Color(255, 0, 0));
-        glLineWidth(3);
-
-    }
-
-    for(auto& boid_to_avoid : boids_to_avoid)
-    {
-        boid.avoid(boid_to_avoid->position, _boid_params.avoid_strength, ellapsed);
-        
-        if(debug)
-        {
-            draw::draw_line(boid.position, boid_to_avoid->position);
-        }
-    }
-}
-
-void flock_t::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
-{
-    struct projection
-    {
-        auto operator()(boid_t* boid)
-        {
-            return boid->velocity;
-        }
-    };
-
-    auto boids_to_align_to = _quadtree.quarry(
-        rectangle_t(boid.position, _boid_params.align_vision));
-
-    boid.align(boids_to_align_to, _boid_params.align_strength, ellapsed, projection{});
-
-    if(debug)
-    {
-        draw::set_color(draw::Color(255, 255, 0));
-        glLineWidth(2);
-
-        for(auto& boid_to_align_to : boids_to_align_to)
-        {
-            draw::draw_line(boid.position, boid_to_align_to->position);
-        }
-    }
-
-}
-
-void flock_t::perform_gathering(boid_t& boid, flp::duration auto ellapsed)
-{
-    struct projection
-    {
-        auto operator()(boid_t* boid)
-        {
-            return boid->position;
-        }
-    };
-
-    auto boidsToGatherWith =
-        _quadtree.quarry(rectangle_t(boid.position, _boid_params.gather_vision));
-
-    boid.gather(boidsToGatherWith, _boid_params.gather_strength, ellapsed, projection{});
-}
-
-void flock_t::perform_wandering(boid_t& boid, flp::duration auto ellapsed)
-{
-    boid.wander(_boid_params.wander_strength, ellapsed);
-}
-
 void flock_t::go_through_window_borders(float _screen_width, float _screen_height)
 {
     for (auto& boid : _boids)
@@ -198,20 +84,6 @@ void flock_t::go_through_window_borders(float _screen_width, float _screen_heigh
 
         //boid.position.x = std::max(std::min(boid.position.x, screenWidth - 1), 0.0f);
         //boid.position.y = std::max(std::min(boid.position.y, screenWidth - 1), 0.0f);
-    }
-}
-
-void flock_t::perform_fleeing(const flock_t& flock, flp::duration auto ellapsed)
-{
-    for(auto& boid : _boids)
-    {
-        auto boids_to_flee_from = flock.quadtree().quarry(
-            rectangle_t(boid.position, _boid_params.flee_vision));
-
-        for(const auto& boid_to_flee_from : boids_to_flee_from)
-        {
-            boid.avoid(boid_to_flee_from->position, _boid_params.flee_strength, ellapsed);
-        }
     }
 }
 
