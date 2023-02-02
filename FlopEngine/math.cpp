@@ -9,8 +9,3 @@ vector2 math::generate_random_vector()
 
     return { x, y };
 }
-
-float math::random_in_range(float low, float high)
-{
-    return low + random_normed() * (high - low);
-}
