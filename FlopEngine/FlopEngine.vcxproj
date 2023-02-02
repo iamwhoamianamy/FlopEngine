@@ -142,10 +142,10 @@
     <ClInclude Include="boid.hpp" />
     <ClInclude Include="boids_helper.hpp" />
     <ClInclude Include="boids_window.hpp" />
+    <ClInclude Include="concepts.hpp" />
     <ClInclude Include="file_observer.hpp" />
     <ClInclude Include="flock.hpp" />
     <ClInclude Include="flop_engine.hpp" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="marching_grid.hpp" />
     <ClInclude Include="marching_window.hpp" />
