@@ -7,13 +7,10 @@
 namespace utils
 {
 
-template<typename DurationType>
 class file_observer
 {
 private:
     blocker_t _blocker;
-    DurationType _observe_interval;
-    DurationType _since_last_modified;
 
 public:
     file_observer() = delete;
@@ -37,13 +34,11 @@ private:
         auto on_change);
 };
 
-template<typename DurationType>
-file_observer<DurationType>::file_observer(
+file_observer::file_observer(
     std::string_view filename,
     auto observe_interval,
     auto&& on_change,
-    bool initial_on_change_call) :
-    _observe_interval{observe_interval}
+    bool initial_on_change_call)
 {
     if (initial_on_change_call)
     {
@@ -59,14 +54,12 @@ file_observer<DurationType>::file_observer(
         }).detach();
 }
 
-template<typename DurationType>
-inline void file_observer<DurationType>::wait_for_unblocking()
+inline void file_observer::wait_for_unblocking()
 {
     _blocker.wait_for_unblocking();
 }
 
-template<typename DurationType>
-inline void file_observer<DurationType>::perform_observing_loop(
+inline void file_observer::perform_observing_loop(
     std::string_view filename,
     auto observe_interval,
     auto on_change)
@@ -80,16 +73,15 @@ inline void file_observer<DurationType>::perform_observing_loop(
     auto since_last_modified = 
         std::chrono::duration_cast<decltype(observe_interval)>(now - last_modified_time_point);
 
-    _blocker.block_on_success(
-        [since_last_modified, observe_interval]()
-            {
-                return since_last_modified < observe_interval;
-            },
-        [on_change]()
+    if (since_last_modified < observe_interval)
+    {
+        _blocker.block(
+            [on_change]()
             {
                 on_change();
             }
-    );
+        );
+    }
 
     std::this_thread::sleep_for(observe_interval);
 }

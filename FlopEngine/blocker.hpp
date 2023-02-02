@@ -19,9 +19,7 @@ public:
 
     blocker_t();
 
-    void block_on_success(
-        std::predicate auto when_to_block,
-        std::invocable auto blocking_func);
+    void block(std::invocable auto blocking_func);
 
     void wait_for_unblocking();
 };
@@ -31,29 +29,24 @@ inline blocker_t::blocker_t()
     _lock = std::unique_lock{_mutex, std::defer_lock};
 }
 
-inline void blocker_t::block_on_success(
-    std::predicate auto when_to_block,
-    std::invocable auto blocking_func)
+inline void blocker_t::block(std::invocable auto blocking_func)
 {
-    if (when_to_block())
+    if (_lock.try_lock())
     {
-        if (_lock.try_lock())
-        {
-            blocking_func();
+        blocking_func();
 
-            _lock.unlock();
-            _cv.notify_all();
-        }
-        else
-        {
-            _cv.wait(_lock);
-            _lock.lock();
+        _lock.unlock();
+        _cv.notify_all();
+    }
+    else
+    {
+        _cv.wait(_lock);
+        _lock.lock();
 
-            blocking_func();
+        blocking_func();
 
-            _lock.unlock();
-            _cv.notify_all();
-        }
+        _lock.unlock();
+        _cv.notify_all();
     }
 }
 

@@ -28,7 +28,7 @@ private:
     bool _draw_marching_squares = false;
     bool _smooth = false;
 
-    utils::file_observer<std::chrono::milliseconds> _boid_param_file_observer;
+    utils::file_observer _boid_param_file_observer;
 
     std::chrono::milliseconds _last_ellapsed = base_window::physics_interval;
 
