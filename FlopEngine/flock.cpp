@@ -95,7 +95,7 @@ void flock_t::perform_flocking_behaviour(std::chrono::milliseconds ellapsed)
 
 void flock_t::perform_avoiding(boid_t& boid, std::chrono::milliseconds ellapsed)
 {
-    auto boidsToAvoid = _quadtree.quarry(
+    auto boids_to_avoid = _quadtree.quarry(
         rectangle(boid.position, _boid_params.avoid_vision));
 
     if(debug)
@@ -105,13 +105,13 @@ void flock_t::perform_avoiding(boid_t& boid, std::chrono::milliseconds ellapsed)
 
     }
 
-    for(auto& boidToAvoid : boidsToAvoid)
+    for(auto& boid_to_avoid : boids_to_avoid)
     {
-        boid.avoid(boidToAvoid->position, _boid_params.avoid_strength, ellapsed);
+        boid.avoid(boid_to_avoid->position, _boid_params.avoid_strength, ellapsed);
         
         if(debug)
         {
-            draw::draw_line(boid.position, boidToAvoid->position);
+            draw::draw_line(boid.position, boid_to_avoid->position);
         }
     }
 }
