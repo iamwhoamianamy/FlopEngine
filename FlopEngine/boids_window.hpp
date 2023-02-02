@@ -5,9 +5,9 @@
 #include "GL/freeglut.h"
 
 #include "vector2.hpp"
+#include "flock.hpp"
 #include "quadtree.hpp"
 #include "base_window.hpp"
-#include "flock.hpp"
 #include "marching_grid.hpp"
 #include "file_observer.hpp"
 

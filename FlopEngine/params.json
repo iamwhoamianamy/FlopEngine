@@ -15,7 +15,7 @@
     "size": 7,
 
     "max_speed": 80,
-    "min_speed": 30,
+    "min_speed": 60,
 
 	"original_avoidVision": 10,
     "original_avoidStrength": 40,

@@ -37,17 +37,21 @@ struct boid_parameters
     static boid_parameters create_from_file(const std::string& filename);
 };
 
-template <>
-class quadtree_point_holder<boid_t>
+namespace traits
 {
-public:
+
+template <>
+struct access<boid_t>
+{
     static vector2 position(boid_t* boid)
     {
         return boid->position;
     }
 };
 
-using quadtree_t = quadtree<boid_t, 8>;
+}
+
+using quadtree_t = typename quadtree<boid_t, 8>;
 
 class flock_t
 {

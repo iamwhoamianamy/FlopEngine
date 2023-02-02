@@ -3,23 +3,23 @@
 
 #include "rectangle.hpp"
 
-template<class Point>
-class quadtree_point_holder
+namespace traits
 {
-public:
-    static vector2 position(Point*)
-    {
-        return 0;
-    }
+
+template<class Point>
+struct access
+{
 };
 
 template<typename T>
-concept quadtree_point = requires(T p)
+concept quadtree_point = requires(T* p)
 {
-    { quadtree_point_holder<T>::position(p) } -> std::convertible_to<vector2>;
+    { access<T>::position(p) } -> std::convertible_to<vector2>;
 };
 
-template<typename Point, size_t capacity>
+}
+
+template<traits::quadtree_point Point, size_t capacity>
 class quadtree
 {
 private:

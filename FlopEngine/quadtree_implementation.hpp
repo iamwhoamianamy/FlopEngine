@@ -2,24 +2,24 @@
 #include <memory>
 #include "quadtree.hpp"
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 inline quadtree<Point, capacity>::quadtree(const quadtree& other)
 {
     copy_fields(other);
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 inline quadtree<Point, capacity>::quadtree(quadtree&& other)
 {
     move_fields(other);
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 quadtree<Point, capacity>::quadtree(const rectangle& rectangle) : _rectangle(rectangle)
 {
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 void quadtree<Point, capacity>::insert(std::vector<Point>& points)
 {
     for(auto& point : points)
@@ -28,10 +28,10 @@ void quadtree<Point, capacity>::insert(std::vector<Point>& points)
     }
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 void quadtree<Point, capacity>::insert(Point* point)
 {
-    if(!_rectangle.contains(quadtree_point_holder<Point>::position(point)))
+    if(!_rectangle.contains(traits::access<Point>::position(point)))
     {
         return;
     }
@@ -68,7 +68,7 @@ void quadtree<Point, capacity>::insert(Point* point)
     }
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 void quadtree<Point, capacity>::subdivide()
 {
     float x = _rectangle.center.x;
@@ -87,7 +87,7 @@ void quadtree<Point, capacity>::subdivide()
     _children.emplace_back(new quadtree(rectangle({ x - w / 2, y + h / 2 }, childrenHalfDimensions)));
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 inline std::vector<Point*> quadtree<Point, capacity>::quarry(const rectangle& range) const
 {
     std::vector<Point*> found;
@@ -96,7 +96,7 @@ inline std::vector<Point*> quadtree<Point, capacity>::quarry(const rectangle& ra
     return found;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 void quadtree<Point, capacity>::quarry(const rectangle& range, std::vector<Point*>& found) const
 {
     if(!_rectangle.intersects(range))
@@ -107,7 +107,7 @@ void quadtree<Point, capacity>::quarry(const rectangle& range, std::vector<Point
     {
         for(auto point : _points)
         {
-            if(range.contains(quadtree_point_holder<Point>::position(point)))
+            if(range.contains(traits::access<Point>::position(point)))
             {
                 found.push_back(point);
             }
@@ -123,7 +123,7 @@ void quadtree<Point, capacity>::quarry(const rectangle& range, std::vector<Point
     }
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 inline void quadtree<Point, capacity>::clear_data()
 {
     if (subdivided())
@@ -137,51 +137,51 @@ inline void quadtree<Point, capacity>::clear_data()
     }
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 inline void quadtree<Point, capacity>::copy_fields(const quadtree& other)
 {
     _rectangle = other._rectangle;
     _points = other._points;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 inline void quadtree<Point, capacity>::move_fields(quadtree&& other)
 {
     _rectangle = other._rectangle;
     _points = std::move(other._points);
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 auto& quadtree<Point, capacity>::box() const
 {
     return this->_rectangle;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 bool quadtree<Point, capacity>::subdivided() const
 {
     return _children.size();
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 auto& quadtree<Point, capacity>::children()
 {
     return _children;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 auto& quadtree<Point, capacity>::children() const
 {
     return _children;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 constexpr auto quadtree<Point, capacity>::get_capacity() const
 {
     return capacity;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 auto& quadtree<Point, capacity>::operator=(const quadtree<Point, capacity>& other)
 {
     clear_data();
@@ -190,7 +190,7 @@ auto& quadtree<Point, capacity>::operator=(const quadtree<Point, capacity>& othe
     return *this;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 auto& quadtree<Point, capacity>::operator=(quadtree<Point, capacity>&& other) noexcept
 {
     clear_data();
@@ -199,7 +199,7 @@ auto& quadtree<Point, capacity>::operator=(quadtree<Point, capacity>&& other) no
     return *this;
 }
 
-template<typename Point, size_t capacity>
+template<traits::quadtree_point Point, size_t capacity>
 quadtree<Point, capacity>::~quadtree()
 {
     clear_data();

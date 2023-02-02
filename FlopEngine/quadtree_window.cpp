@@ -4,8 +4,11 @@
 
 using namespace flp;
 
+namespace traits
+{
+
 template<>
-class quadtree_point_holder<vector2>
+class access<vector2>
 {
 public:
     static vector2 position(vector2* vec)
@@ -13,6 +16,8 @@ public:
         return *vec;
     }
 };
+
+}
 
 QuadtreeWindow::QuadtreeWindow(
     int argc, char** argv,
