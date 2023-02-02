@@ -31,7 +31,7 @@ private:
     void perform_observing_loop(
         std::string_view filename,
         auto observe_interval,
-        auto on_change);
+        auto&& on_change);
 };
 
 file_observer::file_observer(
@@ -62,7 +62,7 @@ inline void file_observer::wait_for_unblocking()
 inline void file_observer::perform_observing_loop(
     std::string_view filename,
     auto observe_interval,
-    auto on_change)
+    auto&& on_change)
 {
     auto last_modified_time = std::filesystem::last_write_time(filename);
     auto now = std::chrono::file_clock::now();

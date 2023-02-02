@@ -19,7 +19,7 @@ public:
 
     blocker_t();
 
-    void block(std::invocable auto blocking_func);
+    void block(std::invocable auto&& blocking_func);
 
     void wait_for_unblocking();
 };
@@ -29,7 +29,7 @@ inline blocker_t::blocker_t()
     _lock = std::unique_lock{_mutex, std::defer_lock};
 }
 
-inline void blocker_t::block(std::invocable auto blocking_func)
+inline void blocker_t::block(std::invocable auto&& blocking_func)
 {
     if (_lock.try_lock())
     {
