@@ -20,12 +20,12 @@ public:
 
     void update_position(float viscosity, std::chrono::milliseconds ellapsed);
     void avoid(vector2 target, float strength, std::chrono::milliseconds ellapsed);
-    void align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection);
-    void gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection);
+    void align(const std::ranges::range auto& friends, float strength, std::chrono::milliseconds ellapsed, auto&& projection);
+    void gather(const std::ranges::range auto& targets, float strength, std::chrono::milliseconds ellapsed, auto&& projection);
     void wander(float strength, std::chrono::milliseconds ellapsed);
 };
 
-inline void boid_t::align(const auto& friends, float strength, std::chrono::milliseconds ellapsed, auto projection)
+inline void boid_t::align(const std::ranges::range auto& friends, float strength, std::chrono::milliseconds ellapsed, auto&& projection)
 {
     vector2 direction =
         std::transform_reduce(
@@ -41,7 +41,7 @@ inline void boid_t::align(const auto& friends, float strength, std::chrono::mill
     velocity = direction;
 }
 
-void boid_t::gather(const auto& targets, float strength, std::chrono::milliseconds ellapsed, auto projection)
+void boid_t::gather(const std::ranges::range auto& targets, float strength, std::chrono::milliseconds ellapsed, auto&& projection)
 {
     vector2 direction =
         std::transform_reduce(
