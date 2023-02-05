@@ -14,8 +14,8 @@ private:
 public:
     blocker_t(const blocker_t&) = delete;
     blocker_t(blocker_t&&) = delete;
-    blocker_t operator=(const blocker_t&) = delete;
-    blocker_t operator=(blocker_t&&) = delete;
+    blocker_t& operator=(const blocker_t&) = delete;
+    blocker_t& operator=(blocker_t&&) = delete;
 
     blocker_t();
 

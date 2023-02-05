@@ -17,8 +17,8 @@ public:
     file_observer() = delete;
     file_observer(const file_observer&) = delete;
     file_observer(file_observer&&) = delete;
-    file_observer operator=(const file_observer&) = delete;
-    file_observer operator=(file_observer&&) = delete;
+    file_observer& operator=(const file_observer&) = delete;
+    file_observer& operator=(file_observer&&) = delete;
 
     explicit file_observer(
         std::string_view filename,
