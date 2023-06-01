@@ -72,8 +72,8 @@ void QuadtreeWindow::display()
     draw::draw_rect(_mouse_pos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y);
 
     quadtree<vector2, 8> octree(rectangle_t(
-            vector2(_screen_width / 2, _screen_height / 2),
-            vector2(_screen_width / 2, _screen_height / 2)));
+            vector2(_screen_w / 2, _screen_h / 2),
+            vector2(_screen_w / 2, _screen_h / 2)));
 
     octree.insert(points);
     auto foundPoints = octree.quarry(mouseBox);

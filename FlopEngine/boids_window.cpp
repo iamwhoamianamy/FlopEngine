@@ -18,7 +18,7 @@ boids_window::boids_window(
 {
     for(auto& flock_entry : _flocks)
     {
-        flock_entry.init_random_on_screen(_screen_width, _screen_height, boid_per_flock);
+        flock_entry.init_random_on_screen(_screen_w, _screen_h, boid_per_flock);
         flock_entry.color() = draw::generate_random_color();
     }
 }
@@ -30,8 +30,8 @@ void boids_window::perform_flocking_physics()
         {
             flock.form_quadtree(
                 rectangle_t(
-                    {_screen_width / 2, _screen_height / 2},
-                    {_screen_width / 2, _screen_height / 2})
+                    {_screen_w / 2, _screen_h / 2},
+                    {_screen_w / 2, _screen_h / 2})
             );
             flock.perform_flocking_behaviour(_last_ellapsed);
         });
@@ -52,7 +52,7 @@ void boids_window::perform_marching_physics()
     {
         for (const auto& boid : _flocks[i].boids())
         {
-            _marching_grids[i].add_contribution_bump(boid.position, 15, _screen_width, _screen_height);
+            _marching_grids[i].add_contribution_bump(boid.position, 15, _screen_w, _screen_h);
         }
     }
 }
@@ -65,7 +65,7 @@ void boids_window::physics_loop()
     for (auto& flock : _flocks)
     {
         flock.update_boid_positions(_viscosity, _last_ellapsed);
-        flock.go_through_window_borders(_screen_width, _screen_height);
+        flock.go_through_window_borders(_screen_w, _screen_h);
     }
 }
 
@@ -98,7 +98,7 @@ void boids_window::display()
         for (size_t i = 0; i < flock_count; i++)
         {
             draw::set_color(_flocks[i].color());
-            _marching_grids[i].march_all_cells(_screen_width, _screen_height);
+            _marching_grids[i].march_all_cells(_screen_w, _screen_h);
             _marching_grids[i].clear();
         }
     }
@@ -170,18 +170,6 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
             read_boid_params();
         }
     }
-}
-
-void boids_window::mouse(int button, int state, int x, int y)
-{
-}
-
-void boids_window::mouse_passive(int x, int y)
-{
-}
-
-void boids_window::exiting_function()
-{
 }
 
 void boids_window::read_boid_params()

@@ -34,12 +34,9 @@ public:
     boids_window(int argc, char** argv,
         float screen_width, float screen_height, std::string name);
 
-    void physics_loop();
-    void display();
-    void keyboard_letters(unsigned char key, int x, int y);
-    void mouse(int button, int state, int x, int y);
-    void mouse_passive(int x, int y);
-    void exiting_function();
+    void physics_loop() override;
+    void display() override;
+    void keyboard_letters(unsigned char key, int x, int y) override;
 
 private:
     void perform_flocking_physics();

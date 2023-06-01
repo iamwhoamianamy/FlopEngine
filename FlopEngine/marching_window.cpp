@@ -16,10 +16,10 @@ void MarchingWindow::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    _marchingGrid.add_contribution_bump(_mousePosition, 100, _screen_width, _screen_height);
+    _marchingGrid.add_contribution_bump(_mousePosition, 100, _screen_w, _screen_h);
     //_marchingGrid.addContributionReverseSquare(_mousePosition, 100, screenWidth, screenHeight);
-    _marchingGrid.draw(_screen_width, _screen_height);
-    _marchingGrid.march_all_cells(_screen_width, _screen_height);
+    _marchingGrid.draw(_screen_w, _screen_h);
+    _marchingGrid.march_all_cells(_screen_w, _screen_h);
     _marchingGrid.clear();
 
     draw::set_color(255);

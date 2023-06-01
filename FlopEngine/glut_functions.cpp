@@ -35,7 +35,7 @@ namespace flp
             window->base_display();
     }
 
-    void glutReshape(GLint w, GLint h)
+    void glutReshape(int w, int h)
     {
         if(window)
             window->base_reshape(w, h);

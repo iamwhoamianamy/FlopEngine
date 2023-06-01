@@ -10,26 +10,28 @@ namespace flp
     class base_window
     {
     protected:
-        std::chrono::milliseconds drawing_interval{1000 / 60};
-        std::chrono::milliseconds _last_ellapsed{base_window::drawing_interval};
+        std::chrono::milliseconds _drawing_interval{1000 / 120};
+        std::chrono::milliseconds _last_ellapsed;
 
-        float _screen_width;
-        float _screen_height;
-        std::string name;
+        float _screen_w;
+        float _screen_h;
+        std::string _name;
         vector2 _mouse_pos;
 
     public:
         base_window(
-            int argc, char** argv,
-            float screen_width = 400, float screen_height = 400,
+            int argc,
+            char** argv,
+            float screen_width = 400,
+            float screen_height = 400,
             std::string name = "New Window");
 
-        virtual void physics_loop() = 0;
+        virtual void physics_loop();
         virtual void display() = 0;
-        virtual void keyboard_letters(unsigned char key, int x, int y) = 0;
-        virtual void mouse(int button, int state, int x, int y) = 0;
-        virtual void mouse_passive(int x, int y) = 0;
-        virtual void exiting_function() = 0;
+        virtual void keyboard_letters(unsigned char key, int x, int y);
+        virtual void mouse(int button, int state, int x, int y);
+        virtual void mouse_passive(int x, int y);
+        virtual void exiting_function();
 
         void run();
 
