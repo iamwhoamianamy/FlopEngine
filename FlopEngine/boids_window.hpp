@@ -17,7 +17,7 @@ class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 2000;
+    static const size_t boid_per_flock = 200;
     const std::string boid_param_filename = "params.json";
 
 private:
@@ -30,12 +30,11 @@ private:
 
     utils::file_observer _boid_param_file_observer;
 
-    std::chrono::milliseconds _last_ellapsed = base_window::physics_interval;
-
 public:
     boids_window(int argc, char** argv,
         float screen_width, float screen_height, std::string name);
 
+    void physics_loop();
     void display();
     void keyboard_letters(unsigned char key, int x, int y);
     void mouse(int button, int state, int x, int y);
@@ -43,9 +42,7 @@ public:
     void exiting_function();
 
 private:
-    void start_physics();
     void perform_flocking_physics();
     void perform_marching_physics();
     void read_boid_params();
-    void perform_physics_loop();
 };

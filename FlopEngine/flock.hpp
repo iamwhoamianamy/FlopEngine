@@ -53,7 +53,7 @@ struct access<boid_t>
 
 }
 
-using quadtree_t = typename quadtree<boid_t, 8>;
+using quadtree_t = quadtree<boid_t, 8>;
 
 class flock_t
 {

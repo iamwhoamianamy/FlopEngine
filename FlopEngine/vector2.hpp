@@ -283,3 +283,36 @@ inline vector2 vector2::lerp(vector2 a, vector2 b, float factor)
 {
     return a + (b - a) * factor;
 }
+
+template <>
+struct std::hash<vector2>
+{
+    size_t operator()(const vector2& vec) const
+    {
+        return std::hash<float>()(vec.x) ^ std::hash<float>()(vec.y);
+    }
+};
+
+template <>
+struct std::hash<std::pair<vector2, vector2>>
+{
+    size_t operator()(const std::pair<vector2, vector2>& pair) const
+    {
+        return std::hash<vector2>()(pair.first) ^ std::hash<vector2>()(pair.second);
+    }
+};
+
+namespace std
+{
+
+inline bool operator==(const vector2& v1, const vector2& v2)
+{
+    return v1.x == v2.x && v1.y == v2.y;
+}
+
+inline bool operator==(const std::pair<vector2, vector2>& p1, const std::pair<vector2, vector2>& p2)
+{
+    return p1.first == p2.first && p1.second == p2.second;
+}
+
+}

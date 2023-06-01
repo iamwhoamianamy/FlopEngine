@@ -21,26 +21,6 @@ boids_window::boids_window(
         flock_entry.init_random_on_screen(_screen_width, _screen_height, boid_per_flock);
         flock_entry.color() = draw::generate_random_color();
     }
-
-    start_physics();
-}
-
-void boids_window::start_physics()
-{
-    std::jthread([this]
-        {
-            while (true)
-            {
-                auto start = std::chrono::steady_clock::now();
-                auto desirable_end = start + physics_interval;
-
-                perform_physics_loop();
-
-                std::this_thread::sleep_until(desirable_end);
-                _last_ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - start);
-            }
-        }).detach();
 }
 
 void boids_window::perform_flocking_physics()
@@ -77,9 +57,10 @@ void boids_window::perform_marching_physics()
     }
 }
 
-void boids_window::perform_physics_loop()
+void boids_window::physics_loop()
 {
     perform_flocking_physics();
+    perform_marching_physics();
 
     for (auto& flock : _flocks)
     {
@@ -101,25 +82,6 @@ void boids_window::display()
     {
 
     }
-
-    //if (_drawMarchingSquares)
-    //{
-    //    std::jthread flockPhysicsHandler(
-    //        flockPhysics, std::ref(_flocks), screenWidth, screenHeight, FPS);
-
-    //    std::jthread marchingPhysicsHandler(
-    //        marchingPhysics, std::ref(_flocks), std::ref(_marchingGrid), screenWidth, screenHeight);
-    //}
-    //else
-    //{
-    //    flockPhysics(_flocks, screenWidth, screenHeight, FPS);
-    //}
-
-    //for(auto& flock_entry : _flocks)
-    //{
-    //    flock_entry.update_boid_positions(_viscosity, 1.0 / FPS);
-    //    flock_entry.go_through_window_borders(screenWidth, screenHeight);
-    //}
 
     if(_drawBoids)
     {

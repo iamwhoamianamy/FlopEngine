@@ -25,7 +25,13 @@ void base_window::run()
 void base_window::base_on_timer(int millisec)
 {
     glutPostRedisplay();
-    glutTimerFunc(drawing_interval.count(), glutOnTimer, 0);
+
+    auto left_in_loop{
+        _last_ellapsed < drawing_interval
+        ? drawing_interval - _last_ellapsed
+        : std::chrono::milliseconds{0}};
+
+    glutTimerFunc(left_in_loop.count(), glutOnTimer, 0);
 }
 
 void base_window::base_exiting_function()
@@ -33,7 +39,7 @@ void base_window::base_exiting_function()
     exiting_function();
 }
 
-void base_window::base_reshape(GLint w, GLint h)
+void base_window::base_reshape(int w, int h)
 {
     _screen_width = w;
     _screen_height = h;
@@ -62,5 +68,11 @@ void base_window::base_mouse_passive(int x, int y)
 
 void base_window::base_display()
 {
+    auto start{std::chrono::steady_clock::now()};
+
+    physics_loop();
     display();
+
+    _last_ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start);
 }

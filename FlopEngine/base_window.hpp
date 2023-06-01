@@ -11,7 +11,7 @@ namespace flp
     {
     protected:
         std::chrono::milliseconds drawing_interval{1000 / 60};
-        std::chrono::milliseconds physics_interval{1000 / 60};
+        std::chrono::milliseconds _last_ellapsed{base_window::drawing_interval};
 
         float _screen_width;
         float _screen_height;
@@ -24,6 +24,7 @@ namespace flp
             float screen_width = 400, float screen_height = 400,
             std::string name = "New Window");
 
+        virtual void physics_loop() = 0;
         virtual void display() = 0;
         virtual void keyboard_letters(unsigned char key, int x, int y) = 0;
         virtual void mouse(int button, int state, int x, int y) = 0;
