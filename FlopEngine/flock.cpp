@@ -16,22 +16,22 @@ flock_t::flock_t() :
 
 boid_parameters boid_parameters::create_from_file(const std::string& filename)
 {
-    auto json = nlohmann::json::parse(std::ifstream(filename.data()));
+    auto json{nlohmann::json::parse(std::ifstream{filename.data()})};
 
     return {
-        .avoid_vision = json["avoid_vision"],
-        .avoid_strength = json["avoid_strength"],
-        .align_vision = json["align_vision"],
-        .align_strength = json["align_strength"],
-        .gather_vision = json["gather_vision"],
-        .gather_strength = json["gather_strength"],
-        .flee_vision = json["flee_vision"],
-        .flee_strength = json["flee_strength"],
-        .wander_strength = json["wander_strength"],
-        .size = json["size"],
-        .max_speed = json["max_speed"],
-        .min_speed = json["min_speed"],
-        .march_contribution = json["march_contribution"]
+        .avoid_vision      {json["avoid_vision"]},
+        .avoid_strength    {json["avoid_strength"]},
+        .align_vision      {json["align_vision"]},
+        .align_strength    {json["align_strength"]},
+        .gather_vision     {json["gather_vision"]},
+        .gather_strength   {json["gather_strength"]},
+        .flee_vision       {json["flee_vision"]},
+        .flee_strength     {json["flee_strength"]},
+        .wander_strength   {json["wander_strength"]},
+        .size              {json["size"]},
+        .max_speed         {json["max_speed"]},
+        .min_speed         {json["min_speed"]},
+        .march_contribution{json["march_contribution"]}
     };
 }
 
