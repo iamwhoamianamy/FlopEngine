@@ -59,6 +59,8 @@ void boids_window::perform_marching_physics()
 
 void boids_window::physics_loop()
 {
+    block_on_param_file_update();
+
     perform_flocking_physics();
     perform_marching_physics();
 
@@ -73,35 +75,9 @@ void boids_window::display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
-    
-    try
-    {
-        _boid_param_file_observer.wait_for_unblocking();
-    }
-    catch(...)
-    {
 
-    }
-
-    if(_drawBoids)
-    {
-        for(auto& flock : _flocks)
-        {
-            flock.draw();
-        }
-    }
-
-    if(_draw_marching_squares)
-    {
-        glLineWidth(1);
-
-        for (size_t i = 0; i < flock_count; i++)
-        {
-            draw::set_color(_flocks[i].color());
-            _marching_grids[i].march_all_cells(_screen_w, _screen_h);
-            _marching_grids[i].clear();
-        }
-    }
+    draw_focks();
+    draw_marching_squares();
 
     glFinish();
 }
@@ -186,5 +162,43 @@ void boids_window::read_boid_params()
     catch (const std::exception& ex)
     {
         std::cout << ex.what() << std::endl;
+    }
+}
+
+void boids_window::block_on_param_file_update()
+{
+    try
+    {
+        _boid_param_file_observer.wait_for_unblocking();
+    }
+    catch (...)
+    {
+
+    }
+}
+
+void boids_window::draw_focks()
+{
+    if (_drawBoids)
+    {
+        for (auto& flock : _flocks)
+        {
+            flock.draw();
+        }
+    }
+}
+
+void boids_window::draw_marching_squares()
+{
+    if (_draw_marching_squares)
+    {
+        glLineWidth(1);
+
+        for (size_t i = 0; i < flock_count; i++)
+        {
+            draw::set_color(_flocks[i].color());
+            _marching_grids[i].march_all_cells(_screen_w, _screen_h);
+            _marching_grids[i].clear();
+        }
     }
 }
