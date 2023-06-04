@@ -2,17 +2,17 @@
 
 #include "rectangle.hpp"
 
-rectangle_t::rectangle_t() :
-    center({ 0, 0 }), halfDimensions({ 0, 0 })
+rectangle::rectangle() :
+    center({ 0, 0 }), half_dimensions({ 0, 0 })
 {
 }
 
-rectangle_t::rectangle_t(const vector2& center, const vector2& halfDimensions) :
-    center(center), halfDimensions(halfDimensions)
+rectangle::rectangle(const vector2& center, const vector2& half_dimensions) :
+    center(center), half_dimensions(half_dimensions)
 {
 }
 
-rectangle_t::rectangle_t(const vector2& center, float radius) :
-    center(center), halfDimensions(radius, radius)
+rectangle::rectangle(const vector2& center, float radius) :
+    center(center), half_dimensions(radius, radius)
 {
 }

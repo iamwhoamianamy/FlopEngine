@@ -8,8 +8,8 @@ void drawOctree(const quadtree<vector2, capacity>& octree)
 {
     draw::set_color(octreeColor);
     draw::draw_rect(octree.box().center,
-        octree.box().halfDimensions.x,
-        octree.box().halfDimensions.y);
+        octree.box().half_dimensions.x,
+        octree.box().half_dimensions.y);
 
     if (octree.subdivided())
     {

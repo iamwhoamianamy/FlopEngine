@@ -75,7 +75,7 @@ public:
         size_t boids_count = 500);
 
     void update_boid_positions(float viscosity, flp::duration auto ellapsed);
-    void form_quadtree(const rectangle_t& screen_borders);
+    void form_quadtree(const rectangle& screen_borders);
     void perform_flocking_behaviour(flp::duration auto ellapsed);
     void go_through_window_borders(float screen_width, float screen_height);
     void perform_fleeing(const flock_t& flock, flp::duration auto ellapsed);
@@ -117,7 +117,7 @@ inline void flock_t::update_boid_positions(float viscosity, flp::duration auto e
         });
 }
 
-inline void flock_t::form_quadtree(const rectangle_t& screen_borders)
+inline void flock_t::form_quadtree(const rectangle& screen_borders)
 {
     _quadtree = quadtree_t(screen_borders);
     _quadtree.insert(_boids);
@@ -138,7 +138,7 @@ inline void flock_t::perform_flocking_behaviour(flp::duration auto ellapsed)
 inline void flock_t::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
 {
     auto boids_to_avoid = _quadtree.quarry(
-        rectangle_t(boid.position, _boid_params.avoid_vision));
+        rectangle(boid.position, _boid_params.avoid_vision));
 
     if (debug)
     {
@@ -169,7 +169,7 @@ inline void flock_t::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
     };
 
     auto boids_to_align_to = _quadtree.quarry(
-        rectangle_t(boid.position, _boid_params.align_vision));
+        rectangle(boid.position, _boid_params.align_vision));
 
     boid.align(boids_to_align_to, _boid_params.align_strength, ellapsed, projection{});
 
@@ -197,7 +197,7 @@ inline void flock_t::perform_gathering(boid_t& boid, flp::duration auto ellapsed
     };
 
     auto boidsToGatherWith =
-        _quadtree.quarry(rectangle_t(boid.position, _boid_params.gather_vision));
+        _quadtree.quarry(rectangle(boid.position, _boid_params.gather_vision));
 
     boid.gather(boidsToGatherWith, _boid_params.gather_strength, ellapsed, projection{});
 }
@@ -212,7 +212,7 @@ inline void flock_t::perform_fleeing(const flock_t& flock, flp::duration auto el
     for (auto& boid : _boids)
     {
         auto boids_to_flee_from = flock.quadtree().quarry(
-            rectangle_t(boid.position, _boid_params.flee_vision));
+            rectangle(boid.position, _boid_params.flee_vision));
 
         for (const auto& boid_to_flee_from : boids_to_flee_from)
         {

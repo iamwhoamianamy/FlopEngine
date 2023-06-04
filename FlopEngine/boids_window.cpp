@@ -29,7 +29,7 @@ void boids_window::perform_flocking_physics()
         [=](flock_t& flock)
         {
             flock.form_quadtree(
-                rectangle_t(
+                rectangle(
                     {_screen_w / 2, _screen_h / 2},
                     {_screen_w / 2, _screen_h / 2})
             );

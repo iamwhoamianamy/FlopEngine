@@ -10,7 +10,7 @@
 flock_t::flock_t() :
     _drawType(flock_draw_type::triangles_filled),
     _color(255, 255, 255),
-    _quadtree(rectangle_t(vector2(), vector2()))
+    _quadtree(rectangle(vector2(), vector2()))
 {
 }
 

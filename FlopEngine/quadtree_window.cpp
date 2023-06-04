@@ -67,11 +67,11 @@ void QuadtreeWindow::display()
         draw::draw_point(point, 5);
     }
 
-    rectangle_t mouseBox(_mouse_pos, vector2(40, 40));
+    rectangle mouseBox(_mouse_pos, vector2(40, 40));
     draw::set_color(pointColor);
-    draw::draw_rect(_mouse_pos, mouseBox.halfDimensions.x, mouseBox.halfDimensions.y);
+    draw::draw_rect(_mouse_pos, mouseBox.half_dimensions.x, mouseBox.half_dimensions.y);
 
-    quadtree<vector2, 8> octree(rectangle_t(
+    quadtree<vector2, 8> octree(rectangle(
             vector2(_screen_w / 2, _screen_h / 2),
             vector2(_screen_w / 2, _screen_h / 2)));
 
