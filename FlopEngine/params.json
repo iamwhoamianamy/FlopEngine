@@ -17,6 +17,8 @@
     "max_speed": 80,
     "min_speed": 60,
 
+	"march_contribution": 15,
+
 	"original_avoidVision": 10,
     "original_avoidStrength": 40,
     "original_alignVision": 50,

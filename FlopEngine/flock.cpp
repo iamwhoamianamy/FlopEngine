@@ -30,7 +30,8 @@ boid_parameters boid_parameters::create_from_file(const std::string& filename)
         .wander_strength = json["wander_strength"],
         .size = json["size"],
         .max_speed = json["max_speed"],
-        .min_speed = json["min_speed"]
+        .min_speed = json["min_speed"],
+        .march_contribution = json["march_contribution"]
     };
 }
 
@@ -163,4 +164,9 @@ const quadtree_t& flock_t::quadtree() const
 void flock_t::set_params(const boid_parameters& new_params)
 {
     _boid_params = new_params;
+}
+
+const boid_parameters& flock_t::params() const
+{
+    return _boid_params;
 }

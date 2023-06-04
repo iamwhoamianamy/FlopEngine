@@ -11,7 +11,8 @@
 #include "marching_grid.hpp"
 #include "file_observer.hpp"
 
-using marching_grid_t = marching_grid<500, 250>;
+//using marching_grid_t = marching_grid<500, 250>;
+using marching_grid_t = marching_grid<200, 100>;
 
 class boids_window : public flp::base_window
 {
@@ -22,7 +23,7 @@ public:
 
 private:
     std::array<flock_t, flock_count> _flocks;
-    const float _viscosity = 1;
+    const float _viscosity = 0.9;
     std::array<marching_grid_t, flock_count> _marching_grids;
     bool _drawBoids = true;
     bool _draw_marching_squares = false;

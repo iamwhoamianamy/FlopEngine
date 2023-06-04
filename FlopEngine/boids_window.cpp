@@ -53,7 +53,7 @@ void boids_window::perform_marching_physics()
     {
         for (const auto& boid : _flocks[i].boids())
         {
-            _marching_grids[i].add_contribution_bump(boid.position, 15, _screen_w, _screen_h);
+            _marching_grids[i].add_contribution_bump(boid.position, _flocks[i].params().march_contribution, _screen_w, _screen_h);
         }
     }
 }
@@ -153,11 +153,11 @@ void boids_window::read_boid_params()
 {
     try
     {
-        auto newParams = boid_parameters::create_from_file(boid_param_filename);
+        auto new_params = boid_parameters::create_from_file(boid_param_filename);
 
         for (auto& flock : _flocks)
         {
-            flock.set_params(newParams);
+            flock.set_params(new_params);
         }
     }
     catch (const std::exception& ex)

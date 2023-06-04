@@ -17,24 +17,26 @@ enum class flock_draw_type
 
 struct boid_parameters
 {
-    float avoid_vision   {10};
-    float avoid_strength {40};
+    float avoid_vision      {10};
+    float avoid_strength    {40};
 
-    float align_vision   {50};
-    float align_strength {0.01f};
+    float align_vision      {50};
+    float align_strength    {0.01f};
 
-    float gather_vision  {50};
-    float gather_strength{500};
+    float gather_vision     {50};
+    float gather_strength   {500};
 
-    float flee_vision    {50};
-    float flee_strength  {60};
+    float flee_vision       {50};
+    float flee_strength     {60};
 
-    float wander_strength{0.01f};
+    float wander_strength   {0.01f};
 
-    float size           {8};
+    float size              {8};
 
-    float max_speed      {80};
-    float min_speed      {60};
+    float max_speed         {80};
+    float min_speed         {60};
+
+    float march_contribution{15};
 
     static boid_parameters create_from_file(const std::string& filename);
 };
@@ -85,7 +87,9 @@ public:
     const std::vector<boid_t>& boids() const;
     flock_draw_type& drawType();
     const quadtree_t& quadtree() const;
+
     void set_params(const boid_parameters& new_params);
+    const boid_parameters& params() const;
 
 private:
     void perform_avoiding(boid_t& boid, flp::duration auto ellapsed);
