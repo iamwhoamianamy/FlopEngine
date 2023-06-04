@@ -6,6 +6,7 @@
 
 #include "boids_window.hpp"
 #include "drawing.hpp"
+#include "utils.hpp"
 
 using namespace std::chrono_literals;
 
@@ -36,9 +37,9 @@ void boids_window::perform_flocking_physics()
             flock.perform_flocking_behaviour(_last_ellapsed);
         });
 
-    for (size_t i = 0; i < _flocks.size(); i++)
+    for (auto i : utils::iota(flock_count))
     {
-        for (size_t j = 0; j < i; j++)
+        for (auto j : utils::iota(i))
         {
             _flocks[i].perform_fleeing(_flocks[j], _last_ellapsed);
             _flocks[j].perform_fleeing(_flocks[i], _last_ellapsed);
@@ -48,7 +49,7 @@ void boids_window::perform_flocking_physics()
 
 void boids_window::perform_marching_physics()
 {
-    for (size_t i = 0; i < boids_window::flock_count; i++)
+    for (auto i : utils::iota(flock_count))
     {
         for (const auto& boid : _flocks[i].boids())
         {
@@ -194,7 +195,7 @@ void boids_window::draw_marching_squares()
     {
         glLineWidth(1);
 
-        for (size_t i = 0; i < flock_count; i++)
+        for (auto i : utils::iota(flock_count))
         {
             draw::set_color(_flocks[i].color());
             _marching_grids[i].march_all_cells(_screen_w, _screen_h);

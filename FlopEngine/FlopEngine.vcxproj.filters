@@ -138,5 +138,8 @@
     <ClInclude Include="concepts.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="utils.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

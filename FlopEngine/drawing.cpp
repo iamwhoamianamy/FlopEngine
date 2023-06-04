@@ -55,7 +55,6 @@ namespace draw
         glMatrixMode(GL_MODELVIEW);
     }
     
-
     void render_letter(vector2 position, float size, char letter)
     {
         glMatrixMode(GL_PROJECTION);

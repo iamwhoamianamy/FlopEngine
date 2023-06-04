@@ -158,6 +158,7 @@
     <ClCompile Include="utility.cpp" />
     <ClInclude Include="rectangle.hpp" />
     <ClInclude Include="utility.hpp" />
+    <ClInclude Include="utils.hpp" />
     <ClInclude Include="vector2.hpp">
       <FileType>Document</FileType>
     </ClInclude>
