@@ -49,6 +49,7 @@ public:
     auto& operator =(quadtree<Point, capacity>&& other) noexcept;
 
     ~quadtree();
+
 private:
     void quarry(const rectangle& range, std::vector<Point*>& found) const;
     void clear_data();
