@@ -70,6 +70,9 @@
     <ClCompile Include="marching_window.cpp">
       <Filter>Source\MarchingSquares</Filter>
     </ClCompile>
+    <ClCompile Include="agent.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quadtree.hpp">
@@ -139,6 +142,9 @@
       <Filter>Source\Utils</Filter>
     </ClInclude>
     <ClInclude Include="utils.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="agent.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
   </ItemGroup>

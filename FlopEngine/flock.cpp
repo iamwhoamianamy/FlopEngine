@@ -35,21 +35,15 @@ boid_parameters boid_parameters::create_from_file(const std::string& filename)
     };
 }
 
-void flock_t::init_random_on_screen(
-    float screen_width,
-    float screen_height,
-    size_t boidsCount)
+void flock_t::init_random_on_screen(rectangle screen, size_t boids_count)
 {
-    _boids.clear();
-    _boids.reserve(boidsCount);
+    auto agents{utils::agent::generate_random(screen, boids_count, _boid_params.max_speed)};
 
-    for(size_t i = 0; i < boidsCount; i++)
-    {
-        vector2 position = {
-            math::random_in_range(0, screen_width),
-            math::random_in_range(0, screen_height) };
-        _boids.emplace_back(position, math::generate_random_vector() * _boid_params.max_speed);
-    }
+    std::transform(agents.begin(), agents.end(), std::back_inserter(_boids), 
+        [](const utils::agent& agent)
+        {
+            return boid_t{agent.position, agent.velocity, agent.acceleration};
+        });
 }
 
 void flock_t::go_through_window_borders(float _screen_width, float _screen_height)

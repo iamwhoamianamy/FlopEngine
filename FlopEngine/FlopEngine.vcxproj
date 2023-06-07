@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="agent.cpp" />
     <ClCompile Include="boid.cpp" />
     <ClCompile Include="boids_helper.cpp" />
     <ClCompile Include="boids_window.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="math.cpp" />
     <ClCompile Include="quadtree_help.cpp" />
     <ClCompile Include="quadtree_window.cpp" />
+    <ClInclude Include="agent.hpp" />
     <ClInclude Include="blocker.hpp" />
     <ClInclude Include="boid.hpp" />
     <ClInclude Include="boids_helper.hpp" />

@@ -67,15 +67,11 @@ private:
     boid_parameters _boid_params;
 
 public:
-    bool debug = false;
+    bool debug = true;
 
     flock_t();
 
-    void init_random_on_screen(
-        float screen_width,
-        float screen_height,
-        size_t boids_count = 500);
-
+    void init_random_on_screen(rectangle screen, size_t boids_count = 500);
     void update_boid_positions(float viscosity, flp::duration auto ellapsed);
     void form_quadtree(const rectangle& screen_borders);
     void perform_flocking_behaviour(flp::duration auto ellapsed);
