@@ -20,10 +20,7 @@ boids_window::boids_window(
     for(auto& flock_entry : _flocks)
     {
         flock_entry.init_random_on_screen(
-            rectangle{
-                vector2{_screen_w / 2,_screen_h / 2},
-                vector2{_screen_w / 2,_screen_h / 2}
-            },
+            screen_rectangle(),
             boid_per_flock);
 
         flock_entry.color() = draw::generate_random_color();

@@ -4,6 +4,7 @@
 #include <chrono>
 
 #include "vector2.hpp"
+#include "rectangle.hpp"
 
 namespace flp
 {
@@ -18,6 +19,8 @@ protected:
     float _screen_h;
     std::string _name;
     vector2 _mouse_pos;
+
+    auto screen_rectangle() const -> rectangle;
 
 public:
     base_window(
@@ -35,8 +38,6 @@ public:
     virtual void exiting_function();
 
     void run();
-
-
 
     friend void glutOnTimer(int millisec);
     friend void glutExitingFunction();

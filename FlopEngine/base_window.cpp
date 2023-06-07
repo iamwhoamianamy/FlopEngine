@@ -66,6 +66,14 @@ void base_window::base_mouse_passive(int x, int y)
     mouse_passive(x, y);
 }
 
+auto flp::base_window::screen_rectangle() const -> rectangle
+{
+    return rectangle{
+        vector2{_screen_w / 2, _screen_h / 2},
+        vector2{_screen_w / 2, _screen_h / 2}
+    };
+}
+
 void base_window::base_display()
 {
     auto start{std::chrono::steady_clock::now()};
