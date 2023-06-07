@@ -11,12 +11,20 @@ struct rectangle
     rectangle(const vector2& center, const vector2& half_dimensions);
     rectangle(const vector2& center, float radius);
 
-    inline bool contains(float x, float y) const;
-    inline bool contains(const vector2& point) const;
-    inline bool intersects(const rectangle& other) const;
+    bool contains(float x, float y) const;
+    bool contains(const vector2& point) const;
+    bool intersects(const rectangle& other) const;
+
+    float left() const;
+    float right() const;
+    float top() const;
+    float bot() const;
+
+    float width() const;
+    float height() const;
 };
 
-bool rectangle::contains(float x, float y) const
+inline bool rectangle::contains(float x, float y) const
 {
     return
         math::is_in_range(x, center.x, half_dimensions.x) &&
@@ -28,7 +36,37 @@ inline bool rectangle::contains(const vector2& point) const
     return contains(point.x, point.y);
 }
 
-bool rectangle::intersects(const rectangle& other) const
+inline bool rectangle::intersects(const rectangle& other) const
 {
     return rectangle(other.center, half_dimensions + other.half_dimensions).contains(center);
+}
+
+inline float rectangle::left() const
+{
+    return center.x - half_dimensions.x;
+}
+
+inline float rectangle::right() const
+{
+    return center.x + half_dimensions.x;
+}
+
+inline float rectangle::top() const
+{
+    return center.y + half_dimensions.y;
+}
+
+inline float rectangle::bot() const
+{
+    return center.y - half_dimensions.y;
+}
+
+inline float rectangle::width() const
+{
+    return 2 * half_dimensions.x;
+}
+
+inline float rectangle::height() const
+{
+    return 2 * half_dimensions.y;
 }
