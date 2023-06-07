@@ -4,7 +4,7 @@
 boid_t::boid_t(
     const vector2& position,
     const vector2& velocity,
-    const vector2& acceleration) :
-    position(position), velocity(velocity), acceleration(acceleration)
+    const vector2& acceleration)
+    : agent{position, velocity, acceleration}
 {
 }

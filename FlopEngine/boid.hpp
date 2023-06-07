@@ -8,33 +8,21 @@
 #include "vector2.hpp"
 #include "concepts.hpp"
 #include "math.hpp"
+#include "agent.hpp"
 
-class boid_t
+class boid_t : public utils::agent
 {
 public:
-    vector2 position;
-    vector2 velocity;
-    vector2 acceleration;
-
     boid_t(
-        const vector2& position = vector2(),
-        const vector2& velocity = vector2(),
-        const vector2& acceleration = vector2());
+        const vector2& position = vector2{},
+        const vector2& velocity = vector2{},
+        const vector2& acceleration = vector2{});
 
-    void update_position(float viscosity, flp::duration auto ellapsed);
     void avoid(vector2 target, float strength, flp::duration auto ellapsed);
     void align(const std::ranges::range auto& friends, float strength, flp::duration auto ellapsed, auto&& projection);
     void gather(const std::ranges::range auto& targets, float strength, flp::duration auto ellapsed, auto&& projection);
     void wander(float strength, flp::duration auto ellapsed);
 };
-
-inline void boid_t::update_position(float viscosity, flp::duration auto ellapsed)
-{
-    velocity += acceleration * ellapsed.count() / 1000;
-    position += velocity * ellapsed.count() / 1000;
-    acceleration.zero();
-    velocity *= viscosity;
-}
 
 inline void boid_t::avoid(vector2 target, float strength, flp::duration auto ellapsed)
 {
