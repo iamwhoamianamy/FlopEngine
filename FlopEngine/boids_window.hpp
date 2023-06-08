@@ -28,6 +28,7 @@ private:
     bool _drawBoids = true;
     bool _draw_marching_squares = false;
     bool _smooth = false;
+    bool _bounce = false;
 
     utils::file_observer _boid_param_file_observer;
 

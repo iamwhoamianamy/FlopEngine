@@ -21,6 +21,8 @@ struct agent
         const vector2& acceleration = vector2());
 
     void update_position(float viscosity, flp::duration auto ellapsed);
+    void go_through_borders(const rectangle& screen_borders);
+    void bounce_from_borders(const rectangle& screen_borders);
 
     static auto generate_random(const rectangle& range, size_t count, float max_speed) -> std::vector<agent>;
 };

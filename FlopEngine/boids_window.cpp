@@ -71,7 +71,15 @@ void boids_window::physics_loop()
     for (auto& flock : _flocks)
     {
         flock.update_boid_positions(_viscosity, _last_ellapsed);
-        flock.go_through_window_borders(_screen_w, _screen_h);
+
+        if (_bounce)
+        {
+            flock.bounce_from_window_borders(screen_rectangle());
+        }
+        else
+        {
+            flock.go_through_window_borders(screen_rectangle());
+        }
     }
 }
 
@@ -123,6 +131,12 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
         case 'm':
         {
             _draw_marching_squares = !_draw_marching_squares;
+
+            break;
+        }
+        case 'n':
+        {
+            _bounce = !_bounce;
 
             break;
         }

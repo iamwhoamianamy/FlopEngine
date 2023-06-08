@@ -75,7 +75,8 @@ public:
     void update_boid_positions(float viscosity, flp::duration auto ellapsed);
     void form_quadtree(const rectangle& screen_borders);
     void perform_flocking_behaviour(flp::duration auto ellapsed);
-    void go_through_window_borders(float screen_width, float screen_height);
+    void go_through_window_borders(const rectangle& screen_borders);
+    void bounce_from_window_borders(const rectangle& screen_borders);
     void perform_fleeing(const flock_t& flock, flp::duration auto ellapsed);
     void draw() const;
 

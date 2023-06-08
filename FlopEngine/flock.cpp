@@ -46,39 +46,19 @@ void flock_t::init_random_on_screen(rectangle screen, size_t boids_count)
         });
 }
 
-void flock_t::go_through_window_borders(float _screen_width, float _screen_height)
+void flock_t::go_through_window_borders(const rectangle& screen_borders)
 {
     for (auto& boid : _boids)
     {
-        float x = boid.position.x;
-        float y = boid.position.y;
+        boid.go_through_borders(screen_borders);
+    }
+}
 
-        if (x < 0)
-        {
-            boid.position.x = _screen_width - 1;
-        }
-        else
-        {
-            if (x >= _screen_width)
-            {
-                boid.position.x = 0;
-            }
-        }
-
-        if (y < 0)
-        {
-            boid.position.y = _screen_height - 1;
-        }
-        else
-        {
-            if (y >= _screen_height)
-            {
-                boid.position.y = 0;
-            }
-        }
-
-        //boid.position.x = std::max(std::min(boid.position.x, screenWidth - 1), 0.0f);
-        //boid.position.y = std::max(std::min(boid.position.y, screenWidth - 1), 0.0f);
+void flock_t::bounce_from_window_borders(const rectangle& screen_borders)
+{
+    for (auto& boid : _boids)
+    {
+        boid.bounce_from_borders(screen_borders);
     }
 }
 
