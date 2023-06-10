@@ -12,8 +12,8 @@ namespace flp
 class base_window
 {
 protected:
-    std::chrono::milliseconds _drawing_interval{1000 / 120};
-    std::chrono::milliseconds _last_ellapsed;
+    std::chrono::microseconds _drawing_interval{1'000'000 / 120};
+    std::chrono::microseconds _last_ellapsed{0};
 
     float _screen_w;
     float _screen_h;
@@ -46,6 +46,7 @@ public:
     friend void glutKeyboardLetters(unsigned char key, int x, int y);
     friend void glutMouse(int button, int state, int x, int y);
     friend void glutMousePassive(int x, int y);
+
 private:
     void base_display();
     void base_on_timer(int millisec);

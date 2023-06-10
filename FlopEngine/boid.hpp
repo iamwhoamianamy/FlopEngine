@@ -28,7 +28,7 @@ inline void boid_t::avoid(vector2 target, float strength, flp::duration auto ell
 {
     vector2 direction = vector2::direction(position, target);
     strength *= (strength + sqrt(vector2::distance_squared(position, target)));
-    acceleration -= direction * strength * ellapsed.count() / 1000;
+    acceleration -= direction * strength * utils::true_ellapsed(ellapsed);
 }
 
 inline void boid_t::align(const std::ranges::range auto& friends, float strength, flp::duration auto ellapsed, auto&& projection)
@@ -58,7 +58,7 @@ inline void boid_t::gather(const std::ranges::range auto& targets, float strengt
     direction /= targets.size();
     direction = vector2::direction(position, direction);
 
-    acceleration += direction * strength * ellapsed.count() / 1000;
+    acceleration += direction * strength * utils::true_ellapsed(ellapsed);
 }
 
 inline void boid_t::wander(float strength, flp::duration auto ellapsed)

@@ -5,7 +5,7 @@
 
 #include "json.hpp"
 #include "flock.hpp"
-#include "utility.hpp"
+#include "utils.hpp"
 
 flock_t::flock_t() :
     _drawType(flock_draw_type::triangles_filled),

@@ -5,6 +5,7 @@
 #include "concepts.hpp"
 #include "rectangle.hpp"
 #include "math.hpp"
+#include "utils.hpp"
 
 namespace utils
 {
@@ -29,8 +30,8 @@ struct agent
 
 inline void agent::update_position(float viscosity, flp::duration auto ellapsed)
 {
-    velocity += acceleration * ellapsed.count() / 1000;
-    position += velocity * ellapsed.count() / 1000;
+    velocity += acceleration * utils::true_ellapsed(ellapsed);
+    position += velocity * utils::true_ellapsed(ellapsed);
     acceleration.zero();
     velocity *= viscosity;
 }

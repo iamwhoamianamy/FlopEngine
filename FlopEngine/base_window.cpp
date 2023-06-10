@@ -29,9 +29,14 @@ void base_window::base_on_timer(int millisec)
     auto left_in_loop{
         _last_ellapsed < _drawing_interval
         ? _drawing_interval - _last_ellapsed
-        : std::chrono::milliseconds{0}};
+        : std::chrono::microseconds{0}};
 
-    glutTimerFunc(left_in_loop.count(), glutOnTimer, 0);
+    std::cout << _last_ellapsed.count() << "\n";
+
+    auto left_in_loop_fixed{std
+        ::chrono::duration_cast<std::chrono::milliseconds>(left_in_loop)};
+
+    glutTimerFunc(left_in_loop_fixed.count(), glutOnTimer, 0);
 }
 
 void base_window::base_exiting_function()
@@ -81,7 +86,7 @@ void base_window::base_display()
     physics_loop();
     display();
 
-    _last_ellapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+    _last_ellapsed = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - start);
 }
 

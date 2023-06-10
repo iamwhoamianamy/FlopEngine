@@ -64,9 +64,6 @@
     <ClCompile Include="glut_functions.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="utility.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="marching_window.cpp">
       <Filter>Source\MarchingSquares</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
       <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="glut_functions.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="utility.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="marching_grid.hpp">
