@@ -27,6 +27,24 @@ namespace draw
         glEnd();
     }
 
+    void draw_circle(vector2 center, float radius)
+    {
+        glBegin(GL_LINE_LOOP);
+        {
+            auto count{static_cast<size_t>(std::sqrtf(radius)) * 5};
+            float step{360.0f / count * 3.141592f / 180.0f};
+
+            for (size_t i{0}; i < count; i++)
+            {
+                auto x{radius * sinf(i * step)};
+                auto y{radius * cosf(i * step)};
+
+                glVertex3f(x + center.x, y + center.y, 0);
+            }
+        }
+        glEnd();
+    }
+
     Color generate_random_color()
     {
         return Color(

@@ -139,6 +139,7 @@
     <ClCompile Include="math.cpp" />
     <ClCompile Include="quadtree_help.cpp" />
     <ClCompile Include="quadtree_window.cpp" />
+    <ClCompile Include="triangle.cpp" />
     <ClInclude Include="agent.hpp" />
     <ClInclude Include="blocker.hpp" />
     <ClInclude Include="boid.hpp" />
@@ -158,6 +159,7 @@
     <None Include="packages.config" />
     <ClCompile Include="rectangle.cpp" />
     <ClInclude Include="rectangle.hpp" />
+    <ClInclude Include="triangle.hpp" />
     <ClInclude Include="utils.hpp" />
     <ClInclude Include="vector2.hpp">
       <FileType>Document</FileType>

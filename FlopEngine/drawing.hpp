@@ -18,7 +18,8 @@ namespace draw
     inline void draw_point(vector2 point, float size);
     inline void draw_rect(vector2 center, float half_width, float half_height);
     inline void draw_rect(vector2 a, vector2 b, vector2 c, vector2 d);
-    void draw_triangle(vector2 a, vector2 b, vector2 c, bool filled);
+    void draw_triangle(vector2 a, vector2 b, vector2 c, bool filled = false);
+    void draw_circle(vector2 center, float radius);
     Color generate_random_color();
 
     void render_string(vector2 position, float size, const std::string& string);

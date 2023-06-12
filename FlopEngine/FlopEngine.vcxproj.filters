@@ -70,6 +70,9 @@
     <ClCompile Include="agent.cpp">
       <Filter>Source\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="triangle.cpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="quadtree.hpp">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="agent.hpp">
       <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.hpp">
+      <Filter>Source\Delaunay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
