@@ -4,7 +4,7 @@
 #include "drawing.hpp"
 #include "delaunay_triangulator.hpp"
 
-const size_t delaunay_window::_agent_count{15};
+const size_t delaunay_window::_agent_count{150};
 
 delaunay_window::delaunay_window(int argc, char** argv,
     float screen_width, float screen_height, std::string name)
@@ -21,7 +21,10 @@ void delaunay_window::physics_loop()
         agent.bounce_from_borders(screen_rectangle());
     }
 
-    delaunay_triangulator tor;
+    _triangulation.clear();
+
+    auto triangulation{delaunay_triangulator{}.triangulate(_agents)};
+    _triangulation = {triangulation.begin(), triangulation.end()};
 }
 
 void delaunay_window::display()
@@ -37,7 +40,7 @@ void delaunay_window::display()
         draw::draw_point(agent.position, 5);
     }
 
-    for (const auto& triangle : delaunay_triangulator{}.triangulate(_agents))
+    for (const auto& triangle : _triangulation)
     {
         draw::draw_triangle(triangle[0], triangle[1], triangle[2]);
     }
