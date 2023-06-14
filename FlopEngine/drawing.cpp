@@ -1,88 +1,85 @@
 #include "drawing.hpp"
 #include "math.hpp"
 
-namespace draw
+draw::Color::Color(UCHAR r, UCHAR g, UCHAR b, UCHAR a) :
+    r(r), g(g), b(b), a(a)
 {
-    Color::Color(UCHAR r, UCHAR g, UCHAR b, UCHAR a) :
-        r(r), g(g), b(b), a(a)
-    {
-    }
+}
     
-    void draw_triangle(vector2 a, vector2 b, vector2 c, bool filled)
+void draw::draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled)
+{
+    if(filled)
     {
-        if(filled)
-        {
-            glBegin(GL_TRIANGLES);
-        }
-        else
-        {
-            glBegin(GL_LINE_LOOP);
-        }
-
-        {
-            glVertex3f(a.x, a.y, 0);
-            glVertex3f(b.x, b.y, 0);
-            glVertex3f(c.x, c.y, 0);
-        }
-        glEnd();
+        glBegin(GL_TRIANGLES);
     }
-
-    void draw_circle(vector2 center, float radius)
+    else
     {
         glBegin(GL_LINE_LOOP);
-        {
-            auto count{static_cast<size_t>(std::sqrtf(radius)) * 5};
-            float step{360.0f / count * 3.141592f / 180.0f};
-
-            for (size_t i{0}; i < count; i++)
-            {
-                auto x{radius * sinf(i * step)};
-                auto y{radius * cosf(i * step)};
-
-                glVertex3f(x + center.x, y + center.y, 0);
-            }
-        }
-        glEnd();
     }
 
-    Color generate_random_color()
     {
-        return Color(
-            math::random_in_range(0, 255),
-            math::random_in_range(0, 255),
-            math::random_in_range(0, 255));
+        glVertex3f(a.x, a.y, 0);
+        glVertex3f(b.x, b.y, 0);
+        glVertex3f(c.x, c.y, 0);
     }
+    glEnd();
+}
 
-    constexpr float LETTER_SCALE = 0.01;
-
-    void render_string(vector2 position, float size, const std::string& string)
+void draw::draw_circle(const vector2& center, float radius)
+{
+    glBegin(GL_LINE_LOOP);
     {
-        glMatrixMode(GL_PROJECTION);
+        auto count{static_cast<size_t>(std::sqrtf(radius)) * 5};
+        float step{360.0f / count * 3.141592f / 180.0f};
+
+        for (size_t i{0}; i < count; i++)
         {
-            glPushMatrix();
-            glTranslatef(position.x, position.y, 0);
-            glScalef(LETTER_SCALE * size, -LETTER_SCALE * size, -LETTER_SCALE * size);
+            auto x{radius * sinf(i * step)};
+            auto y{radius * cosf(i * step)};
 
-            for(char c : string)
-            {
-                glutStrokeCharacter(GLUT_STROKE_ROMAN, c);
-            }
-
-            glPopMatrix();
+            glVertex3f(x + center.x, y + center.y, 0);
         }
-        glMatrixMode(GL_MODELVIEW);
     }
+    glEnd();
+}
+
+auto draw::generate_random_color() -> Color
+{
+    return Color(
+        math::random_in_range(0, 255),
+        math::random_in_range(0, 255),
+        math::random_in_range(0, 255));
+}
+
+constexpr float LETTER_SCALE = 0.01;
+
+void draw::render_string(const vector2& position, float size, const std::string& string)
+{
+    glMatrixMode(GL_PROJECTION);
+    {
+        glPushMatrix();
+        glTranslatef(position.x, position.y, 0);
+        glScalef(LETTER_SCALE * size, -LETTER_SCALE * size, -LETTER_SCALE * size);
+
+        for(char c : string)
+        {
+            glutStrokeCharacter(GLUT_STROKE_ROMAN, c);
+        }
+
+        glPopMatrix();
+    }
+    glMatrixMode(GL_MODELVIEW);
+}
     
-    void render_letter(vector2 position, float size, char letter)
+void draw::render_letter(const vector2& position, float size, char letter)
+{
+    glMatrixMode(GL_PROJECTION);
     {
-        glMatrixMode(GL_PROJECTION);
-        {
-            glPushMatrix();
-            glTranslatef(position.x, position.y, 0);
-            glScalef(LETTER_SCALE * size, -LETTER_SCALE * size, -LETTER_SCALE * size);
-            glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, letter);
-            glPopMatrix();
-        }
-        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glTranslatef(position.x, position.y, 0);
+        glScalef(LETTER_SCALE * size, -LETTER_SCALE * size, -LETTER_SCALE * size);
+        glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, letter);
+        glPopMatrix();
     }
+    glMatrixMode(GL_MODELVIEW);
 }
