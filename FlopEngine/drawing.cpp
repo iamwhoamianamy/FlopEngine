@@ -30,7 +30,7 @@ void draw::draw_circle(const vector2& center, float radius)
     glBegin(GL_LINE_LOOP);
     {
         auto count{static_cast<size_t>(std::sqrtf(radius)) * 5};
-        float step{360.0f / count * 3.141592f / 180.0f};
+        float step{math::deg_to_rad(360.0f / count)};
 
         for (size_t i{0}; i < count; i++)
         {

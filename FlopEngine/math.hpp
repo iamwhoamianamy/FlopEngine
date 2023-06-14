@@ -5,8 +5,9 @@
 namespace math
 {
 
-constexpr float PI = 3.141592f;
-constexpr float TWO_PI = 2 * PI;
+constexpr float PI{3.141592f};
+constexpr float TWO_PI{2 * PI};
+constexpr float FLOAT_CLOSE_ENOUGH_THRESHOLD{1e-5f};
 
 vector2 generate_random_vector();
 
@@ -42,6 +43,21 @@ inline bool is_in_range(float value, float range_center, float range_half_width)
     return
         range_center - range_half_width <= value &&
         value < range_center + range_half_width;
+}
+
+inline float deg_to_rad(float deg)
+{
+    return deg * PI / 180.0f;
+}
+
+inline float rad_to_deg(float rad)
+{
+    return rad * 180.0f / PI;
+}
+
+inline bool close_enough(float a, float b)
+{
+    return std::abs(a - b) < FLOAT_CLOSE_ENOUGH_THRESHOLD;
 }
 
 }

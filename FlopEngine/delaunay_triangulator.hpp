@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
 #include <unordered_set>
+#include <set>
 #include <unordered_map>
+#include <algorithm>
 
 #include "triangle.hpp"
+#include "utils.hpp"
 
 class delaunay_triangulator
 {
@@ -21,15 +24,21 @@ private:
 
 auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -> triangles_t
 {
-    triangles_t triangles;
+    triangles_t triangles{encompassing_triangle};
+    std::set<vector2> points_arranged;
 
-    triangles.insert(encompassing_triangle);
+    std::transform(
+        points.begin(),
+        points.end(),
+        std::inserter(points_arranged, points_arranged.begin()),
+        [](const auto& point)
+        {
+            using point_t = std::remove_const_t<std::remove_reference_t<decltype(point)>>;
+            return get_vector2<point_t>{}(point);
+        });
 
-    for (const auto& _point : points)
+    for (const auto& point : points_arranged)
     {
-        using point_t = std::remove_const_t<std::remove_reference_t<decltype(_point)>>;
-        auto point{get_vector2<point_t>{}(_point)};
-
         triangles_t to_remove;
         edges_t edges;
 
@@ -39,9 +48,10 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
 
             if (vector2::is_close_enough(point, center, radius))
             {
-                edges[edge_t(tr.a(), tr.b())]++;
-                edges[edge_t(tr.b(), tr.c())]++;
-                edges[edge_t(tr.c(), tr.a())]++;
+                for (auto i : utils::iota(3))
+                {
+                    edges[tr.edge(i)]++;
+                }
 
                 to_remove.insert(triangle{tr.a(), tr.b(), tr.c()});
             }
@@ -69,16 +79,7 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
     std::erase_if(triangles,
         [](const triangle& tr)
         {
-            return
-                tr.a() == encompassing_triangle.a() ||
-                tr.a() == encompassing_triangle.b() ||
-                tr.a() == encompassing_triangle.c() ||
-                tr.b() == encompassing_triangle.a() ||
-                tr.b() == encompassing_triangle.b() ||
-                tr.b() == encompassing_triangle.c() ||
-                tr.c() == encompassing_triangle.a() ||
-                tr.c() == encompassing_triangle.b() ||
-                tr.c() == encompassing_triangle.c();
+            return tr.has_similar_vertex(encompassing_triangle);
         });
 
     return triangles;

@@ -29,15 +29,13 @@ void delaunay_window::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
+    draw::color color{255, 200, 100};
+
     draw::set_color(255, 200, 100);
     for (const auto& agent : _agents)
     {
         draw::draw_point(agent.position, 5);
     }
-
-    triangle tr(_agents[0].position, _agents[1].position, _agents[2].position);
-
-    draw::set_color(255, 255, 255);
 
     for (const auto& triangle : delaunay_triangulator{}.triangulate(_agents))
     {

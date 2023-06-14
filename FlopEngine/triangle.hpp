@@ -39,6 +39,13 @@ public:
     std::pair<vector2, float> get_circumcircle() const;
     float perimeter() const;
     float area() const;
+
+    std::pair<V, V> edge(size_t i) const;
+
+    bool is_sharp_enough(float threshold) const;
+    bool has_vertex(const vector2& v) const;
+
+    bool has_similar_vertex(const triangle_base<V>& other) const;
 };
 
 template<triangle_vertex V>
@@ -155,6 +162,30 @@ inline float triangle_base<V>::area() const
 }
 
 template<triangle_vertex V>
+inline std::pair<V, V> triangle_base<V>::edge(size_t i) const
+{
+    return {_vertices[i % 3], _vertices[(i + 1) % 3]};
+}
+
+template<triangle_vertex V>
+inline bool triangle_base<V>::is_sharp_enough(float threshold) const
+{
+    return false;
+}
+
+template<triangle_vertex V>
+inline bool triangle_base<V>::has_vertex(const vector2& v) const
+{
+    return v == a() || v == b() || v == c();
+}
+
+template<triangle_vertex V>
+inline bool triangle_base<V>::has_similar_vertex(const triangle_base<V>& other) const
+{
+    return has_vertex(other.a()) || has_vertex(other.b()) || has_vertex(other.c());
+}
+
+template<triangle_vertex V>
 struct std::hash<triangle_base<V>>
 {
     template <triangle_vertex V>
@@ -170,7 +201,7 @@ struct std::hash<triangle_base<V>>
 inline bool operator==(const triangle& t1, const triangle& t2)
 {
     return 
-        t1.a() == t2.a() && t1.b() == t2.b() && t1.c() == t2.c() || 
-        t1.b() == t2.a() && t1.a() == t2.b() && t1.c() == t2.c() || 
-        t1.c() == t2.a() && t1.b() == t2.b() && t1.a() == t2.c();
+        t1.has_vertex(t2.a()) && 
+        t1.has_vertex(t2.b()) && 
+        t1.has_vertex(t2.c());
 }

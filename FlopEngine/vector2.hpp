@@ -337,9 +337,17 @@ struct std::hash<std::pair<vector2, vector2>>
     }
 };
 
+// questionable
+namespace math
+{
+
+bool close_enough(float a, float b);
+
+}
+
 inline bool operator==(const vector2& v1, const vector2& v2)
 {
-    return v1.x == v2.x && v1.y == v2.y;
+    return math::close_enough(v1.x, v2.x) && math::close_enough(v1.y, v2.y);
 }
 
 inline bool operator==(const std::pair<vector2, vector2>& p1, const std::pair<vector2, vector2>& p2)
@@ -347,4 +355,9 @@ inline bool operator==(const std::pair<vector2, vector2>& p1, const std::pair<ve
     return 
         p1.first == p2.first && p1.second == p2.second || 
         p1.first == p2.second && p1.second == p2.first;
+}
+
+inline bool operator<(const vector2& v1, const vector2& v2)
+{
+    return v1.x < v2.x;
 }
