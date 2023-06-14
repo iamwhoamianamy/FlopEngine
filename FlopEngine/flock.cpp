@@ -62,7 +62,7 @@ void flock_t::bounce_from_window_borders(const rectangle& screen_borders)
     }
 }
 
-draw::Color& flock_t::color()
+draw::color& flock_t::color()
 {
     return _color;
 }

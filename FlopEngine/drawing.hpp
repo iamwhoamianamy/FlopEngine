@@ -5,16 +5,16 @@
 namespace draw
 {
 
-struct Color
+struct color
 {
     UCHAR r;
     UCHAR g;
     UCHAR b;
     UCHAR a;
 
-    Color(UCHAR r = 0, UCHAR g = 0, UCHAR b = 0, UCHAR a = 255);
+    color(UCHAR r = 0, UCHAR g = 0, UCHAR b = 0, UCHAR a = 255);
 
-    Color& operator*=(float factor)
+    color& operator*=(float factor)
     {
         r *= factor;
         g *= factor;
@@ -30,13 +30,13 @@ void draw_rect(const vector2& center, float half_width, float half_height);
 void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d);
 void draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled = false);
 void draw_circle(const vector2& center, float radius);
-auto generate_random_color() -> Color;
+auto generate_random_color() -> color;
 
 void render_string(const vector2& position, float size, const std::string& string);
 void render_letter(const vector2& position, float size, char letter);
 
 void set_color(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 255);
-void set_color(const Color& color);
+void set_color(const color& color);
 
 } // namespace draw
 
@@ -89,7 +89,7 @@ inline void draw::set_color(GLubyte r, GLubyte g, GLubyte b, GLubyte a)
     glColor4ub(r, g, b, a);
 }
 
-inline void draw::set_color(const Color& color)
+inline void draw::set_color(const color& color)
 {
     glColor4ub(color.r, color.g, color.b, color.a);
 }

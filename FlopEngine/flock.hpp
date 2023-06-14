@@ -62,7 +62,7 @@ class flock_t
 private:
     std::vector<boid_t> _boids;
     flock_draw_type _drawType;
-    draw::Color _color;
+    draw::color _color;
     quadtree_t _quadtree;
     boid_parameters _boid_params;
 
@@ -80,7 +80,7 @@ public:
     void perform_fleeing(const flock_t& flock, flp::duration auto ellapsed);
     void draw() const;
 
-    draw::Color& color();
+    draw::color& color();
     const std::vector<boid_t>& boids() const;
     flock_draw_type& drawType();
     const quadtree_t& quadtree() const;
@@ -143,7 +143,7 @@ inline void flock_t::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
 
     if (debug)
     {
-        draw::set_color(draw::Color(255, 0, 0));
+        draw::set_color(draw::color(255, 0, 0));
         glLineWidth(3);
 
     }
@@ -176,7 +176,7 @@ inline void flock_t::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
 
     if (debug)
     {
-        draw::set_color(draw::Color(255, 255, 0));
+        draw::set_color(draw::color(255, 255, 0));
         glLineWidth(2);
 
         for (auto& boid_to_align_to : boids_to_align_to)

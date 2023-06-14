@@ -1,7 +1,7 @@
 #pragma once
 #include "quadtree.hpp"
 
-static draw::Color octreeColor(255, 255, 0);
+static draw::color octreeColor(255, 255, 0);
 
 template <size_t capacity>
 void drawOctree(const quadtree<vector2, capacity>& octree)

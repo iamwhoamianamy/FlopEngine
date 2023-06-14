@@ -1,7 +1,7 @@
 #include "drawing.hpp"
 #include "math.hpp"
 
-draw::Color::Color(UCHAR r, UCHAR g, UCHAR b, UCHAR a) :
+draw::color::color(UCHAR r, UCHAR g, UCHAR b, UCHAR a) :
     r(r), g(g), b(b), a(a)
 {
 }
@@ -43,9 +43,9 @@ void draw::draw_circle(const vector2& center, float radius)
     glEnd();
 }
 
-auto draw::generate_random_color() -> Color
+auto draw::generate_random_color() -> color
 {
-    return Color(
+    return color(
         math::random_in_range(0, 255),
         math::random_in_range(0, 255),
         math::random_in_range(0, 255));

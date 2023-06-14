@@ -57,7 +57,7 @@ void QuadtreeWindow::display()
     glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    auto pointColor = draw::Color(255, 255, 255);
+    auto pointColor = draw::color(255, 255, 255);
 
     glEnable(GL_POINT_SMOOTH);
 
@@ -77,7 +77,7 @@ void QuadtreeWindow::display()
 
     octree.insert(points);
     auto foundPoints = octree.quarry(mouseBox);
-    auto foundColor = draw::Color(255, 0, 0);
+    auto foundColor = draw::color(255, 0, 0);
 
     for(auto point : foundPoints)
     {
