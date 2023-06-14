@@ -28,6 +28,15 @@ struct agent
     static auto generate_random(const rectangle& range, size_t count, float max_speed) -> std::vector<agent>;
 };
 
+template <>
+struct get_vector2<agent>
+{
+    const vector2& operator()(const agent& a) const
+    {
+        return a.position;
+    }
+};
+
 inline void agent::update_position(float viscosity, flp::duration auto ellapsed)
 {
     velocity += acceleration * utils::true_ellapsed(ellapsed);

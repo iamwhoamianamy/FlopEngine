@@ -2,22 +2,22 @@
     "avoid_vision": 10,
     "avoid_strength": 20,
 
-    "align_vision": 50,
+    "align_vision": 75,
     "align_strength": 0.01,
 
-    "gather_vision": 50,
-    "gather_strength": 500,
+    "gather_vision": 75,
+    "gather_strength": 750,
 
     "flee_vision": 50,
     "flee_strength": 30,
 
-    "wander_strength": 0.05,
+    "wander_strength": 0.075,
     "size": 7,
 
-    "max_speed": 80,
-    "min_speed": 60,
+    "max_speed": 300,
+    "min_speed": 100,
 
-	"march_contribution": 15,
+	"march_contribution": 25,
 
 	"original_avoidVision": 10,
     "original_avoidStrength": 40,

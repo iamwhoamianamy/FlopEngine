@@ -33,8 +33,8 @@ void base_window::base_on_timer(int millisec)
 
     std::cout << _last_ellapsed.count() << "\n";
 
-    auto left_in_loop_fixed{std
-        ::chrono::duration_cast<std::chrono::milliseconds>(left_in_loop)};
+    auto left_in_loop_fixed{
+        std::chrono::duration_cast<std::chrono::milliseconds>(left_in_loop)};
 
     glutTimerFunc(left_in_loop_fixed.count(), glutOnTimer, 0);
 }

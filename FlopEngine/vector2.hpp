@@ -2,6 +2,35 @@
 #include <ostream>
 #include <iomanip>
 
+class vector2;
+
+template <typename V>
+struct get_vector2;
+
+template <typename V>
+concept vector2_convertible = requires(V v)
+{
+    { std::declval<get_vector2<V>>(v) } -> std::convertible_to<vector2>;
+};
+
+template <>
+struct get_vector2<vector2>
+{
+    const vector2& operator()(const vector2& v) const
+    {
+        return v;
+    }
+};
+
+template <>
+struct get_vector2<vector2*>
+{
+    const vector2& operator()(const vector2* v) const
+    {
+        return *v;
+    }
+};
+
 class vector2
 {
 public:
@@ -43,6 +72,7 @@ public:
     static float distance_squared(const vector2& vec1, const vector2& vec2);
     static float dot(const vector2& vec1, const vector2& vec2);
     static float cross(const vector2& vec1, const vector2& vec2);
+    static bool is_close_enough(const vector2& a, const vector2& b, float threshold);
 
     static vector2 xAxis();
     static vector2 yAxis();
@@ -234,6 +264,11 @@ inline float vector2::cross(const vector2& vec1, const vector2& vec2)
     return vec1.x * vec2.y - vec1.y * vec2.x;
 }
 
+inline bool vector2::is_close_enough(const vector2& a, const vector2& b, float threshold)
+{
+    return distance_squared(a, b) < threshold * threshold;
+}
+
 inline vector2 vector2::xAxis()
 {
     return vector2(1);
@@ -302,9 +337,6 @@ struct std::hash<std::pair<vector2, vector2>>
     }
 };
 
-namespace std
-{
-
 inline bool operator==(const vector2& v1, const vector2& v2)
 {
     return v1.x == v2.x && v1.y == v2.y;
@@ -312,7 +344,7 @@ inline bool operator==(const vector2& v1, const vector2& v2)
 
 inline bool operator==(const std::pair<vector2, vector2>& p1, const std::pair<vector2, vector2>& p2)
 {
-    return p1.first == p2.first && p1.second == p2.second;
-}
-
+    return 
+        p1.first == p2.first && p1.second == p2.second || 
+        p1.first == p2.second && p1.second == p2.first;
 }

@@ -23,6 +23,9 @@
     <Filter Include="Source\Utils">
       <UniqueIdentifier>{7faa1a5b-07ff-4a15-8a6f-a4a598eb17cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Delaunay">
+      <UniqueIdentifier>{cae48245-cb74-48bd-b8c5-da107d07b948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -67,10 +70,16 @@
     <ClCompile Include="marching_window.cpp">
       <Filter>Source\MarchingSquares</Filter>
     </ClCompile>
+    <ClCompile Include="delaunay_window.cpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClCompile>
     <ClCompile Include="agent.cpp">
       <Filter>Source\Utils</Filter>
     </ClCompile>
     <ClCompile Include="triangle.cpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClCompile>
+    <ClCompile Include="delaunay_triangulator.cpp">
       <Filter>Source\Delaunay</Filter>
     </ClCompile>
   </ItemGroup>
@@ -141,10 +150,16 @@
     <ClInclude Include="utils.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="delaunay_window.hpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClInclude>
     <ClInclude Include="agent.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
     <ClInclude Include="triangle.hpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="delaunay_triangulator.hpp">
       <Filter>Source\Delaunay</Filter>
     </ClInclude>
   </ItemGroup>

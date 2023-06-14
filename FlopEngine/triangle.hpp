@@ -2,6 +2,7 @@
 #include <array>
 
 #include "vector2.hpp"
+#include "math.hpp"
 
 template <typename V>
 concept triangle_vertex = std::is_same_v<V, vector2> || std::is_same_v<V, vector2*>;
@@ -13,44 +14,17 @@ using triangle = triangle_base<vector2>;
 using triangle_view = triangle_base<vector2*>;
 
 template <triangle_vertex V>
-struct get_base
-{
-    const vector2& operator()(const V& v) const
-    {
-        return vector2{};
-    }
-};
-
-template <>
-struct get_base<vector2>
-{
-    const vector2& operator()(const vector2& v) const
-    {
-        return v;
-    }
-};
-
-template <>
-struct get_base<vector2*>
-{
-    const vector2& operator()(const vector2* v) const
-    {
-        return *v;
-    }
-};
-
-template <triangle_vertex V>
 class triangle_base
 {
 private:
     using container_t = std::array<V, 3>;
-    using get_t = get_base<V>;
+    using get_t = get_vector2<V>;
 
     container_t _vertices;
 
 public:
     triangle_base(const V& v1, const V& v2, const V& v3);
-    triangle_base(std::initializer_list<V> list);
+    //triangle_base(std::initializer_list<V> list);
 
     const vector2& a() const;
     const vector2& b() const;
@@ -73,11 +47,11 @@ inline triangle_base<V>::triangle_base(const V& a, const V& b, const V& c)
     _vertices = {a, b, c};
 }
 
-template<triangle_vertex V>
-inline triangle_base<V>::triangle_base(std::initializer_list<V> list)
-{
-    _vertices = container_t(list.begin(), list.end());
-}
+//template<triangle_vertex V>
+//inline triangle_base<V>::triangle_base(std::initializer_list<V> list)
+//{
+//    _vertices = container_t(list.begin(), list.end());
+//}
 
 template<triangle_vertex V>
 inline const vector2& triangle_base<V>::a() const
@@ -160,10 +134,7 @@ inline std::pair<vector2, float> triangle_base<V>::get_circumcircle() const
 
     auto ar{area()};
 
-    if (ar < 1e-4)
-    {
-        ar = 1;
-    }
+    math::limit(ar, 1e-6f, ar);
 
     auto radius{(a_side() * b_side() * c_side()) / (4 * ar)};
 
@@ -181,4 +152,25 @@ inline float triangle_base<V>::area() const
 {
     auto p{perimeter() / 2};
     return std::sqrtf(p * (p - a_side()) * (p - b_side()) * (p - c_side()));
+}
+
+template<triangle_vertex V>
+struct std::hash<triangle_base<V>>
+{
+    template <triangle_vertex V>
+    size_t operator()(const triangle_base<V>& triangle) const
+    {
+        return
+            std::hash<vector2>{}(triangle.a()) ^
+            std::hash<vector2>{}(triangle.b()) ^
+            std::hash<vector2>{}(triangle.c());
+    }
+};
+
+inline bool operator==(const triangle& t1, const triangle& t2)
+{
+    return 
+        t1.a() == t2.a() && t1.b() == t2.b() && t1.c() == t2.c() || 
+        t1.b() == t2.a() && t1.a() == t2.b() && t1.c() == t2.c() || 
+        t1.c() == t2.a() && t1.b() == t2.b() && t1.a() == t2.c();
 }
