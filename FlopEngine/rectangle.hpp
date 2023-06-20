@@ -22,6 +22,7 @@ struct rectangle
 
     float width() const;
     float height() const;
+    float diagonal() const;
 };
 
 inline bool rectangle::contains(float x, float y) const
@@ -69,4 +70,11 @@ inline float rectangle::width() const
 inline float rectangle::height() const
 {
     return 2 * half_dimensions.y;
+}
+
+inline float rectangle::diagonal() const
+{
+    return 2 * std::sqrtf(
+        half_dimensions.x * half_dimensions.x + 
+        half_dimensions.y * half_dimensions.y);
 }
