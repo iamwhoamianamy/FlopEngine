@@ -8,23 +8,26 @@
 #include "triangle.hpp"
 #include "utils.hpp"
 
+namespace detail
+{
+
 class delaunay_triangulator
 {
 public:
-    using triangles_t = std::unordered_set<triangle>;
-    using edge_t      = std::pair<vector2, vector2>;
-    using edges_t     = std::unordered_map<edge_t, size_t>;
+    using triangulation_t = std::unordered_set<triangle>;
+    using edge_t          = std::pair<vector2, vector2>;
+    using edges_t         = std::unordered_map<edge_t, size_t>;
 
 public:
-    auto triangulate(const std::ranges::range auto& points) -> triangles_t;
+    auto triangulate(const std::ranges::range auto& points) -> triangulation_t;
 
 private:
     static const triangle encompassing_triangle;
 };
 
-auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -> triangles_t
+auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -> triangulation_t
 {
-    triangles_t triangles{encompassing_triangle};
+    triangulation_t triangles{encompassing_triangle};
     std::set<vector2> points_arranged;
 
     std::transform(
@@ -39,7 +42,7 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
 
     for (const auto& point : points_arranged)
     {
-        triangles_t to_remove;
+        triangulation_t to_remove;
         edges_t edges;
 
         for (const auto& tr : triangles)
@@ -83,4 +86,15 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
         });
 
     return triangles;
+}
+
+} // namespace detail
+
+using triangulation_t = detail::delaunay_triangulator::triangulation_t;
+
+inline triangulation_t
+triangulate(const std::ranges::range auto& points)
+{
+    detail::delaunay_triangulator ator;
+    return ator.triangulate(points);
 }

@@ -4,12 +4,12 @@
 #include "drawing.hpp"
 #include "delaunay_triangulator.hpp"
 
-const size_t delaunay_window::_agent_count{150};
+const size_t delaunay_window::_agent_count{200};
 
 delaunay_window::delaunay_window(int argc, char** argv,
     float screen_width, float screen_height, std::string name)
     : base_window{argc, argv, screen_width, screen_height, name}
-    , _agents{utils::agent::generate_random(screen_rectangle(), _agent_count, 400)}
+    , _agents{utils::agent::generate_random(screen_rectangle(), _agent_count, 100)}
 {
 }
 
@@ -23,7 +23,7 @@ void delaunay_window::physics_loop()
 
     _triangulation.clear();
 
-    auto triangulation{delaunay_triangulator{}.triangulate(_agents)};
+    auto triangulation{triangulate(_agents)};
     _triangulation = {triangulation.begin(), triangulation.end()};
 }
 
