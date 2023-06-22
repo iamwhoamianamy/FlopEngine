@@ -98,7 +98,7 @@ inline vector2::vector2(float x, float y)
 {
 }
 
-float& vector2::operator[](int i)
+inline float& vector2::operator[](int i)
 {
     switch (i)
     {
@@ -218,7 +218,7 @@ inline vector2 vector2::normalized() const
     return res;
 }
 
-void vector2::normalize()
+inline void vector2::normalize()
 {
     float l = length();
 
