@@ -37,7 +37,7 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
         [](const auto& point)
         {
             using point_t = std::remove_const_t<std::remove_reference_t<decltype(point)>>;
-            return get_vector2<point_t>{}(point);
+            return vector2_traits<point_t>{}(point);
         });
 
     for (const auto& point : points_arranged)

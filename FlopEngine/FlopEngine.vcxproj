@@ -141,7 +141,6 @@
     <ClCompile Include="math.cpp" />
     <ClCompile Include="quadtree_help.cpp" />
     <ClCompile Include="quadtree_window.cpp" />
-    <ClCompile Include="triangle.cpp" />
     <ClInclude Include="agent.hpp" />
     <ClInclude Include="blocker.hpp" />
     <ClInclude Include="boid.hpp" />
@@ -150,9 +149,11 @@
     <ClInclude Include="concepts.hpp" />
     <ClInclude Include="delaunay_triangulator.hpp" />
     <ClInclude Include="delaunay_window.hpp" />
+    <ClInclude Include="edge.hpp" />
     <ClInclude Include="file_observer.hpp" />
     <ClInclude Include="flock.hpp" />
     <ClInclude Include="flop_engine.hpp" />
+    <ClInclude Include="geometry_figure.hpp" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="marching_grid.hpp" />
     <ClInclude Include="marching_window.hpp" />

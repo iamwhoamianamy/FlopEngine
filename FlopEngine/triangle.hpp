@@ -1,26 +1,20 @@
 #pragma once
-#include <array>
 
 #include "vector2.hpp"
 #include "math.hpp"
+#include "geometry_figure.hpp"
 
-template <typename V>
-concept triangle_vertex = std::is_same_v<V, vector2> || std::is_same_v<V, vector2*>;
-
-template <triangle_vertex V>
-class triangle_base;
+template <geo_figure_vertex V>
+struct triangle_base;
 
 using triangle = triangle_base<vector2>;
 using triangle_view = triangle_base<vector2*>;
 
-template <triangle_vertex V>
-class triangle_base
+template <geo_figure_vertex V>
+struct triangle_base : geometry_figure<V, 3>
 {
 private:
-    using container_t = std::array<V, 3>;
-    using get_t = get_vector2<V>;
-
-    container_t _vertices;
+    using base_t = geometry_figure<V, 3>;
 
 public:
     triangle_base(const V& v1, const V& v2, const V& v3);
@@ -30,78 +24,67 @@ public:
     const vector2& b() const;
     const vector2& c() const;
 
-    const V& operator[](size_t i) const;
-
     float a_side() const;
     float b_side() const;
     float c_side() const;
 
     std::pair<vector2, float> get_circumcircle() const;
-    float perimeter() const;
     float area() const;
 
     std::pair<V, V> edge(size_t i) const;
 
     bool is_sharp_enough(float threshold) const;
-    bool has_vertex(const vector2& v) const;
-
-    bool has_similar_vertex(const triangle_base<V>& other) const;
 };
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline triangle_base<V>::triangle_base(const V& a, const V& b, const V& c)
 {
-    _vertices = {a, b, c};
+    base_t::_vertices = {a, b, c};
 }
 
 //template<triangle_vertex V>
 //inline triangle_base<V>::triangle_base(std::initializer_list<V> list)
 //{
-//    _vertices = container_t(list.begin(), list.end());
+//    base_t::_vertices = container_t(list.begin(), list.end());
 //}
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::a() const
 {
-    return get_t{}(_vertices[0]);
+    return base_t::get_t::get(base_t::_vertices[0]);
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::b() const
 {
-    return get_t{}(_vertices[1]);
+    return base_t::get_t::get(base_t::_vertices[1]);
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::c() const
 {
-    return get_t{}(_vertices[2]);
+    return base_t::get_t::get(base_t::_vertices[2]);
 }
 
-template<triangle_vertex V>
-inline const V& triangle_base<V>::operator[](size_t i) const
-{
-    return _vertices[i % 3];
-}
-
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline float triangle_base<V>::a_side() const
 {
     return (a() - b()).length();
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline float triangle_base<V>::b_side() const
 {
     return (b() - c()).length();
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline float triangle_base<V>::c_side() const
 {
     return (c() - a()).length();
 }
 
+// lazy ass
 inline auto calc_determinant(const std::array<float, 9>& m)
 {
     return
@@ -109,7 +92,7 @@ inline auto calc_determinant(const std::array<float, 9>& m)
         (m[2] * m[4] * m[6] + m[0] * m[7] * m[5] + m[8] * m[1] * m[3]);
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline std::pair<vector2, float> triangle_base<V>::get_circumcircle() const
 {
     vector2 center;
@@ -148,60 +131,35 @@ inline std::pair<vector2, float> triangle_base<V>::get_circumcircle() const
     return {center, radius};
 }
 
-template<triangle_vertex V>
-inline float triangle_base<V>::perimeter() const
-{
-    return a_side() + b_side() + c_side();
-}
-
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline float triangle_base<V>::area() const
 {
-    auto p{perimeter() / 2};
+    auto p{base_t::perimeter() / 2};
     return std::sqrtf(p * (p - a_side()) * (p - b_side()) * (p - c_side()));
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline std::pair<V, V> triangle_base<V>::edge(size_t i) const
 {
-    return {_vertices[i % 3], _vertices[(i + 1) % 3]};
+    return {base_t::_vertices[i % 3], base_t::_vertices[(i + 1) % 3]};
 }
 
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 inline bool triangle_base<V>::is_sharp_enough(float threshold) const
 {
     return false;
 }
 
-template<triangle_vertex V>
-inline bool triangle_base<V>::has_vertex(const vector2& v) const
-{
-    return v == a() || v == b() || v == c();
-}
-
-template<triangle_vertex V>
-inline bool triangle_base<V>::has_similar_vertex(const triangle_base<V>& other) const
-{
-    return has_vertex(other.a()) || has_vertex(other.b()) || has_vertex(other.c());
-}
-
-template<triangle_vertex V>
+template<geo_figure_vertex V>
 struct std::hash<triangle_base<V>>
 {
-    template <triangle_vertex V>
-    size_t operator()(const triangle_base<V>& triangle) const
+    size_t operator()(const auto& triangle) const
     {
-        return
-            std::hash<vector2>{}(triangle.a()) ^
-            std::hash<vector2>{}(triangle.b()) ^
-            std::hash<vector2>{}(triangle.c());
+        return triangle.hash();
     }
 };
 
 inline bool operator==(const triangle& t1, const triangle& t2)
 {
-    return 
-        t1.has_vertex(t2.a()) && 
-        t1.has_vertex(t2.b()) && 
-        t1.has_vertex(t2.c());
+    return t1.equal(t2);
 }

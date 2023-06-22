@@ -76,10 +76,9 @@
     <ClCompile Include="agent.cpp">
       <Filter>Source\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="triangle.cpp">
+    <ClCompile Include="delaunay_triangulator.cpp">
       <Filter>Source\Delaunay</Filter>
     </ClCompile>
-    <ClCompile Include="delaunay_triangulator.cpp">
       <Filter>Source\Delaunay</Filter>
     </ClCompile>
   </ItemGroup>
@@ -160,6 +159,9 @@
       <Filter>Source\Delaunay</Filter>
     </ClInclude>
     <ClInclude Include="delaunay_triangulator.hpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry_figure.hpp">
       <Filter>Source\Delaunay</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,7 @@
 #include "drawing.hpp"
 #include "delaunay_triangulator.hpp"
 
-const size_t delaunay_window::_agent_count{200};
+const size_t delaunay_window::_agent_count{100};
 
 delaunay_window::delaunay_window(int argc, char** argv,
     float screen_width, float screen_height, std::string name)

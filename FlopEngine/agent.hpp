@@ -29,7 +29,7 @@ struct agent
 };
 
 template <>
-struct get_vector2<agent>
+struct vector2_traits<agent>
 {
     const vector2& operator()(const agent& a) const
     {
