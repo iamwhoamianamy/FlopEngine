@@ -37,6 +37,8 @@ void render_letter(const vector2& position, float size, char letter);
 
 void set_color(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 255);
 void set_color(const color& color);
+void set_line_width(float width);
+void set_point_size(float size);
 
 } // namespace draw
 
@@ -92,4 +94,14 @@ inline void draw::set_color(GLubyte r, GLubyte g, GLubyte b, GLubyte a)
 inline void draw::set_color(const color& color)
 {
     glColor4ub(color.r, color.g, color.b, color.a);
+}
+
+inline void draw::set_line_width(float width)
+{
+    glLineWidth(width);
+}
+
+inline void draw::set_point_size(float size)
+{
+    glPointSize(size);
 }

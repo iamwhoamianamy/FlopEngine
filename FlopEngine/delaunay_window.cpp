@@ -32,14 +32,15 @@ void delaunay_window::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    draw::color color{255, 200, 100};
+    draw::color color{255, 200, 100, 50};
 
-    draw::set_color(255, 200, 100);
+    draw::set_color(color);
     for (const auto& agent : _agents)
     {
-        draw::draw_point(agent.position, 5);
+        draw::draw_point(agent.position, 12);
     }
 
+    draw::set_line_width(3);
     for (const auto& triangle : _triangulation)
     {
         draw::draw_triangle(triangle[0], triangle[1], triangle[2]);
