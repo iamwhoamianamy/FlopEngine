@@ -17,6 +17,8 @@ protected:
     container_t _vertices;
 
 public:
+    geometry_figure(std::initializer_list<V> list);
+
     const V& operator[](size_t i) const;
     bool has_vertex(const vector2& v) const;
     size_t hash() const;
@@ -31,6 +33,12 @@ public:
 protected:
     const vector2& get_ref(size_t i) const;
 };
+
+template<geo_figure_vertex V, size_t VertexCount>
+inline geometry_figure<V, VertexCount>::geometry_figure(std::initializer_list<V> list)
+{
+    std::copy(list.begin(), list.end(), _vertices.begin());
+}
 
 template<geo_figure_vertex V, size_t VertexCount>
 inline const V& geometry_figure<V, VertexCount>::operator[](size_t i) const

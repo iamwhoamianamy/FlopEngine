@@ -17,8 +17,8 @@ private:
     using base_t = geometry_figure<V, 3>;
 
 public:
+    triangle_base(std::initializer_list<V> list);
     triangle_base(const V& v1, const V& v2, const V& v3);
-    //triangle_base(std::initializer_list<V> list);
 
     const vector2& a() const;
     const vector2& b() const;
@@ -37,16 +37,16 @@ public:
 };
 
 template<geo_figure_vertex V>
-inline triangle_base<V>::triangle_base(const V& a, const V& b, const V& c)
+inline triangle_base<V>::triangle_base(std::initializer_list<V> list)
+    : base_t{list}
 {
-    base_t::_vertices = {a, b, c};
 }
 
-//template<triangle_vertex V>
-//inline triangle_base<V>::triangle_base(std::initializer_list<V> list)
-//{
-//    base_t::_vertices = container_t(list.begin(), list.end());
-//}
+template<geo_figure_vertex V>
+inline triangle_base<V>::triangle_base(const V& a, const V& b, const V& c)
+    : triangle_base{a, b, c}
+{
+}
 
 template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::a() const
