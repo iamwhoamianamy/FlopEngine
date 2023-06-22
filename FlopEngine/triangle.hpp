@@ -3,6 +3,7 @@
 #include "vector2.hpp"
 #include "math.hpp"
 #include "geometry_figure.hpp"
+#include "edge.hpp"
 
 template <geo_figure_vertex V>
 struct triangle_base;
@@ -31,7 +32,7 @@ public:
     std::pair<vector2, float> get_circumcircle() const;
     float area() const;
 
-    std::pair<V, V> edge(size_t i) const;
+    edge_base<V> get_edge(size_t i) const;
 
     bool is_sharp_enough(float threshold) const;
 };
@@ -69,19 +70,19 @@ inline const vector2& triangle_base<V>::c() const
 template<geo_figure_vertex V>
 inline float triangle_base<V>::a_side() const
 {
-    return (a() - b()).length();
+    return get_edge(0).perimeter();
 }
 
 template<geo_figure_vertex V>
 inline float triangle_base<V>::b_side() const
 {
-    return (b() - c()).length();
+    return get_edge(1).perimeter();
 }
 
 template<geo_figure_vertex V>
 inline float triangle_base<V>::c_side() const
 {
-    return (c() - a()).length();
+    return get_edge(2).perimeter();
 }
 
 // lazy ass
@@ -139,7 +140,7 @@ inline float triangle_base<V>::area() const
 }
 
 template<geo_figure_vertex V>
-inline std::pair<V, V> triangle_base<V>::edge(size_t i) const
+inline edge_base<V> triangle_base<V>::get_edge(size_t i) const
 {
     return {base_t::_vertices[i % 3], base_t::_vertices[(i + 1) % 3]};
 }

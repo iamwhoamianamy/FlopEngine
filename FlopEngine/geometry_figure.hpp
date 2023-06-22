@@ -64,17 +64,24 @@ inline size_t geometry_figure<V, VertexCount>::hash() const
 template<geo_figure_vertex V, size_t VertexCount>
 inline float geometry_figure<V, VertexCount>::perimeter() const
 {
-    float result{0};
-
-    // TODO rewrite with iteration over edges somehow???
-    for (size_t i{0}; i < VertexCount; i++)
+    if constexpr (VertexCount == 2)
     {
-        result += vector2::distance(
-            get_t::get(_vertices[i]), 
-            get_t::get(_vertices[(i + 1) % VertexCount]));
+        return (_vertices[0] - _vertices[1]).length();
     }
+    else
+    {
+        float result{0};
 
-    return result;
+        // TODO rewrite with iteration over edges somehow???
+        for (size_t i{0}; i < VertexCount; i++)
+        {
+            result += vector2::distance(
+                get_t::get(_vertices[i]),
+                get_t::get(_vertices[(i + 1) % VertexCount]));
+        }
+
+        return result;
+    }
 }
 
 template<geo_figure_vertex V, size_t VertexCount>

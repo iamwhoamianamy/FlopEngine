@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <cmath>
 #include "vector2.hpp"
 
 namespace math
@@ -30,9 +31,12 @@ T limit(T x, T low, T high)
 template <class Old, class New>
 constexpr New map(Old x, Old old_low, Old old_high, New new_low, New new_high)
 {
+    x = limit(x, old_low, old_high);
+
     return new_low + (float)(x - old_low) / (old_high - old_low) * (new_high - new_low);
 }
 
+// stupid
 inline float lerp(float low, float high)
 {
     return low + (high - low) / 2;

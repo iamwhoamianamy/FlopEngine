@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "triangle.hpp"
+#include "edge.hpp"
 #include "utils.hpp"
 
 namespace detail
@@ -14,9 +15,10 @@ namespace detail
 class delaunay_triangulator
 {
 public:
-    using triangulation_t = std::unordered_set<triangle>;
-    using edge_t          = std::pair<vector2, vector2>;
-    using edges_t         = std::unordered_map<edge_t, size_t>;
+    using edge_t          = edge;
+    using edges_t = std::unordered_map<edge_t, size_t>;
+    using triangulation_t = std::unordered_set<edge_t>;
+    using triangles_t     = std::unordered_set<triangle>;
 
 public:
     auto triangulate(const std::ranges::range auto& points) -> triangulation_t;
@@ -27,7 +29,7 @@ private:
 
 auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -> triangulation_t
 {
-    triangulation_t triangles{encompassing_triangle};
+    triangles_t triangles{encompassing_triangle};
     std::set<vector2> points_arranged;
 
     std::transform(
@@ -42,7 +44,7 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
 
     for (const auto& point : points_arranged)
     {
-        triangulation_t to_remove;
+        triangles_t to_remove;
         edges_t edges;
 
         for (const auto& tr : triangles)
@@ -53,7 +55,7 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
             {
                 for (auto i : utils::iota(3))
                 {
-                    edges[tr.edge(i)]++;
+                    edges[tr.get_edge(i)]++;
                 }
 
                 to_remove.insert(triangle{tr.a(), tr.b(), tr.c()});
@@ -73,8 +75,7 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
 
         for (const auto& [key, value] : edges)
         {
-            auto& [a, b] = key;
-            triangle new_tr{a, b, point};
+            triangle new_tr{key.a(), key.b(), point};
             triangles.insert(new_tr);
         }
     }
@@ -85,7 +86,17 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
             return tr.has_similar_vertex(encompassing_triangle);
         });
 
-    return triangles;
+    triangulation_t result;
+
+    for (const auto& triangle : triangles)
+    {
+        for (auto i : utils::iota(3))
+        {
+            result.insert(triangle.get_edge(i));
+        }
+    }
+
+    return result;
 }
 
 } // namespace detail
