@@ -5,27 +5,27 @@
 class vector2;
 
 template <typename V>
-struct get_vector2;
+struct vector2_traits;
 
 template <typename V>
 concept vector2_convertible = requires(V v)
 {
-    { std::declval<get_vector2<V>>(v) } -> std::convertible_to<vector2>;
+    { vector2_traits<V>::get(v) } -> std::convertible_to<vector2>;
 };
 
 template <>
-struct get_vector2<vector2>
+struct vector2_traits<vector2>
 {
-    const vector2& operator()(const vector2& v) const
+    static const vector2& get(const vector2& v)
     {
         return v;
     }
 };
 
 template <>
-struct get_vector2<vector2*>
+struct vector2_traits<vector2*>
 {
-    const vector2& operator()(const vector2* v) const
+    static const vector2& get(const vector2* v)
     {
         return *v;
     }
@@ -37,38 +37,39 @@ public:
     float x;
     float y;
 
-    inline vector2(const vector2& vector);
-    inline vector2(vector2&& vector) noexcept;
-    inline vector2(float x = 0, float y = 0);
+    vector2(const vector2& vector);
+    vector2(vector2&& vector) noexcept;
+    vector2(float x = 0, float y = 0);
 
-    inline float& operator[](int i);
-    inline float operator[](int i) const;
+    float& operator[](int i);
+    float operator[](int i) const;
 
-    inline vector2& operator=(vector2&& vector) noexcept;
-    inline vector2& operator=(const vector2& vector);
+    vector2& operator=(vector2&& vector) noexcept;
+    vector2& operator=(const vector2& vector);
 
-    inline vector2 operator +(const vector2& rhs) const;
-    inline vector2 operator -(const vector2& rhs) const;
-    inline vector2 operator *(const float fac) const;
-    inline vector2 operator /(const float fac) const;
+    vector2 operator +(const vector2& rhs) const;
+    vector2 operator -(const vector2& rhs) const;
+    vector2 operator *(const float fac) const;
+    vector2 operator /(const float fac) const;
 
-    inline vector2& operator +=(const vector2& rhs);
-    inline vector2& operator -=(const vector2& rhs);
-    inline vector2& operator *=(float fac);
-    inline vector2& operator /=(float fac);
+    vector2& operator +=(const vector2& rhs);
+    vector2& operator -=(const vector2& rhs);
+    vector2& operator *=(float fac);
+    vector2& operator /=(float fac);
 
-    inline float length_squared() const;
-    inline float length() const;
-    inline vector2 normalized() const;
-    inline vector2 perp() const;
-    inline void zero();
+    float length() const;
+    float length_squared() const;
+    vector2 normalized() const;
+    vector2 perp() const;
+    void zero();
 
-    static inline vector2 lerp(vector2 a, vector2 b, float factor);
-    inline void normalize();
-    inline void limit(float max_length);
-    inline void set_length(float new_length);
+    void normalize();
+    void limit(float max_length);
+    void set_length(float new_length);
 
+    static vector2 lerp(const vector2& a, const vector2& b, float factor);
     static vector2 direction(const vector2& from, const vector2& to);
+    static float distance(const vector2& vec1, const vector2& vec2);
     static float distance_squared(const vector2& vec1, const vector2& vec2);
     static float dot(const vector2& vec1, const vector2& vec2);
     static float cross(const vector2& vec1, const vector2& vec2);
@@ -77,7 +78,7 @@ public:
     static vector2 xAxis();
     static vector2 yAxis();
 
-    inline void print_with_width(std::ostream& os, size_t width);
+    void print_with_width(std::ostream& os, size_t width);
 };
 
 inline vector2::vector2(const vector2& vector)
@@ -249,6 +250,11 @@ inline vector2 vector2::direction(const vector2& from, const vector2& to)
     return (to - from).normalized();
 }
 
+inline float vector2::distance(const vector2& vec1, const vector2& vec2)
+{
+    return (vec1 - vec2).length();
+}
+
 inline float vector2::distance_squared(const vector2& vec1, const vector2& vec2)
 {
     return (vec1 - vec2).length_squared();
@@ -314,7 +320,7 @@ inline void vector2::zero()
     y = 0;
 }
 
-inline vector2 vector2::lerp(vector2 a, vector2 b, float factor)
+inline vector2 vector2::lerp(const vector2& a, const vector2& b, float factor)
 {
     return a + (b - a) * factor;
 }
@@ -350,7 +356,9 @@ inline bool operator==(const vector2& v1, const vector2& v2)
     return math::close_enough(v1.x, v2.x) && math::close_enough(v1.y, v2.y);
 }
 
-inline bool operator==(const std::pair<vector2, vector2>& p1, const std::pair<vector2, vector2>& p2)
+inline bool operator==(
+    const std::pair<vector2, vector2>& p1,
+    const std::pair<vector2, vector2>& p2)
 {
     return 
         p1.first == p2.first && p1.second == p2.second || 
