@@ -22,6 +22,17 @@ struct color
 
         return *this;
     }
+
+    static color red()    { return color{255,   0,   0}; };
+    static color blue()   { return color{  0, 255,   0}; };
+    static color green()  { return color{  0,   0, 255}; };
+    static color yellow() { return color{255, 255,   0}; };
+    static color orange() { return color{255, 100,   0}; };
+    static color purple() { return color{255,   0, 255}; };
+
+    static color white() { return color{255, 255, 255}; };
+    static color black() { return color{  0,   0,   0}; };
+    static color gray()  { return color{178, 178, 178}; };
 };
      
 void draw_line(const vector2& a, const vector2& b);
@@ -30,6 +41,11 @@ void draw_rect(const vector2& center, float half_width, float half_height);
 void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d);
 void draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled = false);
 void draw_circle(const vector2& center, float radius);
+
+void draw_line_gradient(
+    const vector2& a, const vector2& b,
+    const color& a_color, const color& b_color);
+
 auto generate_random_color() -> color;
 
 void render_string(const vector2& position, float size, const std::string& string);
@@ -104,4 +120,19 @@ inline void draw::set_line_width(float width)
 inline void draw::set_point_size(float size)
 {
     glPointSize(size);
+}
+
+inline void draw::draw_line_gradient(
+    const vector2& a, const vector2& b, 
+    const color& a_color, const color& b_color)
+{
+    glBegin(GL_LINES);
+    {
+        draw::set_color(a_color);
+        glVertex2f(a.x, a.y);
+
+        draw::set_color(b_color);
+        glVertex2f(b.x, b.y);
+    }
+    glEnd();
 }
