@@ -161,6 +161,9 @@
     <ClInclude Include="delaunay_triangulator.hpp">
       <Filter>Source\Delaunay</Filter>
     </ClInclude>
+    <ClInclude Include="edge.hpp">
+      <Filter>Source\Delaunay</Filter>
+    </ClInclude>
     <ClInclude Include="geometry_figure.hpp">
       <Filter>Source\Delaunay</Filter>
     </ClInclude>
