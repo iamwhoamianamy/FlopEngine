@@ -1,171 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Source\Quadtree">
-      <UniqueIdentifier>{e00214ed-6311-461d-b6a8-a9aa3c41ab8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Boids">
-      <UniqueIdentifier>{f6eeee35-e7af-4784-92d6-4d207f500132}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Math">
-      <UniqueIdentifier>{7a54563b-1e9a-4106-adf6-418678da1eb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics">
-      <UniqueIdentifier>{666c0bc7-e08f-45db-a2de-0e11b4d917d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\MarchingSquares">
-      <UniqueIdentifier>{1cd98b9f-46a9-44f2-8203-e4c77c42e1a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils">
-      <UniqueIdentifier>{7faa1a5b-07ff-4a15-8a6f-a4a598eb17cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Delaunay">
-      <UniqueIdentifier>{cae48245-cb74-48bd-b8c5-da107d07b948}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils\agent.cpp" />
+    <ClCompile Include="utils\file_observer.cpp" />
+    <ClCompile Include="boids\boid.cpp" />
+    <ClCompile Include="boids\boids_helper.cpp" />
+    <ClCompile Include="boids\boids_window.cpp" />
+    <ClCompile Include="boids\flock.cpp" />
+    <ClCompile Include="delaunay\delaunay_triangulator.cpp" />
+    <ClCompile Include="delaunay\delaunay_window.cpp" />
+    <ClCompile Include="libs\graphics\base_window.cpp" />
+    <ClCompile Include="libs\graphics\drawing.cpp" />
+    <ClCompile Include="libs\graphics\glut_functions.cpp" />
+    <ClCompile Include="libs\math\math.cpp" />
+    <ClCompile Include="libs\geometry\rectangle.cpp" />
+    <ClCompile Include="marching\marching_window.cpp" />
+    <ClCompile Include="quadtree\quadtree_window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="geometry\edge.hpp" />
+    <ClInclude Include="geometry\geometry_figure.hpp" />
+    <ClInclude Include="geometry\triangle.hpp" />
+    <ClInclude Include="geometry\vector2.hpp" />
+    <ClInclude Include="libs\geometry\edge.hpp" />
+    <ClInclude Include="libs\geometry\geometry_figure.hpp" />
+    <ClInclude Include="libs\geometry\triangle.hpp" />
+    <ClInclude Include="libs\geometry\vector2.hpp" />
+    <ClInclude Include="utils\agent.hpp" />
+    <ClInclude Include="utils\blocker.hpp" />
+    <ClInclude Include="utils\concepts.hpp" />
+    <ClInclude Include="utils\file_observer.hpp" />
+    <ClInclude Include="utils\singleton.hpp" />
+    <ClInclude Include="utils\utils.hpp" />
+    <ClInclude Include="3rdparty\json\json.hpp" />
+    <ClInclude Include="boids\boid.hpp" />
+    <ClInclude Include="boids\boids_helper.hpp" />
+    <ClInclude Include="boids\boids_window.hpp" />
+    <ClInclude Include="boids\flock.hpp" />
+    <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
+    <ClInclude Include="delaunay\delaunay_window.hpp" />
+    <ClInclude Include="libs\graphics\base_window.hpp" />
+    <ClInclude Include="libs\graphics\drawing.hpp" />
+    <ClInclude Include="libs\graphics\flop_engine.hpp" />
+    <ClInclude Include="libs\graphics\glut_functions.hpp" />
+    <ClInclude Include="libs\math\math.hpp" />
+    <ClInclude Include="libs\geometry\rectangle.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree_implementation.hpp" />
+    <ClInclude Include="marching\marching_grid.hpp" />
+    <ClInclude Include="marching\marching_window.hpp" />
+    <ClInclude Include="quadtree\quadtree_window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="quadtree_help.cpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClCompile>
-    <ClCompile Include="quadtree_window.cpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClCompile>
-    <ClCompile Include="boids_window.cpp">
-      <Filter>Source\Boids</Filter>
-    </ClCompile>
-    <ClCompile Include="boid.cpp">
-      <Filter>Source\Boids</Filter>
-    </ClCompile>
-    <ClCompile Include="flock.cpp">
-      <Filter>Source\Boids</Filter>
-    </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="rectangle.cpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClCompile>
-    <ClCompile Include="base_window.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="boids_helper.cpp">
-      <Filter>Source\Boids</Filter>
-    </ClCompile>
-    <ClCompile Include="drawing.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="glut_functions.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="marching_window.cpp">
-      <Filter>Source\MarchingSquares</Filter>
-    </ClCompile>
-    <ClCompile Include="delaunay_window.cpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClCompile>
-    <ClCompile Include="agent.cpp">
-      <Filter>Source\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="delaunay_triangulator.cpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClCompile>
-      <Filter>Source\Delaunay</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="quadtree.hpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClInclude>
-    <ClInclude Include="quadtree_help.hpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClInclude>
-    <ClInclude Include="quadtree_implementation.hpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClInclude>
-    <ClInclude Include="quadtree_window.hpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClInclude>
-    <ClInclude Include="boids_window.hpp">
-      <Filter>Source\Boids</Filter>
-    </ClInclude>
-    <ClInclude Include="boid.hpp">
-      <Filter>Source\Boids</Filter>
-    </ClInclude>
-    <ClInclude Include="flock.hpp">
-      <Filter>Source\Boids</Filter>
-    </ClInclude>
-    <ClInclude Include="boids_helper.hpp">
-      <Filter>Source\Boids</Filter>
-    </ClInclude>
-    <ClInclude Include="math.hpp">
-      <Filter>Source\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="rectangle.hpp">
-      <Filter>Source\Quadtree</Filter>
-    </ClInclude>
-    <ClInclude Include="vector2.hpp">
-      <Filter>Source\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="base_window.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="drawing.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="flop_engine.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="glut_functions.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="marching_grid.hpp">
-      <Filter>Source\MarchingSquares</Filter>
-    </ClInclude>
-    <ClInclude Include="marching_window.hpp">
-      <Filter>Source\MarchingSquares</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="file_observer.hpp">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="blocker.hpp">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="concepts.hpp">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.hpp">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="delaunay_window.hpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClInclude>
-    <ClInclude Include="agent.hpp">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="triangle.hpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClInclude>
-    <ClInclude Include="delaunay_triangulator.hpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClInclude>
-    <ClInclude Include="edge.hpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClInclude>
-    <ClInclude Include="geometry_figure.hpp">
-      <Filter>Source\Delaunay</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

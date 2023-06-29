@@ -106,6 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +122,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,57 +132,58 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="agent.cpp" />
-    <ClCompile Include="boid.cpp" />
-    <ClCompile Include="boids_helper.cpp" />
-    <ClCompile Include="boids_window.cpp" />
-    <ClCompile Include="delaunay_triangulator.cpp" />
-    <ClCompile Include="delaunay_window.cpp" />
-    <ClCompile Include="flock.cpp" />
-    <ClCompile Include="marching_window.cpp" />
-    <ClCompile Include="math.cpp" />
-    <ClCompile Include="quadtree_help.cpp" />
-    <ClCompile Include="quadtree_window.cpp" />
-    <ClInclude Include="agent.hpp" />
-    <ClInclude Include="blocker.hpp" />
-    <ClInclude Include="boid.hpp" />
-    <ClInclude Include="boids_helper.hpp" />
-    <ClInclude Include="boids_window.hpp" />
-    <ClInclude Include="concepts.hpp" />
-    <ClInclude Include="delaunay_triangulator.hpp" />
-    <ClInclude Include="delaunay_window.hpp" />
-    <ClInclude Include="edge.hpp" />
-    <ClInclude Include="file_observer.hpp" />
-    <ClInclude Include="flock.hpp" />
-    <ClInclude Include="flop_engine.hpp" />
-    <ClInclude Include="geometry_figure.hpp" />
-    <ClInclude Include="json.hpp" />
-    <ClInclude Include="marching_grid.hpp" />
-    <ClInclude Include="marching_window.hpp" />
-    <ClInclude Include="math.hpp" />
-    <ClInclude Include="quadtree_help.hpp" />
-    <ClInclude Include="quadtree_implementation.hpp" />
-    <ClInclude Include="quadtree_window.hpp" />
+    <ClInclude Include="3rdparty\json\json.hpp" />
+    <ClInclude Include="boids\boid.hpp" />
+    <ClInclude Include="boids\boids_helper.hpp" />
+    <ClInclude Include="boids\boids_window.hpp" />
+    <ClInclude Include="boids\flock.hpp" />
+    <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
+    <ClInclude Include="delaunay\delaunay_window.hpp" />
+    <ClInclude Include="geometry\edge.hpp" />
+    <ClInclude Include="geometry\geometry_figure.hpp" />
+    <ClInclude Include="geometry\triangle.hpp" />
+    <ClInclude Include="geometry\vector2.hpp" />
+    <ClInclude Include="libs\geometry\edge.hpp" />
+    <ClInclude Include="libs\geometry\geometry_figure.hpp" />
+    <ClInclude Include="libs\geometry\triangle.hpp" />
+    <ClInclude Include="libs\geometry\vector2.hpp" />
+    <ClInclude Include="libs\graphics\base_window.hpp" />
+    <ClInclude Include="libs\graphics\drawing.hpp" />
+    <ClInclude Include="libs\graphics\flop_engine.hpp" />
+    <ClInclude Include="libs\graphics\glut_functions.hpp" />
+    <ClInclude Include="libs\math\math.hpp" />
+    <ClInclude Include="libs\geometry\rectangle.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree_implementation.hpp" />
+    <ClInclude Include="marching\marching_grid.hpp" />
+    <ClInclude Include="marching\marching_window.hpp" />
+    <ClInclude Include="quadtree\quadtree_window.hpp" />
+    <ClInclude Include="utils\agent.hpp" />
+    <ClInclude Include="utils\blocker.hpp" />
+    <ClInclude Include="utils\concepts.hpp" />
+    <ClInclude Include="utils\file_observer.hpp" />
+    <ClInclude Include="utils\singleton.hpp" />
+    <ClInclude Include="utils\utils.hpp" />
     <None Include="packages.config" />
-    <ClCompile Include="rectangle.cpp" />
-    <ClInclude Include="rectangle.hpp" />
-    <ClInclude Include="triangle.hpp" />
-    <ClInclude Include="utils.hpp" />
-    <ClInclude Include="vector2.hpp">
-      <FileType>Document</FileType>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="drawing.cpp" />
-    <ClCompile Include="glut_functions.cpp" />
+    <ClCompile Include="boids\boid.cpp" />
+    <ClCompile Include="boids\boids_helper.cpp" />
+    <ClCompile Include="boids\boids_window.cpp" />
+    <ClCompile Include="boids\flock.cpp" />
+    <ClCompile Include="delaunay\delaunay_triangulator.cpp" />
+    <ClCompile Include="delaunay\delaunay_window.cpp" />
+    <ClCompile Include="libs\graphics\base_window.cpp" />
+    <ClCompile Include="libs\graphics\drawing.cpp" />
+    <ClCompile Include="libs\graphics\glut_functions.cpp" />
+    <ClCompile Include="libs\math\math.cpp" />
+    <ClCompile Include="libs\geometry\rectangle.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="base_window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="drawing.hpp" />
-    <ClInclude Include="glut_functions.hpp" />
-    <ClInclude Include="quadtree.hpp" />
-    <ClInclude Include="base_window.hpp" />
+    <ClCompile Include="marching\marching_window.cpp" />
+    <ClCompile Include="quadtree\quadtree_window.cpp" />
+    <ClCompile Include="utils\agent.cpp" />
+    <ClCompile Include="utils\file_observer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
