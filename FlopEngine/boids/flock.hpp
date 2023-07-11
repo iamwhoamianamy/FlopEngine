@@ -198,10 +198,10 @@ inline void flock_t::perform_gathering(boid_t& boid, flp::duration auto ellapsed
         }
     };
 
-    auto boidsToGatherWith =
+    auto boids_to_gather_with =
         _quadtree.quarry(rectangle(boid.position, _boid_params.gather_vision));
 
-    boid.gather(boidsToGatherWith, _boid_params.gather_strength, ellapsed, projection{});
+    boid.gather(boids_to_gather_with, _boid_params.gather_strength, ellapsed, projection{});
 }
 
 inline void flock_t::perform_wandering(boid_t& boid, flp::duration auto ellapsed)

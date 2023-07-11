@@ -10,7 +10,7 @@ base_window::base_window(
     _screen_w(screen_width), _screen_h(screen_height), _name(name)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE);
+    glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE | GLUT_DOUBLE);
     glutInitWindowSize(_screen_w, _screen_h);
     glutCreateWindow(name.c_str());
 
@@ -85,6 +85,7 @@ void base_window::base_display()
 
     physics_loop();
     display();
+    glutSwapBuffers();
 
     _last_ellapsed = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - start);

@@ -40,7 +40,7 @@ struct vector2_traits<agent>
 
 inline void agent::update_position(float viscosity, flp::duration auto ellapsed)
 {
-    velocity += acceleration * utils::true_ellapsed(ellapsed);
+    velocity += acceleration * utils::true_ellapsed(ellapsed) * utils::true_ellapsed(ellapsed) / 2;
     position += velocity * utils::true_ellapsed(ellapsed);
     acceleration.zero();
     velocity *= viscosity;
