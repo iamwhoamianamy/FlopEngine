@@ -98,13 +98,13 @@ void flock_t::draw() const
             for (const auto& boid : _boids)
             {
                 vector2 direction = boid.velocity.normalized();
-                vector2 perpDirection = direction.perp();
+                vector2 perp_direction = direction.perp();
 
                 vector2 a = boid.position + direction * _boid_params.size / 2;
                 vector2 b = boid.position - direction * _boid_params.size / 2 + 
-                    perpDirection * _boid_params.size / 3;
+                    perp_direction * _boid_params.size / 3;
                 vector2 c = boid.position - direction * _boid_params.size / 2 - 
-                    perpDirection * _boid_params.size / 3;
+                    perp_direction * _boid_params.size / 3;
 
                 draw::draw_triangle(a, b, c, _drawType == flock_draw_type::triangles_filled);
             }
