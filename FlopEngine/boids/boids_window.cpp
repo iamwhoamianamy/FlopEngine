@@ -23,7 +23,8 @@ boids_window::boids_window(
             screen_rectangle(),
             boid_per_flock);
 
-        flock_entry.color() = draw::generate_random_color();
+        static int i = 0;
+        flock_entry.color() = draw::nice_colors[i++];
     }
 }
 

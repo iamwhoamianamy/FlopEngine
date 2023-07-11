@@ -1,7 +1,10 @@
 #pragma once
 
+#include <array>
+
 #include "GL/freeglut.h"
 #include "libs/geometry/vector2.hpp"
+#include "libs/geometry/rectangle.hpp"
 
 namespace draw
 {
@@ -24,17 +27,22 @@ struct color
         return *this;
     }
 
-    static color red()    { return color{255,   0,   0}; };
-    static color blue()   { return color{  0, 255,   0}; };
-    static color green()  { return color{  0,   0, 255}; };
-    static color yellow() { return color{255, 255,   0}; };
-    static color orange() { return color{255, 100,   0}; };
-    static color purple() { return color{255,   0, 255}; };
+    static color red()        { return color{255,   0,   0}; };
+    static color green()      { return color{  0, 255,   0}; };
+    static color blue()       { return color{  0,   0, 255}; };
 
-    static color white() { return color{255, 255, 255}; };
-    static color black() { return color{  0,   0,   0}; };
-    static color gray()  { return color{178, 178, 178}; };
+    static color yellow()     { return color{255, 255,   0}; };
+    static color orange()     { return color{255, 100,   0}; };
+    static color purple()     { return color{255,   0, 255}; };
+
+    static color light_blue() { return color{100, 100, 255}; };
+
+    static color white()      { return color{255, 255, 255}; };
+    static color black()      { return color{  0,   0,   0}; };
+    static color gray()       { return color{178, 178, 178}; };
 };
+
+static std::array nice_colors = {color::orange(), color::gray(), color::light_blue()};
      
 void draw_line(const vector2& a, const vector2& b);
 void draw_point(const vector2& point, float size);
