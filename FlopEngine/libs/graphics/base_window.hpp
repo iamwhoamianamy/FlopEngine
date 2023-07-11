@@ -37,6 +37,7 @@ public:
     virtual void mouse(int button, int state, int x, int y);
     virtual void mouse_passive(int x, int y);
     virtual void exiting_function();
+    virtual void idle();
 
     void run();
 
@@ -47,12 +48,14 @@ public:
     friend void glutKeyboardLetters(unsigned char key, int x, int y);
     friend void glutMouse(int button, int state, int x, int y);
     friend void glutMousePassive(int x, int y);
+    friend void glutIdle(int x, int y);
 
 private:
     void base_display();
     void base_on_timer(int millisec);
     void base_exiting_function();
     void base_reshape(int w, int h);
+    void base_idle();
 
     void base_keyboard_letters(unsigned char key, int x, int y);
     void base_mouse(int button, int state, int x, int y);

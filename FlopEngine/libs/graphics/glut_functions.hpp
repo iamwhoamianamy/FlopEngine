@@ -12,4 +12,5 @@ namespace flp
     void glutKeyboardLetters(unsigned char key, int x, int y);
     void glutMouse(int button, int state, int x, int y);
     void glutMousePassive(int x, int y);
+    void glutIdle();
 }

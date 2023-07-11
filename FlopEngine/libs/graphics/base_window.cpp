@@ -56,6 +56,11 @@ void base_window::base_reshape(int w, int h)
     glMatrixMode(GL_MODELVIEW);
 }
 
+void flp::base_window::base_idle()
+{
+    idle();
+}
+
 void base_window::base_keyboard_letters(unsigned char key, int x, int y)
 {
     keyboard_letters(key, x, y);
@@ -112,6 +117,11 @@ void base_window::mouse_passive(int x, int y)
 }
 
 void base_window::exiting_function()
+{
+
+}
+
+void flp::base_window::idle()
 {
 
 }

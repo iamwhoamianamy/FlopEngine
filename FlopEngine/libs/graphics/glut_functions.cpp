@@ -16,47 +16,59 @@ namespace flp
         glutPassiveMotionFunc(glutMousePassive);
         atexit(glutExitingFunction);
         glutTimerFunc(0, glutOnTimer, 0);
+        glutIdleFunc(flp::glutIdle);
     }
 
     void glutOnTimer(int millisec)
     {
-        if(window)
+        if (window)
             window->base_on_timer(millisec);
     }
 
     void glutExitingFunction()
     {
-        if(window)
+        if (window)
             window->base_exiting_function();
     }
 
     void glutDisplay()
     {
-        if(window)
+        if (window)
             window->base_display();
     }
 
     void glutReshape(int w, int h)
     {
-        if(window)
+        if (window)
             window->base_reshape(w, h);
     }
 
     void glutKeyboardLetters(unsigned char key, int x, int y)
     {
-        if(window)
+        if (window)
             window->base_keyboard_letters(key, x, y);
     }
 
     void glutMouse(int button, int state, int x, int y)
     {
-        if(window)
+        if (window)
             window->base_mouse(button, state, x, y);
     }
 
     void glutMousePassive(int x, int y)
     {
-        if(window)
+        if (window)
             window->base_mouse_passive(x, y);
+    }
+
+    void glutIdle(int x, int y)
+    {
+        if (window)
+            window->base_idle();
+    }
+
+    void glutIdle()
+    {
+        std::cout << "IDLE" << "\n";
     }
 }
