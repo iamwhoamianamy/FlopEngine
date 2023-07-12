@@ -11,6 +11,7 @@ struct rectangle
     rectangle();
     rectangle(const vector2& center, const vector2& half_dimensions);
     rectangle(const vector2& center, float radius);
+    rectangle(const vector2& center, float half_width, float half_height);
 
     bool contains(float x, float y) const;
     bool contains(const vector2& point) const;

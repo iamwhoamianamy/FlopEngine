@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -137,12 +137,14 @@
     <ClInclude Include="boids\boids_helper.hpp" />
     <ClInclude Include="boids\boids_window.hpp" />
     <ClInclude Include="boids\flock.hpp" />
+    <ClInclude Include="libs\gui\button.hpp" />
     <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
     <ClInclude Include="delaunay\delaunay_window.hpp" />
     <ClInclude Include="geometry\edge.hpp" />
     <ClInclude Include="geometry\geometry_figure.hpp" />
     <ClInclude Include="geometry\triangle.hpp" />
     <ClInclude Include="geometry\vector2.hpp" />
+    <ClInclude Include="libs\gui\object.hpp" />
     <ClInclude Include="libs\geometry\edge.hpp" />
     <ClInclude Include="libs\geometry\geometry_figure.hpp" />
     <ClInclude Include="libs\geometry\triangle.hpp" />
@@ -151,6 +153,7 @@
     <ClInclude Include="libs\graphics\drawing.hpp" />
     <ClInclude Include="libs\graphics\flop_engine.hpp" />
     <ClInclude Include="libs\graphics\glut_functions.hpp" />
+    <ClInclude Include="libs\gui\master.hpp" />
     <ClInclude Include="libs\math\math.hpp" />
     <ClInclude Include="libs\geometry\rectangle.hpp" />
     <ClInclude Include="libs\quadtree\quadtree.hpp" />
@@ -172,11 +175,14 @@
     <ClCompile Include="boids\boids_helper.cpp" />
     <ClCompile Include="boids\boids_window.cpp" />
     <ClCompile Include="boids\flock.cpp" />
+    <ClCompile Include="libs\gui\button.cpp" />
     <ClCompile Include="delaunay\delaunay_triangulator.cpp" />
     <ClCompile Include="delaunay\delaunay_window.cpp" />
+    <ClCompile Include="libs\gui\object.cpp" />
     <ClCompile Include="libs\graphics\base_window.cpp" />
     <ClCompile Include="libs\graphics\drawing.cpp" />
     <ClCompile Include="libs\graphics\glut_functions.cpp" />
+    <ClCompile Include="libs\gui\master.cpp" />
     <ClCompile Include="libs\math\math.cpp" />
     <ClCompile Include="libs\geometry\rectangle.cpp" />
     <ClCompile Include="main.cpp" />

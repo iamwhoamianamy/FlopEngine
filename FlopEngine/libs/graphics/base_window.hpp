@@ -21,6 +21,7 @@ protected:
     std::string _name;
     vector2 _mouse_pos;
 
+protected:
     auto screen_rectangle() const -> rectangle;
 
 public:

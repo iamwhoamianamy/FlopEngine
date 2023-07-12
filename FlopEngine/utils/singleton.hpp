@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 
 #define NONCOPYABLE(class)                       \
     class(const class&)     = delete;            \
@@ -22,10 +23,10 @@ struct singleton
     {
         std::call_once(get_once_flag(), [...args = std::forward<Args>(args)]()
             {
-                instance_.reset(new T(std::forward<Args>(args)...));
+                _instance.reset(new T(std::forward<Args>(args)...));
             });
 
-        return *instance_;
+        return *_instance;
     }
 
 private:

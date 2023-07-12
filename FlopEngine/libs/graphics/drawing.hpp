@@ -27,25 +27,27 @@ struct color
         return *this;
     }
 
-    static color red()        { return color{255,   0,   0}; };
-    static color green()      { return color{  0, 255,   0}; };
-    static color blue()       { return color{  0,   0, 255}; };
+    static color red()    { return color{255,   0,   0}; };
+    static color green()  { return color{  0, 255,   0}; };
+    static color blue()   { return color{  0,   0, 255}; };
 
-    static color yellow()     { return color{255, 255,   0}; };
-    static color orange()     { return color{255, 100,   0}; };
-    static color purple()     { return color{255,   0, 255}; };
+    static color yellow() { return color{255, 255,   0}; };
+    static color orange() { return color{255, 100,   0}; };
+    static color purple() { return color{255,   0, 255}; };
 
-    static color light_blue() { return color{100, 100, 255}; };
-
-    static color white()      { return color{255, 255, 255}; };
-    static color black()      { return color{  0,   0,   0}; };
-    static color gray()       { return color{178, 178, 178}; };
+    static color white()  { return color{255, 255, 255}; };
+    static color black()  { return color{  0,   0,   0}; };
+    static color gray()   { return color{178, 178, 178}; };
+    
+    static color light_blue()  { return color{   0, 100, 255}; };
+    static color warm_yellow() { return color{ 255, 150,   0}; };
 };
 
-static std::array nice_colors = {color::orange(), color::gray(), color::light_blue()};
+static std::array nice_colors = {color::warm_yellow(), color::gray(), color::light_blue()};
      
 void draw_line(const vector2& a, const vector2& b);
 void draw_point(const vector2& point, float size);
+void draw_rect(const rectangle& rect);
 void draw_rect(const vector2& center, float half_width, float half_height);
 void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d);
 void draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled = false);
@@ -85,6 +87,11 @@ inline void draw::draw_point(const vector2& point, float size)
         glVertex2f(point.x, point.y);
     }
     glEnd();
+}
+
+inline void draw::draw_rect(const rectangle& rect)
+{
+    draw_rect(rect.center, rect.half_dimensions.x, rect.half_dimensions.y);
 }
 
 inline void draw::draw_rect(const vector2& center, float half_width, float half_height)

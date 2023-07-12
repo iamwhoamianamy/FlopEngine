@@ -1,6 +1,9 @@
 #include "libs/graphics/base_window.hpp"
 #include "glut_functions.hpp"
 
+#include "utils/singleton.hpp"
+#include "libs/gui/master.hpp"
+
 using namespace flp;
 
 base_window::base_window(
@@ -73,7 +76,9 @@ void base_window::base_mouse(int button, int state, int x, int y)
 
 void base_window::base_mouse_passive(int x, int y)
 {
+    _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
     mouse_passive(x, y);
+    utils::singleton<gui::master>::get().hover(_mouse_pos);
 }
 
 auto flp::base_window::screen_rectangle() const -> rectangle
@@ -90,6 +95,7 @@ void base_window::base_display()
 
     physics_loop();
     display();
+    utils::singleton<gui::master>::get().draw();
     glutSwapBuffers();
 
     _last_ellapsed = std::chrono::duration_cast<std::chrono::microseconds>(

@@ -26,6 +26,8 @@ boids_window::boids_window(
         static int i = 0;
         flock_entry.color() = draw::nice_colors[i++];
     }
+
+    _color_button = gui::button::create(rectangle{screen_rectangle().center, 100, 50});
 }
 
 void boids_window::perform_flocking_physics()
