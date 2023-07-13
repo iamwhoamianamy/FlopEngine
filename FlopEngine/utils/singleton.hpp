@@ -21,9 +21,9 @@ struct singleton
     template <typename... Args>
     static T& get(Args&&... args)
     {
-        std::call_once(get_once_flag(), [...args = std::forward<Args>(args)]()
+        std::call_once(get_once_flag(), [&args...]()
             {
-                _instance.reset(new T(std::forward<Args>(args)...));
+                _instance.reset(new T{std::forward<Args>(args)...});
             });
 
         return *_instance;

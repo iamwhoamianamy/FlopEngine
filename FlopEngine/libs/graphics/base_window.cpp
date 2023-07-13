@@ -34,7 +34,7 @@ void base_window::base_on_timer(int millisec)
         ? _drawing_interval - _last_ellapsed
         : std::chrono::microseconds{0}};
 
-    std::cout << _last_ellapsed.count() << "\n";
+    // std::cout << _last_ellapsed.count() << "\n";
 
     auto left_in_loop_fixed{
         std::chrono::duration_cast<std::chrono::milliseconds>(left_in_loop)};

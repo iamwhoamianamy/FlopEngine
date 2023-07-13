@@ -49,7 +49,7 @@ public:
     friend void glutKeyboardLetters(unsigned char key, int x, int y);
     friend void glutMouse(int button, int state, int x, int y);
     friend void glutMousePassive(int x, int y);
-    friend void glutIdle(int x, int y);
+    friend void glutIdle();
 
 private:
     void base_display();

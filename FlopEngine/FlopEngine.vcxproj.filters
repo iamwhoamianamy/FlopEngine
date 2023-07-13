@@ -20,6 +20,7 @@
     <ClCompile Include="libs\gui\object.cpp" />
     <ClCompile Include="libs\gui\master.cpp" />
     <ClCompile Include="libs\gui\button.cpp" />
+    <ClCompile Include="libs\logger\logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="libs\gui\master.hpp" />
     <ClInclude Include="libs\gui\object.hpp" />
     <ClInclude Include="libs\gui\button.hpp" />
+    <ClInclude Include="libs\logger\logger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

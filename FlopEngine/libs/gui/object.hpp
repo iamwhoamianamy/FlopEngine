@@ -21,6 +21,7 @@ public:
     virtual ~object();
 
 public:
+    // TODO mb not public...
     virtual void draw();
 
 public:

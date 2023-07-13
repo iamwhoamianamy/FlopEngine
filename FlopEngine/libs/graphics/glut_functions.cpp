@@ -61,14 +61,9 @@ namespace flp
             window->base_mouse_passive(x, y);
     }
 
-    void glutIdle(int x, int y)
+    void glutIdle()
     {
         if (window)
             window->base_idle();
-    }
-
-    void glutIdle()
-    {
-        std::cout << "IDLE" << "\n";
     }
 }

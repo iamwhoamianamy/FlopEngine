@@ -7,6 +7,7 @@
 #include "boids_window.hpp"
 #include "libs/graphics/drawing.hpp"
 #include "utils/utils.hpp"
+#include "libs/logger/logger.hpp"
 
 using namespace std::chrono_literals;
 
@@ -27,6 +28,7 @@ boids_window::boids_window(
         flock_entry.color() = draw::nice_colors[i++];
     }
 
+    logger::open(logger::detail::log_level::error);
     _color_button = gui::button::create(rectangle{screen_rectangle().center, 100, 50});
 }
 
@@ -99,6 +101,8 @@ void boids_window::display()
 
 void boids_window::keyboard_letters(unsigned char key, int x, int y)
 {
+    bool known_key = true;
+
     switch(key)
     {
         case 'c':
@@ -166,7 +170,16 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
         {
             read_boid_params();
         }
+        default:
+        {
+            known_key = false;
+        }
     }
+
+    if (known_key)
+        logger::log_trace("key: '{}'", (char)key);
+    else
+        logger::log_error("unknown key: '{}'", (char)key);
 }
 
 void boids_window::read_boid_params()
