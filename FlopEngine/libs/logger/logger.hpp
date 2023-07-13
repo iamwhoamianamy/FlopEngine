@@ -1,9 +1,8 @@
 #pragma once
 #include <ostream>
-#include <vector>
-#include <algorithm>
 #include <format>
 #include <unordered_map>
+#include <chrono>
 
 #include "utils/singleton.hpp"
 
@@ -41,56 +40,31 @@ private:
     log_level _max_level;
     std::ostream _out;
     std::unordered_map<console_color, std::string> _colors_to_symbols;
-    std::unordered_map<log_level, console_color> _levels_to_colors;
+    std::unordered_map<log_level, console_color>   _levels_to_colors;
+    std::unordered_map<log_level, std::string>     _levels_to_string;
 
 public:
     logger_impl(log_level level = log_level::all);
 
-    template <typename... Args>
-    void log(std::format_string<Args...> format, Args&&... args);
-
-    template <typename... Args>
-    void log_with_color(console_color color, std::format_string<Args...> format, Args&&... args);
-
-    template <typename... Args>
-    void log_with_level(log_level level, std::format_string<Args...> format, Args&&... args);
+    void log(std::string_view str);
+    void log_with_color(console_color color, std::string_view str);
+    void log_with_level(log_level level, std::string_view str);
 
 private:
     void init_color_to_symbol_map();
     void init_level_to_color_map();
+    void init_level_to_string_map();
 
 private:
     void set_console_color(console_color color);
     void reset_console_color();
 };
 
-template<typename ...Args>
-inline void logger_impl::log(std::format_string<Args...> format, Args && ...args)
-{
-    _out << std::format(format, std::forward<Args...>(args...));
-}
-
-template<typename ...Args>
-inline void logger_impl::log_with_level(log_level level, std::format_string<Args...> format, Args && ...args)
-{
-    if (level <= _max_level)
-        log_with_color(_levels_to_colors[level], format, std::forward<Args...>(args...));
-}
-
-template<typename ...Args>
-inline void logger_impl::log_with_color(console_color color, std::format_string<Args...> format, Args && ...args)
-{
-    set_console_color(color);
-    log(format, std::forward<Args...>(args...));
-    reset_console_color();
-
-    _out << "\n";
-}
-
 template <typename... Args>
 inline void log_with_level(log_level level, std::format_string<Args...> format, Args && ...args)
 {
-    utils::singleton<detail::logger_impl>::get().log_with_level(level, format, std::forward<Args...>(args...));
+    auto str = std::format(format, std::forward<Args...>(args...));
+    utils::singleton<detail::logger_impl>::get().log_with_level(level, str);
 }
 
 } // namespace detail

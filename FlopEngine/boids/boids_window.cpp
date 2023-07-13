@@ -28,7 +28,7 @@ boids_window::boids_window(
         flock_entry.color() = draw::nice_colors[i++];
     }
 
-    logger::open(logger::detail::log_level::error);
+    logger::open(logger::detail::log_level::all);
     _color_button = gui::button::create(rectangle{screen_rectangle().center, 100, 50});
 }
 
