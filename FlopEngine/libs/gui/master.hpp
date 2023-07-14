@@ -18,15 +18,18 @@ public:
 
 public:
     void hover(const vector2& mouse_position);
+    void register_mouse_click_status_change(const vector2& mouse_position);
     void draw();
 
 private:
+    auto get_all_under_cursor(const vector2& mouse_position) -> objects_t;
     void add_new_object(std::shared_ptr<object> object);
 
 private:
     friend object;
 
     objects_t _objects;
+    objects_t _pressed_objects;
 };
 
 } // namespace gui

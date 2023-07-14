@@ -71,7 +71,9 @@ void base_window::base_keyboard_letters(unsigned char key, int x, int y)
 
 void base_window::base_mouse(int button, int state, int x, int y)
 {
+    _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
     mouse(button, state, x, y);
+    utils::singleton<gui::master>::get().register_mouse_click_status_change(_mouse_pos);
 }
 
 void base_window::base_mouse_passive(int x, int y)

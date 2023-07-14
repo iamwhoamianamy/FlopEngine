@@ -48,6 +48,16 @@ const rectangle& object::boundary_rectangle() const
     return _boundary_rectangle;
 }
 
+void gui::object::on_press(callback_t&& callback)
+{
+    _on_press = callback;
+}
+
+void gui::object::on_release(callback_t&& callback)
+{
+    _on_release = callback;
+}
+
 bool object::hidden() const
 {
     return _hidden;
@@ -58,7 +68,22 @@ bool object::hovered_over() const
     return _hovered_over;
 }
 
-void gui::object::set_hovered_over(bool is_hovered_over)
+bool gui::object::pressed() const
 {
-    _hovered_over = is_hovered_over;
+    return _pressed;
+}
+
+void gui::object::set_hovered_over(bool hovered_over)
+{
+    _hovered_over = hovered_over;
+}
+
+void gui::object::set_pressed_status(bool pressed)
+{
+    _pressed = pressed;
+
+    if (pressed)
+        _on_press();
+    else
+        _on_release();
 }

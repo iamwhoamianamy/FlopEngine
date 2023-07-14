@@ -29,7 +29,7 @@ boids_window::boids_window(
     }
 
     logger::open(logger::detail::log_level::all);
-    _color_button = gui::button::create(rectangle{screen_rectangle().center, 100, 50});
+    setup_gui();
 }
 
 void boids_window::perform_flocking_physics()
@@ -235,4 +235,20 @@ void boids_window::draw_marching_squares()
             _marching_grids[i].clear();
         }
     }
+}
+
+void boids_window::setup_gui()
+{
+    _color_button = gui::button::create(
+        rectangle{screen_rectangle().center, 100, 50});
+
+    _color_button->on_press([]
+        {
+            logger::log_debug("mouse pressed the button!");
+        });
+
+    _color_button->on_release([]
+        {
+            logger::log_debug("mouse released the button!");
+        });
 }

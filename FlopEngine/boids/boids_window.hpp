@@ -51,4 +51,5 @@ private:
     void block_on_param_file_update();
     void draw_focks();
     void draw_marching_squares();
+    void setup_gui();
 };
