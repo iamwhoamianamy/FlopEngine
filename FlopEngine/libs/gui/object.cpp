@@ -82,13 +82,14 @@ void gui::object::set_pressed(bool pressed)
 {
     _pressed = pressed;
 
-    if (pressed)
-        _on_press();
+    if (pressed && _on_press)
+        (*_on_press)();
 }
 
 void gui::object::release()
 {
     _pressed = false;
 
-    _on_release();
+    if (_on_release)
+        (*_on_release)();
 }

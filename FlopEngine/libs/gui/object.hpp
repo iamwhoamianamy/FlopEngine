@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <functional>
+#include <optional>
 
 #include "libs/geometry/rectangle.hpp"
 
@@ -57,8 +58,8 @@ private:
     bool _hovered_over = false;
     bool _pressed      = false;
 
-    callback_t _on_press;
-    callback_t _on_release;
+    std::optional<callback_t> _on_press;
+    std::optional<callback_t> _on_release;
 
     friend class master;
 };
