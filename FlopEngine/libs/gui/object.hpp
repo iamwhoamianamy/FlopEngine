@@ -44,7 +44,8 @@ protected:
 
 protected:
     void set_hovered_over(bool hovered_over);
-    void set_pressed_status(bool pressed);
+    void set_pressed(bool pressed);
+    void release();
 
 private:
     void init();

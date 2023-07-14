@@ -14,12 +14,16 @@ gui::button::~button()
 
 void gui::button::draw()
 {
+    if (object::pressed())
+        draw::set_line_width(4);
+    else
+        draw::set_line_width(2);
+
     if (object::hovered_over())
         draw::set_color(draw::color::red());
     else
         draw::set_color(draw::color::white());
     
-    draw::set_line_width(4);
     draw::draw_rect(object::boundary_rectangle());
 }
 

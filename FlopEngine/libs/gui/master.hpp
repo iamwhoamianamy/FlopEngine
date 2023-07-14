@@ -22,13 +22,15 @@ public:
     void draw();
 
 private:
-    auto get_all_under_cursor(const vector2& mouse_position) -> objects_t;
+    auto get_objects_under_cursor(const vector2& mouse_position) -> objects_t;
     void add_new_object(std::shared_ptr<object> object);
 
 private:
     friend object;
 
     objects_t _objects;
+
+    bool _last_mouse_status_is_press;
     objects_t _pressed_objects;
 };
 

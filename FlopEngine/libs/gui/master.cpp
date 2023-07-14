@@ -5,7 +5,7 @@
 
 void gui::master::hover(const vector2& mouse_position)
 {
-    auto candidates = get_all_under_cursor(mouse_position);
+    auto candidates = get_objects_under_cursor(mouse_position);
 
     for (auto object : _objects)
     {
@@ -16,27 +16,36 @@ void gui::master::hover(const vector2& mouse_position)
 
 void gui::master::register_mouse_click_status_change(const vector2& mouse_position)
 {
-    auto candidates = get_all_under_cursor(mouse_position);
+    auto objects_under_cursor = get_objects_under_cursor(mouse_position);
 
-    if (_pressed_objects.empty())
+    if (_last_mouse_status_is_press)
     {
-        for (auto candidate : candidates)
+        _last_mouse_status_is_press = false;
+
+        for (auto object_under_cursor : objects_under_cursor)
         {
-            candidate->set_pressed_status(true);
-            _pressed_objects.insert(candidate);
-        }
-    }
-    else
-    {
-        for (auto candidate : candidates)
-        {
-            if (_pressed_objects.contains(candidate))
+            if (_pressed_objects.contains(object_under_cursor))
             {
-                candidate->set_pressed_status(false);
+                object_under_cursor->release();
             }
         }
 
+        for (auto pressed_object : _pressed_objects)
+        {
+            pressed_object->set_pressed(false);
+        }
+
         _pressed_objects.clear();
+    }
+    else
+    {
+        _last_mouse_status_is_press = true;
+
+        for (auto object_under_cursor : objects_under_cursor)
+        {
+            object_under_cursor->set_pressed(true);
+            _pressed_objects.insert(object_under_cursor);
+        }
     }
 }
 
@@ -48,7 +57,7 @@ void gui::master::draw()
     }
 }
 
-auto gui::master::get_all_under_cursor(const vector2& mouse_position) -> objects_t
+auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> objects_t
 {
     objects_t result;
 

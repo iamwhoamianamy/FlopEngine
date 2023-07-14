@@ -78,12 +78,17 @@ void gui::object::set_hovered_over(bool hovered_over)
     _hovered_over = hovered_over;
 }
 
-void gui::object::set_pressed_status(bool pressed)
+void gui::object::set_pressed(bool pressed)
 {
     _pressed = pressed;
 
     if (pressed)
         _on_press();
-    else
-        _on_release();
+}
+
+void gui::object::release()
+{
+    _pressed = false;
+
+    _on_release();
 }
