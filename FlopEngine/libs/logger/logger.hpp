@@ -63,7 +63,7 @@ private:
 template <typename... Args>
 inline void log_with_level(log_level level, std::format_string<Args...> format, Args && ...args)
 {
-    auto str = std::format(format, std::forward<Args...>(args...));
+    auto str = std::format(format, std::forward<Args>(args)...);
     utils::singleton<detail::logger_impl>::get().log_with_level(level, str);
 }
 
@@ -77,43 +77,43 @@ static void open(detail::log_level level)
 template <typename... Args>
 static void log_fatal(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::fatal, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::fatal, format, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 static void log_error(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::error, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::error, format, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 static void log_warn(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::warn, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::warn, format, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 static void log_info(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::info, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::info, format, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 static void log_debug(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::debug, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::debug, format, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 static void log_trace(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::trace, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::trace, format, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 static void log_all(std::format_string<Args...> format, Args&&... args)
 {
-    detail::log_with_level(detail::log_level::all, format, std::forward<Args...>(args...));
+    detail::log_with_level(detail::log_level::all, format, std::forward<Args>(args)...);
 }
 
 } // namespace log
