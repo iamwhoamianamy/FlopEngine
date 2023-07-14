@@ -11,7 +11,7 @@ namespace gui
 
 struct object;
 
-struct master
+struct master final
 {
 public:
     using objects_t = std::unordered_set<std::shared_ptr<object>>;
