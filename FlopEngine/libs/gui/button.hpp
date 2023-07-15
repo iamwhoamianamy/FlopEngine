@@ -8,7 +8,7 @@ namespace gui
 struct button : public object
 {
 public:
-    [[noexcept]] static std::shared_ptr<button>
+    [[nodiscard]] static std::shared_ptr<button>
     create(const rectangle& boundary_rectangle);
 
     virtual ~button();

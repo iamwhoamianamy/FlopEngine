@@ -15,10 +15,10 @@ public:
     using callback_t = std::function<void()>;
 
 public:
-    [[noexcept]] static object_ptr
+    [[nodiscard]] static object_ptr
     create();
 
-    [[noexcept]] static object_ptr
+    [[nodiscard]] static object_ptr
     create(const rectangle& boundary_rectangle);
 
     virtual ~object();
