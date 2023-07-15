@@ -25,7 +25,11 @@ boids_window::boids_window(
             boid_per_flock);
 
         static int i = 0;
-        flock_entry.color() = draw::nice_colors[i++];
+
+        if (i < draw::nice_colors.size())
+            flock_entry.color() = draw::nice_colors[i++];
+        else
+            flock_entry.color() = draw::generate_random_color();
     }
 
     logger::open(logger::detail::log_level::all);
