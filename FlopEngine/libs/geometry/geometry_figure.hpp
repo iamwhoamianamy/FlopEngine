@@ -51,7 +51,7 @@ inline size_t geometry_figure<V, VertexCount>::hash() const
 {
     size_t result{0};
 
-    std::reduce(_vertices.begin(), _vertices.end(), result,
+    result = std::reduce(_vertices.begin(), _vertices.end(), result,
         [](const auto& sum, const auto& vertex)
         {
             using type_t = std::remove_cvref_t<decltype(vertex)>;
