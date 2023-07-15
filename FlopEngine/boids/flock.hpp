@@ -57,7 +57,7 @@ struct access<boid_t>
 
 using quadtree_t = quadtree<boid_t, 64>;
 
-class flock_t
+class flock
 {
 private:
     std::vector<boid_t> _boids;
@@ -69,7 +69,7 @@ private:
 public:
     bool debug = true;
 
-    flock_t();
+    flock();
 
     void init_random_on_screen(rectangle screen, size_t boids_count = 500);
     void update_boid_positions(float viscosity, flp::duration auto ellapsed);
@@ -77,7 +77,7 @@ public:
     void perform_flocking_behaviour(flp::duration auto ellapsed);
     void go_through_window_borders(const rectangle& screen_borders);
     void bounce_from_window_borders(const rectangle& screen_borders);
-    void perform_fleeing(const flock_t& flock, flp::duration auto ellapsed);
+    void perform_fleeing(const flock& other, flp::duration auto ellapsed);
     void draw() const;
 
     draw::color& color();
@@ -95,7 +95,7 @@ private:
     void perform_wandering(boid_t& boid, flp::duration auto ellapsed);
 };
 
-inline void flock_t::update_boid_positions(float viscosity, flp::duration auto ellapsed)
+inline void flock::update_boid_positions(float viscosity, flp::duration auto ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
         [this, viscosity, ellapsed](boid_t& boid)
@@ -118,13 +118,13 @@ inline void flock_t::update_boid_positions(float viscosity, flp::duration auto e
         });
 }
 
-inline void flock_t::form_quadtree(const rectangle& screen_borders)
+inline void flock::form_quadtree(const rectangle& screen_borders)
 {
     _quadtree = quadtree_t(screen_borders);
     _quadtree.insert(_boids);
 }
 
-inline void flock_t::perform_flocking_behaviour(flp::duration auto ellapsed)
+inline void flock::perform_flocking_behaviour(flp::duration auto ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
         [this, ellapsed](boid_t& boid)
@@ -136,7 +136,7 @@ inline void flock_t::perform_flocking_behaviour(flp::duration auto ellapsed)
         });
 }
 
-inline void flock_t::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
 {
     auto boids_to_avoid = _quadtree.quarry(
         rectangle(boid.position, _boid_params.avoid_vision));
@@ -159,7 +159,7 @@ inline void flock_t::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
     }
 }
 
-inline void flock_t::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
 {
     struct projection
     {
@@ -187,7 +187,7 @@ inline void flock_t::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
 
 }
 
-inline void flock_t::perform_gathering(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_gathering(boid_t& boid, flp::duration auto ellapsed)
 {
     struct projection
     {
@@ -203,16 +203,16 @@ inline void flock_t::perform_gathering(boid_t& boid, flp::duration auto ellapsed
     boid.gather(boids_to_gather_with, _boid_params.gather_strength, ellapsed, projection{});
 }
 
-inline void flock_t::perform_wandering(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_wandering(boid_t& boid, flp::duration auto ellapsed)
 {
     boid.wander(_boid_params.wander_strength, ellapsed);
 }
 
-inline void flock_t::perform_fleeing(const flock_t& flock, flp::duration auto ellapsed)
+inline void flock::perform_fleeing(const flock& other, flp::duration auto ellapsed)
 {
     for (auto& boid : _boids)
     {
-        auto boids_to_flee_from = flock.quadtree().quarry(
+        auto boids_to_flee_from = other.quadtree().quarry(
             rectangle(boid.position, _boid_params.flee_vision));
 
         for (const auto& boid_to_flee_from : boids_to_flee_from)

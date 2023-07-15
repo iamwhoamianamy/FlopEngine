@@ -7,7 +7,7 @@
 #include "flock.hpp"
 #include "utils/utils.hpp"
 
-flock_t::flock_t() :
+flock::flock() :
     _drawType(flock_draw_type::triangles_filled),
     _color(255, 255, 255),
     _quadtree(rectangle(vector2(), vector2()))
@@ -35,7 +35,7 @@ boid_parameters boid_parameters::create_from_file(const std::string& filename)
     };
 }
 
-void flock_t::init_random_on_screen(rectangle screen, size_t boids_count)
+void flock::init_random_on_screen(rectangle screen, size_t boids_count)
 {
     auto agents{utils::agent::generate_random(screen, boids_count, _boid_params.max_speed)};
 
@@ -46,7 +46,7 @@ void flock_t::init_random_on_screen(rectangle screen, size_t boids_count)
         });
 }
 
-void flock_t::go_through_window_borders(const rectangle& screen_borders)
+void flock::go_through_window_borders(const rectangle& screen_borders)
 {
     for (auto& boid : _boids)
     {
@@ -54,7 +54,7 @@ void flock_t::go_through_window_borders(const rectangle& screen_borders)
     }
 }
 
-void flock_t::bounce_from_window_borders(const rectangle& screen_borders)
+void flock::bounce_from_window_borders(const rectangle& screen_borders)
 {
     for (auto& boid : _boids)
     {
@@ -62,22 +62,22 @@ void flock_t::bounce_from_window_borders(const rectangle& screen_borders)
     }
 }
 
-draw::color& flock_t::color()
+draw::color& flock::color()
 {
     return _color;
 }
 
-const std::vector<boid_t>& flock_t::boids() const
+const std::vector<boid_t>& flock::boids() const
 {
     return _boids;
 }
 
-flock_draw_type& flock_t::drawType()
+flock_draw_type& flock::drawType()
 {
     return _drawType;
 }
 
-void flock_t::draw() const
+void flock::draw() const
 {
     draw::set_color(_color);
 
@@ -130,17 +130,17 @@ void flock_t::draw() const
     }
 }
 
-const quadtree_t& flock_t::quadtree() const
+const quadtree_t& flock::quadtree() const
 {
     return _quadtree;
 }
 
-void flock_t::set_params(const boid_parameters& new_params)
+void flock::set_params(const boid_parameters& new_params)
 {
     _boid_params = new_params;
 }
 
-const boid_parameters& flock_t::params() const
+const boid_parameters& flock::params() const
 {
     return _boid_params;
 }

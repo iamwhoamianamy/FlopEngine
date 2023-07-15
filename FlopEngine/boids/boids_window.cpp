@@ -33,13 +33,13 @@ boids_window::boids_window(
     }
 
     logger::open(logger::detail::log_level::all);
-    setup_gui();
+    //setup_gui();
 }
 
 void boids_window::perform_flocking_physics()
 {
     std::for_each(std::execution::par, _flocks.begin(), _flocks.end(),
-        [=](flock_t& flock)
+        [=](flock& flock)
         {
             flock.form_quadtree(
                 rectangle(
