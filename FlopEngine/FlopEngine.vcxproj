@@ -187,7 +187,6 @@
     <ClCompile Include="libs\gui\master.cpp" />
     <ClCompile Include="libs\logger\logger.cpp" />
     <ClCompile Include="libs\math\math.cpp" />
-    <ClCompile Include="libs\geometry\rectangle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="marching\marching_window.cpp" />
     <ClCompile Include="quadtree\quadtree_window.cpp" />

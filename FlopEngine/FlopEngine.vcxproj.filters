@@ -14,7 +14,6 @@
     <ClCompile Include="libs\graphics\drawing.cpp" />
     <ClCompile Include="libs\graphics\glut_functions.cpp" />
     <ClCompile Include="libs\math\math.cpp" />
-    <ClCompile Include="libs\geometry\rectangle.cpp" />
     <ClCompile Include="marching\marching_window.cpp" />
     <ClCompile Include="quadtree\quadtree_window.cpp" />
     <ClCompile Include="libs\gui\object.cpp" />
