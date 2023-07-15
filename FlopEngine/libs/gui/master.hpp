@@ -28,7 +28,7 @@ private:
 
     objects_t _objects;
 
-    bool _last_mouse_status_is_press;
+    bool _last_mouse_status_is_press = false;
     objects_t _pressed_objects;
 };
 

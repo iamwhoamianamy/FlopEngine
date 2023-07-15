@@ -77,13 +77,13 @@ void delaunay_window::draw_with_edge_length_gradient()
 
         draw::color color_fixed1(
             2.5f * saturation1,
-            2.0 * saturation1,
-            1.0 * saturation1);
+            2.0f * saturation1,
+            1.0f * saturation1);
 
         draw::color color_fixed2(
             2.5f * saturation2,
-            2.0 * saturation2,
-            1.0 * saturation2);
+            2.0f * saturation2,
+            1.0f * saturation2);
 
         draw::set_line_width(width);
         draw::draw_line_gradient(edge[0], edge[1], color_fixed1, color_fixed2);
