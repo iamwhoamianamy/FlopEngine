@@ -7,7 +7,7 @@
 #include "geometry_figure.hpp"
 
 template <geo_figure_vertex V>
-class edge_base;
+struct edge_base;
 
 using edge = edge_base<vector2>;
 using edge_view = edge_base<vector2*>;
