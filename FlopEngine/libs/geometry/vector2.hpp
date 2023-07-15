@@ -38,90 +38,85 @@ public:
     float x;
     float y;
 
-    vector2(const vector2& vector);
-    vector2(vector2&& vector) noexcept;
-    vector2(float x = 0, float y = 0);
+    constexpr vector2(const vector2& vector)    noexcept;
+    constexpr vector2(vector2&& vector)         noexcept;
+    constexpr vector2(float x = 0, float y = 0) noexcept;
 
     float& operator[](int i);
-    float operator[](int i) const;
+    constexpr float operator[](int i) const noexcept;
 
-    vector2& operator=(vector2&& vector) noexcept;
-    vector2& operator=(const vector2& vector);
+    constexpr vector2& operator=(vector2&& vector)      noexcept;
+    constexpr vector2& operator=(const vector2& vector) noexcept;
 
-    vector2 operator +(const vector2& rhs) const;
-    vector2 operator -(const vector2& rhs) const;
-    vector2 operator *(const float fac) const;
-    vector2 operator /(const float fac) const;
+    constexpr vector2 operator +(const vector2& rhs) const noexcept;
+    constexpr vector2 operator -(const vector2& rhs) const noexcept;
+    constexpr vector2 operator *(const float fac)    const noexcept;
+    constexpr vector2 operator /(const float fac)    const noexcept;
 
-    vector2& operator +=(const vector2& rhs);
-    vector2& operator -=(const vector2& rhs);
-    vector2& operator *=(float fac);
-    vector2& operator /=(float fac);
+    constexpr vector2& operator +=(const vector2& rhs) noexcept;
+    constexpr vector2& operator -=(const vector2& rhs) noexcept;
+    constexpr vector2& operator *=(float fac)          noexcept;
+    constexpr vector2& operator /=(float fac)          noexcept;
 
-    float length() const;
-    float length_squared() const;
-    vector2 normalized() const;
-    vector2 perp() const;
-    void zero();
+    float   length()         const;
+    float   length_squared() const;
+    vector2 normalized()     const;
 
-    void normalize();
-    void limit(float max_length);
+    constexpr vector2 perp() const noexcept;
+    constexpr void    zero() noexcept;
+
+    void normalize ();
+    void limit     (float max_length);
     void set_length(float new_length);
 
-    static vector2 lerp(const vector2& a, const vector2& b, float factor);
-    static vector2 direction(const vector2& from, const vector2& to);
-    static float distance(const vector2& vec1, const vector2& vec2);
-    static float distance_squared(const vector2& vec1, const vector2& vec2);
-    static float dot(const vector2& vec1, const vector2& vec2);
-    static float cross(const vector2& vec1, const vector2& vec2);
+    static vector2 direction       (const vector2& from, const vector2& to);
+    static float   distance        (const vector2& a, const vector2& b);
+    static float   distance_squared(const vector2& a, const vector2& b);
+
+    constexpr static vector2 lerp (const vector2& a, const vector2& b, float factor) noexcept;
+    constexpr static float   dot  (const vector2& a, const vector2& b) noexcept;
+    constexpr static float   cross(const vector2& a, const vector2& b) noexcept;
+
     static bool is_close_enough(const vector2& a, const vector2& b, float threshold);
 
-    static vector2 xAxis();
-    static vector2 yAxis();
+    constexpr static vector2 x_axis() noexcept;
+    constexpr static vector2 y_axis() noexcept;
 
     void print_with_width(std::ostream& os, size_t width);
 };
 
-inline vector2::vector2(const vector2& vector)
+constexpr vector2::vector2(const vector2& vector) noexcept
 {
     x = vector.x;
     y = vector.y;
 }
 
-inline vector2::vector2(vector2&& vector) noexcept
+constexpr vector2::vector2(vector2&& vector) noexcept
 {
     x = vector.x;
     y = vector.y;
 }
 
-inline vector2::vector2(float x, float y)
-    : x(x), y(y)
+constexpr vector2::vector2(float x, float y) noexcept
+    : x{x}, y{y}
 {
 }
 
 inline float& vector2::operator[](int i)
 {
-    switch (i)
+    switch (i % 2)
     {
         case 0: return x;
         case 1: return y;
     }
 }
 
-inline float vector2::operator[](int i) const
+constexpr float vector2::operator[](int i) const noexcept
 {
-    return *((float*)this + i);
+    return *((float*)this + (i % 2));
 }
 
-inline vector2& vector2::operator=(vector2&& vector) noexcept
-{
-    x = vector.x;
-    y = vector.y;
-
-    return *this;
-}
-
-inline vector2& vector2::operator=(const vector2& vector)
+constexpr vector2& vector2::operator=(vector2&& vector) noexcept
 {
     x = vector.x;
     y = vector.y;
@@ -129,7 +124,15 @@ inline vector2& vector2::operator=(const vector2& vector)
     return *this;
 }
 
-inline vector2 vector2::operator +(const vector2& rhs) const
+constexpr vector2& vector2::operator=(const vector2& vector) noexcept
+{
+    x = vector.x;
+    y = vector.y;
+
+    return *this;
+}
+
+constexpr vector2 vector2::operator +(const vector2& rhs) const noexcept
 {
     vector2 res;
     res.x = x + rhs.x;
@@ -138,7 +141,7 @@ inline vector2 vector2::operator +(const vector2& rhs) const
     return res;
 }
 
-inline vector2 vector2::operator -(const vector2& rhs) const
+constexpr vector2 vector2::operator -(const vector2& rhs) const noexcept
 {
     vector2 res;
     res.x = x - rhs.x;
@@ -147,7 +150,7 @@ inline vector2 vector2::operator -(const vector2& rhs) const
     return res;
 }
 
-inline vector2 vector2::operator *(const float fac) const
+constexpr vector2 vector2::operator *(const float fac) const noexcept
 {
     vector2 res;
     res.x = x * fac;
@@ -156,7 +159,7 @@ inline vector2 vector2::operator *(const float fac) const
     return res;
 }
 
-inline vector2 vector2::operator /(const float fac) const
+constexpr vector2 vector2::operator /(const float fac) const noexcept
 {
     vector2 res;
     res.x = x / fac;
@@ -165,7 +168,7 @@ inline vector2 vector2::operator /(const float fac) const
     return res;
 }
 
-inline vector2& vector2::operator +=(const vector2& rhs)
+constexpr vector2& vector2::operator +=(const vector2& rhs) noexcept
 {
     x += rhs.x;
     y += rhs.y;
@@ -173,7 +176,7 @@ inline vector2& vector2::operator +=(const vector2& rhs)
     return *this;
 }
 
-inline vector2& vector2::operator -=(const vector2& rhs)
+constexpr vector2& vector2::operator -=(const vector2& rhs) noexcept
 {
     x -= rhs.x;
     y -= rhs.y;
@@ -181,7 +184,7 @@ inline vector2& vector2::operator -=(const vector2& rhs)
     return *this;
 }
 
-inline vector2& vector2::operator *=(float fac)
+constexpr vector2& vector2::operator *=(float fac) noexcept
 {
     x *= fac;
     y *= fac;
@@ -189,7 +192,7 @@ inline vector2& vector2::operator *=(float fac)
     return *this;
 }
 
-inline vector2& vector2::operator /=(float fac)
+constexpr vector2& vector2::operator /=(float fac) noexcept
 {
     if (fac != 0)
     {
@@ -251,24 +254,24 @@ inline vector2 vector2::direction(const vector2& from, const vector2& to)
     return (to - from).normalized();
 }
 
-inline float vector2::distance(const vector2& vec1, const vector2& vec2)
+inline float vector2::distance(const vector2& a, const vector2& b)
 {
-    return (vec1 - vec2).length();
+    return (a - b).length();
 }
 
-inline float vector2::distance_squared(const vector2& vec1, const vector2& vec2)
+inline float vector2::distance_squared(const vector2& a, const vector2& b)
 {
-    return (vec1 - vec2).length_squared();
+    return (a - b).length_squared();
 }
 
-inline float vector2::dot(const vector2& vec1, const vector2& vec2)
+constexpr float vector2::dot(const vector2& a, const vector2& b) noexcept
 {
-    return vec1.x * vec2.x + vec1.y * vec2.y;
+    return a.x * b.x + a.y * b.y;
 }
 
-inline float vector2::cross(const vector2& vec1, const vector2& vec2)
+constexpr float vector2::cross(const vector2& a, const vector2& b) noexcept
 {
-    return vec1.x * vec2.y - vec1.y * vec2.x;
+    return a.x * b.y - a.y * b.x;
 }
 
 inline bool vector2::is_close_enough(const vector2& a, const vector2& b, float threshold)
@@ -276,14 +279,14 @@ inline bool vector2::is_close_enough(const vector2& a, const vector2& b, float t
     return distance_squared(a, b) < threshold * threshold;
 }
 
-inline vector2 vector2::xAxis()
+constexpr vector2 vector2::x_axis() noexcept
 {
-    return vector2(1);
+    return vector2{1};
 }
 
-inline vector2 vector2::yAxis()
+constexpr vector2 vector2::y_axis() noexcept
 {
-    return vector2(0, 1);
+    return vector2{0, 1};
 }
 
 inline void vector2::print_with_width(std::ostream& os, size_t width)
@@ -307,21 +310,21 @@ inline float vector2::length_squared() const
 
 inline float vector2::length() const
 {
-    return sqrt(length_squared());
+    return std::sqrt(length_squared());
 }
 
-inline vector2 vector2::perp() const
+constexpr vector2 vector2::perp() const noexcept
 {
     return vector2(-y, x);
 }
 
-inline void vector2::zero()
+constexpr void vector2::zero() noexcept
 {
     x = 0;
     y = 0;
 }
 
-inline vector2 vector2::lerp(const vector2& a, const vector2& b, float factor)
+constexpr vector2 vector2::lerp(const vector2& a, const vector2& b, float factor) noexcept
 {
     return a + (b - a) * factor;
 }
