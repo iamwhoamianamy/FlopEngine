@@ -64,7 +64,7 @@ auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> obj
     std::copy_if(
         _objects.begin(), _objects.end(),
         std::inserter(result, result.end()),
-        [&](std::shared_ptr<object> object)
+        [&](object_ptr object)
         {
             return object->boundary_rectangle().contains(mouse_position);
         }

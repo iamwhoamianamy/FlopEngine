@@ -1,15 +1,13 @@
 #pragma once
 
-#include <memory>
 #include <functional>
 #include <optional>
 
 #include "libs/geometry/rectangle.hpp"
+#include "libs/gui/defines.hpp"
 
 namespace gui
 {
-
-struct master;
 
 struct object : public std::enable_shared_from_this<object>
 {
@@ -17,10 +15,10 @@ public:
     using callback_t = std::function<void()>;
 
 public:
-    [[noexcept]] static std::shared_ptr<object>
+    [[noexcept]] static object_ptr
     create();
 
-    [[noexcept]] static std::shared_ptr<object>
+    [[noexcept]] static object_ptr
     create(const rectangle& boundary_rectangle);
 
     virtual ~object();

@@ -60,6 +60,7 @@
     <ClInclude Include="libs\gui\object.hpp" />
     <ClInclude Include="libs\gui\button.hpp" />
     <ClInclude Include="libs\logger\logger.hpp" />
+    <ClInclude Include="libs\gui\defines.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

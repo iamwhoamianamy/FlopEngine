@@ -5,15 +5,15 @@
 
 using namespace gui;
 
-std::shared_ptr<object> object::create()
+object_ptr object::create()
 {
-    return std::shared_ptr<object>(new object{});
+    return object_ptr(new object{});
 }
 
-std::shared_ptr<object>
+object_ptr
 object::create(const rectangle& boundary_rectangle)
 {
-    return std::shared_ptr<object>(new object{boundary_rectangle});
+    return object_ptr(new object{boundary_rectangle});
 }
 
 object::object()
@@ -30,7 +30,7 @@ object::object(const rectangle& boundary_rectangle)
 
 void gui::object::init()
 {
-    utils::singleton<master>::get().add_new_object(std::shared_ptr<object>{this});
+    utils::singleton<master>::get().add_new_object(object_ptr{this});
 }
 
 inline object::~object()

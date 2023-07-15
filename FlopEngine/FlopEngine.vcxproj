@@ -144,6 +144,7 @@
     <ClInclude Include="geometry\geometry_figure.hpp" />
     <ClInclude Include="geometry\triangle.hpp" />
     <ClInclude Include="geometry\vector2.hpp" />
+    <ClInclude Include="libs\gui\defines.hpp" />
     <ClInclude Include="libs\gui\object.hpp" />
     <ClInclude Include="libs\geometry\edge.hpp" />
     <ClInclude Include="libs\geometry\geometry_figure.hpp" />

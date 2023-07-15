@@ -1,20 +1,18 @@
 #pragma once
 
 #include <unordered_set>
-#include <memory>
 #include <string>
 
 #include "libs/geometry/vector2.hpp"
+#include "libs/gui/defines.hpp"
 
 namespace gui
 {
 
-struct object;
-
 struct master final
 {
 public:
-    using objects_t = std::unordered_set<std::shared_ptr<object>>;
+    using objects_t = std::unordered_set<object_ptr>;
 
 public:
     void hover(const vector2& mouse_position);
@@ -23,7 +21,7 @@ public:
 
 private:
     auto get_objects_under_cursor(const vector2& mouse_position) -> objects_t;
-    void add_new_object(std::shared_ptr<object> object);
+    void add_new_object(object_ptr object);
 
 private:
     friend object;
