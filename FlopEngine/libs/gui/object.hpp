@@ -59,7 +59,7 @@ private:
     std::optional<callback_t> _on_press;
     std::optional<callback_t> _on_release;
 
-    friend class master;
+    friend struct master;
 };
 
 } // namespace gui
