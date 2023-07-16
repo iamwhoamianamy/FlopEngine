@@ -61,22 +61,20 @@ void boids_window::perform_flocking_physics()
 
 void boids_window::perform_marching_physics()
 {
-    for (auto i : utils::iota(flock_count))
+    if (_perform_marching_physics)
     {
-        for (const auto& boid : _flocks[i].boids())
+        for (auto i : utils::iota(flock_count))
         {
-            _marching_grids[i].add_contribution_bump(boid.position, _flocks[i].params().march_contribution, _screen_w, _screen_h);
+            for (const auto& boid : _flocks[i].boids())
+            {
+                _marching_grids[i].add_contribution_bump(boid.position, _flocks[i].params().march_contribution, _screen_w, _screen_h);
+            }
         }
     }
 }
 
-void boids_window::physics_loop()
+void boids_window::update_boid_positions()
 {
-    block_on_param_file_update();
-
-    perform_flocking_physics();
-    perform_marching_physics();
-
     for (auto& flock : _flocks)
     {
         flock.update_boid_positions(_viscosity, _last_ellapsed);
@@ -90,6 +88,16 @@ void boids_window::physics_loop()
             flock.go_through_window_borders(screen_rectangle());
         }
     }
+}
+
+void boids_window::physics_loop()
+{
+    block_on_param_file_update();
+
+    perform_flocking_physics();
+    perform_marching_physics();
+
+    update_boid_positions();
 }
 
 void boids_window::display()
@@ -135,13 +143,13 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
         }
         case 'b':
         {
-            _drawBoids = !_drawBoids;
+            _draw_boids = !_draw_boids;
 
             break;
         }
         case 'm':
         {
-            _draw_marching_squares = !_draw_marching_squares;
+            _perform_marching_physics = !_perform_marching_physics;
 
             break;
         }
@@ -218,7 +226,7 @@ void boids_window::block_on_param_file_update()
 
 void boids_window::draw_focks()
 {
-    if (_drawBoids)
+    if (_draw_boids)
     {
         for (auto& flock : _flocks)
         {
@@ -229,7 +237,7 @@ void boids_window::draw_focks()
 
 void boids_window::draw_marching_squares()
 {
-    if (_draw_marching_squares)
+    if (_perform_marching_physics)
     {
         glLineWidth(1);
 

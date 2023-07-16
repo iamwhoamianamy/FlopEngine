@@ -6,7 +6,7 @@
     "align_strength": 0.01,
 
     "gather_vision": 150,
-    "gather_strength": 1000,
+    "gather_strength": 1250,
 
     "flee_vision": 50,
     "flee_strength": 15,

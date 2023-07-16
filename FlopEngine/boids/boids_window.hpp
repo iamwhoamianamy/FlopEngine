@@ -20,15 +20,15 @@ class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 200;
+    static const size_t boid_per_flock = 1200;
     const std::string boid_param_filename = "boids/params.json";
 
 private:
     std::array<flock, flock_count> _flocks;
     const float _viscosity = 0.9f;
     std::array<marching_grid_t, flock_count> _marching_grids;
-    bool _drawBoids = true;
-    bool _draw_marching_squares = false;
+    bool _draw_boids = true;
+    bool _perform_marching_physics = false;
     bool _smooth = false;
     bool _bounce = false;
 
@@ -47,6 +47,7 @@ public:
 private:
     void perform_flocking_physics();
     void perform_marching_physics();
+    void update_boid_positions();
     void read_boid_params();
     void block_on_param_file_update();
     void draw_focks();
