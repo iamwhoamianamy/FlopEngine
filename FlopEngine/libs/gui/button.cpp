@@ -7,11 +7,6 @@ gui::button::create(const rectangle& boundary_rectangle)
     return std::shared_ptr<button>(new button{boundary_rectangle});
 }
 
-gui::button::~button()
-{
-
-}
-
 void gui::button::draw()
 {
     if (object::pressed())

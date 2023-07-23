@@ -9,9 +9,9 @@ struct button : public object
 {
 public:
     [[nodiscard]] static std::shared_ptr<button>
-    create(const rectangle& boundary_rectangle);
+    create(const rectangle& boundary_rectangle = {});
 
-    virtual ~button();
+    virtual ~button() = default;
 
 public:
     virtual void draw() override;

@@ -8,6 +8,7 @@
 #include "libs/graphics/drawing.hpp"
 #include "utils/utils.hpp"
 #include "libs/logger/logger.hpp"
+#include "libs/gui/master.hpp"
 
 using namespace std::chrono_literals;
 
@@ -33,7 +34,7 @@ boids_window::boids_window(
     }
 
     logger::open(logger::detail::log_level::all);
-    //setup_gui();
+    setup_gui();
 }
 
 void boids_window::perform_flocking_physics()
@@ -252,16 +253,39 @@ void boids_window::draw_marching_squares()
 
 void boids_window::setup_gui()
 {
-    _color_button = gui::button::create(
-        rectangle{screen_rectangle().center, 100, 50});
+    // left button
+    _left_button = gui::button::create();
 
-    _color_button->on_press([]
+    _left_button->on_press([]
         {
-            logger::log_debug("mouse pressed the button!");
+            logger::log_debug("mouse pressed left button!");
         });
 
-    _color_button->on_release([]
+    _left_button->on_release([]
         {
-            logger::log_debug("mouse released the button!");
+            logger::log_debug("mouse released left button!");
         });
+
+    // right button
+    _right_button = gui::button::create();
+
+    _right_button->on_press([]
+        {
+            logger::log_debug("mouse pressed right button!");
+        });
+
+    _right_button->on_release([]
+        {
+            logger::log_debug("mouse released right button!");
+        });
+
+    // split layout
+    _settings = gui::split_layout::create(
+        utils::singleton<gui::master>::get().screen_layout(),
+        gui::split_layout::orientation::vertical,
+        gui::split_layout::init_container{
+            {_left_button,  gui::split_layout::init_container::markup::relative, 0.3f},
+            {_right_button, gui::split_layout::init_container::markup::relative, 0.7f}
+        }
+    );
 }

@@ -18,6 +18,8 @@ base_window::base_window(
     glutCreateWindow(name.c_str());
 
     registerFunctions();
+
+    utils::singleton<gui::master>::get();
 }
 
 void base_window::run()
@@ -51,6 +53,8 @@ void base_window::base_reshape(int w, int h)
 {
     _screen_w = w;
     _screen_h = h;
+
+    utils::singleton<gui::master>::get().resize(screen_rectangle());
 
     glViewport(0, 0, _screen_w, _screen_h);
     glMatrixMode(GL_PROJECTION);

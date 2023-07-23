@@ -12,6 +12,7 @@
 #include "marching/marching_grid.hpp"
 #include "utils/file_observer.hpp"
 #include "libs/gui/button.hpp"
+#include "libs/gui/split_layout.hpp"
 
 //using marching_grid_t = marching_grid<500, 250>;
 using marching_grid_t = marching_grid<200, 100>;
@@ -20,12 +21,12 @@ class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 1200;
+    static const size_t boid_per_flock = 200;
     const std::string boid_param_filename = "boids/params.json";
 
 private:
     std::array<flock, flock_count> _flocks;
-    const float _viscosity = 0.9f;
+    const float _viscosity = 1.0f;
     std::array<marching_grid_t, flock_count> _marching_grids;
     bool _draw_boids = true;
     bool _perform_marching_physics = false;
@@ -34,7 +35,9 @@ private:
 
     utils::file_observer _boid_param_file_observer;
 
-    std::shared_ptr<gui::button> _color_button;
+    std::shared_ptr<gui::button> _left_button;
+    std::shared_ptr<gui::button> _right_button;
+    std::shared_ptr<gui::split_layout> _settings;
 
 public:
     boids_window(int argc, char** argv,

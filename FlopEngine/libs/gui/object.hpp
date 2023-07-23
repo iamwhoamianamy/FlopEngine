@@ -12,20 +12,13 @@ namespace gui
 struct object : public std::enable_shared_from_this<object>
 {
 public:
-    using callback_t = std::function<void()>;
+    constexpr static float border_width = 4.0f;
 
 public:
     [[nodiscard]] static object_ptr
-    create();
+    create(const rectangle& boundary_rectangle = {});
 
-    [[nodiscard]] static object_ptr
-    create(const rectangle& boundary_rectangle);
-
-    virtual ~object();
-
-public:
-    // TODO mb not public...
-    virtual void draw();
+    virtual ~object() = default;
 
 public:
     const rectangle& boundary_rectangle() const;
@@ -38,13 +31,16 @@ public:
     bool pressed() const;
 
 protected:
-    object();
-    object(const rectangle& boundary_rectangle);
+    object(const rectangle& boundary_rectangle = {});
+
+protected:
+    virtual void resize(const rectangle& boundary_rectangle);
 
 protected:
     void set_hovered_over(bool hovered_over);
     void set_pressed(bool pressed);
     void release();
+    virtual void draw();
 
 private:
     void init();
@@ -60,6 +56,7 @@ private:
     std::optional<callback_t> _on_release;
 
     friend struct master;
+    friend struct layout;
 };
 
 } // namespace gui

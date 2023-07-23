@@ -5,21 +5,9 @@
 
 using namespace gui;
 
-object_ptr object::create()
-{
-    return object_ptr(new object{});
-}
-
-object_ptr
-object::create(const rectangle& boundary_rectangle)
+object_ptr object::create(const rectangle& boundary_rectangle)
 {
     return object_ptr(new object{boundary_rectangle});
-}
-
-object::object()
-    : object{rectangle{}}
-{
-
 }
 
 object::object(const rectangle& boundary_rectangle)
@@ -28,14 +16,14 @@ object::object(const rectangle& boundary_rectangle)
     init();
 }
 
-void gui::object::init()
+void gui::object::resize(const rectangle& boundary_rectangle)
 {
-    utils::singleton<master>::get().add_new_object(object_ptr{this});
+    _boundary_rectangle = boundary_rectangle;
 }
 
-inline object::~object()
+void gui::object::init()
 {
-
+    utils::singleton<master>::get().add_new_object(this);
 }
 
 void object::draw()

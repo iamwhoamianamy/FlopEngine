@@ -3,6 +3,14 @@
 #include "master.hpp"
 #include "object.hpp"
 
+void gui::master::resize(const rectangle& screen_rectangle)
+{
+    if (_screen_layout)
+        _screen_layout->resize(screen_rectangle);
+    else
+        _screen_layout = layout::create(screen_rectangle);
+}
+
 void gui::master::hover(const vector2& mouse_position)
 {
     auto candidates = get_objects_under_cursor(mouse_position);
@@ -57,6 +65,17 @@ void gui::master::draw()
     }
 }
 
+auto gui::master::screen_layout() -> std::shared_ptr<layout>
+{
+    if (_screen_layout)
+        return _screen_layout;
+    else
+    {
+        _screen_layout = layout::create();
+        return _screen_layout;
+    }
+}
+
 auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> objects_t
 {
     objects_t result;
@@ -64,7 +83,7 @@ auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> obj
     std::copy_if(
         _objects.begin(), _objects.end(),
         std::inserter(result, result.end()),
-        [&](object_ptr object)
+        [&](object* object)
         {
             return object->boundary_rectangle().contains(mouse_position);
         }
@@ -73,7 +92,7 @@ auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> obj
     return result;
 }
 
-void gui::master::add_new_object(std::shared_ptr<gui::object> object)
+void gui::master::add_new_object(object* object)
 {
     _objects.insert(object);
 }

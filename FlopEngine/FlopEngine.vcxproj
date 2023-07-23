@@ -137,6 +137,7 @@
     <ClInclude Include="boids\boids_helper.hpp" />
     <ClInclude Include="boids\boids_window.hpp" />
     <ClInclude Include="boids\flock.hpp" />
+    <ClInclude Include="libs\gui\layout.hpp" />
     <ClInclude Include="libs\gui\button.hpp" />
     <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
     <ClInclude Include="delaunay\delaunay_window.hpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="marching\marching_grid.hpp" />
     <ClInclude Include="marching\marching_window.hpp" />
     <ClInclude Include="quadtree\quadtree_window.hpp" />
+    <ClInclude Include="libs\gui\split_layout.hpp" />
     <ClInclude Include="utils\agent.hpp" />
     <ClInclude Include="utils\blocker.hpp" />
     <ClInclude Include="utils\concepts.hpp" />
@@ -177,6 +179,7 @@
     <ClCompile Include="boids\boids_helper.cpp" />
     <ClCompile Include="boids\boids_window.cpp" />
     <ClCompile Include="boids\flock.cpp" />
+    <ClCompile Include="libs\gui\layout.cpp" />
     <ClCompile Include="libs\gui\button.cpp" />
     <ClCompile Include="delaunay\delaunay_triangulator.cpp" />
     <ClCompile Include="delaunay\delaunay_window.cpp" />
@@ -190,6 +193,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="marching\marching_window.cpp" />
     <ClCompile Include="quadtree\quadtree_window.cpp" />
+    <ClCompile Include="libs\gui\split_layout.cpp" />
     <ClCompile Include="utils\agent.cpp" />
     <ClCompile Include="utils\file_observer.cpp" />
   </ItemGroup>

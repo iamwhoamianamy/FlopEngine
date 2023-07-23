@@ -20,6 +20,8 @@
     <ClCompile Include="libs\gui\master.cpp" />
     <ClCompile Include="libs\gui\button.cpp" />
     <ClCompile Include="libs\logger\logger.cpp" />
+    <ClCompile Include="libs\gui\layout.cpp" />
+    <ClCompile Include="libs\gui\split_layout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -60,6 +62,8 @@
     <ClInclude Include="libs\gui\button.hpp" />
     <ClInclude Include="libs\logger\logger.hpp" />
     <ClInclude Include="libs\gui\defines.hpp" />
+    <ClInclude Include="libs\gui\layout.hpp" />
+    <ClInclude Include="libs\gui\split_layout.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
