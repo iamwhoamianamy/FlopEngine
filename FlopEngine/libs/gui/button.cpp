@@ -9,6 +9,9 @@ gui::button::create(const rectangle& boundary_rectangle)
 
 void gui::button::draw()
 {
+    if (active())
+        draw::set_line_stripple(1);
+
     if (object::pressed())
         draw::set_line_width(4);
     else
@@ -20,6 +23,8 @@ void gui::button::draw()
         draw::set_color(draw::color::white());
     
     draw::draw_rect(object::boundary_rectangle());
+
+    draw::disable_line_stripple();
 }
 
 gui::button::button(const rectangle& boundary_rectangle)

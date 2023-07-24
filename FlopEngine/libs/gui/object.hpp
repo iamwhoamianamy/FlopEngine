@@ -29,6 +29,7 @@ public:
     bool hidden() const;
     bool hovered_over() const;
     bool pressed() const;
+    bool active() const;
 
 protected:
     object(const rectangle& boundary_rectangle = {});
@@ -39,6 +40,8 @@ protected:
 protected:
     void set_hovered_over(bool hovered_over);
     void set_pressed(bool pressed);
+    void set_active(bool active);
+
     void release();
     virtual void draw();
 
@@ -51,6 +54,7 @@ private:
     bool _hidden       = false;
     bool _hovered_over = false;
     bool _pressed      = false;
+    bool _active       = false;
 
     std::optional<callback_t> _on_press;
     std::optional<callback_t> _on_release;

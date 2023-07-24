@@ -66,6 +66,8 @@ void set_color(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 25
 void set_color(const color& color);
 void set_line_width(float width);
 void set_point_size(float size);
+void set_line_stripple(float length);
+void disable_line_stripple();
 
 } // namespace draw
 
@@ -136,6 +138,17 @@ inline void draw::set_line_width(float width)
 inline void draw::set_point_size(float size)
 {
     glPointSize(size);
+}
+
+inline void draw::set_line_stripple(float length)
+{
+    glLineStipple(length, 0x00FF);
+    glEnable(GL_LINE_STIPPLE);
+}
+
+inline void draw::disable_line_stripple()
+{
+    glDisable(GL_LINE_STIPPLE);
 }
 
 inline void draw::draw_line_gradient(

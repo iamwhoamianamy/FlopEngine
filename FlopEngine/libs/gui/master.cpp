@@ -26,7 +26,27 @@ void gui::master::register_mouse_click_status_change(const vector2& mouse_positi
 {
     auto objects_under_cursor = get_objects_under_cursor(mouse_position);
 
-    if (_last_mouse_status_is_press)
+    auto handle_press = [&]
+    {
+        _last_mouse_status_is_press = true;
+
+        for (auto object_under_cursor : objects_under_cursor)
+        {
+            object_under_cursor->set_pressed(true);
+            _pressed_objects.insert(object_under_cursor);
+        }
+
+        for (auto active_object : _active_objects)
+            active_object->set_active(false);
+
+        _active_objects.clear();
+        _active_objects.insert(objects_under_cursor.begin(), objects_under_cursor.end());
+
+        for (auto active_object : _active_objects)
+            active_object->set_active(true);
+    };
+
+    auto handle_release = [&]
     {
         _last_mouse_status_is_press = false;
 
@@ -44,17 +64,13 @@ void gui::master::register_mouse_click_status_change(const vector2& mouse_positi
         }
 
         _pressed_objects.clear();
-    }
-    else
-    {
-        _last_mouse_status_is_press = true;
+    };
 
-        for (auto object_under_cursor : objects_under_cursor)
-        {
-            object_under_cursor->set_pressed(true);
-            _pressed_objects.insert(object_under_cursor);
-        }
-    }
+
+    if (_last_mouse_status_is_press)
+        handle_release();
+    else
+        handle_press();
 }
 
 void gui::master::draw()

@@ -41,6 +41,8 @@ private:
     objects_t _pressed_objects;
 
     std::shared_ptr<layout> _screen_layout;
+
+    objects_t _active_objects;
 };
 
 } // namespace gui

@@ -61,6 +61,11 @@ bool gui::object::pressed() const
     return _pressed;
 }
 
+bool gui::object::active() const
+{
+    return _active;
+}
+
 void gui::object::set_hovered_over(bool hovered_over)
 {
     _hovered_over = hovered_over;
@@ -72,6 +77,11 @@ void gui::object::set_pressed(bool pressed)
 
     if (pressed && _on_press)
         (*_on_press)();
+}
+
+void gui::object::set_active(bool active)
+{
+    _active = active;
 }
 
 void gui::object::release()
