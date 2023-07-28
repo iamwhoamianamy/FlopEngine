@@ -25,6 +25,7 @@ public:
         container_t elements;
 
         init_container(std::initializer_list<element_t> init_list);
+        init_container(std::initializer_list<object_ptr> init_list);
     };
 
 public:

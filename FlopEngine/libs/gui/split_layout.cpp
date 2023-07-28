@@ -4,7 +4,7 @@
 
 using namespace gui;
 
-std::shared_ptr<split_layout> gui::split_layout::create(
+std::shared_ptr<split_layout> split_layout::create(
     std::shared_ptr<layout> parent,
     orientation o,
     init_container&& container)
@@ -12,7 +12,7 @@ std::shared_ptr<split_layout> gui::split_layout::create(
     return std::shared_ptr<split_layout>(new split_layout{parent, o, std::move(container)});
 }
 
-void gui::split_layout::resize(const rectangle& boundary_rectangle)
+void split_layout::resize(const rectangle& boundary_rectangle)
 {
     layout::resize(boundary_rectangle);
     resize_children();
@@ -36,7 +36,7 @@ split_layout::split_layout(
     resize_children();
 }
 
-void gui::split_layout::resize_children()
+void split_layout::resize_children()
 {
     const auto stretch_axis = 
         _orientation == orientation::horizontal 
@@ -72,8 +72,19 @@ void gui::split_layout::resize_children()
     }
 }
 
-gui::split_layout::init_container::init_container(std::initializer_list<element_t> init_list)
+split_layout::init_container::init_container(
+    std::initializer_list<element_t> init_list)
     : elements{init_list}
 {
 
+}
+
+split_layout::init_container::init_container(
+    std::initializer_list<object_ptr> init_list)
+{
+    elements.reserve(init_list.size());
+    const float elem_ratio = (1.0f / init_list.size());
+
+    for (auto object : init_list)
+        elements.emplace_back(object, markup::relative, elem_ratio);
 }

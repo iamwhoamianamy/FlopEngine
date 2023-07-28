@@ -280,12 +280,20 @@ void boids_window::setup_gui()
         });
 
     // split layout
+    //_settings = gui::split_layout::create(
+    //    utils::singleton<gui::master>::get().screen_layout(),
+    //    gui::split_layout::orientation::horizontal,
+    //    gui::split_layout::init_container{
+    //        {_left_button,  gui::split_layout::init_container::markup::relative, 0.3f},
+    //        {_right_button, gui::split_layout::init_container::markup::relative, 0.7f}
+    //    }
+    //);
     _settings = gui::split_layout::create(
         utils::singleton<gui::master>::get().screen_layout(),
         gui::split_layout::orientation::horizontal,
         gui::split_layout::init_container{
-            {_left_button,  gui::split_layout::init_container::markup::relative, 0.3f},
-            {_right_button, gui::split_layout::init_container::markup::relative, 0.7f}
+            _left_button,
+            _right_button
         }
     );
 }
