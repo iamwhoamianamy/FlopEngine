@@ -32,6 +32,11 @@ struct rectangle
     constexpr float width()  const noexcept;
     constexpr float height() const noexcept;
 
+    constexpr vector2 top_left()  const noexcept;
+    constexpr vector2 top_right() const noexcept;
+    constexpr vector2 bot_left()  const noexcept;
+    constexpr vector2 bot_right() const noexcept;
+
     float diagonal() const;
 };
 
@@ -110,6 +115,26 @@ constexpr float rectangle::width() const noexcept
 constexpr float rectangle::height() const noexcept
 {
     return 2.0f * half_dimensions.y;
+}
+
+inline constexpr vector2 rectangle::top_left() const noexcept
+{
+    return {left(), top()};
+}
+
+inline constexpr vector2 rectangle::top_right() const noexcept
+{
+    return {right(), top()};
+}
+
+inline constexpr vector2 rectangle::bot_left() const noexcept
+{
+    return {left(), bot()};
+}
+
+inline constexpr vector2 rectangle::bot_right() const noexcept
+{
+    return {right(), bot()};
 }
 
 inline float rectangle::diagonal() const
