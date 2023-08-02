@@ -13,6 +13,7 @@
 #include "utils/file_observer.hpp"
 #include "libs/gui/button.hpp"
 #include "libs/gui/split_layout.hpp"
+#include "libs/gui/input_param_box.hpp"
 
 //using marching_grid_t = marching_grid<500, 250>;
 using marching_grid_t = marching_grid<200, 100>;
@@ -35,9 +36,9 @@ private:
 
     utils::file_observer _boid_param_file_observer;
 
-    std::shared_ptr<gui::button> _left_button;
+    std::shared_ptr<gui::input_param_box> _pmf_param_box;
     std::shared_ptr<gui::button> _right_button;
-    std::shared_ptr<gui::split_layout> _settings;
+    std::shared_ptr<gui::split_layout> _main_split_layout;
 
 public:
     boids_window(int argc, char** argv,

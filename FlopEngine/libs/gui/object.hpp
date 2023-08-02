@@ -26,6 +26,8 @@ public:
     void on_press(callback_t&& callback);
     void on_release(callback_t&& callback);
 
+    void on_key_pressed(keyboard_callback_t&& callback);
+
     bool hidden() const;
     bool hovered_over() const;
     bool pressed() const;
@@ -42,7 +44,10 @@ protected:
     void set_pressed(bool pressed);
     void set_active(bool active);
 
+    void press_key(char key);
+
     void release();
+
     virtual void draw();
 
 private:
@@ -59,6 +64,9 @@ private:
     std::optional<callback_t> _on_press;
     std::optional<callback_t> _on_release;
 
+    std::optional<keyboard_callback_t> _on_key_pressed;
+
+private:
     friend struct master;
     friend struct layout;
 };

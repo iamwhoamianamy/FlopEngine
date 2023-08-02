@@ -22,6 +22,8 @@
     <ClCompile Include="libs\logger\logger.cpp" />
     <ClCompile Include="libs\gui\layout.cpp" />
     <ClCompile Include="libs\gui\split_layout.cpp" />
+    <ClCompile Include="libs\gui\input_param_list.cpp" />
+    <ClCompile Include="libs\gui\input_param_box.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -64,6 +66,8 @@
     <ClInclude Include="libs\gui\defines.hpp" />
     <ClInclude Include="libs\gui\layout.hpp" />
     <ClInclude Include="libs\gui\split_layout.hpp" />
+    <ClInclude Include="libs\gui\input_param_list.hpp" />
+    <ClInclude Include="libs\gui\input_param_box.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

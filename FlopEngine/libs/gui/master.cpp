@@ -81,6 +81,14 @@ void gui::master::draw()
     }
 }
 
+void gui::master::react_on_keyboard_key_press(keyboard_key_t key)
+{
+    for (auto object : _active_objects)
+    {
+        object->press_key(key);
+    }
+}
+
 auto gui::master::screen_layout() -> std::shared_ptr<layout>
 {
     if (_screen_layout)

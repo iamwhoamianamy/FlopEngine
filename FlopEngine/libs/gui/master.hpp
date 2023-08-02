@@ -24,6 +24,7 @@ public:
     void hover(const vector2& mouse_position);
     void register_mouse_click_status_change(const vector2& mouse_position);
     void draw();
+    void react_on_keyboard_key_press(keyboard_key_t key);
 
 public:
     auto screen_layout() -> std::shared_ptr<layout>;

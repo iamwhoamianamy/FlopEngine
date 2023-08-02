@@ -137,6 +137,8 @@
     <ClInclude Include="boids\boids_helper.hpp" />
     <ClInclude Include="boids\boids_window.hpp" />
     <ClInclude Include="boids\flock.hpp" />
+    <ClInclude Include="libs\gui\input_param_box.hpp" />
+    <ClInclude Include="libs\gui\input_param_list.hpp" />
     <ClInclude Include="libs\gui\layout.hpp" />
     <ClInclude Include="libs\gui\button.hpp" />
     <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
@@ -179,6 +181,8 @@
     <ClCompile Include="boids\boids_helper.cpp" />
     <ClCompile Include="boids\boids_window.cpp" />
     <ClCompile Include="boids\flock.cpp" />
+    <ClCompile Include="libs\gui\input_param_box.cpp" />
+    <ClCompile Include="libs\gui\input_param_list.cpp" />
     <ClCompile Include="libs\gui\layout.cpp" />
     <ClCompile Include="libs\gui\button.cpp" />
     <ClCompile Include="delaunay\delaunay_triangulator.cpp" />

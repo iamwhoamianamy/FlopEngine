@@ -253,18 +253,13 @@ void boids_window::draw_marching_squares()
 
 void boids_window::setup_gui()
 {
-    // left button
-    _left_button = gui::button::create();
-
-    _left_button->on_press([]
-        {
-            logger::log_debug("mouse pressed left button!");
-        });
-
-    _left_button->on_release([]
-        {
-            logger::log_debug("mouse released left button!");
-        });
+    // pmf param box
+    _pmf_param_box = gui::input_param_box::create(
+        "perform marching physics",
+        gui::input_param_box::field_wrapper{
+            &_perform_marching_physics,
+        }
+    );
 
     // right button
     _right_button = gui::button::create();
@@ -280,20 +275,12 @@ void boids_window::setup_gui()
         });
 
     // split layout
-    //_settings = gui::split_layout::create(
-    //    utils::singleton<gui::master>::get().screen_layout(),
-    //    gui::split_layout::orientation::horizontal,
-    //    gui::split_layout::init_container{
-    //        {_left_button,  gui::split_layout::init_container::markup::relative, 0.3f},
-    //        {_right_button, gui::split_layout::init_container::markup::relative, 0.7f}
-    //    }
-    //);
-    _settings = gui::split_layout::create(
+    _main_split_layout = gui::split_layout::create(
         utils::singleton<gui::master>::get().screen_layout(),
         gui::split_layout::orientation::horizontal,
         gui::split_layout::init_container{
-            _left_button,
-            _right_button
+            {_pmf_param_box, gui::split_layout::init_container::markup::relative, 0.3f},
+            {_right_button,  gui::split_layout::init_container::markup::relative, 0.7f}
         }
     );
 }

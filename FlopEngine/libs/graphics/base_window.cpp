@@ -70,6 +70,7 @@ void flp::base_window::base_idle()
 
 void base_window::base_keyboard_letters(unsigned char key, int x, int y)
 {
+    utils::singleton<gui::master>::get().react_on_keyboard_key_press(key);
     keyboard_letters(key, x, y);
 }
 

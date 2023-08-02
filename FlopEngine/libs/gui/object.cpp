@@ -46,6 +46,11 @@ void gui::object::on_release(callback_t&& callback)
     _on_release = callback;
 }
 
+void gui::object::on_key_pressed(keyboard_callback_t&& callback)
+{
+    _on_key_pressed = callback;
+}
+
 bool object::hidden() const
 {
     return _hidden;
@@ -82,6 +87,12 @@ void gui::object::set_pressed(bool pressed)
 void gui::object::set_active(bool active)
 {
     _active = active;
+}
+
+void gui::object::press_key(char key)
+{
+    if (_on_key_pressed)
+        (*_on_key_pressed)(key);
 }
 
 void gui::object::release()
