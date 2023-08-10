@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "libs/gui/layout.hpp"
+#include "utils/ranges.h"
 
 namespace gui
 {
@@ -26,6 +27,16 @@ public:
 
         init_container(std::initializer_list<element_t> init_list);
         init_container(std::initializer_list<object_ptr> init_list);
+        
+        init_container(auto begin, auto end)
+        {
+            size_t count = end - begin;
+            elements.reserve(count);
+            const float elem_ratio = (1.0f / count);
+
+            for (auto object : utils::make_iterator_range(begin, end))
+                elements.emplace_back(object, markup::relative, elem_ratio);
+        }
     };
 
 public:

@@ -3,30 +3,43 @@
 using namespace gui;
 
 std::shared_ptr<input_param_list> input_param_list::create(
-    init_container&& init_container,
-    const rectangle& boundary_rectangle)
+    std::shared_ptr<layout> parent,
+    std::initializer_list<init_elem_t> init_list)
 {
     return std::shared_ptr<input_param_list>(
         new input_param_list{
-            std::move(init_container),
-            boundary_rectangle
+            parent,
+            init_list
         }
     );
 }
 
 void input_param_list::draw()
 {
-    for (auto& field : _fields.data)
-    {
-
-    }
+    _layout->draw();
 }
 
 input_param_list::input_param_list(
-    init_container&& init_container, 
-    const rectangle& boundary_rectangle)
-    : object{boundary_rectangle}
-    , _fields{std::move(init_container)}
+    std::shared_ptr<layout> parent,
+    std::initializer_list<init_elem_t> init_list)
+    : object{}
 {
+    std::vector<object_ptr> layout_init_vec;
 
+    for (auto& [label, field_wrapper] : init_list)
+    {
+        auto box = input_param_box::create(label, field_wrapper);
+
+        _children.push_back(box);
+        layout_init_vec.push_back(box);
+    }
+
+    _layout = split_layout::create(
+        parent,
+        split_layout::orientation::vertical,
+        split_layout::init_container{
+            layout_init_vec.begin(),
+            layout_init_vec.end()
+        }
+    );
 }

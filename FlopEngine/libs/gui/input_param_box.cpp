@@ -79,7 +79,7 @@ void gui::input_param_box::draw()
 
     draw::set_line_width(1);
 
-    draw::render_string(boundary_rectangle().center, 30, data_as_string());
+    draw::render_string(boundary_rectangle().center_left(), 20, data_as_string());
 }
 
 input_param_box::input_param_box(

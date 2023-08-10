@@ -68,6 +68,7 @@
     <ClInclude Include="libs\gui\split_layout.hpp" />
     <ClInclude Include="libs\gui\input_param_list.hpp" />
     <ClInclude Include="libs\gui\input_param_box.hpp" />
+    <ClInclude Include="utils\ranges.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -14,6 +14,7 @@
 #include "libs/gui/button.hpp"
 #include "libs/gui/split_layout.hpp"
 #include "libs/gui/input_param_box.hpp"
+#include "libs/gui/input_param_list.hpp"
 
 //using marching_grid_t = marching_grid<500, 250>;
 using marching_grid_t = marching_grid<200, 100>;
@@ -36,9 +37,10 @@ private:
 
     utils::file_observer _boid_param_file_observer;
 
-    std::shared_ptr<gui::input_param_box> _pmf_param_box;
+    std::shared_ptr<gui::input_param_list> _pmf_param_list;
     std::shared_ptr<gui::button> _right_button;
     std::shared_ptr<gui::split_layout> _main_split_layout;
+    std::shared_ptr<gui::layout> _settings_layout;
 
 public:
     boids_window(int argc, char** argv,

@@ -37,6 +37,11 @@ struct rectangle
     constexpr vector2 bot_left()  const noexcept;
     constexpr vector2 bot_right() const noexcept;
 
+    constexpr vector2 center_left()  const noexcept;
+    constexpr vector2 center_top()   const noexcept;
+    constexpr vector2 center_right() const noexcept;
+    constexpr vector2 center_bot()   const noexcept;
+
     float diagonal() const;
 };
 
@@ -135,6 +140,26 @@ inline constexpr vector2 rectangle::bot_left() const noexcept
 inline constexpr vector2 rectangle::bot_right() const noexcept
 {
     return {right(), bot()};
+}
+
+inline constexpr vector2 rectangle::center_left() const noexcept
+{
+    return {left(), center.y};
+}
+
+inline constexpr vector2 rectangle::center_top() const noexcept
+{
+    return {center.x, top()};
+}
+
+inline constexpr vector2 rectangle::center_right() const noexcept
+{
+    return {right(), center.y};
+}
+
+inline constexpr vector2 rectangle::center_bot() const noexcept
+{
+    return {center.x, bot()};
 }
 
 inline float rectangle::diagonal() const

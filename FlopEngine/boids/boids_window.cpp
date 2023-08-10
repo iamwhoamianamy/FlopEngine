@@ -253,11 +253,25 @@ void boids_window::draw_marching_squares()
 
 void boids_window::setup_gui()
 {
-    // pmf param box
-    _pmf_param_box = gui::input_param_box::create(
-        "perform marching physics",
-        gui::input_param_box::field_wrapper{
-            &_perform_marching_physics,
+    // settings layout
+    _settings_layout = gui::layout::create();
+
+    // pmf param list
+    _pmf_param_list = gui::input_param_list::create(
+        _settings_layout,
+        {
+            {
+                "perform marching physics", 
+                gui::input_param_box::field_wrapper{
+                    &_perform_marching_physics
+                }
+            },
+            {
+                "draw boids", 
+                gui::input_param_box::field_wrapper{
+                    &_draw_boids
+                }
+            }
         }
     );
 
@@ -279,8 +293,8 @@ void boids_window::setup_gui()
         utils::singleton<gui::master>::get().screen_layout(),
         gui::split_layout::orientation::horizontal,
         gui::split_layout::init_container{
-            {_pmf_param_box, gui::split_layout::init_container::markup::relative, 0.3f},
-            {_right_button,  gui::split_layout::init_container::markup::relative, 0.7f}
+            {_settings_layout, gui::split_layout::init_container::markup::relative, 0.3f},
+            {_right_button,    gui::split_layout::init_container::markup::relative, 0.7f}
         }
     );
 }
