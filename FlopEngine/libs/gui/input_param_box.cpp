@@ -73,12 +73,12 @@ void gui::input_param_box::draw()
     if (active())
         draw::set_line_stripple(1);
 
+    draw::set_line_width(2);
     draw::set_color(draw::color::yellow());
     draw::draw_rect(object::boundary_rectangle());
     draw::disable_line_stripple();
 
     draw::set_line_width(1);
-
     draw::render_string(boundary_rectangle().center_left(), 20, data_as_string());
 }
 

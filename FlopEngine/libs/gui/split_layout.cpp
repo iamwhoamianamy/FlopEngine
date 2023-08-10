@@ -5,11 +5,10 @@
 using namespace gui;
 
 std::shared_ptr<split_layout> split_layout::create(
-    std::shared_ptr<layout> parent,
     orientation o,
     init_container&& container)
 {
-    return std::shared_ptr<split_layout>(new split_layout{parent, o, std::move(container)});
+    return std::shared_ptr<split_layout>(new split_layout{o, std::move(container)});
 }
 
 void split_layout::resize(const rectangle& boundary_rectangle)
@@ -19,15 +18,12 @@ void split_layout::resize(const rectangle& boundary_rectangle)
 }
 
 split_layout::split_layout(
-    std::shared_ptr<layout> parent, 
     orientation o, 
     init_container&& container)
-    : layout{fix_boundary_rectangle(parent->boundary_rectangle())}
+    : layout{{}}
     , _orientation{o}
     , _init_container{container.elements}
 {
-    parent->add_child(this);
-
     for (const auto& tuple : _init_container)
     {
         add_child(std::get<0>(tuple).get());
@@ -68,7 +64,7 @@ void split_layout::resize_children()
 
         new_rectangle = layout::fix_boundary_rectangle(new_rectangle);
 
-        layout::resize(child.get(), new_rectangle);
+        child->resize(new_rectangle);
     }
 }
 

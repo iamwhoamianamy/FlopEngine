@@ -40,7 +40,6 @@ private:
     std::shared_ptr<gui::input_param_list> _pmf_param_list;
     std::shared_ptr<gui::button> _right_button;
     std::shared_ptr<gui::split_layout> _main_split_layout;
-    std::shared_ptr<gui::layout> _settings_layout;
 
 public:
     boids_window(int argc, char** argv,

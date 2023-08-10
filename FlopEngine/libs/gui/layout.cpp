@@ -9,11 +9,6 @@ std::shared_ptr<layout> gui::layout::create(const rectangle& boundary_rectangle)
     return std::shared_ptr<layout>(new layout{boundary_rectangle});
 }
 
-std::shared_ptr<layout> layout::create(layout* parent)
-{
-    return std::shared_ptr<layout>(new layout{parent});
-}
-
 void layout::draw()
 {
     draw::set_line_width(object::border_width);
@@ -43,18 +38,6 @@ layout::layout(const rectangle& boundary_rectangle)
     : object{fix_boundary_rectangle(boundary_rectangle)}
 {
 
-}
-
-gui::layout::layout(layout* parent)
-    : object{}
-    , _parent{parent}
-{
-
-}
-
-void gui::layout::resize(object* object, rectangle boundary_rectangle)
-{
-    object->resize(boundary_rectangle);
 }
 
 auto gui::layout::fix_boundary_rectangle(const rectangle& boundary_rectangle) -> rectangle

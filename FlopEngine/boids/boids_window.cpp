@@ -253,12 +253,8 @@ void boids_window::draw_marching_squares()
 
 void boids_window::setup_gui()
 {
-    // settings layout
-    _settings_layout = gui::layout::create();
-
     // pmf param list
     _pmf_param_list = gui::input_param_list::create(
-        _settings_layout,
         {
             {
                 "perform marching physics", 
@@ -290,11 +286,13 @@ void boids_window::setup_gui()
 
     // split layout
     _main_split_layout = gui::split_layout::create(
-        utils::singleton<gui::master>::get().screen_layout(),
         gui::split_layout::orientation::horizontal,
         gui::split_layout::init_container{
-            {_settings_layout, gui::split_layout::init_container::markup::relative, 0.3f},
+            {_pmf_param_list,  gui::split_layout::init_container::markup::relative, 0.3f},
             {_right_button,    gui::split_layout::init_container::markup::relative, 0.7f}
         }
     );
+
+    // finilize
+    utils::singleton<gui::master>::get().set_layout(_main_split_layout.get());
 }

@@ -19,19 +19,16 @@ public:
 
 public:
     [[nodiscard]] static std::shared_ptr<input_param_list>
-    create(
-        std::shared_ptr<layout> parent,
-        std::initializer_list<init_elem_t> init_list);
+    create(std::initializer_list<init_elem_t> init_list);
 
     virtual ~input_param_list() = default;
 
 public:
     virtual void draw() override;
+    virtual void resize(const rectangle& boundary_rectangle) override;
 
 protected:
-    input_param_list(
-        std::shared_ptr<layout> parent,
-        std::initializer_list<init_elem_t> init_list);
+    input_param_list(std::initializer_list<init_elem_t> init_list);
 
 protected:
     std::vector<std::shared_ptr<input_param_box>> _children;

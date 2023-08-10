@@ -3,12 +3,10 @@
 using namespace gui;
 
 std::shared_ptr<input_param_list> input_param_list::create(
-    std::shared_ptr<layout> parent,
     std::initializer_list<init_elem_t> init_list)
 {
     return std::shared_ptr<input_param_list>(
         new input_param_list{
-            parent,
             init_list
         }
     );
@@ -19,9 +17,12 @@ void input_param_list::draw()
     _layout->draw();
 }
 
-input_param_list::input_param_list(
-    std::shared_ptr<layout> parent,
-    std::initializer_list<init_elem_t> init_list)
+void gui::input_param_list::resize(const rectangle& boundary_rectangle)
+{
+    _layout->resize(boundary_rectangle);
+}
+
+input_param_list::input_param_list(std::initializer_list<init_elem_t> init_list)
     : object{}
 {
     std::vector<object_ptr> layout_init_vec;
@@ -35,7 +36,6 @@ input_param_list::input_param_list(
     }
 
     _layout = split_layout::create(
-        parent,
         split_layout::orientation::vertical,
         split_layout::init_container{
             layout_init_vec.begin(),

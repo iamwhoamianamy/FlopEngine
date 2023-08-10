@@ -48,7 +48,7 @@ public:
 
 public:
     [[nodiscard]] static std::shared_ptr<split_layout>
-    create(std::shared_ptr<layout> parent, orientation o, init_container&& container);
+    create(orientation o, init_container&& container);
 
     virtual ~split_layout() = default;
 
@@ -56,7 +56,7 @@ public:
     virtual void resize(const rectangle& boundary_rectangle) override;
 
 protected:
-    split_layout(std::shared_ptr<layout> parent, orientation o, init_container&& container);
+    split_layout(orientation o, init_container&& container);
 
 private:
     void resize_children();

@@ -20,6 +20,8 @@ public:
     master() = default;
 
 public:
+    void set_layout(layout* layout);
+
     void resize(const rectangle& screen_rectangle);
     void hover(const vector2& mouse_position);
     void register_mouse_click_status_change(const vector2& mouse_position);
@@ -27,7 +29,7 @@ public:
     void react_on_keyboard_key_press(keyboard_key_t key);
 
 public:
-    auto screen_layout() -> std::shared_ptr<layout>;
+    auto screen_layout() -> layout*;
 
 private:
     auto get_objects_under_cursor(const vector2& mouse_position) -> objects_t;
@@ -41,7 +43,7 @@ private:
     bool _last_mouse_status_is_press = false;
     objects_t _pressed_objects;
 
-    std::shared_ptr<layout> _screen_layout;
+    layout* _screen_layout;
 
     objects_t _active_objects;
 };

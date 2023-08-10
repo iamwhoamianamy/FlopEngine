@@ -33,11 +33,12 @@ public:
     bool pressed() const;
     bool active() const;
 
-protected:
-    object(const rectangle& boundary_rectangle = {});
+public:
+    virtual void resize(const rectangle& boundary_rectangle);
+    virtual void draw();
 
 protected:
-    virtual void resize(const rectangle& boundary_rectangle);
+    object(const rectangle& boundary_rectangle = {});
 
 protected:
     void set_hovered_over(bool hovered_over);
@@ -47,8 +48,6 @@ protected:
     void press_key(char key);
 
     void release();
-
-    virtual void draw();
 
 private:
     void init();
@@ -68,7 +67,6 @@ private:
 
 private:
     friend struct master;
-    friend struct layout;
 };
 
 } // namespace gui
