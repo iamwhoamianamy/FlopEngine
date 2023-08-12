@@ -1,12 +1,22 @@
 #pragma once
 
+#include <iterator>
+
 namespace utils
 {
 
-template <typename Begin, typename End>
+namespace detail
+{
+
+template <std::forward_iterator Begin, std::forward_iterator End>
 struct iterator_range
 {
-    iterator_range(Begin b, End e) : _begin{b}, _end{e} { }
+    iterator_range(Begin b, End e)
+        : _begin{b}
+        , _end{e}
+    {
+
+    }
 
     auto begin()
     {
@@ -23,9 +33,13 @@ private:
     End _end;
 };
 
-auto make_iterator_range(auto begin, auto end)
+} // namespace detail
+
+auto make_iterator_range(
+    std::forward_iterator auto begin,
+    std::forward_iterator auto end)
 {
-    return iterator_range{begin, end};
+    return detail::iterator_range{begin, end};
 }
 
 } // namespace utils
