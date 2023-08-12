@@ -5,20 +5,20 @@
 
 using namespace gui;
 
-object_ptr object::create(const rectangle& boundary_rectangle)
+object_ptr object::create(const frame_t& frame)
 {
-    return object_ptr(new object{boundary_rectangle});
+    return object_ptr(new object{frame});
 }
 
-object::object(const rectangle& boundary_rectangle)
-    : _boundary_rectangle{boundary_rectangle}
+object::object(const frame_t& frame)
+    : _frame{frame}
 {
     init();
 }
 
-void gui::object::resize(const rectangle& boundary_rectangle)
+void gui::object::resize(const frame_t& frame)
 {
-    _boundary_rectangle = boundary_rectangle;
+    _frame = frame;
 }
 
 void gui::object::init()
@@ -31,9 +31,9 @@ void object::draw()
 
 }
 
-const rectangle& object::boundary_rectangle() const
+const frame_t& object::frame() const
 {
-    return _boundary_rectangle;
+    return _frame;
 }
 
 void gui::object::on_press(callback_t&& callback)

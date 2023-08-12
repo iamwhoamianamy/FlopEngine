@@ -2,9 +2,9 @@
 #include "libs/graphics/drawing.hpp"
 
 std::shared_ptr<gui::button>
-gui::button::create(const rectangle& boundary_rectangle)
+gui::button::create(const frame_t& frame)
 {
-    return std::shared_ptr<button>(new button{boundary_rectangle});
+    return std::shared_ptr<button>{new button{frame}};
 }
 
 void gui::button::draw()
@@ -22,12 +22,12 @@ void gui::button::draw()
     else
         draw::set_color(draw::color::white());
     
-    draw::draw_rect(object::boundary_rectangle());
+    draw::draw_rect(object::frame());
 
     draw::disable_line_stripple();
 }
 
-gui::button::button(const rectangle& boundary_rectangle)
-    : object{boundary_rectangle}
+gui::button::button(const frame_t& frame)
+    : object{frame}
 {
 }

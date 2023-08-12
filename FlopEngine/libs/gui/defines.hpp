@@ -16,4 +16,6 @@ using callback_t = std::function<void()>;
 using keyboard_key_t = char;
 using keyboard_callback_t = std::function<void(keyboard_key_t)>;
 
+using frame_t = rectangle;
+
 } // namespace gui

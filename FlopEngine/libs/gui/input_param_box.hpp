@@ -40,7 +40,7 @@ public:
 
 public:
     [[nodiscard]] static std::shared_ptr<input_param_box>
-    create(const std::string& label, field_wrapper data, const rectangle& boundary_rectangle = {});
+    create(const std::string& label, field_wrapper data, const frame_t& frame = {});
 
     virtual ~input_param_box() = default;
 
@@ -48,7 +48,7 @@ public:
     virtual void draw() override;
 
 protected:
-    input_param_box(const std::string& label, field_wrapper data, const rectangle& boundary_rectangle);
+    input_param_box(const std::string& label, field_wrapper data, const frame_t& frame);
 
 private:
     void commit_update();

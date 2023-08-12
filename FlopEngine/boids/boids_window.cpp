@@ -186,7 +186,7 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
         }
         case '\x1b':
         {
-            static bool master_hidden = true;
+            static bool master_hidden = false;
 
             master_hidden = !master_hidden;
 

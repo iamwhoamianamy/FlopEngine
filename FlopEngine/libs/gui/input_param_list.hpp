@@ -25,7 +25,7 @@ public:
 
 public:
     virtual void draw() override;
-    virtual void resize(const rectangle& boundary_rectangle) override;
+    virtual void resize(const frame_t& new_frame) override;
 
 protected:
     input_param_list(std::initializer_list<init_elem_t> init_list);

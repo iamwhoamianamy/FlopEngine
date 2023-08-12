@@ -124,7 +124,7 @@ auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> obj
         std::inserter(result, result.end()),
         [&](object* object)
         {
-            return object->boundary_rectangle().contains(mouse_position);
+            return object->frame().contains(mouse_position);
         }
     );
 

@@ -53,7 +53,7 @@ public:
     virtual ~split_layout() = default;
 
 public:
-    virtual void resize(const rectangle& boundary_rectangle) override;
+    virtual void resize(const frame_t& new_frame) override;
 
 protected:
     split_layout(orientation o, init_container&& container);

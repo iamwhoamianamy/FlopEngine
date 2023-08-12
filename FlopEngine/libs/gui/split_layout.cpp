@@ -11,9 +11,9 @@ std::shared_ptr<split_layout> split_layout::create(
     return std::shared_ptr<split_layout>(new split_layout{o, std::move(container)});
 }
 
-void split_layout::resize(const rectangle& boundary_rectangle)
+void split_layout::resize(const frame_t& new_frame)
 {
-    layout::resize(boundary_rectangle);
+    layout::resize(new_frame);
     resize_children();
 }
 
@@ -41,7 +41,7 @@ void split_layout::resize_children()
 
     const auto const_axis = stretch_axis ^ 1;
     
-    const auto& rect = object::boundary_rectangle();
+    const auto& rect = object::frame();
 
     float rest_length = rect.half_dimensions[stretch_axis] * 2.0f;
 
@@ -58,13 +58,13 @@ void split_layout::resize_children()
             rect.center[stretch_axis] + rect.half_dimensions[stretch_axis] - rest_length +
             half_dim[stretch_axis];
 
-        rectangle new_rectangle{center, half_dim};
+        frame_t new_frame_t{center, half_dim};
 
-        rest_length -= new_rectangle.half_dimensions[stretch_axis] * 2.0f;
+        rest_length -= new_frame_t.half_dimensions[stretch_axis] * 2.0f;
 
-        new_rectangle = layout::fix_boundary_rectangle(new_rectangle);
+        new_frame_t = layout::fix_frame(new_frame_t);
 
-        child->resize(new_rectangle);
+        child->resize(new_frame_t);
     }
 }
 

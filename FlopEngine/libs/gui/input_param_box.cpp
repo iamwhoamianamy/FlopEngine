@@ -59,10 +59,10 @@ std::shared_ptr<input_param_box>
 gui::input_param_box::create(
     const std::string& label,
     field_wrapper data,
-    const rectangle& boundary_rectangle)
+    const frame_t& frame)
 {
     return std::shared_ptr<input_param_box>{
-        new input_param_box{label, data, boundary_rectangle}
+        new input_param_box{label, data, frame}
     };
 }
 
@@ -75,18 +75,18 @@ void gui::input_param_box::draw()
 
     draw::set_line_width(2);
     draw::set_color(draw::color::yellow());
-    draw::draw_rect(object::boundary_rectangle());
+    draw::draw_rect(object::frame());
     draw::disable_line_stripple();
 
     draw::set_line_width(1);
-    draw::render_string(boundary_rectangle().center_left(), 20, data_as_string());
+    draw::render_string(frame().center_left(), 20, data_as_string());
 }
 
 input_param_box::input_param_box(
     const std::string& label,
     field_wrapper data,
-    const rectangle& boundary_rectangle)
-    : object{boundary_rectangle}
+    const frame_t& boundary_frame_t)
+    : object{boundary_frame_t}
     , _label{label}
     , _data{data}
     , _tmp_string{data.as_string()}

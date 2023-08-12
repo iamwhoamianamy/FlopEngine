@@ -16,12 +16,12 @@ public:
 
 public:
     [[nodiscard]] static object_ptr
-    create(const rectangle& boundary_rectangle = {});
+    create(const frame_t& frame = {});
 
     virtual ~object() = default;
 
 public:
-    const rectangle& boundary_rectangle() const;
+    const rectangle& frame() const;
 
     void on_press(callback_t&& callback);
     void on_release(callback_t&& callback);
@@ -34,11 +34,11 @@ public:
     bool active() const;
 
 public:
-    virtual void resize(const rectangle& boundary_rectangle);
+    virtual void resize(const frame_t& new_frame);
     virtual void draw();
 
 protected:
-    object(const rectangle& boundary_rectangle = {});
+    object(const frame_t& frame = {});
 
 protected:
     void set_hovered_over(bool hovered_over);
@@ -53,7 +53,7 @@ private:
     void init();
 
 private:
-    rectangle _boundary_rectangle;
+    frame_t _frame;
 
     bool _hidden       = false;
     bool _hovered_over = false;

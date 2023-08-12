@@ -9,7 +9,7 @@ struct button : public object
 {
 public:
     [[nodiscard]] static std::shared_ptr<button>
-    create(const rectangle& boundary_rectangle = {});
+    create(const frame_t& frame = {});
 
     virtual ~button() = default;
 
@@ -17,7 +17,7 @@ public:
     virtual void draw() override;
 
 protected:
-    button(const rectangle& boundary_rectangle);
+    button(const frame_t& frame);
 };
 
 } // namespace gui

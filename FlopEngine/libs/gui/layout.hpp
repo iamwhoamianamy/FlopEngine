@@ -12,7 +12,7 @@ struct layout : public object
 {
 public:
     [[nodiscard]] static std::shared_ptr<layout>
-    create(const rectangle& boundary_rectangle = {});
+    create(const frame_t& frame = {});
     
     virtual ~layout() = default;
 
@@ -21,11 +21,11 @@ public:
     void add_child(object* child);
 
 protected:
-    layout(const rectangle& boundary_rectangle);
+    layout(const frame_t& frame);
 
 protected:
-    virtual void resize(const rectangle& boundary_rectangle) override;
-    auto fix_boundary_rectangle(const rectangle& boundary_rectangle) -> rectangle;
+    virtual void resize(const frame_t& new_frame) override;
+    auto fix_frame(const frame_t& frame) -> frame_t;
 
 protected:
     std::unordered_set<object*> _children;
