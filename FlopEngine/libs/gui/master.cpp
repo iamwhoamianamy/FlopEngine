@@ -16,6 +16,9 @@ void gui::master::resize(const rectangle& screen_rectangle)
 
 void gui::master::hover(const vector2& mouse_position)
 {
+    if (_hidden)
+        return;
+
     auto candidates = get_objects_under_cursor(mouse_position);
 
     for (auto object : _objects)
@@ -27,6 +30,9 @@ void gui::master::hover(const vector2& mouse_position)
 
 void gui::master::register_mouse_click_status_change(const vector2& mouse_position)
 {
+    if (_hidden)
+        return;
+
     auto objects_under_cursor = get_objects_under_cursor(mouse_position);
 
     auto handle_press = [&]
@@ -78,6 +84,9 @@ void gui::master::register_mouse_click_status_change(const vector2& mouse_positi
 
 void gui::master::draw()
 {
+    if (_hidden)
+        return;
+
     for (auto object : _objects)
     {
         object->draw();
@@ -86,10 +95,18 @@ void gui::master::draw()
 
 void gui::master::react_on_keyboard_key_press(keyboard_key_t key)
 {
+    if (_hidden)
+        return;
+
     for (auto object : _active_objects)
     {
         object->press_key(key);
     }
+}
+
+void gui::master::set_hidden(bool hidden)
+{
+    _hidden = hidden;
 }
 
 auto gui::master::screen_layout() -> layout*

@@ -28,6 +28,8 @@ public:
     void draw();
     void react_on_keyboard_key_press(keyboard_key_t key);
 
+    void set_hidden(bool hidden);
+
 public:
     auto screen_layout() -> layout*;
 
@@ -36,7 +38,7 @@ private:
     void add_new_object(object* object);
 
 private:
-    friend object;
+    bool _hidden = false;
 
     objects_t _objects;
 
@@ -46,6 +48,9 @@ private:
     layout* _screen_layout = nullptr;
 
     objects_t _active_objects;
+
+private:
+    friend object;
 };
 
 } // namespace gui

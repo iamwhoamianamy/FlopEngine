@@ -184,6 +184,14 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
             read_boid_params();
             break;
         }
+        case '\x1b':
+        {
+            static bool master_hidden = true;
+
+            master_hidden = !master_hidden;
+
+            utils::singleton<gui::master>::get().set_hidden(master_hidden);
+        }
         default:
         {
             known_key = false;
