@@ -43,7 +43,7 @@ private:
     bool _last_mouse_status_is_press = false;
     objects_t _pressed_objects;
 
-    layout* _screen_layout;
+    layout* _screen_layout = nullptr;
 
     objects_t _active_objects;
 };
