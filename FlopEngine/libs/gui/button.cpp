@@ -2,9 +2,9 @@
 #include "libs/graphics/drawing.hpp"
 
 std::shared_ptr<gui::button>
-gui::button::create(const frame_t& frame)
+gui::button::create(const std::string& label, const frame_t& frame)
 {
-    return std::shared_ptr<button>{new button{frame}};
+    return std::shared_ptr<button>{new button{label, frame}};
 }
 
 void gui::button::draw()
@@ -25,9 +25,12 @@ void gui::button::draw()
     draw::draw_rect(object::frame());
 
     draw::disable_line_stripple();
+
+    draw::render_string(frame().center, 20, _label);
 }
 
-gui::button::button(const frame_t& frame)
+gui::button::button(const std::string& label, const frame_t& frame)
     : object{frame}
+    , _label{label}
 {
 }

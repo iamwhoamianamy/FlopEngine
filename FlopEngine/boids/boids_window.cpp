@@ -280,7 +280,7 @@ void boids_window::setup_gui()
     );
 
     // right button
-    _right_button = gui::button::create();
+    _right_button = gui::button::create("Le button");
 
     _right_button->on_press([]
         {
