@@ -19,21 +19,21 @@ public:
 
 }
 
-QuadtreeWindow::QuadtreeWindow(
+quadtree_window::quadtree_window(
     int argc, char** argv,
-    float _screen_width, float _screen_height,
+    float screen_width, float screen_height,
     std::string name) :
-    base_window(argc, argv, _screen_width, _screen_height, name)
+    base_window{argc, argv, screen_width, screen_height, name}
 {
 
 }
 
-void QuadtreeWindow::keyboard_letters(unsigned char key, int x, int y)
+void quadtree_window::keyboard_letters(unsigned char key, int x, int y)
 {
 
 }
 
-void QuadtreeWindow::mouse(int button, int state, int x, int y)
+void quadtree_window::mouse(int button, int state, int x, int y)
 {
     if(state == 0)
     {
@@ -41,51 +41,54 @@ void QuadtreeWindow::mouse(int button, int state, int x, int y)
     }
 }
 
-void QuadtreeWindow::mouse_passive(int x, int y)
+void quadtree_window::mouse_passive(int x, int y)
 {
     _mouse_pos.x = x;
     _mouse_pos.y = y;
 }
 
-void QuadtreeWindow::exiting_function()
+void quadtree_window::exiting_function()
 {
     std::cout << "DONE!";
 }
 
-void QuadtreeWindow::display()
+void quadtree_window::display()
 {
     glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    auto pointColor = draw::color(255, 255, 255);
+    auto point_color = draw::color(255, 255, 255);
 
     glEnable(GL_POINT_SMOOTH);
 
     for(auto& point : points)
     {
-        draw::set_color(pointColor);
+        draw::set_color(point_color);
         draw::draw_point(point, 5);
     }
 
-    rectangle mouseBox(_mouse_pos, vector2(40, 40));
-    draw::set_color(pointColor);
-    draw::draw_rect(_mouse_pos, mouseBox.half_dimensions.x, mouseBox.half_dimensions.y);
+    rectangle mouse_rectangle(_mouse_pos, vector2(40, 40));
+    draw::set_color(point_color);
+    draw::draw_rect(_mouse_pos, mouse_rectangle.half_dimensions.x, mouse_rectangle.half_dimensions.y);
 
-    quadtree<vector2, 8> octree(rectangle(
+    quadtree<vector2, 2> qtree{
+        rectangle{
             vector2(_screen_w / 2, _screen_h / 2),
-            vector2(_screen_w / 2, _screen_h / 2)));
+            vector2(_screen_w / 2, _screen_h / 2)
+        }
+    };
 
-    octree.insert(points);
-    auto foundPoints = octree.quarry(mouseBox);
-    auto foundColor = draw::color(255, 0, 0);
+    qtree.insert(points);
+    auto found_points = qtree.quarry(mouse_rectangle);
+    auto found_color = draw::color(255, 0, 0);
 
-    for(auto point : foundPoints)
+    for(auto point : found_points)
     {
-        draw::set_color(foundColor);
+        draw::set_color(found_color);
         draw::draw_point(*point, 5);
     }
 
-    drawOctree(octree);
+    drawOctree(qtree);
 
     glFinish();
 }

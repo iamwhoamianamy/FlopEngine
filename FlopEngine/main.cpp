@@ -8,8 +8,8 @@
 
 int main(int argc, char** argv)
 {
-    //flp::window = new QuadtreeWindow(argc, argv, 800, 800, "Octree");
-    flp::window = new boids_window(argc, argv, 1600, 800, "Boids");
+    flp::window = new quadtree_window(argc, argv, 800, 800, "Octree");
+    //flp::window = new boids_window(argc, argv, 1600, 800, "Boids");
     //flp::window = new MarchingWindow(argc, argv, 1600, 800, "Boids");
 
     //flp::window = new delaunay_window(argc, argv, 1600, 800, "Delaunay");

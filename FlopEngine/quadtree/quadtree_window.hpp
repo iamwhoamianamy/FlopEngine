@@ -9,13 +9,13 @@
 #include "libs/quadtree/quadtree.hpp"
 #include "libs/graphics/base_window.hpp"
 
-class QuadtreeWindow : public flp::base_window
+class quadtree_window : public flp::base_window
 {
 private:
     std::vector<vector2> points;
 public:
-    QuadtreeWindow(int argc, char** argv,
-        float _screen_width, float _screen_height, std::string name);
+    quadtree_window(int argc, char** argv,
+        float screen_width, float screen_height, std::string name);
 
     void display();
     void keyboard_letters(unsigned char key, int x, int y);
