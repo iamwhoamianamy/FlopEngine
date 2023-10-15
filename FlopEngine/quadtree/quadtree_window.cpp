@@ -52,6 +52,8 @@ void quadtree_window::exiting_function()
     std::cout << "DONE!";
 }
 
+void test_f();
+
 void quadtree_window::display()
 {
     glClearColor(0, 0, 0, 255);
@@ -79,16 +81,40 @@ void quadtree_window::display()
     };
 
     qtree.insert(points);
-    auto found_points = qtree.quarry(mouse_rectangle);
+    //auto found_points = qtree.quarry(mouse_rectangle);
     auto found_color = draw::color(255, 0, 0);
 
-    for(auto point : found_points)
+    //for(auto point : found_points)
+
+    auto range = qtree.quarry_as_range(mouse_rectangle);
+
+    for (auto b = range.begin(); b != range.end(); ++b)
+    //for (auto point : qtree.quarry_as_range(mouse_rectangle));
     {
+        auto point = *b;
+
         draw::set_color(found_color);
-        draw::draw_point(*point, 5);
+        draw::draw_point(point, 5);
     }
+
+    test_f();
 
     drawOctree(qtree);
 
     glFinish();
+}
+
+void test_f()
+{
+    //int arr[3];
+
+    //auto range = utils::make_iterator_range(arr[0], arr[1]);
+
+    //auto i1 = begin(range);
+
+    auto it = quadtree<vector2, 2>::const_iterator();
+
+    auto range = utils::make_iterator_range(it, it);
+
+    auto b = begin(range);
 }
