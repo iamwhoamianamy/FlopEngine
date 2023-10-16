@@ -41,7 +41,7 @@ public:
     void subdivide();
 
     std::vector<Point*> quarry(const rectangle& range) const;
-    auto quarry_as_range(const rectangle& range) const;
+    auto quarry_as_range(rectangle& range) const;
 
     bool subdivided() const;
 
@@ -74,24 +74,33 @@ public:
         using iterator_concept = std::input_iterator_tag;
         using iterator_category = std::input_iterator_tag;
         using difference_type = std::ptrdiff_t;
-        using value_type = Point*;
-        using pointer = Point**;
-        using reference = Point*&;
+        using value_type = Point;
+        using pointer = Point*;
+        using reference = Point&;
 
     public:
         const_iterator();
         const_iterator(const const_iterator& other);
         const_iterator(const_iterator&& other) noexcept;
-        const_iterator(const quadtree* root, const rectangle* range);
+        const_iterator(quadtree* root, rectangle* range);
+
+        ~const_iterator();
 
     public:
-        const Point& operator->() const;
-        const Point& operator*() const;
-        const const_iterator& operator++() const;
-        const const_iterator& operator++(int) const;
+        Point& operator*() const;
+        Point* operator->();
+        const_iterator& operator++();
+        const_iterator operator++(int);
 
-        bool operator==(const const_iterator& other) const;
-        bool operator!=(const const_iterator& other) const;
+        friend bool operator==(const const_iterator& a, const const_iterator& b)
+        {
+            return a.equal(b);
+        }
+
+        friend bool operator!=(const const_iterator& a, const const_iterator& b)
+        {
+            return !a.equal(b);
+        }
 
         const_iterator& operator=(const const_iterator& other);
         const_iterator& operator=(const_iterator&& other) noexcept;
@@ -100,24 +109,27 @@ public:
         static const_iterator make_end();
 
     private:
-        void find_first() const;
-        void find_next() const;
-        void find_next_impl() const;
+        bool equal(const const_iterator& other) const;
+
+    private:
+        void find_first();
+        void find_next();
+        void find_next_impl();
 
         void copy_fields(const const_iterator& other);
 
     private:
         struct control_block
         {
-            const quadtree* root = nullptr;
-            const quadtree* node = nullptr;
+            quadtree* root = nullptr;
+            quadtree* node = nullptr;
             node_container_iterator_t node_iterator;
-            const rectangle* range = nullptr;
-            std::stack<const quadtree*> nodes_to_visit;
+            rectangle* range = nullptr;
+            std::stack<quadtree*> nodes_to_visit;
             bool is_end = true;
 
             control_block();
-            control_block(const quadtree* root, const rectangle* range);
+            control_block(quadtree* root, rectangle* range);
         };
 
         std::shared_ptr<control_block> _cb;
