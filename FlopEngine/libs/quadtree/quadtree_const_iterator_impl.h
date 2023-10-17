@@ -1,28 +1,28 @@
 #pragma once
 #include "quadtree_implementation.hpp"
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::const_iterator()
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::const_iterator()
 {
 
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::const_iterator(
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::const_iterator(
     const const_iterator& other)
 {
     copy_fields(other);
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::const_iterator(
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::const_iterator(
     const_iterator&& other) noexcept
 {
     copy_fields(other);
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::const_iterator(
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::const_iterator(
     const quadtree& root, const rectangle& range)
     : _cb{std::make_shared<control_block>(root, range)}
 {
@@ -30,35 +30,35 @@ inline quadtree<Point, Capacity>::const_iterator::const_iterator(
     find_first();
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::~const_iterator()
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::~const_iterator()
 {
 
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::reference
-quadtree<Point, Capacity>::const_iterator::operator*() const
-{
-    return *(*(_cb->node_iterator));
-}
-
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::pointer
-quadtree<Point, Capacity>::const_iterator::operator->() const
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::reference
+quadtree<Point>::const_iterator::operator*() const
 {
     return *(*(_cb->node_iterator));
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline auto& quadtree<Point, Capacity>::const_iterator::operator++()
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::pointer
+quadtree<Point>::const_iterator::operator->() const
+{
+    return *(*(_cb->node_iterator));
+}
+
+template<traits::quadtree_point Point>
+inline auto& quadtree<Point>::const_iterator::operator++()
 {
     find_next();
     return *this;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline auto quadtree<Point, Capacity>::const_iterator::operator++(int)
+template<traits::quadtree_point Point>
+inline auto quadtree<Point>::const_iterator::operator++(int)
 {
     auto result = const_iterator(*this);
 
@@ -67,8 +67,8 @@ inline auto quadtree<Point, Capacity>::const_iterator::operator++(int)
     return result;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline bool quadtree<Point, Capacity>::const_iterator::equal(
+template<traits::quadtree_point Point>
+inline bool quadtree<Point>::const_iterator::equal(
     const const_iterator& other) const
 {
     if (other._cb)
@@ -85,8 +85,8 @@ inline bool quadtree<Point, Capacity>::const_iterator::equal(
         return _cb->is_end == true;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline auto& quadtree<Point, Capacity>::const_iterator::operator=(
+template<traits::quadtree_point Point>
+inline auto& quadtree<Point>::const_iterator::operator=(
     const const_iterator& other)
 {
     copy_fields(other);
@@ -94,8 +94,8 @@ inline auto& quadtree<Point, Capacity>::const_iterator::operator=(
     return *this;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline auto& quadtree<Point, Capacity>::const_iterator::operator=(
+template<traits::quadtree_point Point>
+inline auto& quadtree<Point>::const_iterator::operator=(
     const_iterator&& other) noexcept
 {
     copy_fields(other);
@@ -103,23 +103,23 @@ inline auto& quadtree<Point, Capacity>::const_iterator::operator=(
     return *this;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator
-quadtree<Point, Capacity>::const_iterator::make_end()
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator
+quadtree<Point>::const_iterator::make_end()
 {
     return const_iterator{};
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline void quadtree<Point, Capacity>::const_iterator::find_first()
+template<traits::quadtree_point Point>
+inline void quadtree<Point>::const_iterator::find_first()
 {
     _cb->nodes_to_visit.push(_cb->node);
 
     find_next_impl();
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline void quadtree<Point, Capacity>::const_iterator::find_next()
+template<traits::quadtree_point Point>
+inline void quadtree<Point>::const_iterator::find_next()
 {
     _cb->node_iterator++;
 
@@ -130,8 +130,8 @@ inline void quadtree<Point, Capacity>::const_iterator::find_next()
     find_next_impl();
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline void quadtree<Point, Capacity>::const_iterator::find_next_impl()
+template<traits::quadtree_point Point>
+inline void quadtree<Point>::const_iterator::find_next_impl()
 {
     while (!_cb->nodes_to_visit.empty())
     {
@@ -164,15 +164,15 @@ inline void quadtree<Point, Capacity>::const_iterator::find_next_impl()
     _cb->is_end = true;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline void quadtree<Point, Capacity>::const_iterator::copy_fields(
+template<traits::quadtree_point Point>
+inline void quadtree<Point>::const_iterator::copy_fields(
     const const_iterator& other)
 {
     _cb = other._cb;
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator::control_block::control_block(
+template<traits::quadtree_point Point>
+inline quadtree<Point>::const_iterator::control_block::control_block(
     const quadtree& root, const rectangle& range)
     : node{&root}
     , range{range}

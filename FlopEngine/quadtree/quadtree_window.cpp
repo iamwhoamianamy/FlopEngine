@@ -4,21 +4,6 @@
 
 using namespace flp;
 
-namespace traits
-{
-
-template<>
-class access<vector2>
-{
-public:
-    static vector2 position(vector2* vec)
-    {
-        return *vec;
-    }
-};
-
-}
-
 quadtree_window::quadtree_window(
     int argc, char** argv,
     float screen_width, float screen_height,
@@ -73,7 +58,7 @@ void quadtree_window::display()
     draw::set_color(point_color);
     draw::draw_rect(_mouse_pos, mouse_rectangle.half_dimensions.x, mouse_rectangle.half_dimensions.y);
 
-    quadtree<vector2, 2> qtree{
+    quadtree<vector2> qtree{
         rectangle{
             vector2(_screen_w / 2, _screen_h / 2),
             vector2(_screen_w / 2, _screen_h / 2)
@@ -135,7 +120,7 @@ void f_forward_iterator(I i)
 
 void range_my()
 {
-    auto it = quadtree<vector2, 2>::const_iterator();
+    auto it = quadtree<vector2>::const_iterator();
 
     auto range = utils::make_iterator_range(it, it);
 

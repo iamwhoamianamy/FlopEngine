@@ -16,6 +16,15 @@ struct access
 {
 };
 
+template<>
+struct access<vector2>
+{
+    static auto position(vector2* vec)
+    {
+        return *vec;
+    }
+};
+
 template<typename T>
 concept quadtree_point = requires(T* p)
 {
@@ -24,7 +33,7 @@ concept quadtree_point = requires(T* p)
 
 }
 
-template<traits::quadtree_point Point, size_t Capacity>
+template<traits::quadtree_point Point>
 class quadtree
 {
 public:
@@ -32,10 +41,15 @@ public:
     using node_container_iterator_t = std::vector<Point*>::const_iterator;
     using node_t = quadtree;
 
+    static constexpr size_t max_depth = 15;
+
 public:
     quadtree(const quadtree& other);
     quadtree(quadtree&& other);
-    explicit quadtree(const rectangle& boundary_rectangle);
+
+    explicit quadtree(
+        const rectangle& boundary_rectangle,
+        size_t capacity = 2);
 
     virtual ~quadtree();
 
@@ -43,15 +57,20 @@ public:
     void insert(std::vector<Point>& points);
     void insert(Point* point);
 
+    void commit();
+
     std::vector<Point*> quarry(const rectangle& range) const;
     auto quarry_as_range(const rectangle& range) const;
 
 public:
-    bool subdivided() const;
     auto& box() const;
     auto& children() const;
     constexpr auto capacity() const;
     const auto& points() const;
+
+    bool subdivided() const;
+    bool empty() const;
+    bool useless() const;
 
 public:
     auto& operator=(const quadtree& other);
@@ -64,9 +83,16 @@ private:
     void subdivide();
 
 private:
+    explicit quadtree(
+        const rectangle& boundary_rectangle,
+        size_t capacity,
+        size_t level);
+
     rectangle _rectangle;
     std::vector<Point*> _points;
     std::vector<std::unique_ptr<node_t>> _children;
+    size_t _capacity;
+    size_t _level;
 
 public:
     struct const_iterator

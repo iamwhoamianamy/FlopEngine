@@ -4,8 +4,7 @@
 
 static draw::color quadtree_color = draw::color::yellow();
 
-template <size_t capacity>
-void draw_quadtree(const quadtree<vector2, capacity>& octree)
+void draw_quadtree(const quadtree<vector2>& octree)
 {
     draw::set_color(quadtree_color);
     draw::draw_rect(octree.box().center,
