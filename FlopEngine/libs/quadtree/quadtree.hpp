@@ -37,7 +37,7 @@ public:
     quadtree(quadtree&& other);
     explicit quadtree(const rectangle& boundary_rectangle);
 
-    ~quadtree();
+    virtual ~quadtree();
 
 public:
     void insert(std::vector<Point>& points);
@@ -59,7 +59,6 @@ public:
 
 private:
     void quarry(const rectangle& range, std::vector<Point*>& found) const;
-    void clear_data();
     void copy_fields(const quadtree& other);
     void move_fields(quadtree&& other);
     void subdivide();
@@ -67,7 +66,7 @@ private:
 private:
     rectangle _rectangle;
     std::vector<Point*> _points;
-    std::vector<node_t*> _children;
+    std::vector<std::unique_ptr<node_t>> _children;
 
 public:
     struct const_iterator

@@ -33,6 +33,7 @@ inline quadtree<Point, Capacity>::const_iterator::const_iterator(
 template<traits::quadtree_point Point, size_t Capacity>
 inline quadtree<Point, Capacity>::const_iterator::~const_iterator()
 {
+
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
@@ -85,7 +86,8 @@ inline bool quadtree<Point, Capacity>::const_iterator::equal(
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
-inline auto& quadtree<Point, Capacity>::const_iterator::operator=(const const_iterator& other)
+inline auto& quadtree<Point, Capacity>::const_iterator::operator=(
+    const const_iterator& other)
 {
     copy_fields(other);
 
@@ -93,7 +95,8 @@ inline auto& quadtree<Point, Capacity>::const_iterator::operator=(const const_it
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
-inline auto& quadtree<Point, Capacity>::const_iterator::operator=(const_iterator&& other) noexcept
+inline auto& quadtree<Point, Capacity>::const_iterator::operator=(
+    const_iterator&& other) noexcept
 {
     copy_fields(other);
 
@@ -101,7 +104,8 @@ inline auto& quadtree<Point, Capacity>::const_iterator::operator=(const_iterator
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
-inline quadtree<Point, Capacity>::const_iterator quadtree<Point, Capacity>::const_iterator::make_end()
+inline quadtree<Point, Capacity>::const_iterator
+quadtree<Point, Capacity>::const_iterator::make_end()
 {
     return const_iterator{};
 }
@@ -153,7 +157,7 @@ inline void quadtree<Point, Capacity>::const_iterator::find_next_impl()
         {
             if (_cb->node->subdivided())
                 for (auto& child : _cb->node->children())
-                    _cb->nodes_to_visit.push(child);
+                    _cb->nodes_to_visit.push(child.get());
         }
     }
 

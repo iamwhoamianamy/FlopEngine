@@ -92,7 +92,7 @@ void quadtree_window::display()
 
     //test_f();
 
-    drawOctree(qtree);
+    draw_quadtree(qtree);
 
     glFinish();
 }

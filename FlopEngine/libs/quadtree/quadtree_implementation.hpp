@@ -82,10 +82,10 @@ void quadtree<Point, Capacity>::subdivide()
 
     _children.reserve(4);
 
-    _children.emplace_back(new quadtree(rectangle({ x - w / 2, y - h / 2 }, children_half_dimensions)));
-    _children.emplace_back(new quadtree(rectangle({ x + w / 2, y - h / 2 }, children_half_dimensions)));
-    _children.emplace_back(new quadtree(rectangle({ x + w / 2, y + h / 2 }, children_half_dimensions)));
-    _children.emplace_back(new quadtree(rectangle({ x - w / 2, y + h / 2 }, children_half_dimensions)));
+    _children.emplace_back(std::make_unique<quadtree>(rectangle({x - w / 2, y - h / 2}, children_half_dimensions)));
+    _children.emplace_back(std::make_unique<quadtree>(rectangle({x + w / 2, y - h / 2}, children_half_dimensions)));
+    _children.emplace_back(std::make_unique<quadtree>(rectangle({x + w / 2, y + h / 2}, children_half_dimensions)));
+    _children.emplace_back(std::make_unique<quadtree>(rectangle({x - w / 2, y + h / 2}, children_half_dimensions)));
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
@@ -126,21 +126,7 @@ inline void quadtree<Point, Capacity>::quarry(const rectangle& range, std::vecto
 
         if (node->subdivided())
             for (auto& child : node->_children)
-                nodes_to_visit.push(child);
-    }
-}
-
-template<traits::quadtree_point Point, size_t Capacity>
-inline void quadtree<Point, Capacity>::clear_data()
-{
-    if (subdivided())
-    {
-        for (auto child : _children)
-        {
-            delete child;
-        }
-
-        _children.clear();
+                nodes_to_visit.push(child.get());
     }
 }
 
@@ -149,13 +135,15 @@ inline void quadtree<Point, Capacity>::copy_fields(const quadtree& other)
 {
     _rectangle = other._rectangle;
     _points = other._points;
+    _children = other._children;
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
 inline void quadtree<Point, Capacity>::move_fields(quadtree&& other)
 {
-    _rectangle = other._rectangle;
+    _rectangle = std::move(other._rectangle);
     _points = std::move(other._points);
+    _children = std::move(other._children);
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
@@ -191,7 +179,6 @@ inline const auto& quadtree<Point, Capacity>::points() const
 template<traits::quadtree_point Point, size_t Capacity>
 auto& quadtree<Point, Capacity>::operator=(const quadtree<Point, Capacity>& other)
 {
-    clear_data();
     copy_fields(other);
 
     return *this;
@@ -200,7 +187,6 @@ auto& quadtree<Point, Capacity>::operator=(const quadtree<Point, Capacity>& othe
 template<traits::quadtree_point Point, size_t Capacity>
 auto& quadtree<Point, Capacity>::operator=(quadtree<Point, Capacity>&& other) noexcept
 {
-    clear_data();
     move_fields(std::move(other));
 
     return *this;
@@ -209,7 +195,7 @@ auto& quadtree<Point, Capacity>::operator=(quadtree<Point, Capacity>&& other) no
 template<traits::quadtree_point Point, size_t Capacity>
 quadtree<Point, Capacity>::~quadtree()
 {
-    clear_data();
+
 }
 
 #include "quadtree_const_iterator_impl.h"
