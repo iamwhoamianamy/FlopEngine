@@ -37,31 +37,32 @@ public:
     quadtree(quadtree&& other);
     explicit quadtree(const rectangle& boundary_rectangle);
 
+    ~quadtree();
+
+public:
     void insert(std::vector<Point>& points);
     void insert(Point* point);
-    void subdivide();
 
     std::vector<Point*> quarry(const rectangle& range) const;
     auto quarry_as_range(const rectangle& range) const;
 
+public:
     bool subdivided() const;
-
     auto& box() const;
-    auto& children();
     auto& children() const;
-    constexpr auto get_capacity() const;
+    constexpr auto capacity() const;
     const auto& points() const;
 
-    auto& operator =(const quadtree<Point, Capacity>& other);
-    auto& operator =(quadtree<Point, Capacity>&& other) noexcept;
-
-    ~quadtree();
+public:
+    auto& operator=(const quadtree& other);
+    auto& operator=(quadtree&& other) noexcept;
 
 private:
     void quarry(const rectangle& range, std::vector<Point*>& found) const;
     void clear_data();
     void copy_fields(const quadtree& other);
     void move_fields(quadtree&& other);
+    void subdivide();
 
 private:
     rectangle _rectangle;
@@ -72,12 +73,13 @@ public:
     struct const_iterator
     {
     public:
+        // std boilerplate :(
         using iterator_concept = std::input_iterator_tag;
         using iterator_category = std::input_iterator_tag;
         using difference_type = std::ptrdiff_t;
         using value_type = Point;
-        using pointer = Point*;
-        using reference = Point&;
+        using pointer = const Point*;
+        using reference = const Point&;
 
     public:
         const_iterator();
@@ -88,10 +90,11 @@ public:
         ~const_iterator();
 
     public:
-        const Point& operator*() const;
-        const Point* operator->() const;
-        const_iterator& operator++();
-        const_iterator operator++(int);
+        reference operator*() const;
+        pointer operator->() const;
+
+        auto& operator++();
+        auto operator++(int);
 
         friend bool operator==(const const_iterator& a, const const_iterator& b)
         {
@@ -103,8 +106,8 @@ public:
             return !a.equal(b);
         }
 
-        const_iterator& operator=(const const_iterator& other);
-        const_iterator& operator=(const_iterator&& other) noexcept;
+        auto& operator=(const const_iterator& other);
+        auto& operator=(const_iterator&& other) noexcept;
         
     public:
         static const_iterator make_end();

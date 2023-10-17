@@ -14,9 +14,10 @@ inline quadtree<Point, Capacity>::quadtree(quadtree&& other)
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
-quadtree<Point, Capacity>::quadtree(const rectangle& boundary_rectangle) 
+quadtree<Point, Capacity>::quadtree(const rectangle& boundary_rectangle)
     : _rectangle(boundary_rectangle)
 {
+
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
@@ -170,19 +171,13 @@ bool quadtree<Point, Capacity>::subdivided() const
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
-auto& quadtree<Point, Capacity>::children()
-{
-    return _children;
-}
-
-template<traits::quadtree_point Point, size_t Capacity>
 auto& quadtree<Point, Capacity>::children() const
 {
     return _children;
 }
 
 template<traits::quadtree_point Point, size_t Capacity>
-constexpr auto quadtree<Point, Capacity>::get_capacity() const
+constexpr auto quadtree<Point, Capacity>::capacity() const
 {
     return Capacity;
 }

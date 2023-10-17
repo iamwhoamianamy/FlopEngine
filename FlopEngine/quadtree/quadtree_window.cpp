@@ -81,14 +81,8 @@ void quadtree_window::display()
     };
 
     qtree.insert(points);
-    //auto found_points = qtree.quarry(mouse_rectangle);
-    auto found_color = draw::color(255, 0, 0);
 
-    for (auto point : qtree.quarry_as_range(mouse_rectangle))
-    {
-        draw::set_color(found_color);
-        draw::draw_point(point, 5);
-    }
+    auto found_color = draw::color(255, 0, 0);
 
     for (auto point : qtree.quarry_as_range(mouse_rectangle))
     {
