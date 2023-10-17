@@ -87,8 +87,8 @@ public:
         ~const_iterator();
 
     public:
-        Point& operator*() const;
-        Point* operator->();
+        const Point& operator*() const;
+        const Point* operator->() const;
         const_iterator& operator++();
         const_iterator operator++(int);
 
