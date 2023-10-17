@@ -162,6 +162,7 @@
     <ClInclude Include="libs\math\math.hpp" />
     <ClInclude Include="libs\geometry\rectangle.hpp" />
     <ClInclude Include="libs\quadtree\quadtree.hpp" />
+    <ClInclude Include="libs\quadtree\quadtree_const_iterator_impl.h" />
     <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_implementation.hpp" />
     <ClInclude Include="marching\marching_grid.hpp" />

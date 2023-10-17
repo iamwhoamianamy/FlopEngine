@@ -30,6 +30,7 @@ class quadtree
 public:
     using value_t = Point;
     using node_container_iterator_t = std::vector<Point*>::const_iterator;
+    using node_t = quadtree;
 
 public:
     quadtree(const quadtree& other);
@@ -41,7 +42,7 @@ public:
     void subdivide();
 
     std::vector<Point*> quarry(const rectangle& range) const;
-    auto quarry_as_range(rectangle& range) const;
+    auto quarry_as_range(const rectangle& range) const;
 
     bool subdivided() const;
 
@@ -65,7 +66,7 @@ private:
 private:
     rectangle _rectangle;
     std::vector<Point*> _points;
-    std::vector<quadtree*> _children;
+    std::vector<node_t*> _children;
 
 public:
     struct const_iterator
@@ -82,7 +83,7 @@ public:
         const_iterator();
         const_iterator(const const_iterator& other);
         const_iterator(const_iterator&& other) noexcept;
-        const_iterator(quadtree* root, rectangle* range);
+        const_iterator(const quadtree& root, const rectangle& range);
 
         ~const_iterator();
 
@@ -121,31 +122,17 @@ public:
     private:
         struct control_block
         {
-            quadtree* root = nullptr;
-            quadtree* node = nullptr;
+            const node_t* node = nullptr;
             node_container_iterator_t node_iterator;
-            rectangle* range = nullptr;
-            std::stack<quadtree*> nodes_to_visit;
+            const rectangle& range;
+            std::stack<const node_t*> nodes_to_visit;
             bool is_end = true;
 
-            control_block();
-            control_block(quadtree* root, rectangle* range);
+            control_block(const quadtree& root, const rectangle& range);
         };
 
         std::shared_ptr<control_block> _cb;
     };
 };
-
-//template<traits::quadtree_point Point, size_t Capacity>
-//auto begin(utils::iterator_range<typename quadtree<Point, Capacity>::const_iterator>& range);
-//
-//template<traits::quadtree_point Point, size_t Capacity>
-//auto end(utils::iterator_range<typename quadtree<Point, Capacity>::const_iterator>& range);
-//
-//template<traits::quadtree_point Point, size_t Capacity>
-//auto begin(const utils::iterator_range<typename quadtree<Point, Capacity>::const_iterator>& range);
-//
-//template<traits::quadtree_point Point, size_t Capacity>
-//auto end(const utils::iterator_range<typename quadtree<Point, Capacity>::const_iterator>& range);
 
 #include "quadtree_implementation.hpp"
