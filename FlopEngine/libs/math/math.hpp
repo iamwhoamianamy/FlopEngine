@@ -33,8 +33,9 @@ template <class Old, class New>
 constexpr New map(Old x, Old old_low, Old old_high, New new_low, New new_high)
 {
     x = limit(x, old_low, old_high);
+    auto result = new_low + (float)(x - old_low) / (old_high - old_low) * (new_high - new_low);
 
-    return new_low + (float)(x - old_low) / (old_high - old_low) * (new_high - new_low);
+    return static_cast<New>(result);
 }
 
 constexpr bool is_in_range(float value, float range_center, float range_half_width) noexcept

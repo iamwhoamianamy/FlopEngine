@@ -41,7 +41,7 @@ inline void boid_t::align(const std::ranges::range auto& friends, float strength
             std::plus{},
             projection);
 
-    direction /= friends.size();
+    direction /= static_cast<float>(friends.size());
     direction.set_length(velocity.length());
     direction = vector2::lerp(velocity, direction, strength);
     velocity = direction;
@@ -56,7 +56,7 @@ inline void boid_t::gather(const std::ranges::range auto& targets, float strengt
             std::plus{},
             projection);
 
-    direction /= targets.size();
+    direction /= static_cast<float>(targets.size());
     direction = vector2::direction(position, direction);
 
     acceleration += direction * strength;

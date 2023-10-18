@@ -106,8 +106,8 @@ inline float& vector2::operator[](int i)
 {
     switch (i % 2)
     {
-        case 0: return x;
-        case 1: return y;
+        case 0:  return x;
+        default: return y;
     }
 }
 

@@ -43,8 +43,8 @@ void delaunay_window::draw_with_edge_length()
 
         draw::color color_fixed(
             2.5f * saturation,
-            2.0 * saturation,
-            1.0 * saturation);
+            2.0f * saturation,
+            1.0f * saturation);
 
         draw::set_color(color_fixed);
         draw::set_line_width(width);

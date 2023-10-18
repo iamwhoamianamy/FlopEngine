@@ -30,8 +30,8 @@ void MarchingWindow::display()
 
 void MarchingWindow::mouse_passive(int x, int y)
 {
-    _mousePosition.x = x;
-    _mousePosition.y = y;
+    _mousePosition.x = static_cast<float>(x);
+    _mousePosition.y = static_cast<float>(y);
 }
 
 void MarchingWindow::keyboard_letters(unsigned char key, int x, int y)

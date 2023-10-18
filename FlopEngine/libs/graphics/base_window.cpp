@@ -14,7 +14,7 @@ base_window::base_window(
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE | GLUT_DOUBLE);
-    glutInitWindowSize(_screen_w, _screen_h);
+    glutInitWindowSize(static_cast<int>(_screen_w), static_cast<int>(_screen_h));
     glutCreateWindow(name.c_str());
 
     registerFunctions();
@@ -41,7 +41,9 @@ void base_window::base_on_timer(int millisec)
     auto left_in_loop_fixed{
         std::chrono::duration_cast<std::chrono::milliseconds>(left_in_loop)};
 
-    glutTimerFunc(left_in_loop_fixed.count(), glutOnTimer, 0);
+    glutTimerFunc(
+        static_cast<unsigned int>(left_in_loop_fixed.count()),
+        glutOnTimer, 0);
 }
 
 void base_window::base_exiting_function()
@@ -51,12 +53,12 @@ void base_window::base_exiting_function()
 
 void base_window::base_reshape(int w, int h)
 {
-    _screen_w = w;
-    _screen_h = h;
+    _screen_w = static_cast<float>(w);
+    _screen_h = static_cast<float>(h);
 
     utils::singleton<gui::master>::get().resize(screen_rectangle());
 
-    glViewport(0, 0, _screen_w, _screen_h);
+    glViewport(0, 0, static_cast<GLsizei>(_screen_w), static_cast<GLsizei>(_screen_h));
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, _screen_w, _screen_h, 0, -1.0, 1.0);

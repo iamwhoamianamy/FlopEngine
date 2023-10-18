@@ -71,8 +71,8 @@ inline void marching_grid<node_count_x, node_count_y>::add_contribution_bump(
     float cell_width = max_x / (node_count_x - 1);
     float cell_height = max_y / (node_count_y - 1);
 
-    size_t radius_x = contribution / cell_width;
-    size_t radius_y = contribution / cell_height;
+    size_t radius_x = static_cast<size_t>(contribution / cell_width);
+    size_t radius_y = static_cast<size_t>(contribution / cell_height);
 
     size_t low_x = math::limit<long long>(
         (long long)centerX - radius_x - 1,
@@ -101,12 +101,12 @@ inline void marching_grid<node_count_x, node_count_y>::add_contribution_bump(
         for (size_t x_id = low_x; x_id < high_x; x_id++)
         {
             float x = cell_width * x_id;
-            float r = std::sqrt(std::pow(point.x - x, 2) + std::pow(point.y - y, 2));
+            float r = std::sqrtf(std::powf(point.x - x, 2) + std::powf(point.y - y, 2));
 
             if (std::abs(r) < contribution)
             {
                 float contr_squared = contribution * contribution;
-                float f = std::exp(-0.5 * contr_squared / (contr_squared - r * r));
+                float f = std::expf(-0.5f * contr_squared / (contr_squared - r * r));
                 set(x_id, y_id, std::min(get(x_id, y_id) + f, 1.0f));
             }
         }
@@ -130,7 +130,7 @@ inline void marching_grid<node_count_x, node_count_y>::draw(float screen_width, 
             UCHAR intencity = math::map(get(xId, yId), 0.0f, 1.0f, 0, 255);
             draw::set_color(intencity, 0, 0);
 
-            float saturation = math::map(get(xId, yId), 0.0f, 1.0f, 1, 10);
+            float saturation = math::map(get(xId, yId), 0.0f, 1.0f, 1.0f, 10.0f);
             draw::draw_point({x, y}, saturation);
         }
     }

@@ -55,7 +55,7 @@ auto draw::generate_random_color() -> color
         math::random_in_range(0, 255));
 }
 
-constexpr float LETTER_SCALE = 0.01;
+constexpr float LETTER_SCALE = 0.01f;
 
 void draw::render_string(const vector2& position, float size, const std::string& string)
 {

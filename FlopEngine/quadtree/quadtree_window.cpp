@@ -55,7 +55,7 @@ void quadtree_window::mouse(int button, int state, int x, int y)
     {
         case 0:
         {
-            _points.emplace_back(x, y);
+            _points.emplace_back(static_cast<float>(x), static_cast<float>(y));
             break;
         }
         case 3:
@@ -73,9 +73,7 @@ void quadtree_window::mouse(int button, int state, int x, int y)
 
 void quadtree_window::mouse_passive(int x, int y)
 {
-    _mouse_pos.x = x;
-    _mouse_pos.y = y;
-
+    _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
     _mouse_rectangle.center = _mouse_pos;
 }
 
@@ -92,7 +90,7 @@ void quadtree_window::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
-    _fps_smother.push(_last_ellapsed.count() / 1e6);
+    _fps_smother.push(_last_ellapsed.count() / 1e6f);
 
     auto point_color = draw::color(255, 255, 255);
 
@@ -128,7 +126,7 @@ void quadtree_window::display()
 
     if (_range_based_query)
     {
-        for (auto point : qtree.quarry_as_range(_mouse_rectangle))
+        for (const auto& point : qtree.quarry_as_range(_mouse_rectangle))
         {
             draw::draw_point(point, 5);
             point_count++;
@@ -145,14 +143,14 @@ void quadtree_window::display()
         }
     }
 
-    float fps = 0;
+    float fps = 0.0f;
 
     for (const auto& val : _fps_smother.values())
     {
         fps += val;
     }
 
-    fps = 1.0 / (fps / _fps_smother.size());
+    fps = 1.0f / (fps / _fps_smother.size());
     
     draw::set_color(draw::color::black());
     draw::draw_filled_rect(rectangle{{135, 50}, 135, 50});
