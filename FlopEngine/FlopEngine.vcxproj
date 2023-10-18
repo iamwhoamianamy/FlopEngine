@@ -173,6 +173,7 @@
     <ClInclude Include="utils\blocker.hpp" />
     <ClInclude Include="utils\concepts.hpp" />
     <ClInclude Include="utils\file_observer.hpp" />
+    <ClInclude Include="utils\fixed_size_queue.hpp" />
     <ClInclude Include="utils\ranges.h" />
     <ClInclude Include="utils\singleton.hpp" />
     <ClInclude Include="utils\utils.hpp" />
