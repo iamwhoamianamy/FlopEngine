@@ -11,12 +11,12 @@ namespace draw
 
 struct color
 {
-    UCHAR r;
-    UCHAR g;
-    UCHAR b;
-    UCHAR a;
+    float r;
+    float g;
+    float b;
+    float a;
 
-    color(UCHAR r = 0, UCHAR g = 0, UCHAR b = 0, UCHAR a = 255);
+    color(float r = 0, float g = 0, float b = 0, float a = 1);
 
     color& operator*=(float factor)
     {
@@ -27,20 +27,20 @@ struct color
         return *this;
     }
 
-    static color red()    { return color{255,   0,   0}; };
-    static color green()  { return color{  0, 255,   0}; };
-    static color blue()   { return color{  0,   0, 255}; };
+    static color red()    { return color{1.0f, 0.0f, 0.0f}; };
+    static color green()  { return color{0.0f, 1.0f, 0.0f}; };
+    static color blue()   { return color{0.0f, 0.0f, 1.0f}; };
 
-    static color yellow() { return color{255, 255,   0}; };
-    static color orange() { return color{255, 100,   0}; };
-    static color purple() { return color{255,   0, 255}; };
+    static color yellow() { return color{1.0f, 1.0f, 0.0f}; };
+    static color orange() { return color{1.0f, 0.5f, 0.0f}; };
+    static color purple() { return color{1.0f, 0.0f, 1.0f}; };
 
-    static color white()  { return color{255, 255, 255}; };
-    static color black()  { return color{  0,   0,   0}; };
-    static color gray()   { return color{178, 178, 178}; };
+    static color white()  { return color{1.0f, 1.0f, 1.0f}; };
+    static color black()  { return color{0.0f, 0.0f, 0.0f}; };
+    static color gray()   { return color{0.6f, 0.6f, 0.6f}; };
     
-    static color light_blue()  { return color{   0, 100, 255}; };
-    static color warm_yellow() { return color{ 255, 150,   0}; };
+    static color light_blue()  { return color{0.0f, 0.5f, 1.0f}; };
+    static color warm_yellow() { return color{1.0f, 0.6f, 0.0f}; };
 };
 
 static std::array nice_colors = {color::warm_yellow(), color::gray(), color::light_blue()};
@@ -64,7 +64,7 @@ auto generate_random_color() -> color;
 void render_string(const vector2& position, float size, const std::string& string);
 void render_letter(const vector2& position, float size, char letter);
 
-void set_color(GLubyte r = 255, GLubyte g = 255, GLubyte b = 255, GLubyte a = 255);
+void set_color(float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f);
 void set_color(const color& color);
 void set_line_width(float width);
 void set_point_size(float size);
@@ -134,14 +134,14 @@ inline void draw::draw_filled_rect(const rectangle& rect)
     glEnd();
 }
 
-inline void draw::set_color(GLubyte r, GLubyte g, GLubyte b, GLubyte a)
+inline void draw::set_color(float r, float g, float b, float a)
 {
-    glColor4ub(r, g, b, a);
+    glColor4f(r, g, b, a);
 }
 
 inline void draw::set_color(const color& color)
 {
-    glColor4ub(color.r, color.g, color.b, color.a);
+    glColor4f(color.r, color.g, color.b, color.a);
 }
 
 inline void draw::set_line_width(float width)
@@ -156,7 +156,7 @@ inline void draw::set_point_size(float size)
 
 inline void draw::set_line_stripple(float length)
 {
-    glLineStipple(length, 0x00FF);
+    glLineStipple(static_cast<GLint>(length), 0x00FF);
     glEnable(GL_LINE_STIPPLE);
 }
 

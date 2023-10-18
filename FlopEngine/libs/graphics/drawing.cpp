@@ -1,9 +1,13 @@
 #include "libs/graphics/drawing.hpp"
 #include "libs/math/math.hpp"
 
-draw::color::color(UCHAR r, UCHAR g, UCHAR b, UCHAR a) :
-    r(r), g(g), b(b), a(a)
+draw::color::color(float r, float g, float b, float a)
+    : r{r}
+    , g{g}
+    , b{b}
+    , a{a}
 {
+
 }
     
 void draw::draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled)

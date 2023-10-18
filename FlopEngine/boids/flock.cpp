@@ -113,7 +113,7 @@ void flock::draw() const
         }
         case flock_draw_type::letter:
         {
-            char code = _color.r ^ _color.g ^ _color.b;
+            char code = int(255 * _color.r) ^ int(255 * _color.g) ^ int(255 * _color.b);
             char letter = math::map(
                 code,
                 std::numeric_limits<char>::min(),
