@@ -120,7 +120,7 @@ inline void flock::update_boid_positions(float viscosity, flp::duration auto ell
 
 inline void flock::form_quadtree(const rectangle& screen_borders)
 {
-    _quadtree = quadtree_t(screen_borders);
+    _quadtree = quadtree_t{screen_borders, 64};
     _quadtree.insert(_boids);
 }
 

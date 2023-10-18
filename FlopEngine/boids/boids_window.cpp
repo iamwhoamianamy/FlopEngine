@@ -186,11 +186,9 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
         }
         case '\x1b':
         {
-            static bool master_hidden = false;
-
-            master_hidden = !master_hidden;
-
-            utils::singleton<gui::master>::get().set_hidden(master_hidden);
+            _master_hidden = !_master_hidden;
+            utils::singleton<gui::master>::get().set_hidden(_master_hidden);
+            break;
         }
         default:
         {
@@ -303,4 +301,5 @@ void boids_window::setup_gui()
 
     // finilize
     utils::singleton<gui::master>::get().set_layout(_main_split_layout.get());
+    utils::singleton<gui::master>::get().set_hidden(_master_hidden);
 }

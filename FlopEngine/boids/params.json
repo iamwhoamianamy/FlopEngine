@@ -1,15 +1,15 @@
 {
-    "avoid_vision": 10,
-    "avoid_strength": 50,
+    "avoid_vision": 15,
+    "avoid_strength": 200,
 
     "align_vision": 75,
     "align_strength": 0.01,
 
     "gather_vision": 150,
-    "gather_strength": 1250,
+    "gather_strength": 14750,
 
-    "flee_vision": 50,
-    "flee_strength": 15,
+    "flee_vision": 30,
+    "flee_strength": 150,
 
     "wander_strength": 0.04,
     "size": 7,

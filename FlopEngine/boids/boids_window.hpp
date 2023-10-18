@@ -23,7 +23,7 @@ class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 200;
+    static const size_t boid_per_flock = 1000;
     const std::string boid_param_filename = "boids/params.json";
 
 private:
@@ -34,6 +34,7 @@ private:
     bool _perform_marching_physics = false;
     bool _smooth = false;
     bool _bounce = false;
+    bool _master_hidden = true;
 
     utils::file_observer _boid_param_file_observer;
 
