@@ -3,6 +3,7 @@
 #include <ranges>
 #include <chrono>
 
+#include "libs/geometry/rectangle.hpp"
 #include "utils/concepts.hpp"
 
 namespace utils
@@ -35,4 +36,20 @@ inline auto true_ellapsed(flp::duration auto ellapsed)
     return casted.count() / ellapsed_normalization_factor;
 }
 
+inline auto generate_random(const rectangle& range, size_t count)
+{
+    std::vector<vector2> result(count);
+
+    std::ranges::generate_n(result.begin(), count,
+        [&range]
+        {
+            return vector2{
+                math::random_in_range(0, range.width()),
+                math::random_in_range(0, range.height())
+            };
+        });
+
+    return result;
 }
+
+} // namespace utils
