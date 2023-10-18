@@ -53,6 +53,8 @@ void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vecto
 void draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled = false);
 void draw_circle(const vector2& center, float radius);
 
+void draw_filled_rect(const rectangle& rect);
+
 void draw_line_gradient(
     const vector2& a, const vector2& b,
     const color& a_color, const color& b_color);
@@ -116,6 +118,18 @@ inline void draw::draw_rect(const vector2& a, const vector2& b, const vector2& c
         glVertex3f(b.x, b.y, 0);
         glVertex3f(c.x, c.y, 0);
         glVertex3f(d.x, d.y, 0);
+    }
+    glEnd();
+}
+
+inline void draw::draw_filled_rect(const rectangle& rect)
+{
+    glBegin(GL_POLYGON);
+    {
+        glVertex3f(rect.top_left().x,  rect.top_left().y,  0);
+        glVertex3f(rect.top_right().x, rect.top_right().y, 0);
+        glVertex3f(rect.bot_right().x, rect.bot_right().y, 0);
+        glVertex3f(rect.bot_left().x,  rect.bot_left().y,  0);
     }
     glEnd();
 }

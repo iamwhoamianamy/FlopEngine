@@ -8,11 +8,17 @@
 #include "libs/geometry/vector2.hpp"
 #include "libs/quadtree/quadtree.hpp"
 #include "libs/graphics/base_window.hpp"
+#include "utils/fixed_size_queue.hpp"
 
 class quadtree_window : public flp::base_window
 {
 private:
-    std::vector<vector2> points;
+    std::vector<vector2> _points;
+    bool _range_based_query = false;
+    bool _commit_qtree = false;
+    rectangle _mouse_rectangle;
+    utils::fixed_size_queue<float, 10> _fps_smother;
+
 public:
     quadtree_window(int argc, char** argv,
         float screen_width, float screen_height, std::string name);

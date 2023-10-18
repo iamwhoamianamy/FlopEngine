@@ -1,6 +1,8 @@
 #pragma once
 #include "libs/quadtree/quadtree.hpp"
 
+#include "utils/utils.hpp"
+
 template<traits::quadtree_point Point>
 inline quadtree<Point>::quadtree(const quadtree& other)
 {
@@ -86,10 +88,29 @@ void quadtree<Point>::insert(Point* point)
 template<traits::quadtree_point Point>
 inline void quadtree<Point>::commit()
 {
-    std::stack<const node_t*> nodes_to_visit;
-    nodes_to_visit.push(this);
+    std::stack<node_t*> nodes_to_visit;
+    nodes_to_visit.push(const_cast<node_t*>(this));
 
+    while (!nodes_to_visit.empty())
+    {
+        const auto& node = nodes_to_visit.top();
+        nodes_to_visit.pop();
 
+        std::vector<std::unique_ptr<node_t>> new_children;
+
+        for (auto i : utils::iota(node->_children.size()))
+        {
+            if (!node->_children[i]->useless())
+            {
+                new_children.emplace_back(std::move(node->_children[i]));
+            }
+        }
+
+        node->_children = std::move(new_children);
+
+        for (const auto& child : node->_children)
+            nodes_to_visit.push(child.get());
+    }
 }
 
 template<traits::quadtree_point Point>
@@ -152,9 +173,8 @@ inline void quadtree<Point>::quarry(const rectangle& range, std::vector<Point*>&
             if (range.contains(traits::access<Point>::position(point)))
                 found.push_back(point);
 
-        if (node->subdivided())
-            for (auto& child : node->_children)
-                nodes_to_visit.push(child.get());
+        for (auto& child : node->_children)
+            nodes_to_visit.push(child.get());
     }
 }
 

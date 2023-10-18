@@ -1,6 +1,10 @@
 #include "quadtree_window.hpp"
+
+#include <format>
+
 #include "libs/graphics/drawing.hpp"
 #include "libs/quadtree/quadtree_help.hpp"
+#include "utils/utils.hpp"
 
 using namespace flp;
 
@@ -10,19 +14,60 @@ quadtree_window::quadtree_window(
     std::string name) :
     base_window{argc, argv, screen_width, screen_height, name}
 {
+    size_t point_count = 10000;
+    float step = 360.0f / point_count;
+    float radius = 300;
+    vector2 center = screen_rectangle().center;
 
+    for (auto i : utils::iota(point_count))
+    {
+        auto x = center.x + radius * std::cosf(math::deg_to_rad(i * step));
+        auto y = center.y + radius * std::sinf(math::deg_to_rad(i * step));
+
+        _points.emplace_back(x, y);
+    }
+
+    _points.append_range(utils::generate_random(screen_rectangle(), 10000));
+
+    _mouse_rectangle = {{}, {40, 40}};
 }
 
 void quadtree_window::keyboard_letters(unsigned char key, int x, int y)
 {
-
+    switch (key)
+    {
+        case 'q':
+        {
+            _range_based_query = !_range_based_query;
+            break;
+        }
+        case 'c':
+        {
+            _commit_qtree = !_commit_qtree;
+            break;
+        }
+    }
 }
 
 void quadtree_window::mouse(int button, int state, int x, int y)
 {
-    if(state == 0)
+    switch (button)
     {
-        points.emplace_back(x, y);
+        case 0:
+        {
+            _points.emplace_back(x, y);
+            break;
+        }
+        case 3:
+        {
+            _mouse_rectangle.half_dimensions += {5, 5};
+            break;
+        }
+        case 4:
+        {
+            _mouse_rectangle.half_dimensions -= {5, 5};
+            break;
+        }
     }
 }
 
@@ -30,6 +75,8 @@ void quadtree_window::mouse_passive(int x, int y)
 {
     _mouse_pos.x = x;
     _mouse_pos.y = y;
+
+    _mouse_rectangle.center = _mouse_pos;
 }
 
 void quadtree_window::exiting_function()
@@ -43,20 +90,14 @@ void quadtree_window::display()
 {
     glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_POINT_SMOOTH);
+
+    _fps_smother.push(_last_ellapsed.count() / 1e6);
 
     auto point_color = draw::color(255, 255, 255);
 
-    glEnable(GL_POINT_SMOOTH);
-
-    for(auto& point : points)
-    {
-        draw::set_color(point_color);
-        draw::draw_point(point, 5);
-    }
-
-    rectangle mouse_rectangle(_mouse_pos, vector2(40, 40));
-    draw::set_color(point_color);
-    draw::draw_rect(_mouse_pos, mouse_rectangle.half_dimensions.x, mouse_rectangle.half_dimensions.y);
+    draw::set_color(draw::color::red());
+    draw::draw_rect(_mouse_pos, _mouse_rectangle.half_dimensions.x, _mouse_rectangle.half_dimensions.y);
 
     quadtree<vector2> qtree{
         rectangle{
@@ -65,19 +106,64 @@ void quadtree_window::display()
         }
     };
 
-    qtree.insert(points);
+    qtree.insert(_points);
 
-    auto found_color = draw::color(255, 0, 0);
-
-    for (auto point : qtree.quarry_as_range(mouse_rectangle))
+    if (_commit_qtree)
     {
-        draw::set_color(found_color);
+        qtree.commit();
+    }
+
+    draw_quadtree(qtree);
+
+    for (auto& point : _points)
+    {
+        draw::set_color(point_color);
         draw::draw_point(point, 5);
     }
 
-    //test_f();
+    auto found_point_color = draw::color(255, 0, 0);
+    draw::set_color(found_point_color);
 
-    draw_quadtree(qtree);
+    size_t point_count = 0;
+
+    if (_range_based_query)
+    {
+        for (auto point : qtree.quarry_as_range(_mouse_rectangle))
+        {
+            draw::draw_point(point, 5);
+            point_count++;
+        }
+    }
+    else
+    {
+        auto points = qtree.quarry(_mouse_rectangle);
+
+        for (auto point : points)
+        {
+            draw::draw_point(*point, 5);
+            point_count++;
+        }
+    }
+
+    float fps = 0;
+
+    for (const auto& val : _fps_smother.values())
+    {
+        fps += val;
+    }
+
+    fps = 1.0 / (fps / _fps_smother.size());
+    
+    draw::set_color(draw::color::black());
+    draw::draw_filled_rect(rectangle{{135, 50}, 135, 50});
+
+    draw::set_color(draw::color::blue());
+    draw::render_string({0, 15}, 15, std::format("fps: {:.3}", fps));
+    draw::render_string({0, 35}, 15, std::format("point in range count: {}", point_count));
+    draw::render_string({0, 55}, 15, std::format("range base query: {}", _range_based_query ? "enabled" : "disabled"));
+    draw::render_string({0, 75}, 15, std::format("commit qtree: {}", _commit_qtree ? "enabled" : "disabled"));
+
+    //test_f();
 
     glFinish();
 }

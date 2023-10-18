@@ -57,6 +57,8 @@ public:
     void insert(std::vector<Point>& points);
     void insert(Point* point);
 
+    // cuts down nodes without points or children
+    // questionable usefulness
     void commit();
 
     std::vector<Point*> quarry(const rectangle& range) const;

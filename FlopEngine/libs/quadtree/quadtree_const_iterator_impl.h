@@ -143,7 +143,7 @@ inline void quadtree<Point>::const_iterator::find_next_impl()
 
         auto find_iterator = std::find_if(
             _cb->node->points().begin(), _cb->node->points().end(),
-            [&](auto point)
+            [&](const auto& point)
             {
                 return _cb->range.contains(traits::access<Point>::position(point));
             });
@@ -155,9 +155,8 @@ inline void quadtree<Point>::const_iterator::find_next_impl()
         }
         else
         {
-            if (_cb->node->subdivided())
-                for (auto& child : _cb->node->children())
-                    _cb->nodes_to_visit.push(child.get());
+            for (const auto& child : _cb->node->children())
+                _cb->nodes_to_visit.push(child.get());
         }
     }
 
