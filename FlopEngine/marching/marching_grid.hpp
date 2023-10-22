@@ -65,8 +65,8 @@ template<size_t node_count_x, size_t node_count_y>
 inline void marching_grid<node_count_x, node_count_y>::add_contribution_bump(
     const vector2& point, float contribution, float max_x, float max_y)
 {
-    size_t centerX = math::map(point.x, 0.0f, max_x, (size_t)0, node_count_x);
-    size_t centerY = math::map(point.y, 0.0f, max_y, (size_t)0, node_count_y);
+    size_t center_x = math::map(point.x, 0.0f, max_x, (size_t)0, node_count_x);
+    size_t center_y = math::map(point.y, 0.0f, max_y, (size_t)0, node_count_y);
 
     float cell_width = max_x / (node_count_x - 1);
     float cell_height = max_y / (node_count_y - 1);
@@ -75,22 +75,22 @@ inline void marching_grid<node_count_x, node_count_y>::add_contribution_bump(
     size_t radius_y = static_cast<size_t>(contribution / cell_height);
 
     size_t low_x = math::limit<long long>(
-        (long long)centerX - radius_x - 1,
+        (long long)center_x - radius_x - 1,
         0,
         (node_count_x));
 
     size_t high_x = math::limit<long long>(
-        centerX + radius_x + 1,
+        center_x + radius_x + 1,
         0,
         (node_count_x));
 
     size_t low_y = math::limit<long long>(
-        (long long)centerY - radius_y - 1,
+        (long long)center_y - radius_y - 1,
         0,
         (node_count_y));
 
     size_t high_y = math::limit<long long>(
-        centerY + radius_y + 1,
+        center_y + radius_y + 1,
         0,
         (node_count_y));
 
@@ -116,21 +116,20 @@ inline void marching_grid<node_count_x, node_count_y>::add_contribution_bump(
 template<size_t node_count_x, size_t node_count_y>
 inline void marching_grid<node_count_x, node_count_y>::draw(float screen_width, float screen_heigh) const
 {
-    float cellWidth = screen_width / (node_count_x - 1);
-    float cellHeight = screen_heigh / (node_count_y - 1);
+    float cell_w = screen_width / (node_count_x - 1);
+    float cell_h = screen_heigh / (node_count_y - 1);
 
-    for (size_t yId = 0; yId < node_count_y; yId++)
+    for (size_t y_id = 0; y_id < node_count_y; y_id++)
     {
-        float y = cellHeight * yId;
+        float y = cell_h * y_id;
 
-        for (size_t xId = 0; xId < node_count_x; xId++)
+        for (size_t x_id = 0; x_id < node_count_x; x_id++)
         {
-            float x = cellWidth * xId;
+            float x = cell_w * x_id;
 
-            UCHAR intencity = math::map(get(xId, yId), 0.0f, 1.0f, 0, 255);
-            draw::set_color(intencity, 0, 0);
+            auto saturation = get(x_id, y_id) * 4.0f;
 
-            float saturation = math::map(get(xId, yId), 0.0f, 1.0f, 1.0f, 10.0f);
+            draw::set_color(saturation, 0, 0);
             draw::draw_point({x, y}, saturation);
         }
     }

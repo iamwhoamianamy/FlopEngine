@@ -17,13 +17,13 @@
 #include "libs/gui/input_param_list.hpp"
 
 //using marching_grid_t = marching_grid<500, 250>;
-using marching_grid_t = marching_grid<200, 100>;
+using marching_grid_t = marching_grid<400, 200>;
 
 class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 1000;
+    static const size_t boid_per_flock = 100;
     const std::string boid_param_filename = "boids/params.json";
 
 private:
