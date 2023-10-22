@@ -4,12 +4,11 @@
 
 #include "utils/agent.hpp"
 #include "libs/graphics/base_window.hpp"
-#include "marching_grid.hpp"
+#include "libs/marching/marching_grid.hpp"
 
 class marching_window : public flp::base_window
 {
 private:
-    //marching_grid<100, 50> _marching_grid;
     marching_grid<400, 200> _marching_grid;
     std::vector<utils::agent> _agents;
 public:

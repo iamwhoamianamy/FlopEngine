@@ -9,7 +9,7 @@
 #include "flock.hpp"
 #include "libs/quadtree/quadtree.hpp"
 #include "libs/graphics/base_window.hpp"
-#include "marching/marching_grid.hpp"
+#include "libs/marching/marching_grid.hpp"
 #include "utils/file_observer.hpp"
 #include "libs/gui/button.hpp"
 #include "libs/gui/split_layout.hpp"

@@ -68,7 +68,7 @@ void boids_window::perform_marching_physics()
         {
             for (const auto& boid : _flocks[i].boids())
             {
-                _marching_grids[i].add_contribution_bump(boid.position, _flocks[i].params().march_contribution, _screen_w, _screen_h);
+                _marching_grids[i].add_contribution_cone(boid.position, _flocks[i].params().march_contribution, _screen_w, _screen_h);
             }
         }
     }

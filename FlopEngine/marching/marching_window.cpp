@@ -8,7 +8,7 @@ marching_window::marching_window(
     std::string name) :
     base_window(argc, argv, _screen_width, _screen_height, name)
 {
-    _agents = utils::agent::generate_random(screen_rectangle(), 200, 20.0f);
+    _agents = utils::agent::generate_random(screen_rectangle(), 200, 30.0f);
 }
 
 void marching_window::physics_loop()
@@ -18,10 +18,10 @@ void marching_window::physics_loop()
         agent.bounce_from_borders(screen_rectangle());
         agent.update_position(1.0f, _last_ellapsed);
 
-        _marching_grid.add_contribution_bump(agent.position, 20, _screen_w, _screen_h);
+        _marching_grid.add_contribution_cone(agent.position, 30.0f, _screen_w, _screen_h);
     }
 
-    _marching_grid.add_contribution_bump(_mouse_pos, 20, _screen_w, _screen_h);
+    _marching_grid.add_contribution_cone(_mouse_pos, 100.0f, _screen_w, _screen_h);
 }
 
 void marching_window::display()
@@ -30,19 +30,31 @@ void marching_window::display()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
 
+    //draw::set_color(draw::color::purple());
+
+    //for (auto& agent : _agents)
+    //{
+    //    draw::draw_point(agent.position, 10.0f);
+    //}
+
+    //draw::set_color(draw::color::white());
+    //_marching_grid.draw(_screen_w, _screen_h);
+
+    draw::set_color(draw::color::blue());
+    _marching_grid.march_all_cells(_screen_w, _screen_h, 0.1f);
+
+    draw::set_color(draw::color::green());
+    _marching_grid.march_all_cells(_screen_w, _screen_h, 0.3f);
+
+    draw::set_color(draw::color::yellow());
+    _marching_grid.march_all_cells(_screen_w, _screen_h, 0.5f);
+
     draw::set_color(draw::color::orange());
+    _marching_grid.march_all_cells(_screen_w, _screen_h, 0.7f);
 
-    for (auto& agent : _agents)
-    {
-        draw::draw_point(agent.position, 10.0f);
-    }
+    draw::set_color(draw::color::red());
+    _marching_grid.march_all_cells(_screen_w, _screen_h, 0.9f);
 
-    draw::set_color(draw::color::white());
-    _marching_grid.draw(_screen_w, _screen_h);
-
-
-    draw::set_color(draw::color::orange());
-    _marching_grid.march_all_cells(_screen_w, _screen_h);
     _marching_grid.clear();
 
     glFinish();
@@ -59,6 +71,7 @@ void marching_window::keyboard_letters(unsigned char key, int x, int y)
 
 void marching_window::mouse(int button, int state, int x, int y)
 {
+    _agents.emplace_back(_mouse_pos, math::generate_random_vector() * _agents.back().velocity.length());
 }
 
 void marching_window::exiting_function()

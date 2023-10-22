@@ -159,13 +159,14 @@
     <ClInclude Include="libs\graphics\glut_functions.hpp" />
     <ClInclude Include="libs\gui\master.hpp" />
     <ClInclude Include="libs\logger\logger.hpp" />
+    <ClInclude Include="libs\marching\marching_grid.hpp" />
+    <ClInclude Include="libs\marching\marching_grid_impl.hpp" />
     <ClInclude Include="libs\math\math.hpp" />
     <ClInclude Include="libs\geometry\rectangle.hpp" />
     <ClInclude Include="libs\quadtree\quadtree.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_const_iterator_impl.h" />
     <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_implementation.hpp" />
-    <ClInclude Include="marching\marching_grid.hpp" />
     <ClInclude Include="marching\marching_window.hpp" />
     <ClInclude Include="quadtree\quadtree_window.hpp" />
     <ClInclude Include="libs\gui\split_layout.hpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="utils\ranges.h" />
     <ClInclude Include="utils\singleton.hpp" />
     <ClInclude Include="utils\utils.hpp" />
+    <None Include="boids\params.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
