@@ -39,6 +39,7 @@ public:
     virtual void mouse_passive(int x, int y);
     virtual void exiting_function();
     virtual void idle();
+    virtual void resize(float w, float h);
 
     void run();
 

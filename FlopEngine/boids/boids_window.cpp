@@ -15,9 +15,9 @@ using namespace std::chrono_literals;
 boids_window::boids_window(
     int argc, char** argv,
     float screen_width, float screen_height,
-    std::string name) :
-    base_window(argc, argv, screen_width, screen_height, name),
-    _boid_param_file_observer{boid_param_filename, 100ms, [this](){ read_boid_params(); }}
+    std::string name)
+    : base_window(argc, argv, screen_width, screen_height, name)
+    , _boid_param_file_observer{boid_param_filename, 100ms, [this](){ read_boid_params(); }}
 {
     for(auto& flock_entry : _flocks)
     {
@@ -68,7 +68,7 @@ void boids_window::perform_marching_physics()
         {
             for (const auto& boid : _flocks[i].boids())
             {
-                _marching_grids[i].add_contribution_cone(boid.position, _flocks[i].params().march_contribution, _screen_w, _screen_h);
+                _marching_grids[i].add_contribution_cone(boid.position, _flocks[i].params().march_contribution);
             }
         }
     }
@@ -202,6 +202,14 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
         logger::log_error("unknown key: '{}'", (char)key);
 }
 
+void boids_window::resize(float w, float h)
+{
+    for (auto& grid : _marching_grids)
+    {
+        grid.resize(_screen_w, _screen_h);
+    }
+}
+
 void boids_window::read_boid_params()
 {
     try
@@ -251,7 +259,11 @@ void boids_window::draw_marching_squares()
         for (auto i : utils::iota(flock_count))
         {
             draw::set_color(_flocks[i].color());
-            _marching_grids[i].march_all_cells(_screen_w, _screen_h);
+            _marching_grids[i].march_all_cells(0.3f);
+            _marching_grids[i].march_all_cells(0.4f);
+            _marching_grids[i].march_all_cells(0.5f);
+            _marching_grids[i].march_all_cells(0.6f);
+            _marching_grids[i].march_all_cells(0.7f);
             _marching_grids[i].clear();
         }
     }

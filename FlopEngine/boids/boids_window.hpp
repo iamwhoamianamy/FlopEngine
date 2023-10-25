@@ -23,7 +23,7 @@ class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 100;
+    static const size_t boid_per_flock = 1000;
     const std::string boid_param_filename = "boids/params.json";
 
 private:
@@ -49,6 +49,7 @@ public:
     void physics_loop() override;
     void display() override;
     void keyboard_letters(unsigned char key, int x, int y) override;
+    void resize(float w, float h) override;
 
 private:
     void perform_flocking_physics();

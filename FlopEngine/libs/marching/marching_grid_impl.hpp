@@ -3,6 +3,22 @@
 #include "marching_grid.hpp"
 
 template<size_t NodeCountX, size_t NodeCountY>
+inline marching_grid<NodeCountX, NodeCountY>::marching_grid(float width, float height)
+{
+    resize(width, height);
+}
+
+template<size_t NodeCountX, size_t NodeCountY>
+inline void marching_grid<NodeCountX, NodeCountY>::resize(float width, float height)
+{
+    _width = width;
+    _height = height;
+
+    _cell_width = _width / (NodeCountX - 1);
+    _cell_height = _height / (NodeCountY - 1);
+}
+
+template<size_t NodeCountX, size_t NodeCountY>
 inline void marching_grid<NodeCountX, NodeCountY>::clear()
 {
     std::fill(_grid.begin(), _grid.end(), 0.0f);
@@ -28,29 +44,26 @@ inline float marching_grid<NodeCountX, NodeCountY>::get(size_t x, size_t y) cons
 
 template<size_t NodeCountX, size_t NodeCountY>
 inline void marching_grid<NodeCountX, NodeCountY>::add_contribution_cone(
-    const vector2& point, float contribution, float max_x, float max_y)
+    const vector2& point, float contribution)
 {
-    auto [center_x, center_y] = point_to_id(point, max_x, max_y);
+    auto [center_x, center_y] = point_to_id(point);
 
-    float cell_width  = max_x / (NodeCountX - 1);
-    float cell_height = max_y / (NodeCountY - 1);
+    float low_x = math::limit(point.x - contribution - _cell_width,  0.0f, _width);
+    float low_y = math::limit(point.y - contribution - _cell_height, 0.0f, _height);
 
-    float low_x = math::limit(point.x - contribution - cell_width,  0.0f, max_x);
-    float low_y = math::limit(point.y - contribution - cell_height, 0.0f, max_y);
+    float high_x = math::limit(point.x + contribution + _cell_width,  0.0f, _width);
+    float high_y = math::limit(point.y + contribution + _cell_height, 0.0f, _height);
 
-    float high_x = math::limit(point.x + contribution + cell_width,  0.0f, max_x);
-    float high_y = math::limit(point.y + contribution + cell_height, 0.0f, max_y);
-
-    auto [low_x_id, low_y_id]   = point_to_id({low_x, low_y},   max_x, max_y);
-    auto [high_x_id, high_y_id] = point_to_id({high_x, high_y}, max_x, max_y);
+    auto [low_x_id, low_y_id]   = point_to_id({low_x, low_y});
+    auto [high_x_id, high_y_id] = point_to_id({high_x, high_y});
 
     for (size_t y_id = low_y_id; y_id < high_y_id; y_id++)
     {
-        float y = cell_height * y_id;
+        float y = _cell_height * y_id;
 
         for (size_t x_id = low_x_id; x_id < high_x_id; x_id++)
         {
-            float x = cell_width * x_id;
+            float x = _cell_width * x_id;
 
             float d = vector2::distance({x, y}, point);
             float f = std::max(0.0f, 1 - std::abs(d * (1 / contribution)));
@@ -90,10 +103,8 @@ inline void marching_grid<NodeCountX, NodeCountY>::draw(float screen_width, floa
 
 template<size_t NodeCountX, size_t NodeCountY>
 inline void marching_grid<NodeCountX, NodeCountY>::march_all_cells(
-    float screen_width, float screen_heigh, float threshold)
+    float threshold)
 {
-    float cellWidth = screen_width / (NodeCountX - 1);
-    float cellHeight = screen_heigh / (NodeCountY - 1);
 
     struct Corner
     {
@@ -103,16 +114,16 @@ inline void marching_grid<NodeCountX, NodeCountY>::march_all_cells(
 
     for (int y_id = 0; y_id < NodeCountY - 1; y_id++)
     {
-        float currentY = cellHeight * y_id;
+        float cell_y = _cell_height * y_id;
 
         for (int x_id = 0; x_id < NodeCountX - 1; x_id++)
         {
-            float currentX = cellWidth * x_id;
+            float cell_x = _cell_width * x_id;
 
-            Corner c1{get(x_id, y_id), vector2(currentX, currentY)};
-            Corner c2{get(x_id + 1, y_id), vector2(currentX + cellWidth, currentY)};
-            Corner c3{get(x_id + 1, y_id + 1), vector2(currentX + cellWidth, currentY + cellHeight)};
-            Corner c4{get(x_id, y_id + 1), vector2(currentX, currentY + cellHeight)};
+            Corner c1{get(x_id, y_id), vector2(cell_x, cell_y)};
+            Corner c2{get(x_id + 1, y_id), vector2(cell_x + _cell_width, cell_y)};
+            Corner c3{get(x_id + 1, y_id + 1), vector2(cell_x + _cell_width, cell_y + _cell_height)};
+            Corner c4{get(x_id, y_id + 1), vector2(cell_x, cell_y + _cell_height)};
 
             float x, y;
 
@@ -167,11 +178,10 @@ const auto& marching_grid<NodeCountX, NodeCountY>::grid() const
 
 template<size_t NodeCountX, size_t NodeCountY>
 inline auto marching_grid<NodeCountX, NodeCountY>::point_to_id(
-    const vector2& p, float max_x, float max_y) const
-    -> std::pair<size_t, size_t>
+    const vector2& p) const -> std::pair<size_t, size_t>
 {
-    size_t x = math::map(p.x, 0.0f, max_x, (size_t)0, NodeCountX);
-    size_t y = math::map(p.y, 0.0f, max_y, (size_t)0, NodeCountY);
+    size_t x = math::map(p.x, 0.0f, _width, size_t{}, NodeCountX);
+    size_t y = math::map(p.y, 0.0f, _height, size_t{}, NodeCountY);
 
     return std::pair{x, y};
 }

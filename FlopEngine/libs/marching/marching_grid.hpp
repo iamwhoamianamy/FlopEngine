@@ -15,27 +15,32 @@ private:
     std::array<float, NodeCountX * NodeCountY> _grid;
 
 public:
-    marching_grid() = default;
+    marching_grid(float width = 0, float height = 0);
 
+    void resize(float width, float height);
     void clear();
 
-    size_t plain_id(size_t x, size_t y) const;
-    void set(size_t x, size_t y, float val);
-    float get(size_t x, size_t y) const;
-
-    void add_contribution_cone(
-        const vector2& point, float contribution, float max_x, float max_y);
+    void add_contribution_cone(const vector2& point, float contribution);
 
     void draw(float screen_width, float screen_heigh) const;
 
-    void march_all_cells(
-        float screen_width, float screen_heigh, float threshold = 0.5f);
+    void march_all_cells(float threshold = 0.5f);
 
     const auto& grid() const;
 
 private:
-    auto point_to_id(const vector2& p, float max_x, float max_y) const
-        -> std::pair<size_t, size_t>;
+    size_t plain_id(size_t x, size_t y) const;
+    void set(size_t x, size_t y, float val);
+    float get(size_t x, size_t y) const;
+
+    auto point_to_id(const vector2& p) const -> std::pair<size_t, size_t>;
+
+private:
+    float _width;
+    float _height;
+
+    float _cell_width;
+    float _cell_height;
 };
 
 #include "marching_grid_impl.hpp"

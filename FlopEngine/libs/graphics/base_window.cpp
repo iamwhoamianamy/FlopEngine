@@ -63,6 +63,8 @@ void base_window::base_reshape(int w, int h)
     glLoadIdentity();
     glOrtho(0, _screen_w, _screen_h, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
+
+    resize(w, h);
 }
 
 void flp::base_window::base_idle()
@@ -137,6 +139,11 @@ void base_window::exiting_function()
 }
 
 void flp::base_window::idle()
+{
+
+}
+
+void flp::base_window::resize(float x, float y)
 {
 
 }

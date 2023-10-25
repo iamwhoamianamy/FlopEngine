@@ -23,4 +23,5 @@ public:
     void keyboard_letters(unsigned char key, int x, int y);
     void mouse(int button, int state, int x, int y);
     void exiting_function();
-};
+    void resize(float w, float h) override;
+}; 
