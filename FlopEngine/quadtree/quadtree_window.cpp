@@ -82,8 +82,6 @@ void quadtree_window::exiting_function()
     std::cout << "DONE!";
 }
 
-void test_f();
-
 void quadtree_window::display()
 {
     glClearColor(0, 0, 0, 255);
@@ -161,69 +159,5 @@ void quadtree_window::display()
     draw::render_string({0, 55}, 15, std::format("range base query: {}", _range_based_query ? "enabled" : "disabled"));
     draw::render_string({0, 75}, 15, std::format("commit qtree: {}", _commit_qtree ? "enabled" : "disabled"));
 
-    //test_f();
-
     glFinish();
-}
-
-template<std::ranges::range R>
-void f(R r)
-{
-    
-}
-
-template<std::indirectly_readable I>
-void f_indirectly_readable(I i)
-{
-
-}
-
-template<std::weakly_incrementable I>
-void f_weakly_incrementable(I i)
-{
-
-}
-
-template<std::incrementable I>
-void f_incrementable(I i)
-{
-
-}
-
-template<std::input_iterator I>
-void f_input_iterator(I i)
-{
-
-}
-
-template<std::forward_iterator I>
-void f_forward_iterator(I i)
-{
-
-}
-
-void range_my()
-{
-    auto it = quadtree<vector2>::const_iterator();
-
-    auto range = utils::make_iterator_range(it, it);
-
-    auto i1 = begin(range);
-    auto i2 = end(range);
-
-    auto val = *begin(range);
-
-    f_indirectly_readable(i1);
-    f_weakly_incrementable(i1);
-    f_incrementable(i1);
-    f_input_iterator(i1);
-
-    f(range);
-
-    auto b = begin(range);
-}
-
-void test_f()
-{
-    range_my();
 }
