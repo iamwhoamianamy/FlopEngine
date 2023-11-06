@@ -22,7 +22,7 @@ public:
 
     void add_contribution_cone(const vector2& point, float contribution);
 
-    void draw(float screen_width, float screen_heigh) const;
+    void draw() const;
 
     void march_all_cells(float threshold = 0.5f);
 

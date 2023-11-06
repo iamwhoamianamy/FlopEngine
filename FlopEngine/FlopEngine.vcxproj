@@ -133,16 +133,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="3rdparty\json\json.hpp" />
-    <ClInclude Include="boids\boid.hpp" />
-    <ClInclude Include="boids\boids_helper.hpp" />
-    <ClInclude Include="boids\boids_window.hpp" />
-    <ClInclude Include="boids\flock.hpp" />
+    <ClInclude Include="examples\boids\boid.hpp" />
+    <ClInclude Include="examples\boids\boids_window.hpp" />
+    <ClInclude Include="examples\boids\flock.hpp" />
+    <ClInclude Include="examples\delaunay\delaunay_triangulator.hpp" />
+    <ClInclude Include="examples\delaunay\delaunay_window.hpp" />
+    <ClInclude Include="examples\examples.hpp" />
+    <ClInclude Include="examples\marching\marching_window.hpp" />
+    <ClInclude Include="examples\pixel_grid\pixel_grid_window.hpp" />
+    <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
     <ClInclude Include="libs\gui\input_param_box.hpp" />
     <ClInclude Include="libs\gui\input_param_list.hpp" />
     <ClInclude Include="libs\gui\layout.hpp" />
     <ClInclude Include="libs\gui\button.hpp" />
-    <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
-    <ClInclude Include="delaunay\delaunay_window.hpp" />
     <ClInclude Include="geometry\edge.hpp" />
     <ClInclude Include="geometry\geometry_figure.hpp" />
     <ClInclude Include="geometry\triangle.hpp" />
@@ -167,8 +170,6 @@
     <ClInclude Include="libs\quadtree\quadtree_const_iterator_impl.h" />
     <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_implementation.hpp" />
-    <ClInclude Include="marching\marching_window.hpp" />
-    <ClInclude Include="quadtree\quadtree_window.hpp" />
     <ClInclude Include="libs\gui\split_layout.hpp" />
     <ClInclude Include="utils\agent.hpp" />
     <ClInclude Include="utils\blocker.hpp" />
@@ -178,20 +179,21 @@
     <ClInclude Include="utils\ranges.h" />
     <ClInclude Include="utils\singleton.hpp" />
     <ClInclude Include="utils\utils.hpp" />
-    <None Include="boids\params.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="boids\boid.cpp" />
-    <ClCompile Include="boids\boids_helper.cpp" />
-    <ClCompile Include="boids\boids_window.cpp" />
-    <ClCompile Include="boids\flock.cpp" />
+    <ClCompile Include="examples\boids\boid.cpp" />
+    <ClCompile Include="examples\boids\boids_window.cpp" />
+    <ClCompile Include="examples\boids\flock.cpp" />
+    <ClCompile Include="examples\delaunay\delaunay_triangulator.cpp" />
+    <ClCompile Include="examples\delaunay\delaunay_window.cpp" />
+    <ClCompile Include="examples\marching\marching_window.cpp" />
+    <ClCompile Include="examples\pixel_grid\pixel_grid_window.cpp" />
+    <ClCompile Include="examples\quadtree\quadtree_window.cpp" />
     <ClCompile Include="libs\gui\input_param_box.cpp" />
     <ClCompile Include="libs\gui\input_param_list.cpp" />
     <ClCompile Include="libs\gui\layout.cpp" />
     <ClCompile Include="libs\gui\button.cpp" />
-    <ClCompile Include="delaunay\delaunay_triangulator.cpp" />
-    <ClCompile Include="delaunay\delaunay_window.cpp" />
     <ClCompile Include="libs\gui\object.cpp" />
     <ClCompile Include="libs\graphics\base_window.cpp" />
     <ClCompile Include="libs\graphics\drawing.cpp" />
@@ -200,8 +202,6 @@
     <ClCompile Include="libs\logger\logger.cpp" />
     <ClCompile Include="libs\math\math.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="marching\marching_window.cpp" />
-    <ClCompile Include="quadtree\quadtree_window.cpp" />
     <ClCompile Include="libs\gui\split_layout.cpp" />
     <ClCompile Include="utils\agent.cpp" />
     <ClCompile Include="utils\file_observer.cpp" />

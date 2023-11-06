@@ -77,26 +77,23 @@ inline void marching_grid<NodeCountX, NodeCountY>::add_contribution_cone(
 }
 
 template<size_t NodeCountX, size_t NodeCountY>
-inline void marching_grid<NodeCountX, NodeCountY>::draw(float screen_width, float screen_heigh) const
+inline void marching_grid<NodeCountX, NodeCountY>::draw() const
 {
-    float cell_w = screen_width / (NodeCountX - 1);
-    float cell_h = screen_heigh / (NodeCountY - 1);
-
     for (size_t y_id = 0; y_id < NodeCountY; y_id++)
     {
-        float y = cell_h * y_id;
+        float y = _cell_height * y_id;
 
         for (size_t x_id = 0; x_id < NodeCountX; x_id++)
         {
-            float x = cell_w * x_id;
+            float x = _cell_width * x_id;
 
             auto saturation = get(x_id, y_id) * 4.0f;
 
             draw::set_color(saturation, 0, 0);
             draw::draw_point({x, y}, saturation);
 
-            draw::set_color(draw::color::white());
-            draw::render_string({x, y}, 5, std::format("{:.1}", get(x_id, y_id)));
+            //draw::set_color(draw::color::white());
+            //draw::render_string({x, y}, 5, std::format("{:.1}", get(x_id, y_id)));
         }
     }
 }

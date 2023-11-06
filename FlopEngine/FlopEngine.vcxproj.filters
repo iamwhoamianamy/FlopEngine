@@ -24,6 +24,14 @@
     <ClCompile Include="libs\gui\split_layout.cpp" />
     <ClCompile Include="libs\gui\input_param_list.cpp" />
     <ClCompile Include="libs\gui\input_param_box.cpp" />
+    <ClCompile Include="examples\boids\boid.cpp" />
+    <ClCompile Include="examples\boids\boids_window.cpp" />
+    <ClCompile Include="examples\boids\flock.cpp" />
+    <ClCompile Include="examples\delaunay\delaunay_triangulator.cpp" />
+    <ClCompile Include="examples\delaunay\delaunay_window.cpp" />
+    <ClCompile Include="examples\marching\marching_window.cpp" />
+    <ClCompile Include="examples\pixel_grid\pixel_grid_window.cpp" />
+    <ClCompile Include="examples\quadtree\quadtree_window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -72,6 +80,15 @@
     <ClInclude Include="utils\fixed_size_queue.hpp" />
     <ClInclude Include="libs\marching\marching_grid.hpp" />
     <ClInclude Include="libs\marching\marching_grid_impl.hpp" />
+    <ClInclude Include="examples\boids\boid.hpp" />
+    <ClInclude Include="examples\boids\boids_window.hpp" />
+    <ClInclude Include="examples\boids\flock.hpp" />
+    <ClInclude Include="examples\delaunay\delaunay_triangulator.hpp" />
+    <ClInclude Include="examples\delaunay\delaunay_window.hpp" />
+    <ClInclude Include="examples\marching\marching_window.hpp" />
+    <ClInclude Include="examples\pixel_grid\pixel_grid_window.hpp" />
+    <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
+    <ClInclude Include="examples\examples.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

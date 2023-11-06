@@ -68,7 +68,6 @@ void marching_window::display()
     draw::set_color(draw::color::red());
     _marching_grid.march_all_cells(0.9f);
 
-
     _marching_grid.clear();
 
     glFinish();

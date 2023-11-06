@@ -11,9 +11,14 @@ namespace utils
 
 constexpr const float ellapsed_normalization_factor{2.0e6f};
 
+inline auto iota(size_t start, size_t end)
+{
+    return std::views::iota(start, end);
+}
+
 inline auto iota(size_t n)
 {
-    return std::views::iota(size_t{}, n);
+    return iota(size_t{}, n);
 }
 
 template<class InitType, class ResType, class Transformer>
