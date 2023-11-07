@@ -12,10 +12,7 @@ private:
     marching_grid<800, 400> _marching_grid;
     std::vector<utils::agent> _agents;
 public:
-    marching_window(
-        int argc, char** argv,
-        float _screen_width = 400, float _screen_height = 400,
-        std::string name = "Marching Window");
+    marching_window(flp::window_settings&& settings);
 
     void physics_loop() override;
     void display() override;

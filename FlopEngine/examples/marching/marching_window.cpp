@@ -2,11 +2,8 @@
 #include "libs/graphics/drawing.hpp"
 #include "GL/freeglut.h"
 
-marching_window::marching_window(
-    int argc, char** argv,
-    float screen_width, float screen_height,
-    std::string name)
-    : base_window(argc, argv, screen_width, screen_height, name)
+marching_window::marching_window(flp::window_settings&& settings)
+    : base_window{std::move(settings)}
     , _marching_grid(_screen_w, _screen_h)
 {
     _agents = utils::agent::generate_random(screen_rectangle(), 200, 30.0f);

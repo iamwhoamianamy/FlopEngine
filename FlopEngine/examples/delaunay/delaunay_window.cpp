@@ -6,9 +6,8 @@
 
 const size_t delaunay_window::_agent_count{400};
 
-delaunay_window::delaunay_window(int argc, char** argv,
-    float screen_width, float screen_height, std::string name)
-    : base_window{argc, argv, screen_width, screen_height, name}
+delaunay_window::delaunay_window(flp::window_settings&& settings)
+    : base_window{std::move(settings)}
     , _agents{utils::agent::generate_random(screen_rectangle(), _agent_count, 50)}
 {
 }

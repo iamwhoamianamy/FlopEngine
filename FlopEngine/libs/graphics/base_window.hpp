@@ -10,6 +10,17 @@
 namespace flp
 {
 
+struct window_settings
+{
+    int argc;
+    char** argv;
+
+    float screen_width = 400;
+    float screen_height = 400;
+
+    std::string name = "New Window";
+};
+
 class base_window
 {
 protected:
@@ -18,19 +29,13 @@ protected:
 
     float _screen_w;
     float _screen_h;
-    std::string _name;
     vector2 _mouse_pos;
 
 protected:
     auto screen_rectangle() const -> rectangle;
 
 public:
-    base_window(
-        int argc,
-        char** argv,
-        float screen_width = 400,
-        float screen_height = 400,
-        std::string name = "New Window");
+    base_window(window_settings&& settings);
 
     virtual void physics_loop();
     virtual void display() = 0;

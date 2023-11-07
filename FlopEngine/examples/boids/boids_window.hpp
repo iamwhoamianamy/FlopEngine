@@ -43,8 +43,7 @@ private:
     std::shared_ptr<gui::split_layout> _main_split_layout;
 
 public:
-    boids_window(int argc, char** argv,
-        float screen_width, float screen_height, std::string name);
+    boids_window(flp::window_settings&& settings);
 
     void physics_loop() override;
     void display() override;

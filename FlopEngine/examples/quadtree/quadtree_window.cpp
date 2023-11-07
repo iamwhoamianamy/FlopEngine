@@ -8,11 +8,8 @@
 
 using namespace flp;
 
-quadtree_window::quadtree_window(
-    int argc, char** argv,
-    float screen_width, float screen_height,
-    std::string name) :
-    base_window{argc, argv, screen_width, screen_height, name}
+quadtree_window::quadtree_window(flp::window_settings&& settings)
+    : base_window{std::move(settings)}
 {
     size_t point_count = 10000;
     float step = 360.0f / point_count;

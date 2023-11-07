@@ -20,8 +20,7 @@ private:
     utils::fixed_size_queue<float, 10> _fps_smother;
 
 public:
-    quadtree_window(int argc, char** argv,
-        float screen_width, float screen_height, std::string name);
+    quadtree_window(flp::window_settings&& settings);
 
     void display();
     void keyboard_letters(unsigned char key, int x, int y);

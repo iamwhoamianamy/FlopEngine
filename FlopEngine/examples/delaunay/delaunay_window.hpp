@@ -13,8 +13,7 @@ private:
     std::unordered_map<vector2, std::pair<float, size_t>> _point_weights;
 
 public:
-    delaunay_window(int argc, char** argv,
-        float screen_width, float screen_height, std::string name);
+    delaunay_window(flp::window_settings&& settings);
 
     void physics_loop() override;
     void display() override;

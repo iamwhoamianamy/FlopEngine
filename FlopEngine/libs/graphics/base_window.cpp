@@ -6,16 +6,14 @@
 
 using namespace flp;
 
-base_window::base_window(
-    int argc, char** argv,
-    float screen_width, float screen_height,
-    std::string name) :
-    _screen_w(screen_width), _screen_h(screen_height), _name(name)
+base_window::base_window(window_settings&& settings)
+    : _screen_w{settings.screen_width}
+    , _screen_h{settings.screen_height}
 {
-    glutInit(&argc, argv);
+    glutInit(&settings.argc, settings.argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE | GLUT_DOUBLE);
     glutInitWindowSize(static_cast<int>(_screen_w), static_cast<int>(_screen_h));
-    glutCreateWindow(name.c_str());
+    glutCreateWindow(settings.name.c_str());
 
     registerFunctions();
 

@@ -10,8 +10,7 @@ private:
     std::vector<float> _pixels;
 
 public:
-    pixel_grid_window(int argc, char** argv,
-        float screen_width, float screen_height, std::string name);
+    pixel_grid_window(flp::window_settings&& settings);
 
     void physics_loop() override;
     void display() override;

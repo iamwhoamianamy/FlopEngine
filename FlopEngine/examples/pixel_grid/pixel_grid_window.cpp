@@ -4,9 +4,8 @@
 
 #include "GL/freeglut.h"
 
-pixel_grid_window::pixel_grid_window(int argc, char** argv,
-    float screen_width, float screen_height, std::string name)
-    : base_window{argc, argv, screen_width, screen_height, name}
+pixel_grid_window::pixel_grid_window(flp::window_settings&& settings)
+    : base_window{std::move(settings)}
 {
 }
 

@@ -4,18 +4,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utils\agent.cpp" />
     <ClCompile Include="utils\file_observer.cpp" />
-    <ClCompile Include="boids\boid.cpp" />
-    <ClCompile Include="boids\boids_helper.cpp" />
-    <ClCompile Include="boids\boids_window.cpp" />
-    <ClCompile Include="boids\flock.cpp" />
-    <ClCompile Include="delaunay\delaunay_triangulator.cpp" />
-    <ClCompile Include="delaunay\delaunay_window.cpp" />
     <ClCompile Include="libs\graphics\base_window.cpp" />
     <ClCompile Include="libs\graphics\drawing.cpp" />
     <ClCompile Include="libs\graphics\glut_functions.cpp" />
     <ClCompile Include="libs\math\math.cpp" />
-    <ClCompile Include="marching\marching_window.cpp" />
-    <ClCompile Include="quadtree\quadtree_window.cpp" />
     <ClCompile Include="libs\gui\object.cpp" />
     <ClCompile Include="libs\gui\master.cpp" />
     <ClCompile Include="libs\gui\button.cpp" />
@@ -49,12 +41,6 @@
     <ClInclude Include="utils\singleton.hpp" />
     <ClInclude Include="utils\utils.hpp" />
     <ClInclude Include="3rdparty\json\json.hpp" />
-    <ClInclude Include="boids\boid.hpp" />
-    <ClInclude Include="boids\boids_helper.hpp" />
-    <ClInclude Include="boids\boids_window.hpp" />
-    <ClInclude Include="boids\flock.hpp" />
-    <ClInclude Include="delaunay\delaunay_triangulator.hpp" />
-    <ClInclude Include="delaunay\delaunay_window.hpp" />
     <ClInclude Include="libs\graphics\base_window.hpp" />
     <ClInclude Include="libs\graphics\drawing.hpp" />
     <ClInclude Include="libs\graphics\flop_engine.hpp" />
@@ -63,8 +49,6 @@
     <ClInclude Include="libs\geometry\rectangle.hpp" />
     <ClInclude Include="libs\quadtree\quadtree.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
-    <ClInclude Include="marching\marching_window.hpp" />
-    <ClInclude Include="quadtree\quadtree_window.hpp" />
     <ClInclude Include="libs\gui\master.hpp" />
     <ClInclude Include="libs\gui\object.hpp" />
     <ClInclude Include="libs\gui\button.hpp" />
@@ -89,9 +73,9 @@
     <ClInclude Include="examples\pixel_grid\pixel_grid_window.hpp" />
     <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
     <ClInclude Include="examples\examples.hpp" />
+    <ClInclude Include="utils\grid.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="boids\params.json" />
   </ItemGroup>
 </Project>

@@ -12,11 +12,8 @@
 
 using namespace std::chrono_literals;
 
-boids_window::boids_window(
-    int argc, char** argv,
-    float screen_width, float screen_height,
-    std::string name)
-    : base_window(argc, argv, screen_width, screen_height, name)
+boids_window::boids_window(flp::window_settings&& settings)
+    : base_window{std::move(settings)}
     , _boid_param_file_observer{boid_param_filename, 100ms, [this](){ read_boid_params(); }}
 {
     for(auto& flock_entry : _flocks)
