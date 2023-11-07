@@ -142,6 +142,7 @@
     <ClInclude Include="examples\marching\marching_window.hpp" />
     <ClInclude Include="examples\pixel_grid\pixel_grid_window.hpp" />
     <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
+    <ClInclude Include="libs\graphics\color.hpp" />
     <ClInclude Include="libs\gui\input_param_box.hpp" />
     <ClInclude Include="libs\gui\input_param_list.hpp" />
     <ClInclude Include="libs\gui\layout.hpp" />

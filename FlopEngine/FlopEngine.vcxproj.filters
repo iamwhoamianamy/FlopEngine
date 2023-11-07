@@ -74,6 +74,7 @@
     <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
     <ClInclude Include="examples\examples.hpp" />
     <ClInclude Include="utils\grid.hpp" />
+    <ClInclude Include="libs\graphics\color.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

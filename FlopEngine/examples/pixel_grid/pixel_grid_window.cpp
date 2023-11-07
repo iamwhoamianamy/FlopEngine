@@ -22,7 +22,7 @@ void pixel_grid_window::display()
     glDrawPixels(
         static_cast<size_t>(_screen_w),
         static_cast<size_t>(_screen_h),
-        GL_RGB,
+        GL_RGBA,
         GL_FLOAT,
         _pixels.data());
 
@@ -34,15 +34,13 @@ void pixel_grid_window::resize(float w, float h)
     auto grid_width  = static_cast<size_t>(w);
     auto grid_height = static_cast<size_t>(h);
 
-    auto pixel_count = grid_width * grid_height * 3;
-
-    _pixels.resize(pixel_count);
+    _pixels.resize(grid_width, grid_height);
 
     for (const auto x : utils::iota(grid_width))
     {
         for (const auto y : utils::iota(grid_height))
         {
-            _pixels[x * 3 + y * grid_width * 3] = x / w;
+            _pixels[x + y * grid_width].r = x / w;
         }
     }
 }
