@@ -26,6 +26,8 @@ void pixel_grid_window::display()
         GL_FLOAT,
         _pixels.data());
 
+    size_t pixels{};
+
     glFinish();
 }
 
@@ -36,11 +38,16 @@ void pixel_grid_window::resize(float w, float h)
 
     _pixels.resize(grid_width, grid_height);
 
-    for (const auto x : utils::iota(grid_width))
+    for (auto& [val, x, y] : _pixels.as_plain_range())
     {
-        for (const auto y : utils::iota(grid_height))
-        {
-            _pixels[x + y * grid_width].r = x / w;
-        }
+        val.r = x / w;
     }
+
+    //for (const auto x : utils::iota(grid_width))
+    //{
+    //    for (const auto y : utils::iota(grid_height))
+    //    {
+    //        _pixels[x + y * grid_width].r = x / w;
+    //    }
+    //}
 }

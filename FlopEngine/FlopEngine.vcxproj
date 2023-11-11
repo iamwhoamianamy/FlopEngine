@@ -143,6 +143,8 @@
     <ClInclude Include="examples\pixel_grid\pixel_grid_window.hpp" />
     <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
     <ClInclude Include="libs\graphics\color.hpp" />
+    <ClInclude Include="libs\grid\grid_impl.hpp" />
+    <ClInclude Include="libs\grid\grid_iterator_impl.hpp" />
     <ClInclude Include="libs\gui\input_param_box.hpp" />
     <ClInclude Include="libs\gui\input_param_list.hpp" />
     <ClInclude Include="libs\gui\layout.hpp" />
@@ -177,7 +179,7 @@
     <ClInclude Include="utils\concepts.hpp" />
     <ClInclude Include="utils\file_observer.hpp" />
     <ClInclude Include="utils\fixed_size_queue.hpp" />
-    <ClInclude Include="utils\grid.hpp" />
+    <ClInclude Include="libs\grid\grid.hpp" />
     <ClInclude Include="utils\ranges.h" />
     <ClInclude Include="utils\singleton.hpp" />
     <ClInclude Include="utils\utils.hpp" />

@@ -73,8 +73,10 @@
     <ClInclude Include="examples\pixel_grid\pixel_grid_window.hpp" />
     <ClInclude Include="examples\quadtree\quadtree_window.hpp" />
     <ClInclude Include="examples\examples.hpp" />
-    <ClInclude Include="utils\grid.hpp" />
+    <ClInclude Include="libs\grid\grid.hpp" />
     <ClInclude Include="libs\graphics\color.hpp" />
+    <ClInclude Include="libs\grid\grid_impl.hpp" />
+    <ClInclude Include="libs\grid\grid_iterator_impl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

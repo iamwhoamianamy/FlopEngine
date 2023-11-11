@@ -1,45 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <span>
+#include "grid.hpp"
 
-namespace utils
-{
-
-template <typename T>
-struct grid
-{
-public:
-    grid(size_t widht = size_t{}, size_t height = size_t{});
-
-public:
-    grid(const grid& other) = default;
-    grid(grid&& other) noexcept = default;
-
-    grid& operator=(const grid& other) = default;
-    grid& operator=(grid&& other) noexcept = default;
-
-public:
-    size_t size() const noexcept;
-
-    size_t plain_id(size_t x, size_t y) const;
-    void set(size_t x, size_t y, T&& val);
-    const T& get(size_t x, size_t y) const;
-
-    std::span<T> row(size_t n);
-
-    decltype(auto) data(this auto& self) noexcept;
-
-    void resize(size_t widht, size_t height);
-
-    decltype(auto) operator[](this auto& self, size_t i);
-
-private:
-    size_t _width;
-    size_t _height;
-
-    std::vector<T> _data;
-};
+#include "utils/ranges.h"
 
 template<typename T>
 inline grid<T>::grid(size_t widht, size_t height)
@@ -74,6 +37,18 @@ inline const T& grid<T>::get(size_t x, size_t y) const
 }
 
 template<typename T>
+inline size_t grid<T>::width() const
+{
+    return _width;
+}
+
+template<typename T>
+inline size_t grid<T>::height() const
+{
+    return _height;
+}
+
+template<typename T>
 inline std::span<T> grid<T>::row(size_t n)
 {
     return std::span<T>{_data + n * _width, _data + n * (_width + 1)};
@@ -100,4 +75,11 @@ inline decltype(auto) grid<T>::operator[](this auto& self, size_t i)
     return self._data[i];
 }
 
-} // namespace utils
+template<typename T>
+inline auto grid<T>::as_plain_range()
+{
+    return utils::make_iterator_range(
+        grid_plane_iterator<grid<T>>{_data.data(), * this},
+        grid_plane_iterator<grid<T>>{_data.data() + size(), * this}
+    );
+}
