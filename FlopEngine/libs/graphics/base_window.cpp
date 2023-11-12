@@ -1,8 +1,13 @@
-#include "libs/graphics/base_window.hpp"
+#include "base_window.hpp"
+
+#include <format>
+
 #include "glut_functions.hpp"
 
 #include "utils/singleton.hpp"
 #include "libs/gui/master.hpp"
+
+#include "libs/graphics/drawing.hpp"
 
 using namespace flp;
 
@@ -62,7 +67,7 @@ void base_window::base_reshape(int w, int h)
     glOrtho(0, _screen_w, _screen_h, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 
-    resize(w, h);
+    resize(static_cast<float>(w), static_cast<float>(h));
 }
 
 void flp::base_window::base_idle()
@@ -90,12 +95,34 @@ void base_window::base_mouse_passive(int x, int y)
     utils::singleton<gui::master>::get().hover(_mouse_pos);
 }
 
+void flp::base_window::base_special(int key, int x, int y)
+{
+    switch (key)
+    {
+        case 3:
+        {
+            _debug_mode = !_debug_mode;
+            break;
+        }
+    }
+}
+
 auto flp::base_window::screen_rectangle() const -> rectangle
 {
     return rectangle{
         vector2{_screen_w / 2, _screen_h / 2},
         vector2{_screen_w / 2, _screen_h / 2}
     };
+}
+
+auto flp::base_window::get_smooth_fps() const -> float
+{
+    float fps = 0.0f;
+
+    for (const auto& val : _fps_smother.values())
+        fps += val;
+
+    return 1.0f / (fps / _fps_smother.size());
 }
 
 void base_window::base_display()
@@ -105,10 +132,22 @@ void base_window::base_display()
     physics_loop();
     display();
     utils::singleton<gui::master>::get().draw();
+
+    if (_debug_mode)
+    {
+        draw::set_color(draw::color::black());
+        draw::draw_filled_rect(rectangle{{135, 10}, 135, 10});
+
+        draw::set_color(draw::color::blue());
+        draw::render_string({0, 15}, 15, std::format("fps: {:.3}", get_smooth_fps()));
+    }
+
     glutSwapBuffers();
 
     _last_ellapsed = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - start);
+
+    _fps_smother.push(_last_ellapsed.count() / 1e6f);
 }
 
 void base_window::physics_loop()

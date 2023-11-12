@@ -4,5 +4,7 @@
 
 namespace flp
 {
-    extern base_window* window;
-}
+
+extern base_window* window;
+
+} // namespace flp

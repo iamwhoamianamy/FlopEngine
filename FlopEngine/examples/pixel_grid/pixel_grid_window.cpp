@@ -26,7 +26,24 @@ void pixel_grid_window::display()
         GL_FLOAT,
         _pixels.data());
 
-    size_t pixels{};
+    for (auto& [val, x, y] : _pixels.as_plain_range())
+    {
+        val.r = math::random_normed();
+    }
+
+    //_pixels.for_each_plane(
+    //    [=](auto& val, size_t x, size_t y, [[maybe_unused]] size_t i)
+    //    {
+    //        val.r = math::random_normed();
+    //    });
+
+    //for (const auto y : utils::iota(_pixels.height()))
+    //{
+    //    for (const auto x : utils::iota(_pixels.width()))
+    //    {
+    //        _pixels[x + y * _pixels.width()].r = math::random_normed();
+    //    }
+    //}
 
     glFinish();
 }
@@ -37,17 +54,4 @@ void pixel_grid_window::resize(float w, float h)
     auto grid_height = static_cast<size_t>(h);
 
     _pixels.resize(grid_width, grid_height);
-
-    for (auto& [val, x, y] : _pixels.as_plain_range())
-    {
-        val.r = x / w;
-    }
-
-    //for (const auto x : utils::iota(grid_width))
-    //{
-    //    for (const auto y : utils::iota(grid_height))
-    //    {
-    //        _pixels[x + y * grid_width].r = x / w;
-    //    }
-    //}
 }

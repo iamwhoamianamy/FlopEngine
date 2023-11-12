@@ -6,6 +6,7 @@
 
 #include "libs/geometry/vector2.hpp"
 #include "libs/geometry/rectangle.hpp"
+#include "utils/fixed_size_queue.hpp"
 
 namespace flp
 {
@@ -31,8 +32,13 @@ protected:
     float _screen_h;
     vector2 _mouse_pos;
 
+    utils::fixed_size_queue<float, 10> _fps_smother;
+
+    bool _debug_mode = false;
+
 protected:
     auto screen_rectangle() const -> rectangle;
+    auto get_smooth_fps() const -> float;
 
 public:
     base_window(window_settings&& settings);
@@ -56,6 +62,7 @@ public:
     friend void glutMouse(int button, int state, int x, int y);
     friend void glutMousePassive(int x, int y);
     friend void glutIdle();
+    friend void glutSpecial(int key, int x, int y);
 
 private:
     void base_display();
@@ -67,6 +74,7 @@ private:
     void base_keyboard_letters(unsigned char key, int x, int y);
     void base_mouse(int button, int state, int x, int y);
     void base_mouse_passive(int x, int y);
+    void base_special(int key, int x, int y);
 };
 
 }

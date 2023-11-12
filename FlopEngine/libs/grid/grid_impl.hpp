@@ -3,6 +3,7 @@
 #include "grid.hpp"
 
 #include "utils/ranges.h"
+#include "utils/utils.hpp"
 
 template<typename T>
 inline grid<T>::grid(size_t widht, size_t height)
@@ -82,4 +83,21 @@ inline auto grid<T>::as_plain_range()
         grid_plane_iterator<grid<T>>{_data.data(), * this},
         grid_plane_iterator<grid<T>>{_data.data() + size(), * this}
     );
+}
+
+template<typename T>
+template<typename F>
+requires GridPlaneIterationFunc<grid<T>, F>
+inline void grid<T>::for_each_plane(F&& f)
+{
+    size_t i{};
+
+    for (const auto y : utils::iota(_height))
+    {
+        for (const auto x : utils::iota(_width))
+        {
+            f(_data[plain_id(x, y)], x, y, i);
+            ++i;
+        }
+    }
 }

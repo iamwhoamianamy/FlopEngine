@@ -3,6 +3,7 @@
 #include <vector>
 #include <span>
 #include <iterator>
+#include <functional>
 
 template <typename Grid>
 struct grid_plane_iterator;
@@ -70,13 +71,22 @@ private:
     std::shared_ptr<value_t> _proxy;
 };
 
+template <typename Grid, typename F>
+concept GridPlaneIterationFunc = std::invocable<
+    F, 
+    typename Grid::value_t& /* val */,
+    size_t /* x */,
+    size_t /* y */,
+    size_t /* i */
+>;
+
 template <typename T>
 struct grid
 {
 public:
     using value_t = T;
     using plane_iterator_t = grid_plane_iterator<grid<T>>;
-
+    
 public:
     grid(size_t widht = size_t{}, size_t height = size_t{});
 
@@ -106,6 +116,10 @@ public:
 
 public:
     auto as_plain_range();
+
+    template <typename F>
+    requires GridPlaneIterationFunc<grid<T>, F>
+    void for_each_plane(F&& f);
 
 private:
     size_t _width;
