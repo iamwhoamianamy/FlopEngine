@@ -57,4 +57,21 @@ inline auto generate_random(const rectangle& range, size_t count)
     return result;
 }
 
+template <typename T>
+concept EnumWithSize = requires(T t)
+{
+    T::SIZE;
+};
+
+template <EnumWithSize E>
+inline E next_enum(const E& e)
+{
+    using enum_t = std::remove_cvref_t<decltype(e)>;
+    using underlying_t = std::underlying_type_t<enum_t>;
+
+    return static_cast<enum_t>(
+        (static_cast<underlying_t>(e) + 1) %
+        static_cast<underlying_t>(enum_t::SIZE));
+}
+
 } // namespace utils

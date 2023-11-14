@@ -5,6 +5,8 @@
 #include "utils/ranges.h"
 #include "utils/utils.hpp"
 
+#include <ranges>
+
 template<typename T>
 inline grid<T>::grid(size_t widht, size_t height)
     : _width{widht}
@@ -52,7 +54,7 @@ inline size_t grid<T>::height() const
 template<typename T>
 inline std::span<T> grid<T>::row(size_t n)
 {
-    return std::span<T>{_data + n * _width, _data + n * (_width + 1)};
+    return std::span<T>{_data.data() + n * _width, _data.data() + (n + 1) * _width};
 }
 
 template<typename T>
@@ -88,16 +90,27 @@ inline auto grid<T>::as_plain_range()
 template<typename T>
 template<typename F>
 requires GridPlaneIterationFunc<grid<T>, F>
+inline void grid<T>::for_each_plane(auto&& execution_policy, F&& f)
+{
+    auto row_ids = utils::iota(_height);
+    std::for_each(std::move(execution_policy), row_ids.begin(), row_ids.end(),
+        [&](size_t row_id)
+        {
+            size_t col_id{};
+
+            for (auto& val : row(row_id))
+            {
+                f(val, col_id, row_id, plain_id(col_id, row_id));
+
+                col_id++;
+            }
+        });
+}
+
+template<typename T>
+template<typename F>
+    requires GridPlaneIterationFunc<grid<T>, F>
 inline void grid<T>::for_each_plane(F&& f)
 {
-    size_t i{};
-
-    for (const auto y : utils::iota(_height))
-    {
-        for (const auto x : utils::iota(_width))
-        {
-            f(_data[plain_id(x, y)], x, y, i);
-            ++i;
-        }
-    }
+    for_each_plane(std::move(std::execution::seq), std::forward<F>(f));
 }

@@ -4,6 +4,7 @@
 #include <span>
 #include <iterator>
 #include <functional>
+#include <execution>
 
 template <typename Grid>
 struct grid_plane_iterator;
@@ -118,7 +119,11 @@ public:
     auto as_plain_range();
 
     template <typename F>
-    requires GridPlaneIterationFunc<grid<T>, F>
+        requires GridPlaneIterationFunc<grid<T>, F>
+    void for_each_plane(auto&& execution_policy, F&& f);
+
+    template <typename F>
+        requires GridPlaneIterationFunc<grid<T>, F>
     void for_each_plane(F&& f);
 
 private:
