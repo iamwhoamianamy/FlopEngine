@@ -3,9 +3,11 @@
 #include <array>
 
 #include "GL/freeglut.h"
+
 #include "libs/geometry/vector2.hpp"
 #include "libs/geometry/rectangle.hpp"
 #include "libs/graphics/color.hpp"
+#include "libs/grid/grid.hpp"
 
 namespace draw
 {
@@ -23,6 +25,9 @@ void draw_filled_rect(const rectangle& rect);
 void draw_line_gradient(
     const vector2& a, const vector2& b,
     const color& a_color, const color& b_color);
+
+void draw_color_grid(const grid<draw::color>& grid);
+void draw_value_grid(const grid<float>& grid);
 
 auto generate_random_color() -> color;
 
@@ -143,4 +148,24 @@ inline void draw::draw_line_gradient(
         glVertex2f(b.x, b.y);
     }
     glEnd();
+}
+
+inline void draw::draw_color_grid(const grid<draw::color>& grid)
+{
+    glDrawPixels(
+        static_cast<GLsizei>(grid.width()),
+        static_cast<GLsizei>(grid.height()),
+        GL_RGBA,
+        GL_FLOAT,
+        grid.data());
+}
+
+inline void draw::draw_value_grid(const grid<float>& grid)
+{
+    glDrawPixels(
+        static_cast<GLsizei>(grid.width()),
+        static_cast<GLsizei>(grid.height()),
+        GL_LUMINANCE,
+        GL_FLOAT,
+        grid.data());
 }

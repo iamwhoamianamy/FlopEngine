@@ -14,22 +14,7 @@ pixel_grid_window::pixel_grid_window(flp::window_settings&& settings)
 
 void pixel_grid_window::physics_loop()
 {
-
-}
-
-void pixel_grid_window::display()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    glEnable(GL_POINT_SMOOTH);
-
-    glDrawPixels(
-        static_cast<size_t>(_screen_w),
-        static_cast<size_t>(_screen_h),
-        GL_RGBA,
-        GL_FLOAT,
-        _pixels.data());
-
-    auto random_func = 
+    auto random_func =
         []()
         {
             static std::mt19937 engine;
@@ -82,6 +67,14 @@ void pixel_grid_window::display()
             break;
         }
     }
+}
+
+void pixel_grid_window::display()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_POINT_SMOOTH);
+
+    draw::draw_color_grid(_pixels);
 
     draw::set_color(draw::color::white());
     draw::render_string({0.0f, _screen_h}, 15, iteration_algorithm_to_str[_iteration_algorithm]);
