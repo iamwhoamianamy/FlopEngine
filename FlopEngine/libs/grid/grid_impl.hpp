@@ -34,9 +34,9 @@ inline void grid<T>::set(size_t x, size_t y, T&& val)
 }
 
 template<typename T>
-inline const T& grid<T>::get(size_t x, size_t y) const
+inline decltype(auto) grid<T>::get(this auto&& self, size_t x, size_t y)
 {
-    return _data[plain_id(x, y)];
+    return self._data[self.plain_id(x, y)];
 }
 
 template<typename T>
@@ -58,7 +58,7 @@ inline std::span<T> grid<T>::row(size_t n)
 }
 
 template<typename T>
-inline decltype(auto) grid<T>::data(this auto& self) noexcept
+inline decltype(auto) grid<T>::data(this auto&& self) noexcept
 {
     return self._data.data();
 }
@@ -73,9 +73,58 @@ inline void grid<T>::resize(size_t widht, size_t height)
 }
 
 template<typename T>
-inline decltype(auto) grid<T>::operator[](this auto& self, size_t i)
+inline void grid<T>::reinit(size_t widht, size_t height)
+{
+    _data.clear();
+    resize(widht, height);
+}
+
+template<typename T>
+inline decltype(auto) grid<T>::operator[](this auto&& self, size_t i)
 {
     return self._data[i];
+}
+
+template<typename T>
+inline auto grid<T>::top(size_t x, size_t y) -> std::optional<T*>
+{
+    if (static_cast<int>(y) - 1 >= 0)
+        return _data.data() + plain_id(x, y) - _width;
+
+    return std::nullopt;
+}
+
+template<typename T>
+inline auto grid<T>::bot(size_t x, size_t y) -> std::optional<T*>
+{
+    if (y + 1 < _height)
+        return _data.data() + plain_id(x, y) + _width;
+
+    return std::nullopt;
+}
+
+template<typename T>
+inline auto grid<T>::left(size_t x, size_t y) -> std::optional<T*>
+{
+    if (static_cast<int>(x) - 1 >= 0)
+        return _data.data() + plain_id(x, y) - 1;
+
+    return std::nullopt;
+}
+
+template<typename T>
+inline auto grid<T>::right(size_t x, size_t y) -> std::optional<T*>
+{
+    if (x + 1 < _width)
+        return _data.data() + plain_id(x, y) + 1;
+
+    return std::nullopt;
+}
+
+template<typename T>
+inline void grid<T>::swap(grid& other)
+{
+    std::swap(_data, other._data);
 }
 
 template<typename T>

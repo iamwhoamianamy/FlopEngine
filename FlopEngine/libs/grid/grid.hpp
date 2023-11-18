@@ -103,17 +103,25 @@ public:
 
     size_t plain_id(size_t x, size_t y) const;
     void set(size_t x, size_t y, T&& val);
-    const T& get(size_t x, size_t y) const;
+    decltype(auto) get(this auto&& self, size_t x, size_t y);
     size_t width() const;
     size_t height() const;
 
     std::span<T> row(size_t n);
 
-    decltype(auto) data(this auto& self) noexcept;
+    decltype(auto) data(this auto&& self) noexcept;
 
     void resize(size_t widht, size_t height);
+    void reinit(size_t widht, size_t height);
 
-    decltype(auto) operator[](this auto& self, size_t i);
+    decltype(auto) operator[](this auto&& self, size_t i);
+
+    auto bot  (size_t x, size_t y) -> std::optional<T*>;
+    auto left (size_t x, size_t y) -> std::optional<T*>;
+    auto right(size_t x, size_t y) -> std::optional<T*>;
+    auto top  (size_t x, size_t y) -> std::optional<T*>;
+
+    void swap(grid& other);
 
 public:
     auto as_plain_range();

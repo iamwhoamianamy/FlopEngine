@@ -24,6 +24,8 @@
     <ClCompile Include="examples\pixel_grid\pixel_grid_window.cpp" />
     <ClCompile Include="examples\quadtree\quadtree_window.cpp" />
     <ClCompile Include="libs\gui\input_param_box.cpp" />
+    <ClCompile Include="examples\euler_fluid_simulator\euler_fluid_window.cpp" />
+    <ClCompile Include="euler_fluid_simulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -77,6 +79,8 @@
     <ClInclude Include="libs\grid\grid_impl.hpp" />
     <ClInclude Include="libs\grid\grid_iterator_impl.hpp" />
     <ClInclude Include="libs\gui\input_param_box.hpp" />
+    <ClInclude Include="examples\euler_fluid_simulator\euler_fluid_window.hpp" />
+    <ClInclude Include="euler_fluid_simulator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
