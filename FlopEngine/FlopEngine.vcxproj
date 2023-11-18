@@ -134,11 +134,13 @@
   <ItemGroup>
     <ClInclude Include="3rdparty\json\json.hpp" />
     <ClInclude Include="euler_fluid_simulator.hpp" />
+    <ClInclude Include="examples\attraction\attraction_window.hpp" />
     <ClInclude Include="examples\boids\boid.hpp" />
     <ClInclude Include="examples\boids\boids_window.hpp" />
     <ClInclude Include="examples\boids\flock.hpp" />
     <ClInclude Include="examples\delaunay\delaunay_triangulator.hpp" />
     <ClInclude Include="examples\delaunay\delaunay_window.hpp" />
+    <ClInclude Include="examples\empty\empty_window.hpp" />
     <ClInclude Include="examples\euler_fluid_simulator\euler_fluid_window.hpp" />
     <ClInclude Include="examples\examples.hpp" />
     <ClInclude Include="examples\marching\marching_window.hpp" />
@@ -189,11 +191,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="euler_fluid_simulator.cpp" />
+    <ClCompile Include="examples\attraction\attraction_window.cpp" />
     <ClCompile Include="examples\boids\boid.cpp" />
     <ClCompile Include="examples\boids\boids_window.cpp" />
     <ClCompile Include="examples\boids\flock.cpp" />
     <ClCompile Include="examples\delaunay\delaunay_triangulator.cpp" />
     <ClCompile Include="examples\delaunay\delaunay_window.cpp" />
+    <ClCompile Include="examples\empty\empty_window.cpp" />
     <ClCompile Include="examples\euler_fluid_simulator\euler_fluid_window.cpp" />
     <ClCompile Include="examples\marching\marching_window.cpp" />
     <ClCompile Include="examples\pixel_grid\pixel_grid_window.cpp" />

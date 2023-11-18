@@ -105,8 +105,8 @@ public:
         using iterator_category = std::input_iterator_tag;
         using difference_type = std::ptrdiff_t;
         using value_type = Point;
-        using pointer = const Point*;
-        using reference = const Point&;
+        using pointer = Point*;
+        using reference = Point&;
 
     public:
         const_iterator();

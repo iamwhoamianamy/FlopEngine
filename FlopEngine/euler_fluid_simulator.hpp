@@ -61,60 +61,60 @@ inline void euler_fluid_simulator::dither(flp::duration auto&& ellapsed)
 {
     auto next_step = _cells;
 
-    for (auto& [val, x, y] : _cells.as_plain_range())
-    {
-        size_t neighbour_count;
-        vector2 delta{};
+    //for (auto& [val, x, y] : _cells.as_plain_range())
+    //{
+    //    size_t neighbour_count;
+    //    vector2 delta{};
 
-        if (auto c = _cells.top(x, y))
-        {
-            neighbour_count++;
-            delta += (*c)->velocity.y;
-        }
+    //    if (auto c = _cells.top(x, y))
+    //    {
+    //        neighbour_count++;
+    //        delta += (*c)->velocity.y;
+    //    }
 
-        if (auto c = _cells.bot(x, y))
-        {
-            neighbour_count++;
-            delta += (*c)->velocity.y;
-        }
+    //    if (auto c = _cells.bot(x, y))
+    //    {
+    //        neighbour_count++;
+    //        delta += (*c)->velocity.y;
+    //    }
 
-        if (auto c = _cells.left(x, y))
-        {
-            neighbour_count++;
-            delta += (*c)->velocity.x;
-        }
+    //    if (auto c = _cells.left(x, y))
+    //    {
+    //        neighbour_count++;
+    //        delta += (*c)->velocity.x;
+    //    }
 
-        if (auto c = _cells.right(x, y))
-        {
-            neighbour_count++;
-            delta += (*c)->velocity.x;
-        }
+    //    if (auto c = _cells.right(x, y))
+    //    {
+    //        neighbour_count++;
+    //        delta += (*c)->velocity.x;
+    //    }
 
-        /*_cells.bot(x, y).and_then(
-            [&](cell* c)
-            {
-                neighbours.push_back(c);
-            });
+    //    /*_cells.bot(x, y).and_then(
+    //        [&](cell* c)
+    //        {
+    //            neighbours.push_back(c);
+    //        });
 
-        _cells.left(x, y).and_then(
-            [&](cell* c)
-            {
-                neighbours.push_back(c);
-            });
+    //    _cells.left(x, y).and_then(
+    //        [&](cell* c)
+    //        {
+    //            neighbours.push_back(c);
+    //        });
 
-        _cells.right(x, y).and_then(
-            [&](cell* c)
-            {
-                neighbours.push_back(c);
-            });*/
+    //    _cells.right(x, y).and_then(
+    //        [&](cell* c)
+    //        {
+    //            neighbours.push_back(c);
+    //        });*/
 
-        delta /= neighbour_count;
+    //    delta /= neighbour_count;
 
-        for (auto& neighbour : neighbours)
-        {
-            neighbour->velocity += delta;
-        }
-    }
+    //    for (auto& neighbour : neighbours)
+    //    {
+    //        neighbour->velocity += delta;
+    //    }
+    //}
 
     _cells.swap(next_step);
 }

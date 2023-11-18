@@ -13,6 +13,9 @@ struct rectangle
     constexpr rectangle(const vector2& center, float radius)                        noexcept;
     constexpr rectangle(const vector2& center, float half_width, float half_height) noexcept;
 
+    constexpr static rectangle make_from_two_corners(
+        const vector2& a, const vector2& b) noexcept;
+
     constexpr rectangle(const rectangle&) noexcept = default;
     constexpr rectangle(rectangle&&)      noexcept = default;
 
@@ -71,6 +74,18 @@ constexpr rectangle::rectangle(const vector2& center, float half_width, float ha
     , half_dimensions{half_width, half_height}
 {
 
+}
+
+inline constexpr rectangle rectangle::make_from_two_corners(
+    const vector2& a, const vector2& b) noexcept
+{
+    auto center = (b - a) * 0.5 + a;
+    auto half_dim = vector2{
+        std::abs(center.x - a.x),
+        std::abs(center.y - a.y)
+    };
+
+    return rectangle{center, half_dim};
 }
 
 constexpr bool rectangle::contains(float x, float y) const noexcept

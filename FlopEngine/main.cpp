@@ -10,7 +10,8 @@ int main(int argc, char** argv)
     //flp::window = new marching_window({argc, argv, 1600, 800, "Marching"});
     //flp::window = new delaunay_window({argc, argv, 1600, 800, "Delaunay"});
     //flp::window = new pixel_grid_window({argc, argv, 1600, 800, "Pixel Grid"});
-    flp::window = new euler_fluid_window({argc, argv, 800, 800, "Pixel Grid"});
+    //flp::window = new euler_fluid_window({argc, argv, 800, 800, "Pixel Grid"});
+    flp::window = new attraction_window({argc, argv, 1600, 800, "Attraction"});
 
     flp::window->run();
 }
