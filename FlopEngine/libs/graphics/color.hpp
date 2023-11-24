@@ -12,7 +12,7 @@ struct color
     float b;
     float a;
 
-    explicit color(float r = 0.0f, float g = 0, float b = 0, float a = 1);
+    explicit color(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f);
 
     color& operator*=(float factor)
     {

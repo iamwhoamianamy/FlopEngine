@@ -16,11 +16,14 @@ base_window::base_window(window_settings&& settings)
     , _screen_h{settings.screen_height}
 {
     glutInit(&settings.argc, settings.argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_MULTISAMPLE | GLUT_DOUBLE);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_MULTISAMPLE | GLUT_DOUBLE | GLUT_ALPHA);
     glutInitWindowSize(static_cast<int>(_screen_w), static_cast<int>(_screen_h));
     glutCreateWindow(settings.name.c_str());
 
     registerFunctions();
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     utils::singleton<gui::master>::get();
 }
