@@ -182,16 +182,20 @@ template<traits::quadtree_point Point>
 inline void quadtree<Point>::copy_fields(const quadtree& other)
 {
     _rectangle = other._rectangle;
-    _points = other._points;
-    _children = other._children;
+    _points    = other._points;
+    _children  = other._children;
+    _capacity  = other._capacity;
+    _level     = other._level;
 }
 
 template<traits::quadtree_point Point>
 inline void quadtree<Point>::move_fields(quadtree&& other)
 {
     _rectangle = std::move(other._rectangle);
-    _points = std::move(other._points);
-    _children = std::move(other._children);
+    _points    = std::move(other._points);
+    _children  = std::move(other._children);
+    _capacity  = std::move(other._capacity);
+    _level     = std::move(other._level);
 }
 
 template<traits::quadtree_point Point>

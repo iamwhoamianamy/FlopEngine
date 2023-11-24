@@ -44,6 +44,7 @@ public:
     static constexpr size_t max_depth = 15;
 
 public:
+    quadtree() = default;
     quadtree(const quadtree& other);
     quadtree(quadtree&& other);
 
@@ -90,11 +91,11 @@ private:
         size_t capacity,
         size_t level);
 
-    rectangle _rectangle;
+    rectangle _rectangle{};
     std::vector<Point*> _points;
     std::vector<std::unique_ptr<node_t>> _children;
-    size_t _capacity;
-    size_t _level;
+    size_t _capacity{};
+    size_t _level{};
 
 public:
     struct const_iterator

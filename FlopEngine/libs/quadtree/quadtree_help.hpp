@@ -4,16 +4,16 @@
 
 static draw::color quadtree_color = draw::color::yellow();
 
-void draw_quadtree(const quadtree<vector2>& octree)
+template <traits::quadtree_point Point>
+inline void draw_quadtree(const quadtree<Point>& qtree)
 {
-    draw::set_color(quadtree_color);
-    draw::draw_rect(octree.box().center,
-        octree.box().half_dimensions.x,
-        octree.box().half_dimensions.y);
+    draw::draw_rect(qtree.box().center,
+        qtree.box().half_dimensions.x,
+        qtree.box().half_dimensions.y);
 
-    if (octree.subdivided())
+    if (qtree.subdivided())
     {
-        for (const auto& child : octree.children())
+        for (const auto& child : qtree.children())
         {
             draw_quadtree(*child);
         }
