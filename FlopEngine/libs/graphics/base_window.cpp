@@ -6,7 +6,7 @@
 
 #include "utils/singleton.hpp"
 #include "libs/gui/master.hpp"
-
+#include "libs/logger/logger.hpp"
 #include "libs/graphics/drawing.hpp"
 
 using namespace flp;
@@ -14,6 +14,7 @@ using namespace flp;
 base_window::base_window(window_settings&& settings)
     : _screen_w{settings.screen_width}
     , _screen_h{settings.screen_height}
+    , _drawing_interval{static_cast<int>(1'000'000 / settings.fps)}
 {
     glutInit(&settings.argc, settings.argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_MULTISAMPLE | GLUT_DOUBLE | GLUT_ALPHA);
@@ -37,18 +38,23 @@ void base_window::base_on_timer(int millisec)
 {
     glutPostRedisplay();
 
-    auto left_in_loop{
-        _last_ellapsed < _drawing_interval
-        ? _drawing_interval - _last_ellapsed
-        : std::chrono::microseconds{0}};
+    auto left_in_loop = std::chrono::duration_cast<std::chrono::milliseconds>(
+        _spent_on_iteration < _drawing_interval
+        ? _drawing_interval - _spent_on_iteration
+        : std::chrono::microseconds{0});
 
-    // std::cout << _last_ellapsed.count() << "\n";
+    _last_ellapsed = std::max(_drawing_interval, _spent_on_iteration);
 
-    auto left_in_loop_fixed{
-        std::chrono::duration_cast<std::chrono::milliseconds>(left_in_loop)};
+    _fps_smother.push(_last_ellapsed.count() / 1e6f);
+
+    logger::log_trace(
+        "spent_on_iteration: {}, left in loop: {}, last ellapsed: {}, ",
+        _spent_on_iteration
+        , left_in_loop,
+        _last_ellapsed);
 
     glutTimerFunc(
-        static_cast<unsigned int>(left_in_loop_fixed.count()),
+        static_cast<unsigned int>(left_in_loop.count()),
         glutOnTimer, 0);
 }
 
@@ -130,11 +136,14 @@ auto flp::base_window::get_smooth_fps() const -> float
 
 void base_window::base_display()
 {
-    auto start{std::chrono::steady_clock::now()};
+    auto start = std::chrono::steady_clock::now();
 
     physics_loop();
     display();
     utils::singleton<gui::master>::get().draw();
+
+    _spent_on_iteration = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - start);
 
     if (_debug_mode)
     {
@@ -146,11 +155,6 @@ void base_window::base_display()
     }
 
     glutSwapBuffers();
-
-    _last_ellapsed = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - start);
-
-    _fps_smother.push(_last_ellapsed.count() / 1e6f);
 }
 
 void base_window::physics_loop()

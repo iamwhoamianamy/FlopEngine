@@ -5,7 +5,7 @@
 namespace utils
 {
 
-template<typename T, size_t Capacity>
+template<typename T, size_t Capacity = 1>
 struct fixed_size_queue
 {
 public:

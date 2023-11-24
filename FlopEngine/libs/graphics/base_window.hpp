@@ -20,19 +20,23 @@ struct window_settings
     float screen_height = 400;
 
     std::string name = "New Window";
+    float fps = 120.0f;
+    bool fixed_timestep = false;
 };
 
 class base_window
 {
 protected:
-    std::chrono::microseconds _drawing_interval{1'000'000 / 120};
-    std::chrono::microseconds _last_ellapsed{0};
+    const std::chrono::microseconds _drawing_interval;
+
+    std::chrono::microseconds _spent_on_iteration{};
+    std::chrono::microseconds _last_ellapsed{};
 
     float _screen_w;
     float _screen_h;
     vector2 _mouse_pos;
 
-    utils::fixed_size_queue<float, 10> _fps_smother;
+    utils::fixed_size_queue<float> _fps_smother;
 
     bool _debug_mode = false;
 
