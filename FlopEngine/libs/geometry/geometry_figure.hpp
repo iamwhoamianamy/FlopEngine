@@ -3,8 +3,12 @@
 #include <numeric>
 #include <array>
 
-#include "libs/geometry/vector2.hpp"
+#include "vector2.hpp"
+
 #include "libs/meta/concepts.hpp"
+
+namespace flp::geometry
+{
 
 template<typename V>
 concept geo_figure_vertex = std::is_same_v<V, vector2> || std::is_same_v<V, vector2*>;
@@ -91,7 +95,7 @@ template<geo_figure_vertex OtherV, size_t OtherVertexCount>
 inline bool geometry_figure<V, VertexCount>::equal(
     const geometry_figure<OtherV, OtherVertexCount>& other) const
 {
-    return 
+    return
         VertexCount == OtherVertexCount &&
         std::all_of(_vertices.begin(), _vertices.end(),
             [&other](const auto& vertex)
@@ -127,3 +131,5 @@ inline const vector2& geometry_figure<V, VertexCount>::get_ref(size_t i) const
 {
     return get_t::convert(_vertices[i % VertexCount]);
 }
+
+} // namespace flp::geometry

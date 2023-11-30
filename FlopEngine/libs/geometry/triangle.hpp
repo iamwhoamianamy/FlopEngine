@@ -1,9 +1,13 @@
 #pragma once
 
+#include "geometry_figure.hpp"
+#include "edge.hpp"
+
 #include "libs/geometry/vector2.hpp"
 #include "libs/math/math.hpp"
-#include "geometry_figure.hpp"
-#include "libs/geometry/edge.hpp"
+
+namespace flp::geometry
+{
 
 template <geo_figure_vertex V>
 struct triangle_base;
@@ -89,7 +93,7 @@ inline float triangle_base<V>::c_side() const
 inline auto calc_determinant(const std::array<float, 9>& m)
 {
     return
-        (m[0] * m[4] * m[8] + m[1] * m[5] * m[6] + m[2] * m[3] * m[7]) - 
+        (m[0] * m[4] * m[8] + m[1] * m[5] * m[6] + m[2] * m[3] * m[7]) -
         (m[2] * m[4] * m[6] + m[0] * m[7] * m[5] + m[8] * m[1] * m[3]);
 }
 
@@ -104,21 +108,21 @@ inline std::pair<vector2, float> triangle_base<V>::get_circumcircle() const
 
     auto sx{calc_determinant({
         a_norm, a().y, 1,
-        b_norm, b().y, 1, 
+        b_norm, b().y, 1,
         c_norm, c().y, 1
-    }) / 2};
+        }) / 2};
 
     auto sy{calc_determinant({
         a().x, a_norm, 1,
         b().x, b_norm, 1,
         c().x, c_norm, 1
-    }) / 2};
+        }) / 2};
 
     auto a_det{calc_determinant({
         a().x, a().y, 1,
         b().x, b().y, 1,
         c().x, c().y, 1
-    })};
+        })};
 
     center.x = sx / a_det;
     center.y = sy / a_det;
@@ -164,3 +168,5 @@ inline bool operator==(const triangle& t1, const triangle& t2)
 {
     return t1.equal(t2);
 }
+
+} // namespace flp::geometry

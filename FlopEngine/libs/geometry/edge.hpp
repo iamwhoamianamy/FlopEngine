@@ -2,9 +2,13 @@
 
 #include <array>
 
+#include "geometry_figure.hpp"
+
 #include "libs/geometry/vector2.hpp"
 #include "libs/math/math.hpp"
-#include "geometry_figure.hpp"
+
+namespace flp::geometry
+{
 
 template <geo_figure_vertex V>
 struct edge_base;
@@ -63,3 +67,5 @@ inline bool operator==(const edge& e1, const edge& e2)
 {
     return e1.equal(e2);
 }
+
+} // namespace flp::geometry

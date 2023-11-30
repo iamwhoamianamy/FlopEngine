@@ -11,7 +11,7 @@ inline bool close_enough(float a, float b) noexcept;
 
 } // namespace math
 
-namespace flp
+namespace flp::geometry
 {
 
 struct vector2;
@@ -322,9 +322,9 @@ constexpr bool operator<(const vector2& v1, const vector2& v2) noexcept
     return v1.x < v2.x;
 }
 
-} // namespace flp
+} // namespace flp::geometry
 
-using vector2 = flp::vector2;
+using vector2 = flp::geometry::vector2;
 
 template <>
 struct std::hash<vector2>
