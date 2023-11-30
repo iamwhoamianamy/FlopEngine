@@ -7,7 +7,7 @@
 #include <functional>
 
 #include "libs/geometry/vector2.hpp"
-#include "utils/concepts.hpp"
+#include "libs/meta/concepts.hpp"
 #include "libs/math/math.hpp"
 #include "utils/agent.hpp"
 
@@ -70,3 +70,36 @@ inline void boid_t::wander(float strength, flp::duration auto ellapsed)
 
     velocity = vector2::lerp(velocity, direction, strength);
 }
+
+template<>
+struct flp::traits::physics_object<boid_t>
+{
+    constexpr static vector2& position(boid_t& obj)
+    {
+        return obj.position;
+    }
+
+    constexpr static vector2& velocity(boid_t& obj)
+    {
+        return obj.velocity;
+    }
+
+    constexpr static vector2& acceleration(boid_t& obj)
+    {
+        return obj.acceleration;
+    }
+};
+
+template <>
+struct flp::traits::converter<boid_t, vector2>
+{
+    static vector2& convert(boid_t& a)
+    {
+        return a.position;
+    }
+
+    static vector2& convert(boid_t* a)
+    {
+        return a->position;
+    }
+};

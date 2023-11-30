@@ -2,7 +2,7 @@
 
 #include "libs/geometry/vector2.hpp"
 #include "libs/grid/grid.hpp"
-#include "utils/concepts.hpp"
+#include "libs/meta/concepts.hpp"
 #include "utils/utils.hpp"
 
 struct euler_fluid_simulator

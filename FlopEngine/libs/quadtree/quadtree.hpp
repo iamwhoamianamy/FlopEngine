@@ -7,33 +7,17 @@
 
 #include "libs/geometry/rectangle.hpp"
 #include "utils/ranges.h"
+#include "libs/meta/concepts.hpp"
 
-namespace traits
+namespace flp::concepts
 {
 
-template<class Point>
-struct access
-{
-};
+template<typename Point>
+concept quadtree_point = flp::concepts::trait_convertible_to<Point*, vector2>;
 
-template<>
-struct access<vector2>
-{
-    static auto position(vector2* vec)
-    {
-        return *vec;
-    }
-};
+} // namespace concepts
 
-template<typename T>
-concept quadtree_point = requires(T* p)
-{
-    { access<T>::position(p) } -> std::convertible_to<vector2>;
-};
-
-}
-
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 class quadtree
 {
 public:

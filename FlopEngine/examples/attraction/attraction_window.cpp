@@ -6,15 +6,7 @@
 #include "GL/freeglut.h"
 
 #include "libs/graphics/drawing.hpp"
-
-template<>
-struct traits::access<utils::agent>
-{
-    static auto position(utils::agent* agent)
-    {
-        return agent->position;
-    }
-};
+#include "libs/quadtree/quadtree_help.hpp"
 
 attraction_window::attraction_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
@@ -24,10 +16,11 @@ attraction_window::attraction_window(flp::window_settings&& settings)
 
 void attraction_window::physics_loop()
 {
+    _edges.clear();
     _agent_center = calc_agent_center();
 
-    quadtree<utils::agent> qtree{_agent_center, 32};
-    qtree.insert(_agents);
+    _qtree = decltype(_qtree){_agent_center, 32};
+    _qtree.insert(_agents);
 
     const float radius = 200.0f;
     
@@ -35,9 +28,10 @@ void attraction_window::physics_loop()
     {
         auto range = rectangle{agent.position, radius};
 
-        for (auto& neighbour : qtree.quarry_as_range(range))
+        for (auto& neighbour : _qtree.quarry_as_range(range))
         {
             attract(agent, neighbour);
+            _edges.emplace_back(agent.position, neighbour.position);
         }
     }
 
@@ -51,11 +45,18 @@ void attraction_window::display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    draw::set_color(draw::color::white());
-    draw::draw_point(_agent_center.center, 10);
+    /*draw::set_line_width(1.0f);
+    draw::set_color(draw::color{0.4f, 0.2f, 0.1f, 0.01f});
+    for (const auto& [a, b] : _edges)
+    {
+        draw::draw_line(a, b);
+    }*/
+
+    draw::set_line_width(0.1f);
+    draw::set_color(draw::color{0.4f, 0.4f, 0.0f, 0.1f});
+    draw_quadtree(_qtree);
 
     draw::set_color(draw::color::orange());
-
     for (const auto agent : _agents)
     {
         draw::draw_point(agent.position, 1.0f);
@@ -74,7 +75,7 @@ void attraction_window::attract(utils::agent& a, utils::agent& b)
     if (a.position == b.position)
         return;
 
-    const float scale = 1000.0f;
+    const float scale = 4000.0f;
 
     auto direction = b.position - a.position;
     auto distance = direction.length();

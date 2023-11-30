@@ -2,7 +2,9 @@
 
 #include <numeric>
 #include <array>
+
 #include "libs/geometry/vector2.hpp"
+#include "libs/meta/concepts.hpp"
 
 template<typename V>
 concept geo_figure_vertex = std::is_same_v<V, vector2> || std::is_same_v<V, vector2*>;
@@ -12,7 +14,7 @@ struct geometry_figure
 {
 protected:
     using container_t = std::array<V, VertexCount>;
-    using get_t = vector2_traits<V>;
+    using get_t = flp::traits::converter<V, vector2>;
 
     container_t _vertices;
 
@@ -76,8 +78,8 @@ inline float geometry_figure<V, VertexCount>::perimeter() const
         for (size_t i{0}; i < VertexCount; i++)
         {
             result += vector2::distance(
-                get_t::get(_vertices[i]),
-                get_t::get(_vertices[(i + 1) % VertexCount]));
+                get_t::convert(_vertices[i]),
+                get_t::convert(_vertices[(i + 1) % VertexCount]));
         }
 
         return result;
@@ -94,7 +96,7 @@ inline bool geometry_figure<V, VertexCount>::equal(
         std::all_of(_vertices.begin(), _vertices.end(),
             [&other](const auto& vertex)
             {
-                return other.has_vertex(get_t::get(vertex));
+                return other.has_vertex(get_t::convert(vertex));
             });
 }
 
@@ -104,7 +106,7 @@ inline bool geometry_figure<V, VertexCount>::has_vertex(const vector2& v) const
     return std::any_of(_vertices.begin(), _vertices.end(),
         [&v](const auto& vertex)
         {
-            return v == get_t::get(vertex);
+            return v == get_t::convert(vertex);
         });
 }
 
@@ -116,12 +118,12 @@ inline bool geometry_figure<V, VertexCount>::has_similar_vertex(
     return std::any_of(_vertices.begin(), _vertices.end(),
         [&other](const auto& vertex)
         {
-            return other.has_vertex(get_t::get(vertex));
+            return other.has_vertex(get_t::convert(vertex));
         });
 }
 
 template<geo_figure_vertex V, size_t VertexCount>
 inline const vector2& geometry_figure<V, VertexCount>::get_ref(size_t i) const
 {
-    return get_t::get(_vertices[i % VertexCount]);
+    return get_t::convert(_vertices[i % VertexCount]);
 }

@@ -17,7 +17,7 @@ class delaunay_triangulator
 {
 public:
     using edge_t          = edge;
-    using edges_t = std::unordered_map<edge_t, size_t>;
+    using edges_t         = std::unordered_map<edge_t, size_t>;
     using triangulation_t = std::unordered_set<edge_t>;
     using triangles_t     = std::unordered_set<triangle>;
 
@@ -39,8 +39,8 @@ auto delaunay_triangulator::triangulate(const std::ranges::range auto& points) -
         std::inserter(points_arranged, points_arranged.begin()),
         [](const auto& point)
         {
-            using point_t = std::remove_const_t<std::remove_reference_t<decltype(point)>>;
-            return vector2_traits<point_t>{}(point);
+            using point_t = std::decay_t<decltype(point)>;
+            return flp::traits::converter<point_t, vector2>::convert(point);
         });
 
     for (const auto& point : points_arranged)

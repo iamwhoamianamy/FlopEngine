@@ -5,30 +5,30 @@
 namespace flp
 {
 
+namespace traits
+{
+
+template<typename T>
+struct physics_object
+{
+    constexpr static vector2& position(T& obj);
+    constexpr static vector2& velocity(T& obj);
+    constexpr static vector2& acceleration(T& obj);
+};
+
+} // namespace traits
+
 namespace concepts
 {
 
 template<typename T>
-concept physics_object = requires(T t)
+concept physics_object = requires(T&& t)
 {
-    { t.position     } -> std::convertible_to<vector2>;
-    { t.velocity     } -> std::convertible_to<vector2>;
-    { t.acceleration } -> std::convertible_to<vector2>;
+    { traits::physics_object<T>::position(t)     } -> std::convertible_to<vector2>;
+    { traits::physics_object<T>::velocity(t)     } -> std::convertible_to<vector2>;
+    { traits::physics_object<T>::acceleration(t) } -> std::convertible_to<vector2>;
 };
 
 } // namespace concepts
-
-namespace traits
-{
-
-template<flp::concepts::physics_object Obj>
-struct physics_object_traits
-{
-    static const vector2 position    (const Obj& obj) { return obj.position;     }
-    static const vector2 velocity    (const Obj& obj) { return obj.velocity;     }
-    static const vector2 acceleration(const Obj& obj) { return obj.acceleration; }
-};
-
-} // namespace traits
 
 } // namespace flp

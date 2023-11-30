@@ -5,7 +5,7 @@
 #include "boid.hpp"
 #include "libs/graphics/drawing.hpp"
 #include "libs/quadtree/quadtree.hpp"
-#include "utils/concepts.hpp"
+#include "libs/meta/concepts.hpp"
 
 enum class flock_draw_type
 {
@@ -41,19 +41,14 @@ struct boid_parameters
     static boid_parameters create_from_file(const std::string& filename);
 };
 
-namespace traits
-{
-
 template <>
-struct access<boid_t>
+struct flp::traits::converter<boid_t*, vector2>
 {
-    static vector2 position(boid_t* boid)
+    static vector2& convert(boid_t* boid)
     {
         return boid->position;
     }
 };
-
-}
 
 using quadtree_t = quadtree<boid_t>;
 

@@ -41,13 +41,13 @@ inline edge_base<V>::edge_base(const V& a, const V& b)
 template<geo_figure_vertex V>
 inline const vector2& edge_base<V>::a() const
 {
-    return base_t::get_t::get(base_t::_vertices[0]);
+    return base_t::get_t::convert(base_t::_vertices[0]);
 }
 
 template<geo_figure_vertex V>
 inline const vector2& edge_base<V>::b() const
 {
-    return base_t::get_t::get(base_t::_vertices[1]);
+    return base_t::get_t::convert(base_t::_vertices[1]);
 }
 
 template<geo_figure_vertex V>

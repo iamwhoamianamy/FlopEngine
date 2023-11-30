@@ -15,6 +15,7 @@ base_window::base_window(window_settings&& settings)
     : _screen_w{settings.screen_width}
     , _screen_h{settings.screen_height}
     , _drawing_interval{static_cast<int>(1'000'000 / settings.fps)}
+    , _fixed_timestamp{settings.fixed_timestep}
 {
     glutInit(&settings.argc, settings.argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_MULTISAMPLE | GLUT_DOUBLE | GLUT_ALPHA);
@@ -43,15 +44,22 @@ void base_window::base_on_timer(int millisec)
         ? _drawing_interval - _spent_on_iteration
         : std::chrono::microseconds{0});
 
-    _last_ellapsed = std::max(_drawing_interval, _spent_on_iteration);
+    if (_fixed_timestamp)
+    {
+        _last_ellapsed = _drawing_interval;
+    }
+    else
+    {
+        _last_ellapsed = std::max(_drawing_interval, _spent_on_iteration);
+    }
 
     _fps_smother.push(_last_ellapsed.count() / 1e6f);
 
-    logger::log_trace(
-        "spent_on_iteration: {}, left in loop: {}, last ellapsed: {}, ",
-        _spent_on_iteration
-        , left_in_loop,
-        _last_ellapsed);
+    //logger::log_trace(
+    //    "spent_on_iteration: {}, left in loop: {}, last ellapsed: {}, ",
+    //    _spent_on_iteration
+    //    , left_in_loop,
+    //    _last_ellapsed);
 
     glutTimerFunc(
         static_cast<unsigned int>(left_in_loop.count()),

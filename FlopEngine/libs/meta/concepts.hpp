@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "trait_convertible_to.hpp"
+
 namespace flp
 {
 
@@ -20,4 +22,4 @@ concept duration = requires(T t)
     { t.count() } -> std::integral;
 };
 
-}
+} // flp

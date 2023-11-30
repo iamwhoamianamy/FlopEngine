@@ -52,19 +52,19 @@ inline triangle_base<V>::triangle_base(const V& a, const V& b, const V& c)
 template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::a() const
 {
-    return base_t::get_t::get(base_t::_vertices[0]);
+    return base_t::get_t::convert(base_t::_vertices[0]);
 }
 
 template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::b() const
 {
-    return base_t::get_t::get(base_t::_vertices[1]);
+    return base_t::get_t::convert(base_t::_vertices[1]);
 }
 
 template<geo_figure_vertex V>
 inline const vector2& triangle_base<V>::c() const
 {
-    return base_t::get_t::get(base_t::_vertices[2]);
+    return base_t::get_t::convert(base_t::_vertices[2]);
 }
 
 template<geo_figure_vertex V>

@@ -37,13 +37,7 @@ boid_parameters boid_parameters::create_from_file(const std::string& filename)
 
 void flock::init_random_on_screen(rectangle screen, size_t boids_count)
 {
-    auto agents{utils::agent::generate_random(screen, boids_count, _boid_params.max_speed)};
-
-    std::transform(agents.begin(), agents.end(), std::back_inserter(_boids), 
-        [](const utils::agent& agent)
-        {
-            return boid_t{agent.position, agent.velocity, agent.acceleration};
-        });
+    _boids = utils::agent::generate_random<boid_t>(screen, boids_count, _boid_params.max_speed);
 }
 
 void flock::go_through_window_borders(const rectangle& screen_borders)

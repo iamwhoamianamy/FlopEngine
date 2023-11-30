@@ -4,7 +4,7 @@
 
 static draw::color quadtree_color = draw::color::yellow();
 
-template <traits::quadtree_point Point>
+template <flp::concepts::quadtree_point Point>
 inline void draw_quadtree(const quadtree<Point>& qtree)
 {
     draw::draw_rect(qtree.box().center,

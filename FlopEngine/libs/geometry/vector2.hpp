@@ -3,38 +3,21 @@
 #include <ostream>
 #include <iomanip>
 
-class vector2;
-
-template <typename V>
-struct vector2_traits;
-
-template <typename V>
-concept vector2_convertible = requires(V v)
+// questionable
+namespace math
 {
-    { vector2_traits<V>::get(v) } -> std::convertible_to<vector2>;
-};
 
-template <>
-struct vector2_traits<vector2>
-{
-    static const vector2& get(const vector2& v)
-    {
-        return v;
-    }
-};
+inline bool close_enough(float a, float b) noexcept;
 
-template <>
-struct vector2_traits<vector2*>
-{
-    static const vector2& get(const vector2* v)
-    {
-        return *v;
-    }
-};
+} // namespace math
 
-class vector2
+namespace flp
 {
-public:
+
+struct vector2;
+
+struct vector2
+{
     float x;
     float y;
 
@@ -329,6 +312,20 @@ constexpr vector2 vector2::lerp(const vector2& a, const vector2& b, float factor
     return a + (b - a) * factor;
 }
 
+inline bool operator==(const vector2& v1, const vector2& v2) noexcept
+{
+    return math::close_enough(v1.x, v2.x) && math::close_enough(v1.y, v2.y);
+}
+
+constexpr bool operator<(const vector2& v1, const vector2& v2) noexcept
+{
+    return v1.x < v2.x;
+}
+
+} // namespace flp
+
+using vector2 = flp::vector2;
+
 template <>
 struct std::hash<vector2>
 {
@@ -347,29 +344,11 @@ struct std::hash<std::pair<vector2, vector2>>
     }
 };
 
-// questionable
-namespace math
-{
-
-bool close_enough(float a, float b);
-
-}
-
-inline bool operator==(const vector2& v1, const vector2& v2)
-{
-    return math::close_enough(v1.x, v2.x) && math::close_enough(v1.y, v2.y);
-}
-
 inline bool operator==(
     const std::pair<vector2, vector2>& p1,
-    const std::pair<vector2, vector2>& p2)
+    const std::pair<vector2, vector2>& p2) noexcept
 {
-    return 
-        p1.first == p2.first && p1.second == p2.second || 
+    return
+        p1.first == p2.first && p1.second == p2.second ||
         p1.first == p2.second && p1.second == p2.first;
-}
-
-inline bool operator<(const vector2& v1, const vector2& v2)
-{
-    return v1.x < v2.x;
 }

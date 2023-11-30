@@ -55,7 +55,7 @@ constexpr float rad_to_deg(float rad) noexcept
     return rad * 180.0f / PI;
 }
 
-inline bool close_enough(float a, float b)
+inline bool close_enough(float a, float b) noexcept
 {
     return std::abs(a - b) < FLOAT_CLOSE_ENOUGH_THRESHOLD;
 }
