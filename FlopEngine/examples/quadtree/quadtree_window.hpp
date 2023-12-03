@@ -10,13 +10,16 @@
 #include "libs/graphics/base_window.hpp"
 #include "utils/fixed_size_queue.hpp"
 
+namespace flp
+{
+
 class quadtree_window : public flp::base_window
 {
 private:
     std::vector<vector2> _points;
     bool _range_based_query = false;
     bool _commit_qtree = false;
-    rectangle _mouse_rectangle;
+    geo::rectangle _mouse_rectangle;
     utils::fixed_size_queue<float, 10> _fps_smother;
 
 public:
@@ -29,3 +32,5 @@ public:
     void exiting_function();
 private:
 };
+
+} // namespace flp

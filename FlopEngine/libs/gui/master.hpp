@@ -3,12 +3,13 @@
 #include <unordered_set>
 #include <string>
 
+#include "defines.hpp"
+#include "layout.hpp"
+
 #include "libs/geometry/vector2.hpp"
 #include "libs/geometry/rectangle.hpp"
-#include "libs/gui/defines.hpp"
-#include "libs/gui/layout.hpp"
 
-namespace gui
+namespace flp::gui
 {
 
 struct master final
@@ -22,7 +23,7 @@ public:
 public:
     void set_layout(layout* layout);
 
-    void resize(const rectangle& screen_rectangle);
+    void resize(const frame_t& screen_frame);
     void hover(const vector2& mouse_position);
     void register_mouse_click_status_change(const vector2& mouse_position);
     void draw();

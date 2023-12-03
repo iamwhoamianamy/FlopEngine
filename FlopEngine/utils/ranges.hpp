@@ -2,7 +2,7 @@
 
 #include <iterator>
 
-namespace utils
+namespace flp::utils
 {
 
 template <typename Begin, typename End = Begin>
@@ -92,13 +92,13 @@ inline void iterator_range<Begin, End>::copy_fields(const iterator_range& other)
     _begin = other._begin;
     _end = other._end;
 }
+
 template<typename Begin, typename End>
 inline void iterator_range<Begin, End>::move_fields(iterator_range&& other)
 {
     _begin = std::move(other._begin);
     _end = std::move(other._end);
 }
-;
 
 inline auto make_iterator_range(auto begin, auto end)
 {
@@ -129,4 +129,4 @@ inline auto end(const iterator_range<Begin, End>& range) noexcept
     return range.end();
 }
 
-} // namespace utils
+} // namespace flp::utils

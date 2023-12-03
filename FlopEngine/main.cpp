@@ -3,6 +3,8 @@
 #include "libs/graphics/flop_engine.hpp"
 #include "examples/examples.hpp"
 
+using namespace flp;
+
 int main(int argc, char** argv)
 {
     //flp::window = new quadtree_window({argc, argv, 800, 800, "Octree"});

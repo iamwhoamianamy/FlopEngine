@@ -4,15 +4,16 @@
 #include <filesystem>
 
 #include "blocker.hpp"
+
 #include "libs/meta/concepts.hpp"
 
-namespace utils
+namespace flp::utils
 {
 
 class file_observer
 {
 private:
-    blocker_t _blocker;
+    blocker _blocker;
 
 public:
     file_observer() = delete;
@@ -23,7 +24,7 @@ public:
 
     explicit file_observer(
         std::string_view filename,
-        flp::duration auto observe_interval,
+        concepts::duration auto observe_interval,
         std::invocable auto&& on_change,
         bool initial_on_change_call = true);
 
@@ -32,13 +33,13 @@ public:
 private:
     void perform_observing_loop(
         std::string_view filename,
-        flp::duration auto observe_interval,
+        concepts::duration auto observe_interval,
         std::invocable auto&& on_change);
 };
 
 file_observer::file_observer(
     std::string_view filename,
-    flp::duration auto observe_interval,
+    concepts::duration auto observe_interval,
     std::invocable auto&& on_change,
     bool initial_on_change_call)
 {
@@ -63,7 +64,7 @@ inline void file_observer::wait_for_unblocking()
 
 inline void file_observer::perform_observing_loop(
     std::string_view filename,
-    flp::duration auto observe_interval,
+    concepts::duration auto observe_interval,
     std::invocable auto&& on_change)
 {
     auto last_modified_time = std::filesystem::last_write_time(filename);
@@ -88,4 +89,4 @@ inline void file_observer::perform_observing_loop(
     std::this_thread::sleep_for(observe_interval);
 }
 
-}
+} // namespace flp::utils

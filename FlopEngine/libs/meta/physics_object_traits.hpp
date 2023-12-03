@@ -2,10 +2,7 @@
 
 #include "libs/geometry/vector2.hpp"
 
-namespace flp
-{
-
-namespace traits
+namespace flp::traits
 {
 
 template<typename T>
@@ -16,9 +13,9 @@ struct physics_object
     constexpr static vector2& acceleration(T& obj);
 };
 
-} // namespace traits
+} // namespace flp::traits
 
-namespace concepts
+namespace flp::concepts
 {
 
 template<typename T>
@@ -29,6 +26,4 @@ concept physics_object = requires(T&& t)
     { traits::physics_object<T>::acceleration(t) } -> std::convertible_to<vector2>;
 };
 
-} // namespace concepts
-
-} // namespace flp
+} // namespace flp::concepts

@@ -2,10 +2,10 @@
 
 #include <mutex>
 
-namespace utils
+namespace flp::utils
 {
 
-class blocker_t
+class blocker
 {
 private:
     std::mutex _mutex;
@@ -13,24 +13,24 @@ private:
     std::unique_lock<std::mutex> _lock;
 
 public:
-    blocker_t(const blocker_t&) = delete;
-    blocker_t(blocker_t&&) = delete;
-    blocker_t& operator=(const blocker_t&) = delete;
-    blocker_t& operator=(blocker_t&&) = delete;
+    blocker(const blocker&) = delete;
+    blocker(blocker&&) = delete;
+    blocker& operator=(const blocker&) = delete;
+    blocker& operator=(blocker&&) = delete;
 
-    blocker_t();
+    blocker();
 
     void block(std::invocable auto&& blocking_func);
 
     void wait_for_unblocking();
 };
 
-inline blocker_t::blocker_t()
+inline blocker::blocker()
 {
     _lock = std::unique_lock{_mutex, std::defer_lock};
 }
 
-inline void blocker_t::block(std::invocable auto&& blocking_func)
+inline void blocker::block(std::invocable auto&& blocking_func)
 {
     if (_lock.try_lock())
     {
@@ -51,7 +51,7 @@ inline void blocker_t::block(std::invocable auto&& blocking_func)
     }
 }
 
-inline void  blocker_t::wait_for_unblocking()
+inline void  blocker::wait_for_unblocking()
 {
     if (_lock.try_lock())
     {
@@ -64,4 +64,4 @@ inline void  blocker_t::wait_for_unblocking()
     }
 }
 
-}
+} // namespace flp::utils

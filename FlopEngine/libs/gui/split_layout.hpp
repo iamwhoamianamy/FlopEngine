@@ -3,10 +3,10 @@
 #include <unordered_set>
 #include <optional>
 
-#include "libs/gui/layout.hpp"
-#include "utils/ranges.h"
+#include "layout.hpp"
+#include "utils/ranges.hpp"
 
-namespace gui
+namespace flp::gui
 {
 
 struct split_layout : public layout

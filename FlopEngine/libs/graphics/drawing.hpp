@@ -9,18 +9,18 @@
 #include "libs/graphics/color.hpp"
 #include "libs/grid/grid.hpp"
 
-namespace draw
+namespace flp::draw
 {
 
 void draw_line(const vector2& a, const vector2& b);
 void draw_point(const vector2& point, float size);
-void draw_rect(const rectangle& rect);
+void draw_rect(const geo::rectangle& rect);
 void draw_rect(const vector2& center, float half_width, float half_height);
 void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d);
 void draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled = false);
 void draw_circle(const vector2& center, float radius);
 
-void draw_filled_rect(const rectangle& rect);
+void draw_filled_rect(const geo::rectangle& rect);
 
 void draw_line_gradient(
     const vector2& a, const vector2& b,
@@ -41,9 +41,7 @@ void set_point_size(float size);
 void set_line_stripple(float length);
 void disable_line_stripple();
 
-} // namespace draw
-
-inline void draw::draw_line(const vector2& a, const vector2& b)
+inline void draw_line(const vector2& a, const vector2& b)
 {
     glBegin(GL_LINES);
     {
@@ -53,7 +51,7 @@ inline void draw::draw_line(const vector2& a, const vector2& b)
     glEnd();
 }
 
-inline void draw::draw_point(const vector2& point, float size)
+inline void draw_point(const vector2& point, float size)
 {
     glPointSize(size);
     glBegin(GL_POINTS);
@@ -63,12 +61,12 @@ inline void draw::draw_point(const vector2& point, float size)
     glEnd();
 }
 
-inline void draw::draw_rect(const rectangle& rect)
+inline void draw_rect(const geo::rectangle& rect)
 {
     draw_rect(rect.center, rect.half_dimensions.x, rect.half_dimensions.y);
 }
 
-inline void draw::draw_rect(const vector2& center, float half_width, float half_height)
+inline void draw_rect(const vector2& center, float half_width, float half_height)
 {
     glBegin(GL_LINE_LOOP);
     {
@@ -80,7 +78,7 @@ inline void draw::draw_rect(const vector2& center, float half_width, float half_
     glEnd();
 }
 
-inline void draw::draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d)
+inline void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d)
 {
     glBegin(GL_LINE_LOOP);
     {
@@ -92,7 +90,7 @@ inline void draw::draw_rect(const vector2& a, const vector2& b, const vector2& c
     glEnd();
 }
 
-inline void draw::draw_filled_rect(const rectangle& rect)
+inline void draw_filled_rect(const geo::rectangle& rect)
 {
     glBegin(GL_POLYGON);
     {
@@ -104,53 +102,53 @@ inline void draw::draw_filled_rect(const rectangle& rect)
     glEnd();
 }
 
-inline void draw::set_color(float r, float g, float b, float a)
+inline void set_color(float r, float g, float b, float a)
 {
     glColor4f(r, g, b, a);
 }
 
-inline void draw::set_color(const color& color)
+inline void set_color(const color& color)
 {
     glColor4f(color.r, color.g, color.b, color.a);
 }
 
-inline void draw::set_line_width(float width)
+inline void set_line_width(float width)
 {
     glLineWidth(width);
 }
 
-inline void draw::set_point_size(float size)
+inline void set_point_size(float size)
 {
     glPointSize(size);
 }
 
-inline void draw::set_line_stripple(float length)
+inline void set_line_stripple(float length)
 {
     glLineStipple(static_cast<GLint>(length), 0x00FF);
     glEnable(GL_LINE_STIPPLE);
 }
 
-inline void draw::disable_line_stripple()
+inline void disable_line_stripple()
 {
     glDisable(GL_LINE_STIPPLE);
 }
 
-inline void draw::draw_line_gradient(
+inline void draw_line_gradient(
     const vector2& a, const vector2& b, 
     const color& a_color, const color& b_color)
 {
     glBegin(GL_LINES);
     {
-        draw::set_color(a_color);
+        set_color(a_color);
         glVertex2f(a.x, a.y);
 
-        draw::set_color(b_color);
+        set_color(b_color);
         glVertex2f(b.x, b.y);
     }
     glEnd();
 }
 
-inline void draw::draw_color_grid(const grid<draw::color>& grid)
+inline void draw_color_grid(const grid<draw::color>& grid)
 {
     glDrawPixels(
         static_cast<GLsizei>(grid.width()),
@@ -160,7 +158,7 @@ inline void draw::draw_color_grid(const grid<draw::color>& grid)
         grid.data());
 }
 
-inline void draw::draw_value_grid(const grid<float>& grid)
+inline void draw_value_grid(const grid<float>& grid)
 {
     glDrawPixels(
         static_cast<GLsizei>(grid.width()),
@@ -169,3 +167,5 @@ inline void draw::draw_value_grid(const grid<float>& grid)
         GL_FLOAT,
         grid.data());
 }
+
+} // namespace flp::draw

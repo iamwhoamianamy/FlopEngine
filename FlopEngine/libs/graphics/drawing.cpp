@@ -1,6 +1,8 @@
 #include "libs/graphics/drawing.hpp"
 #include "libs/math/math.hpp"
 
+using namespace flp;
+
 draw::color::color(float r, float g, float b, float a)
     : r{r}
     , g{g}

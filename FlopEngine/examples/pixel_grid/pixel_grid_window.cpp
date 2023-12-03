@@ -2,10 +2,12 @@
 
 #include <random>
 
+#include "GL/freeglut.h"
+
 #include "libs/graphics/drawing.hpp"
 #include "utils/utils.hpp"
 
-#include "GL/freeglut.h"
+using namespace flp;
 
 pixel_grid_window::pixel_grid_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}

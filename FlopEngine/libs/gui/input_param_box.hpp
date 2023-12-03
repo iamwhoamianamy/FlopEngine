@@ -4,9 +4,9 @@
 #include <variant>
 #include <string>
 
-#include "libs/gui/object.hpp"
+#include "object.hpp"
 
-namespace gui
+namespace flp::gui
 {
 
 struct input_param_box : public object

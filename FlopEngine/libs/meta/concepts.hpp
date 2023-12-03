@@ -4,7 +4,7 @@
 
 #include "trait_convertible_to.hpp"
 
-namespace flp
+namespace flp::concepts
 {
 
 template<typename T1, typename T2>

@@ -8,6 +8,8 @@
 #include "libs/graphics/drawing.hpp"
 #include "libs/quadtree/quadtree_help.hpp"
 
+using namespace flp;
+
 attraction_window::attraction_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
@@ -26,7 +28,7 @@ void attraction_window::physics_loop()
     
     for (auto& agent : _agents)
     {
-        auto range = rectangle{agent.position, radius};
+        auto range = geo::rectangle{agent.position, radius};
 
         for (auto& neighbour : _qtree.quarry_as_range(range))
         {
@@ -86,7 +88,7 @@ void attraction_window::attract(utils::agent& a, utils::agent& b)
     b.acceleration -= direction * force;
 }
 
-auto attraction_window::calc_agent_center() -> rectangle
+auto attraction_window::calc_agent_center() -> geo::rectangle
 {
     auto [min_x, max_x] = std::ranges::minmax_element(_agents,
         [](const utils::agent& a, const utils::agent& b)
@@ -100,7 +102,7 @@ auto attraction_window::calc_agent_center() -> rectangle
             return a.position.y < b.position.y;
         });
 
-    return rectangle::make_from_two_corners(
+    return geo::rectangle::make_from_two_corners(
         vector2{min_x->position.x, min_y->position.y},
         vector2{max_x->position.x, max_y->position.y}
     );

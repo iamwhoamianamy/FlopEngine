@@ -1,8 +1,12 @@
 #pragma once
 
+#include "delaunay_triangulator.hpp"
+
 #include "utils/agent.hpp"
 #include "libs/graphics/base_window.hpp"
-#include "delaunay_triangulator.hpp"
+
+namespace flp
+{
 
 struct delaunay_window : public flp::base_window
 {
@@ -23,3 +27,5 @@ private:
     void draw_with_edge_length();
     void draw_with_edge_length_gradient();
 };
+
+} // namespace flp

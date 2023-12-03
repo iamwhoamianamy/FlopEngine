@@ -1,4 +1,5 @@
 #pragma once
+
 #include <ostream>
 #include <format>
 #include <unordered_map>
@@ -6,7 +7,7 @@
 
 #include "utils/singleton.hpp"
 
-namespace logger
+namespace flp::logger
 {
 
 namespace detail
@@ -116,4 +117,4 @@ static void log_all(std::format_string<Args...> format, Args&&... args)
     detail::log_with_level(detail::log_level::all, format, std::forward<Args>(args)...);
 }
 
-} // namespace log
+} // namespace flp::logger

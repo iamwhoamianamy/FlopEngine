@@ -6,7 +6,7 @@
 #include "libs/geometry/rectangle.hpp"
 #include "libs/meta/concepts.hpp"
 
-namespace utils
+namespace flp::utils
 {
 
 constexpr const float ellapsed_normalization_factor{2.0e6f};
@@ -35,13 +35,13 @@ auto transform(const std::vector<InitType>& vec) -> std::vector<ResType>
     return result;
 }
 
-inline auto true_ellapsed(flp::duration auto ellapsed)
+inline auto true_ellapsed(concepts::duration auto ellapsed)
 {
     auto casted{std::chrono::duration_cast<std::chrono::microseconds>(ellapsed)};
     return casted.count() / ellapsed_normalization_factor;
 }
 
-inline auto generate_random(const rectangle& range, size_t count)
+inline auto generate_random(const geo::rectangle& range, size_t count)
 {
     std::vector<vector2> result(count);
 
@@ -74,4 +74,4 @@ inline E next_enum(const E& e)
         static_cast<underlying_t>(enum_t::SIZE));
 }
 
-} // namespace utils
+} // namespace flp::utils

@@ -4,6 +4,8 @@
 #include "libs/graphics/drawing.hpp"
 #include "delaunay_triangulator.hpp"
 
+using namespace flp;
+
 const size_t delaunay_window::_agent_count{400};
 
 delaunay_window::delaunay_window(flp::window_settings&& settings)

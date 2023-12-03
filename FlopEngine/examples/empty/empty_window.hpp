@@ -2,6 +2,9 @@
 
 #include "libs/graphics/base_window.hpp"
 
+namespace flp
+{
+
 struct empty_window : public flp::base_window
 {
 private:
@@ -13,3 +16,5 @@ public:
     void display() override;
     void resize(float w, float h) override;
 };
+
+} // namespace flp

@@ -4,12 +4,13 @@
 #include <variant>
 #include <string>
 
-#include "libs/gui/object.hpp"
-#include "libs/gui/split_layout.hpp"
-#include "libs/gui/input_param_box.hpp"
+#include "object.hpp"
+#include "split_layout.hpp"
+#include "input_param_box.hpp"
+
 #include "libs/logger/logger.hpp"
 
-namespace gui
+namespace flp::gui
 {
 
 struct input_param_list : public object

@@ -1,5 +1,9 @@
 #pragma once
+
 #include "quadtree_implementation.hpp"
+
+namespace flp
+{
 
 template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::const_iterator()
@@ -23,7 +27,7 @@ inline quadtree<Point>::const_iterator::const_iterator(
 
 template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::const_iterator(
-    const quadtree& root, const rectangle& range)
+    const quadtree& root, const geo::rectangle& range)
     : _cb{std::make_shared<control_block>(root, range)}
 {
     _cb->is_end = false;
@@ -172,9 +176,11 @@ inline void quadtree<Point>::const_iterator::copy_fields(
 
 template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::control_block::control_block(
-    const quadtree& root, const rectangle& range)
+    const quadtree& root, const geo::rectangle& range)
     : node{&root}
     , range{range}
 {
 
 }
+
+} // namespace flp

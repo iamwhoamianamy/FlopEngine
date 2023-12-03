@@ -7,11 +7,14 @@
 #include "flock.hpp"
 #include "utils/utils.hpp"
 
+using namespace flp;
+
 flock::flock() :
     _drawType(flock_draw_type::triangles_filled),
     _color(255, 255, 255),
-    _quadtree(rectangle(vector2(), vector2()))
+    _quadtree(geo::rectangle(vector2(), vector2()))
 {
+
 }
 
 boid_parameters boid_parameters::create_from_file(const std::string& filename)
@@ -35,12 +38,12 @@ boid_parameters boid_parameters::create_from_file(const std::string& filename)
     };
 }
 
-void flock::init_random_on_screen(rectangle screen, size_t boids_count)
+void flock::init_random_on_screen(geo::rectangle screen, size_t boids_count)
 {
-    _boids = utils::agent::generate_random<boid_t>(screen, boids_count, _boid_params.max_speed);
+    _boids = utils::agent::generate_random<boid>(screen, boids_count, _boid_params.max_speed);
 }
 
-void flock::go_through_window_borders(const rectangle& screen_borders)
+void flock::go_through_window_borders(const geo::rectangle& screen_borders)
 {
     for (auto& boid : _boids)
     {
@@ -48,7 +51,7 @@ void flock::go_through_window_borders(const rectangle& screen_borders)
     }
 }
 
-void flock::bounce_from_window_borders(const rectangle& screen_borders)
+void flock::bounce_from_window_borders(const geo::rectangle& screen_borders)
 {
     for (auto& boid : _boids)
     {
@@ -61,7 +64,7 @@ draw::color& flock::color()
     return _color;
 }
 
-const std::vector<boid_t>& flock::boids() const
+const std::vector<boid>& flock::boids() const
 {
     return _boids;
 }
@@ -95,9 +98,9 @@ void flock::draw() const
                 vector2 perp_direction = direction.perp();
 
                 vector2 a = boid.position + direction * _boid_params.size / 2;
-                vector2 b = boid.position - direction * _boid_params.size / 2 + 
+                vector2 b = boid.position - direction * _boid_params.size / 2 +
                     perp_direction * _boid_params.size / 3;
-                vector2 c = boid.position - direction * _boid_params.size / 2 - 
+                vector2 c = boid.position - direction * _boid_params.size / 2 -
                     perp_direction * _boid_params.size / 3;
 
                 draw::draw_triangle(a, b, c, _drawType == flock_draw_type::triangles_filled);

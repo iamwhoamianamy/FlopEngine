@@ -124,9 +124,9 @@ void flp::base_window::base_special(int key, int x, int y)
     }
 }
 
-auto flp::base_window::screen_rectangle() const -> rectangle
+auto flp::base_window::screen_rectangle() const -> geo::rectangle
 {
-    return rectangle{
+    return geo::rectangle{
         vector2{_screen_w / 2, _screen_h / 2},
         vector2{_screen_w / 2, _screen_h / 2}
     };
@@ -156,7 +156,7 @@ void base_window::base_display()
     if (_debug_mode)
     {
         draw::set_color(draw::color::black());
-        draw::draw_filled_rect(rectangle{{135, 10}, 135, 10});
+        draw::draw_filled_rect(geo::rectangle{{135, 10}, 135, 10});
 
         draw::set_color(draw::color::blue());
         draw::render_string({0, 15}, 15, std::format("fps: {:.3}", get_smooth_fps()));

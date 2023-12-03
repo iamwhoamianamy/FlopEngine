@@ -2,7 +2,7 @@
 
 #include <numeric>
 
-using namespace gui;
+using namespace flp::gui;
 
 std::shared_ptr<split_layout> split_layout::create(
     orientation o,

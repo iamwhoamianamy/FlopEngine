@@ -1,9 +1,11 @@
 #include "logger.hpp"
+
 #include <iostream>
 
-using namespace logger::detail;
+using namespace flp::logger::detail;
+using namespace flp::logger;
 
-logger::detail::logger_impl::logger_impl(log_level level)
+logger_impl::logger_impl(log_level level)
     : _max_level{level}
     , _out{std::cout.rdbuf()}
 {
@@ -12,7 +14,7 @@ logger::detail::logger_impl::logger_impl(log_level level)
     init_level_to_string_map();
 }
 
-void logger::detail::logger_impl::init_color_to_symbol_map()
+void logger_impl::init_color_to_symbol_map()
 {
     _colors_to_symbols[console_color::white]  = "\x1b[0m";
     _colors_to_symbols[console_color::red]    = "\x1b[31m";
@@ -21,7 +23,7 @@ void logger::detail::logger_impl::init_color_to_symbol_map()
     _colors_to_symbols[console_color::orange] = "\x1b[33m";
 }
 
-void logger::detail::logger_impl::init_level_to_color_map()
+void logger_impl::init_level_to_color_map()
 {
     _levels_to_colors[log_level::fatal] = console_color::red;
     _levels_to_colors[log_level::error] = console_color::red;
@@ -32,7 +34,7 @@ void logger::detail::logger_impl::init_level_to_color_map()
     _levels_to_colors[log_level::all]   = console_color::white;
 }
 
-void logger::detail::logger_impl::init_level_to_string_map()
+void logger_impl::init_level_to_string_map()
 {
     _levels_to_string[log_level::fatal] = "fatal";
     _levels_to_string[log_level::error] = "error";

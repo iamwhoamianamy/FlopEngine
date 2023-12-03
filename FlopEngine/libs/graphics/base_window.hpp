@@ -42,7 +42,7 @@ protected:
     bool _fixed_timestamp;
 
 protected:
-    auto screen_rectangle() const -> rectangle;
+    auto screen_rectangle() const -> geo::rectangle;
     auto get_smooth_fps() const -> float;
 
 public:

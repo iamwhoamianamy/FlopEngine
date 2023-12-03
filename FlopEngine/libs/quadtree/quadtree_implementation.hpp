@@ -1,8 +1,11 @@
 #pragma once
 
-#include "libs/quadtree/quadtree.hpp"
+#include "quadtree.hpp"
 
 #include "utils/utils.hpp"
+
+namespace flp
+{
 
 template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::quadtree(const quadtree& other)
@@ -18,7 +21,7 @@ inline quadtree<Point>::quadtree(quadtree&& other)
 
 template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::quadtree(
-    const rectangle& boundary_rectangle,
+    const geo::rectangle& boundary_rectangle,
     size_t capacity)
     : quadtree{boundary_rectangle, capacity, 0}
 {
@@ -27,7 +30,7 @@ inline quadtree<Point>::quadtree(
 
 template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::quadtree(
-    const rectangle& boundary_rectangle,
+    const geo::rectangle& boundary_rectangle,
     size_t capacity,
     size_t level)
     : _rectangle(boundary_rectangle)
@@ -40,7 +43,7 @@ inline quadtree<Point>::quadtree(
 template<flp::concepts::quadtree_point Point>
 void quadtree<Point>::insert(std::vector<Point>& points)
 {
-    for(auto& point : points)
+    for (auto& point : points)
     {
         insert(&point);
     }
@@ -49,20 +52,20 @@ void quadtree<Point>::insert(std::vector<Point>& points)
 template<flp::concepts::quadtree_point Point>
 void quadtree<Point>::insert(Point* point)
 {
-    if(!_rectangle.contains(flp::traits::converter<Point*, vector2>::convert(point)))
+    if (!_rectangle.contains(flp::traits::converter<Point*, vector2>::convert(point)))
     {
         return;
     }
 
-    if(_points.size() < _capacity)
+    if (_points.size() < _capacity)
     {
-        if(!subdivided())
+        if (!subdivided())
         {
             _points.push_back(point);
         }
         else
         {
-            for(auto& child : _children)
+            for (auto& child : _children)
             {
                 child->insert(point);
             }
@@ -73,9 +76,9 @@ void quadtree<Point>::insert(Point* point)
         subdivide();
         _points.push_back(point);
 
-        for(auto p : _points)
+        for (auto p : _points)
         {
-            for(auto& child : _children)
+            for (auto& child : _children)
             {
                 child->insert(p);
             }
@@ -127,10 +130,10 @@ void quadtree<Point>::subdivide()
 
     auto capacity = _level == (max_depth - 1) ? std::numeric_limits<size_t>::max() : _capacity;
 
-    auto t1 = new quadtree<Point>{rectangle{{x - w / 2, y - h / 2}, children_half_dimensions}, capacity, _level + 1};
-    auto t2 = new quadtree<Point>{rectangle{{x + w / 2, y - h / 2}, children_half_dimensions}, capacity, _level + 1};
-    auto t3 = new quadtree<Point>{rectangle{{x + w / 2, y + h / 2}, children_half_dimensions}, capacity, _level + 1};
-    auto t4 = new quadtree<Point>{rectangle{{x - w / 2, y + h / 2}, children_half_dimensions}, capacity, _level + 1};
+    auto t1 = new quadtree<Point>{geo::rectangle{{x - w / 2, y - h / 2}, children_half_dimensions}, capacity, _level + 1};
+    auto t2 = new quadtree<Point>{geo::rectangle{{x + w / 2, y - h / 2}, children_half_dimensions}, capacity, _level + 1};
+    auto t3 = new quadtree<Point>{geo::rectangle{{x + w / 2, y + h / 2}, children_half_dimensions}, capacity, _level + 1};
+    auto t4 = new quadtree<Point>{geo::rectangle{{x - w / 2, y + h / 2}, children_half_dimensions}, capacity, _level + 1};
 
     _children.emplace_back(t1);
     _children.emplace_back(t2);
@@ -139,7 +142,8 @@ void quadtree<Point>::subdivide()
 }
 
 template<flp::concepts::quadtree_point Point>
-inline std::vector<Point*> quadtree<Point>::quarry(const rectangle& range) const
+inline std::vector<Point*> quadtree<Point>::quarry(
+    const geo::rectangle& range) const
 {
     std::vector<Point*> found;
     quarry(range, found);
@@ -148,7 +152,8 @@ inline std::vector<Point*> quadtree<Point>::quarry(const rectangle& range) const
 }
 
 template<flp::concepts::quadtree_point Point>
-inline auto quadtree<Point>::quarry_as_range(const rectangle& range) const
+inline auto quadtree<Point>::quarry_as_range(
+    const geo::rectangle& range) const
 {
     return utils::make_iterator_range(
         const_iterator{*this, range},
@@ -157,7 +162,8 @@ inline auto quadtree<Point>::quarry_as_range(const rectangle& range) const
 }
 
 template<flp::concepts::quadtree_point Point>
-inline void quadtree<Point>::quarry(const rectangle& range, std::vector<Point*>& found) const
+inline void quadtree<Point>::quarry(
+    const geo::rectangle& range, std::vector<Point*>& found) const
 {
     std::stack<const quadtree<Point>*> nodes_to_visit;
     nodes_to_visit.push(this);
@@ -183,20 +189,20 @@ template<flp::concepts::quadtree_point Point>
 inline void quadtree<Point>::copy_fields(const quadtree& other)
 {
     _rectangle = other._rectangle;
-    _points    = other._points;
-    _children  = other._children;
-    _capacity  = other._capacity;
-    _level     = other._level;
+    _points = other._points;
+    _children = other._children;
+    _capacity = other._capacity;
+    _level = other._level;
 }
 
 template<flp::concepts::quadtree_point Point>
 inline void quadtree<Point>::move_fields(quadtree&& other)
 {
     _rectangle = std::move(other._rectangle);
-    _points    = std::move(other._points);
-    _children  = std::move(other._children);
-    _capacity  = std::move(other._capacity);
-    _level     = std::move(other._level);
+    _points = std::move(other._points);
+    _children = std::move(other._children);
+    _capacity = std::move(other._capacity);
+    _level = std::move(other._level);
 }
 
 template<flp::concepts::quadtree_point Point>
@@ -263,4 +269,6 @@ quadtree<Point>::~quadtree()
 
 }
 
-#include "quadtree_const_iterator_impl.h"
+} // namespace flp
+
+#include "quadtree_const_iterator_impl.hpp"

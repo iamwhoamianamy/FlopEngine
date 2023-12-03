@@ -3,18 +3,20 @@
 #include "master.hpp"
 #include "object.hpp"
 
-void gui::master::set_layout(layout* layout)
+using namespace flp::gui;
+
+void master::set_layout(layout* layout)
 {
     _screen_layout = layout;
 }
 
-void gui::master::resize(const rectangle& screen_rectangle)
+void master::resize(const frame_t& screen_frame)
 {
     if (_screen_layout)
-        _screen_layout->resize(screen_rectangle);
+        _screen_layout->resize(screen_frame);
 }
 
-void gui::master::hover(const vector2& mouse_position)
+void master::hover(const vector2& mouse_position)
 {
     if (_hidden)
         return;
@@ -28,7 +30,7 @@ void gui::master::hover(const vector2& mouse_position)
     }
 }
 
-void gui::master::register_mouse_click_status_change(const vector2& mouse_position)
+void master::register_mouse_click_status_change(const vector2& mouse_position)
 {
     if (_hidden)
         return;
@@ -82,7 +84,7 @@ void gui::master::register_mouse_click_status_change(const vector2& mouse_positi
         handle_press();
 }
 
-void gui::master::draw()
+void master::draw()
 {
     if (_hidden)
         return;
@@ -93,7 +95,7 @@ void gui::master::draw()
     }
 }
 
-void gui::master::react_on_keyboard_key_press(keyboard_key_t key)
+void master::react_on_keyboard_key_press(keyboard_key_t key)
 {
     if (_hidden)
         return;
@@ -104,18 +106,18 @@ void gui::master::react_on_keyboard_key_press(keyboard_key_t key)
     }
 }
 
-void gui::master::set_hidden(bool hidden)
+void master::set_hidden(bool hidden)
 {
     _hidden = hidden;
 }
 
-auto gui::master::screen_layout() -> layout*
+auto master::screen_layout() -> layout*
 {
     if (_screen_layout)
         return _screen_layout;
 }
 
-auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> objects_t
+auto master::get_objects_under_cursor(const vector2& mouse_position) -> objects_t
 {
     objects_t result;
 
@@ -131,7 +133,7 @@ auto gui::master::get_objects_under_cursor(const vector2& mouse_position) -> obj
     return result;
 }
 
-void gui::master::add_new_object(object* object)
+void master::add_new_object(object* object)
 {
     _objects.insert(object);
 }

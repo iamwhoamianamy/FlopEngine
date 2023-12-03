@@ -169,8 +169,8 @@
     <ClInclude Include="libs\graphics\glut_functions.hpp" />
     <ClInclude Include="libs\gui\master.hpp" />
     <ClInclude Include="libs\logger\logger.hpp" />
-    <ClInclude Include="libs\marching\marching_grid.hpp" />
-    <ClInclude Include="libs\marching\marching_grid_impl.hpp" />
+    <ClInclude Include="libs\grid\marching_grid.hpp" />
+    <ClInclude Include="libs\grid\marching_grid_impl.hpp" />
     <ClInclude Include="libs\math\math.hpp" />
     <ClInclude Include="libs\geometry\rectangle.hpp" />
     <ClInclude Include="libs\meta\base_same_as.hpp" />
@@ -178,7 +178,7 @@
     <ClInclude Include="libs\meta\remove_all.hpp" />
     <ClInclude Include="libs\meta\trait_convertible_to.hpp" />
     <ClInclude Include="libs\quadtree\quadtree.hpp" />
-    <ClInclude Include="libs\quadtree\quadtree_const_iterator_impl.h" />
+    <ClInclude Include="libs\quadtree\quadtree_const_iterator_impl.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_help.hpp" />
     <ClInclude Include="libs\quadtree\quadtree_implementation.hpp" />
     <ClInclude Include="libs\gui\split_layout.hpp" />
@@ -188,8 +188,8 @@
     <ClInclude Include="utils\file_observer.hpp" />
     <ClInclude Include="utils\fixed_size_queue.hpp" />
     <ClInclude Include="libs\grid\grid.hpp" />
-    <ClInclude Include="utils\physics_object_traits.hpp" />
-    <ClInclude Include="utils\ranges.h" />
+    <ClInclude Include="libs\meta\physics_object_traits.hpp" />
+    <ClInclude Include="utils\ranges.hpp" />
     <ClInclude Include="utils\singleton.hpp" />
     <ClInclude Include="utils\utils.hpp" />
     <None Include="packages.config" />
@@ -197,7 +197,6 @@
   <ItemGroup>
     <ClCompile Include="euler_fluid_simulator.cpp" />
     <ClCompile Include="examples\attraction\attraction_window.cpp" />
-    <ClCompile Include="examples\boids\boid.cpp" />
     <ClCompile Include="examples\boids\boids_window.cpp" />
     <ClCompile Include="examples\boids\flock.cpp" />
     <ClCompile Include="examples\delaunay\delaunay_triangulator.cpp" />
@@ -217,11 +216,9 @@
     <ClCompile Include="libs\graphics\glut_functions.cpp" />
     <ClCompile Include="libs\gui\master.cpp" />
     <ClCompile Include="libs\logger\logger.cpp" />
-    <ClCompile Include="libs\math\math.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="libs\gui\split_layout.cpp" />
     <ClCompile Include="utils\agent.cpp" />
-    <ClCompile Include="utils\file_observer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,10 @@
 #include "marching_window.hpp"
-#include "libs/graphics/drawing.hpp"
+
 #include "GL/freeglut.h"
+
+#include "libs/graphics/drawing.hpp"
+
+using namespace flp;
 
 marching_window::marching_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}

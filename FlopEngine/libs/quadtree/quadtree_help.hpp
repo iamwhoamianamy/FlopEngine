@@ -2,6 +2,9 @@
 
 #include "libs/quadtree/quadtree.hpp"
 
+namespace flp
+{
+
 static draw::color quadtree_color = draw::color::yellow();
 
 template <flp::concepts::quadtree_point Point>
@@ -19,3 +22,5 @@ inline void draw_quadtree(const quadtree<Point>& qtree)
         }
     }
 }
+
+} // namespace flp

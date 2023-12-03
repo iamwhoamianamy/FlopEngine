@@ -1,6 +1,6 @@
 #include "input_param_list.hpp"
 
-using namespace gui;
+using namespace flp::gui;
 
 std::shared_ptr<input_param_list> input_param_list::create(
     std::initializer_list<init_elem_t> init_list)
@@ -17,7 +17,7 @@ void input_param_list::draw()
     _layout->draw();
 }
 
-void gui::input_param_list::resize(const frame_t& new_frame)
+void input_param_list::resize(const frame_t& new_frame)
 {
     _layout->resize(new_frame);
 }

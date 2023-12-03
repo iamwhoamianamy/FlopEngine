@@ -6,6 +6,9 @@
 #include <functional>
 #include <execution>
 
+namespace flp
+{
+
 template <typename Grid>
 struct grid_plane_iterator;
 
@@ -74,7 +77,7 @@ private:
 
 template <typename Grid, typename F>
 concept GridPlaneIterationFunc = std::invocable<
-    F, 
+    F,
     typename Grid::value_t& /* val */,
     size_t /* x */,
     size_t /* y */,
@@ -87,7 +90,7 @@ struct grid
 public:
     using value_t = T;
     using plane_iterator_t = grid_plane_iterator<grid<T>>;
-    
+
 public:
     grid(size_t widht = size_t{}, size_t height = size_t{});
 
@@ -116,10 +119,10 @@ public:
 
     decltype(auto) operator[](this auto&& self, size_t i);
 
-    auto bot  (size_t x, size_t y) -> std::optional<T*>;
-    auto left (size_t x, size_t y) -> std::optional<T*>;
+    auto bot(size_t x, size_t y) -> std::optional<T*>;
+    auto left(size_t x, size_t y) -> std::optional<T*>;
     auto right(size_t x, size_t y) -> std::optional<T*>;
-    auto top  (size_t x, size_t y) -> std::optional<T*>;
+    auto top(size_t x, size_t y) -> std::optional<T*>;
 
     void swap(grid& other);
 
@@ -140,6 +143,8 @@ private:
 
     std::vector<T> _data;
 };
+
+} // namespace flp
 
 #include "grid_impl.hpp"
 #include "grid_iterator_impl.hpp"

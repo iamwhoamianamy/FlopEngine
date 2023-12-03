@@ -4,12 +4,12 @@
 #include <iomanip>
 
 // questionable
-namespace math
+namespace flp::math
 {
 
 inline bool close_enough(float a, float b) noexcept;
 
-} // namespace math
+} // namespace flp::math
 
 namespace flp::geometry
 {
@@ -325,6 +325,8 @@ constexpr bool operator<(const vector2& v1, const vector2& v2) noexcept
 } // namespace flp::geometry
 
 using vector2 = flp::geometry::vector2;
+
+namespace flp { namespace geo = geometry; }
 
 template <>
 struct std::hash<vector2>

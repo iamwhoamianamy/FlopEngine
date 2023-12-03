@@ -1,5 +1,7 @@
 #include "euler_fluid_simulator.hpp"
 
+using namespace flp;
+
 euler_fluid_simulator::euler_fluid_simulator(size_t width, size_t height)
     : _cells{width, height}
 {

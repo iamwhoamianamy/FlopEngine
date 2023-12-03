@@ -3,7 +3,7 @@
 #include "libs/graphics/drawing.hpp"
 #include "libs/logger/logger.hpp"
 
-using namespace gui;
+using namespace flp::gui;
 
 void input_param_box::field_wrapper::updater::operator()(float* val)
 {
@@ -25,7 +25,7 @@ void input_param_box::field_wrapper::updater::operator()(std::string* val)
     *val = new_val;
 }
 
-void gui::input_param_box::field_wrapper::update(const std::string& new_val)
+void input_param_box::field_wrapper::update(const std::string& new_val)
 {
     std::visit(updater{new_val}, _data);
 }
@@ -56,7 +56,7 @@ auto input_param_box::field_wrapper::as_string() const -> std::string
 }
 
 std::shared_ptr<input_param_box> 
-gui::input_param_box::create(
+input_param_box::create(
     const std::string& label,
     field_wrapper data,
     const frame_t& frame)
@@ -66,7 +66,7 @@ gui::input_param_box::create(
     };
 }
 
-void gui::input_param_box::draw()
+void input_param_box::draw()
 {
     update_from_outer_sources();
 
@@ -145,7 +145,7 @@ auto input_param_box::data_as_string() const -> std::string
     return std::format("{}: {}", _label, _tmp_string);
 }
 
-void gui::input_param_box::update_from_outer_sources()
+void input_param_box::update_from_outer_sources()
 {
     auto true_data_as_string = _data.as_string();
 

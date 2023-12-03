@@ -5,6 +5,9 @@
 #include <utility>
 #include <type_traits>
 
+namespace flp
+{
+
 template<typename Grid>
 inline grid_plane_iterator_proxy<Grid>::grid_plane_iterator_proxy(
     grid_plane_iterator_proxy::pointer ptr,
@@ -70,34 +73,37 @@ inline auto grid_plane_iterator<Grid>::operator++(int)
     return new_iterator;
 }
 
+} // namespace flp::grid
+
 namespace std
 {
 
 template<typename Grid>
-struct tuple_size<grid_plane_iterator_proxy<Grid>> : integral_constant<size_t, 3>
+struct tuple_size<flp::grid_plane_iterator_proxy<Grid>>
+    : integral_constant<size_t, 3>
 {
 };
 
 template<typename Grid>
-struct tuple_element<0, grid_plane_iterator_proxy<Grid>>
+struct tuple_element<0, flp::grid_plane_iterator_proxy<Grid>>
 {
-    using type = grid_plane_iterator_proxy<Grid>::reference;
+    using type = flp::grid_plane_iterator_proxy<Grid>::reference;
 };
 
 template<typename Grid>
-struct tuple_element<1, grid_plane_iterator_proxy<Grid>>
+struct tuple_element<1, flp::grid_plane_iterator_proxy<Grid>>
 {
     using type = size_t;
 };
 
 template<typename Grid>
-struct tuple_element<2, grid_plane_iterator_proxy<Grid>>
+struct tuple_element<2, flp::grid_plane_iterator_proxy<Grid>>
 {
     using type = size_t;
 };
 
 template<size_t Index, typename Grid>
-decltype(auto) get(grid_plane_iterator_proxy<Grid>& iterator)
+decltype(auto) get(flp::grid_plane_iterator_proxy<Grid>& iterator)
 {
     if constexpr (Index == 0) return *iterator;
     if constexpr (Index == 1) return iterator.get_index<0>();
