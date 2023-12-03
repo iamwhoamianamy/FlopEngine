@@ -4,7 +4,11 @@
 #include <unordered_map>
 
 #include "euler_fluid_simulator.hpp"
+
 #include "libs/graphics/base_window.hpp"
+
+namespace flp
+{
 
 struct euler_fluid_window : public flp::base_window
 {
@@ -21,3 +25,5 @@ public:
 
 private:
 };
+
+} // namespace flp

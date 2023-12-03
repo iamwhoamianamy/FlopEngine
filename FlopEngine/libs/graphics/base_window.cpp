@@ -15,6 +15,7 @@ base_window::base_window(window_settings&& settings)
     : _screen_w{settings.screen_width}
     , _screen_h{settings.screen_height}
     , _drawing_interval{static_cast<int>(1'000'000 / settings.fps)}
+    , _fixed_timestamp{settings.fixed_timestep}
 {
     glutInit(&settings.argc, settings.argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_MULTISAMPLE | GLUT_DOUBLE | GLUT_ALPHA);
@@ -43,15 +44,22 @@ void base_window::base_on_timer(int millisec)
         ? _drawing_interval - _spent_on_iteration
         : std::chrono::microseconds{0});
 
-    _last_ellapsed = std::max(_drawing_interval, _spent_on_iteration);
+    if (_fixed_timestamp)
+    {
+        _last_ellapsed = _drawing_interval;
+    }
+    else
+    {
+        _last_ellapsed = std::max(_drawing_interval, _spent_on_iteration);
+    }
 
     _fps_smother.push(_last_ellapsed.count() / 1e6f);
 
-    logger::log_trace(
-        "spent_on_iteration: {}, left in loop: {}, last ellapsed: {}, ",
-        _spent_on_iteration
-        , left_in_loop,
-        _last_ellapsed);
+    //logger::log_trace(
+    //    "spent_on_iteration: {}, left in loop: {}, last ellapsed: {}, ",
+    //    _spent_on_iteration
+    //    , left_in_loop,
+    //    _last_ellapsed);
 
     glutTimerFunc(
         static_cast<unsigned int>(left_in_loop.count()),
@@ -116,9 +124,9 @@ void flp::base_window::base_special(int key, int x, int y)
     }
 }
 
-auto flp::base_window::screen_rectangle() const -> rectangle
+auto flp::base_window::screen_rectangle() const -> geo::rectangle
 {
-    return rectangle{
+    return geo::rectangle{
         vector2{_screen_w / 2, _screen_h / 2},
         vector2{_screen_w / 2, _screen_h / 2}
     };
@@ -148,7 +156,7 @@ void base_window::base_display()
     if (_debug_mode)
     {
         draw::set_color(draw::color::black());
-        draw::draw_filled_rect(rectangle{{135, 10}, 135, 10});
+        draw::draw_filled_rect(geo::rectangle{{135, 10}, 135, 10});
 
         draw::set_color(draw::color::blue());
         draw::render_string({0, 15}, 15, std::format("fps: {:.3}", get_smooth_fps()));

@@ -2,8 +2,11 @@
 
 #include "libs/geometry/vector2.hpp"
 #include "libs/grid/grid.hpp"
-#include "utils/concepts.hpp"
+#include "libs/meta/concepts.hpp"
 #include "utils/utils.hpp"
+
+namespace flp
+{
 
 struct euler_fluid_simulator
 {
@@ -22,26 +25,27 @@ public:
 
 public:
     void resize(size_t width, size_t height);
-    void update(flp::duration auto&& ellapsed);
-    auto as_saturation_grid() const -> grid<float>;
+    void update(concepts::duration auto&& ellapsed);
+    auto as_saturation_grid() const->grid<float>;
 
 private:
-    void account_initial_flow(flp::duration auto&& ellapsed);
-    void account_gravity(flp::duration auto&& ellapsed);
-    void dither(flp::duration auto&& ellapsed);
+    void account_initial_flow(concepts::duration auto&& ellapsed);
+    void account_gravity(concepts::duration auto&& ellapsed);
+    void dither(concepts::duration auto&& ellapsed);
 
 private:
     grid<cell> _cells;
 };
 
-void euler_fluid_simulator::update(flp::duration auto&& ellapsed)
+void euler_fluid_simulator::update(concepts::duration auto&& ellapsed)
 {
     account_initial_flow(ellapsed);
     account_gravity(ellapsed);
     dither(ellapsed);
 }
 
-inline void euler_fluid_simulator::account_initial_flow(flp::duration auto&& ellapsed)
+inline void euler_fluid_simulator::account_initial_flow(
+    concepts::duration auto&& ellapsed)
 {
     for (auto row_id : utils::iota(_cells.height()))
     {
@@ -49,7 +53,7 @@ inline void euler_fluid_simulator::account_initial_flow(flp::duration auto&& ell
     }
 }
 
-void euler_fluid_simulator::account_gravity(flp::duration auto&& ellapsed)
+void euler_fluid_simulator::account_gravity(concepts::duration auto&& ellapsed)
 {
     //for (auto& [val, x, y] : _cells.as_plain_range())
     //{
@@ -57,7 +61,7 @@ void euler_fluid_simulator::account_gravity(flp::duration auto&& ellapsed)
     //}
 }
 
-inline void euler_fluid_simulator::dither(flp::duration auto&& ellapsed)
+inline void euler_fluid_simulator::dither(concepts::duration auto&& ellapsed)
 {
     auto next_step = _cells;
 
@@ -118,3 +122,5 @@ inline void euler_fluid_simulator::dither(flp::duration auto&& ellapsed)
 
     _cells.swap(next_step);
 }
+
+} // namespace flp

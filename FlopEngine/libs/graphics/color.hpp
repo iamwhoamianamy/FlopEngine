@@ -2,7 +2,7 @@
 
 #include <array>
 
-namespace draw
+namespace flp::draw
 {
 
 struct color
@@ -41,4 +41,4 @@ struct color
 
 static std::array nice_colors = {color::warm_yellow(), color::gray(), color::light_blue()};
 
-} // namespace draw
+} // namespace flp::draw

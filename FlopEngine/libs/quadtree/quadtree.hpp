@@ -6,34 +6,21 @@
 #include <iterator>
 
 #include "libs/geometry/rectangle.hpp"
-#include "utils/ranges.h"
+#include "utils/ranges.hpp"
+#include "libs/meta/concepts.hpp"
 
-namespace traits
+namespace flp::concepts
 {
 
-template<class Point>
-struct access
+template<typename Point>
+concept quadtree_point = flp::concepts::trait_convertible_to<Point*, vector2>;
+
+} // namespace concepts
+
+namespace flp
 {
-};
 
-template<>
-struct access<vector2>
-{
-    static auto position(vector2* vec)
-    {
-        return *vec;
-    }
-};
-
-template<typename T>
-concept quadtree_point = requires(T* p)
-{
-    { access<T>::position(p) } -> std::convertible_to<vector2>;
-};
-
-}
-
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 class quadtree
 {
 public:
@@ -49,7 +36,7 @@ public:
     quadtree(quadtree&& other);
 
     explicit quadtree(
-        const rectangle& boundary_rectangle,
+        const geo::rectangle& boundary_rectangle,
         size_t capacity = 2);
 
     virtual ~quadtree();
@@ -62,8 +49,8 @@ public:
     // questionable usefulness
     void commit();
 
-    std::vector<Point*> quarry(const rectangle& range) const;
-    auto quarry_as_range(const rectangle& range) const;
+    std::vector<Point*> quarry(const geo::rectangle& range) const;
+    auto quarry_as_range(const geo::rectangle& range) const;
 
 public:
     auto& box() const;
@@ -80,18 +67,18 @@ public:
     auto& operator=(quadtree&& other) noexcept;
 
 private:
-    void quarry(const rectangle& range, std::vector<Point*>& found) const;
+    void quarry(const geo::rectangle& range, std::vector<Point*>& found) const;
     void copy_fields(const quadtree& other);
     void move_fields(quadtree&& other);
     void subdivide();
 
 private:
     explicit quadtree(
-        const rectangle& boundary_rectangle,
+        const geo::rectangle& boundary_rectangle,
         size_t capacity,
         size_t level);
 
-    rectangle _rectangle{};
+    geo::rectangle _rectangle{};
     std::vector<Point*> _points;
     std::vector<std::unique_ptr<node_t>> _children;
     size_t _capacity{};
@@ -113,7 +100,7 @@ public:
         const_iterator();
         const_iterator(const const_iterator& other);
         const_iterator(const_iterator&& other) noexcept;
-        const_iterator(const quadtree& root, const rectangle& range);
+        const_iterator(const quadtree& root, const geo::rectangle& range);
 
         ~const_iterator();
 
@@ -136,7 +123,7 @@ public:
 
         auto& operator=(const const_iterator& other);
         auto& operator=(const_iterator&& other) noexcept;
-        
+
     public:
         static const_iterator make_end();
 
@@ -155,15 +142,17 @@ public:
         {
             const node_t* node = nullptr;
             node_container_iterator_t node_iterator;
-            const rectangle& range;
+            const geo::rectangle& range;
             std::stack<const node_t*> nodes_to_visit;
             bool is_end = true;
 
-            control_block(const quadtree& root, const rectangle& range);
+            control_block(const quadtree& root, const geo::rectangle& range);
         };
 
         std::shared_ptr<control_block> _cb;
     };
 };
+
+} // namespace flp
 
 #include "quadtree_implementation.hpp"

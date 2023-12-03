@@ -1,7 +1,6 @@
 #include "utils/agent.hpp"
 
-namespace utils
-{
+using namespace flp::utils;
 
 agent::agent(
     const vector2& position,
@@ -13,7 +12,7 @@ agent::agent(
 {
 }
 
-void agent::go_through_borders(const rectangle& screen_borders)
+void agent::go_through_borders(const geo::rectangle& screen_borders)
 {
     auto& x{position.x};
     auto& y{position.y};
@@ -43,7 +42,7 @@ void agent::go_through_borders(const rectangle& screen_borders)
     }
 }
 
-void agent::bounce_from_borders(const rectangle& screen_borders)
+void agent::bounce_from_borders(const geo::rectangle& screen_borders)
 {
     auto& x{position.x};
     auto& y{position.y};
@@ -75,6 +74,4 @@ void agent::bounce_from_borders(const rectangle& screen_borders)
             velocity.y *= -1;
         }
     }
-}
-
 }

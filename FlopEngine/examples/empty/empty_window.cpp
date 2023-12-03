@@ -2,6 +2,8 @@
 
 #include "GL/freeglut.h"
 
+using namespace flp;
+
 empty_window::empty_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {

@@ -4,7 +4,10 @@
 
 #include "utils/agent.hpp"
 #include "libs/graphics/base_window.hpp"
-#include "libs/marching/marching_grid.hpp"
+#include "libs/grid/marching_grid.hpp"
+
+namespace flp
+{
 
 class marching_window : public flp::base_window
 {
@@ -21,4 +24,6 @@ public:
     void mouse(int button, int state, int x, int y);
     void exiting_function();
     void resize(float w, float h) override;
-}; 
+};
+
+} // namespace flp

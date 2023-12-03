@@ -4,14 +4,12 @@
 #include <cmath>
 #include "libs/geometry/vector2.hpp"
 
-namespace math
+namespace flp::math
 {
 
 constexpr float PI = 3.141592f;
 constexpr float TWO_PI = 2.0f * PI;
 constexpr float FLOAT_CLOSE_ENOUGH_THRESHOLD = 1e-5f;
-
-vector2 generate_random_vector();
 
 inline float random_normed()
 {
@@ -22,7 +20,16 @@ inline float random_in_range(float low, float high)
 {
     return low + random_normed() * (high - low);
 }
-        
+
+inline vector2 generate_random_vector()
+{
+    float angle = random_normed() * TWO_PI;
+    float x = std::cosf(angle);
+    float y = std::sinf(angle);
+
+    return {x, y};
+}
+
 template <class T>
 T limit(T x, T low, T high)
 {
@@ -55,9 +62,9 @@ constexpr float rad_to_deg(float rad) noexcept
     return rad * 180.0f / PI;
 }
 
-inline bool close_enough(float a, float b)
+inline bool close_enough(float a, float b) noexcept
 {
     return std::abs(a - b) < FLOAT_CLOSE_ENOUGH_THRESHOLD;
 }
 
-}
+} // namespace flp::math

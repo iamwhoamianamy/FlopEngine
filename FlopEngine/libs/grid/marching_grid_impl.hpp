@@ -2,6 +2,9 @@
 
 #include "marching_grid.hpp"
 
+namespace flp
+{
+
 template<size_t NodeCountX, size_t NodeCountY>
 inline marching_grid<NodeCountX, NodeCountY>::marching_grid(float width, float height)
 {
@@ -48,13 +51,13 @@ inline void marching_grid<NodeCountX, NodeCountY>::add_contribution_cone(
 {
     auto [center_x, center_y] = point_to_id(point);
 
-    float low_x = math::limit(point.x - contribution - _cell_width,  0.0f, _width);
+    float low_x = math::limit(point.x - contribution - _cell_width, 0.0f, _width);
     float low_y = math::limit(point.y - contribution - _cell_height, 0.0f, _height);
 
-    float high_x = math::limit(point.x + contribution + _cell_width,  0.0f, _width);
+    float high_x = math::limit(point.x + contribution + _cell_width, 0.0f, _width);
     float high_y = math::limit(point.y + contribution + _cell_height, 0.0f, _height);
 
-    auto [low_x_id, low_y_id]   = point_to_id({low_x, low_y});
+    auto [low_x_id, low_y_id] = point_to_id({low_x, low_y});
     auto [high_x_id, high_y_id] = point_to_id({high_x, high_y});
 
     for (size_t y_id = low_y_id; y_id < high_y_id; y_id++)
@@ -182,3 +185,5 @@ inline auto marching_grid<NodeCountX, NodeCountY>::point_to_id(
 
     return std::pair{x, y};
 }
+
+} // namespace flp::grid

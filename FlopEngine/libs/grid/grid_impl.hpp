@@ -2,10 +2,13 @@
 
 #include "grid.hpp"
 
-#include "utils/ranges.h"
+#include <ranges>
+
+#include "utils/ranges.hpp"
 #include "utils/utils.hpp"
 
-#include <ranges>
+namespace flp
+{
 
 template<typename T>
 inline grid<T>::grid(size_t widht, size_t height)
@@ -138,7 +141,7 @@ inline auto grid<T>::as_plain_range()
 
 template<typename T>
 template<typename F>
-requires GridPlaneIterationFunc<grid<T>, F>
+    requires GridPlaneIterationFunc<grid<T>, F>
 inline void grid<T>::for_each_plane(auto&& execution_policy, F&& f)
 {
     auto row_ids = utils::iota(_height);
@@ -163,3 +166,5 @@ inline void grid<T>::for_each_plane(F&& f)
 {
     for_each_plane(std::move(std::execution::seq), std::forward<F>(f));
 }
+
+} // namespace flp::grid

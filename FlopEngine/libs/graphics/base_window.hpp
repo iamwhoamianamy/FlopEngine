@@ -20,7 +20,7 @@ struct window_settings
     float screen_height = 400;
 
     std::string name = "New Window";
-    float fps = 120.0f;
+    float fps = 60.0f;
     bool fixed_timestep = false;
 };
 
@@ -39,9 +39,10 @@ protected:
     utils::fixed_size_queue<float> _fps_smother;
 
     bool _debug_mode = false;
+    bool _fixed_timestamp;
 
 protected:
-    auto screen_rectangle() const -> rectangle;
+    auto screen_rectangle() const -> geo::rectangle;
     auto get_smooth_fps() const -> float;
 
 public:

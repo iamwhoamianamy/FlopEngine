@@ -3,10 +3,11 @@
 #include <functional>
 #include <optional>
 
-#include "libs/geometry/rectangle.hpp"
-#include "libs/gui/defines.hpp"
+#include "defines.hpp"
 
-namespace gui
+#include "libs/geometry/rectangle.hpp"
+
+namespace flp::gui
 {
 
 struct object : public std::enable_shared_from_this<object>
@@ -21,7 +22,7 @@ public:
     virtual ~object() = default;
 
 public:
-    const rectangle& frame() const;
+    const geo::rectangle& frame() const;
 
     void on_press(callback_t&& callback);
     void on_release(callback_t&& callback);
@@ -69,5 +70,5 @@ private:
     friend struct master;
 };
 
-} // namespace gui
+} // namespace flp::gui
 

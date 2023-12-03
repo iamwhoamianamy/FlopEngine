@@ -3,18 +3,20 @@
 #include <iostream>
 #include <mutex>
 
-#include "GL/freeglut.h"
+#include "flock.hpp"
 
 #include "libs/geometry/vector2.hpp"
-#include "flock.hpp"
 #include "libs/quadtree/quadtree.hpp"
 #include "libs/graphics/base_window.hpp"
-#include "libs/marching/marching_grid.hpp"
-#include "utils/file_observer.hpp"
+#include "libs/grid/marching_grid.hpp"
 #include "libs/gui/button.hpp"
 #include "libs/gui/split_layout.hpp"
 #include "libs/gui/input_param_box.hpp"
 #include "libs/gui/input_param_list.hpp"
+#include "utils/file_observer.hpp"
+
+namespace flp
+{
 
 //using marching_grid_t = marching_grid<500, 250>;
 using marching_grid_t = marching_grid<400, 200>;
@@ -24,7 +26,7 @@ class boids_window : public flp::base_window
 public:
     static const size_t flock_count = 3;
     static const size_t boid_per_flock = 1000;
-    const std::string boid_param_filename = "boids/params.json";
+    const std::string boid_param_filename = "examples/boids/params.json";
 
 private:
     std::array<flock, flock_count> _flocks;
@@ -60,3 +62,5 @@ private:
     void draw_marching_squares();
     void setup_gui();
 };
+
+} // namespace flp

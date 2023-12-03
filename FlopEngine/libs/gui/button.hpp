@@ -2,7 +2,7 @@
 
 #include "object.hpp"
 
-namespace gui
+namespace flp::gui
 {
 
 struct button : public object

@@ -10,6 +10,7 @@
 #include "libs/logger/logger.hpp"
 #include "libs/gui/master.hpp"
 
+using namespace flp;
 using namespace std::chrono_literals;
 
 boids_window::boids_window(flp::window_settings&& settings)
@@ -40,7 +41,7 @@ void boids_window::perform_flocking_physics()
         [=](flock& flock)
         {
             flock.form_quadtree(
-                rectangle(
+                geo::rectangle(
                     {_screen_w / 2, _screen_h / 2},
                     {_screen_w / 2, _screen_h / 2})
             );

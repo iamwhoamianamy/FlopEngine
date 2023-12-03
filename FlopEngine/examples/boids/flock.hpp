@@ -3,9 +3,13 @@
 #include <vector>
 
 #include "boid.hpp"
+
 #include "libs/graphics/drawing.hpp"
 #include "libs/quadtree/quadtree.hpp"
-#include "utils/concepts.hpp"
+#include "libs/meta/concepts.hpp"
+
+namespace flp
+{
 
 enum class flock_draw_type
 {
@@ -18,49 +22,44 @@ enum class flock_draw_type
 
 struct boid_parameters
 {
-    float avoid_vision       = 10;
-    float avoid_strength     = 40;
+    float avoid_vision = 10;
+    float avoid_strength = 40;
 
-    float align_vision       = 50;
-    float align_strength     = 0.01f;
+    float align_vision = 50;
+    float align_strength = 0.01f;
 
-    float gather_vision      = 50;
-    float gather_strength    = 500;
+    float gather_vision = 50;
+    float gather_strength = 500;
 
-    float flee_vision        = 50;
-    float flee_strength      = 60;
+    float flee_vision = 50;
+    float flee_strength = 60;
 
-    float wander_strength    = 0.01f;
-    float size               = 8;
+    float wander_strength = 0.01f;
+    float size = 8;
 
-    float max_speed          = 80;
-    float min_speed          = 60;
+    float max_speed = 80;
+    float min_speed = 60;
 
     float march_contribution = 15;
 
     static boid_parameters create_from_file(const std::string& filename);
 };
 
-namespace traits
-{
-
 template <>
-struct access<boid_t>
+struct flp::traits::converter<boid*, vector2>
 {
-    static vector2 position(boid_t* boid)
+    static vector2& convert(boid* boid)
     {
         return boid->position;
     }
 };
 
-}
-
-using quadtree_t = quadtree<boid_t>;
+using quadtree_t = quadtree<boid>;
 
 class flock
 {
 private:
-    std::vector<boid_t> _boids;
+    std::vector<boid> _boids;
     flock_draw_type _drawType;
     draw::color _color;
     quadtree_t _quadtree;
@@ -71,17 +70,17 @@ public:
 
     flock();
 
-    void init_random_on_screen(rectangle screen, size_t boids_count = 500);
-    void update_boid_positions(float viscosity, flp::duration auto ellapsed);
-    void form_quadtree(const rectangle& screen_borders);
-    void perform_flocking_behaviour(flp::duration auto ellapsed);
-    void go_through_window_borders(const rectangle& screen_borders);
-    void bounce_from_window_borders(const rectangle& screen_borders);
-    void perform_fleeing(const flock& other, flp::duration auto ellapsed);
+    void init_random_on_screen(geo::rectangle screen, size_t boids_count = 500);
+    void update_boid_positions(float viscosity, concepts::duration auto ellapsed);
+    void form_quadtree(const geo::rectangle& screen_borders);
+    void perform_flocking_behaviour(concepts::duration auto ellapsed);
+    void go_through_window_borders(const geo::rectangle& screen_borders);
+    void bounce_from_window_borders(const geo::rectangle& screen_borders);
+    void perform_fleeing(const flock& other, concepts::duration auto ellapsed);
     void draw() const;
 
     draw::color& color();
-    const std::vector<boid_t>& boids() const;
+    const std::vector<boid>& boids() const;
     flock_draw_type& drawType();
     const quadtree_t& quadtree() const;
 
@@ -89,16 +88,18 @@ public:
     const boid_parameters& params() const;
 
 private:
-    void perform_avoiding(boid_t& boid, flp::duration auto ellapsed);
-    void perform_aligning(boid_t& boid, flp::duration auto ellapsed);
-    void perform_gathering(boid_t& boid, flp::duration auto ellapsed);
-    void perform_wandering(boid_t& boid, flp::duration auto ellapsed);
+    void perform_avoiding(boid& boid, concepts::duration auto ellapsed);
+    void perform_aligning(boid& boid, concepts::duration auto ellapsed);
+    void perform_gathering(boid& boid, concepts::duration auto ellapsed);
+    void perform_wandering(boid& boid, concepts::duration auto ellapsed);
 };
 
-inline void flock::update_boid_positions(float viscosity, flp::duration auto ellapsed)
+inline void flock::update_boid_positions(
+    float viscosity,
+    concepts::duration auto ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
-        [this, viscosity, ellapsed](boid_t& boid)
+        [this, viscosity, ellapsed](boid& boid)
         {
             boid.update_position(viscosity, ellapsed);
 
@@ -118,16 +119,16 @@ inline void flock::update_boid_positions(float viscosity, flp::duration auto ell
         });
 }
 
-inline void flock::form_quadtree(const rectangle& screen_borders)
+inline void flock::form_quadtree(const geo::rectangle& screen_borders)
 {
     _quadtree = quadtree_t{screen_borders, 64};
     _quadtree.insert(_boids);
 }
 
-inline void flock::perform_flocking_behaviour(flp::duration auto ellapsed)
+inline void flock::perform_flocking_behaviour(concepts::duration auto ellapsed)
 {
     std::for_each(std::execution::par, _boids.begin(), _boids.end(),
-        [this, ellapsed](boid_t& boid)
+        [this, ellapsed](boid& boid)
         {
             perform_avoiding(boid, ellapsed);
             perform_aligning(boid, ellapsed);
@@ -136,10 +137,10 @@ inline void flock::perform_flocking_behaviour(flp::duration auto ellapsed)
         });
 }
 
-inline void flock::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_avoiding(boid& boid, concepts::duration auto ellapsed)
 {
     auto boids_to_avoid = _quadtree.quarry(
-        rectangle(boid.position, _boid_params.avoid_vision));
+        geo::rectangle(boid.position, _boid_params.avoid_vision));
 
     if (debug)
     {
@@ -159,18 +160,18 @@ inline void flock::perform_avoiding(boid_t& boid, flp::duration auto ellapsed)
     }
 }
 
-inline void flock::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_aligning(flp::boid& boid, concepts::duration auto ellapsed)
 {
     struct projection
     {
-        auto operator()(boid_t* boid)
+        auto operator()(flp::boid* boid)
         {
             return boid->velocity;
         }
     };
 
     auto boids_to_align_to = _quadtree.quarry(
-        rectangle(boid.position, _boid_params.align_vision));
+        geo::rectangle(boid.position, _boid_params.align_vision));
 
     boid.align(boids_to_align_to, _boid_params.align_strength, ellapsed, projection{});
 
@@ -187,33 +188,39 @@ inline void flock::perform_aligning(boid_t& boid, flp::duration auto ellapsed)
 
 }
 
-inline void flock::perform_gathering(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_gathering(
+    flp::boid& boid,
+    concepts::duration auto ellapsed)
 {
     struct projection
     {
-        auto operator()(boid_t* boid)
+        auto operator()(flp::boid * boid)
         {
             return boid->position;
         }
     };
 
-    auto boids_to_gather_with =
-        _quadtree.quarry(rectangle(boid.position, _boid_params.gather_vision));
+    auto boids_to_gather_with = _quadtree.quarry(
+        geo::rectangle(boid.position, _boid_params.gather_vision));
 
     boid.gather(boids_to_gather_with, _boid_params.gather_strength, ellapsed, projection{});
 }
 
-inline void flock::perform_wandering(boid_t& boid, flp::duration auto ellapsed)
+inline void flock::perform_wandering(
+    flp::boid& boid,
+    concepts::duration auto ellapsed)
 {
     boid.wander(_boid_params.wander_strength, ellapsed);
 }
 
-inline void flock::perform_fleeing(const flock& other, flp::duration auto ellapsed)
+inline void flock::perform_fleeing(
+    const flock& other,
+    concepts::duration auto ellapsed)
 {
     for (auto& boid : _boids)
     {
         auto boids_to_flee_from = other.quadtree().quarry(
-            rectangle(boid.position, _boid_params.flee_vision));
+            geo::rectangle(boid.position, _boid_params.flee_vision));
 
         for (const auto& boid_to_flee_from : boids_to_flee_from)
         {
@@ -221,3 +228,5 @@ inline void flock::perform_fleeing(const flock& other, flp::duration auto ellaps
         }
     }
 }
+
+} // namespace flp

@@ -2,9 +2,9 @@
 
 #include "libs/graphics/drawing.hpp"
 
-using namespace gui;
+using namespace flp::gui;
 
-std::shared_ptr<layout> gui::layout::create(const frame_t& frame)
+std::shared_ptr<layout> layout::create(const frame_t& frame)
 {
     return std::shared_ptr<layout>{new layout{frame}};
 }
@@ -40,7 +40,7 @@ layout::layout(const frame_t& frame)
 
 }
 
-auto gui::layout::fix_frame(const frame_t& frame) -> frame_t
+auto layout::fix_frame(const frame_t& frame) -> frame_t
 {
     auto result = frame;
 

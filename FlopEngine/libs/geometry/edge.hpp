@@ -2,9 +2,13 @@
 
 #include <array>
 
+#include "geometry_figure.hpp"
+
 #include "libs/geometry/vector2.hpp"
 #include "libs/math/math.hpp"
-#include "geometry_figure.hpp"
+
+namespace flp::geometry
+{
 
 template <geo_figure_vertex V>
 struct edge_base;
@@ -41,13 +45,13 @@ inline edge_base<V>::edge_base(const V& a, const V& b)
 template<geo_figure_vertex V>
 inline const vector2& edge_base<V>::a() const
 {
-    return base_t::get_t::get(base_t::_vertices[0]);
+    return base_t::get_t::convert(base_t::_vertices[0]);
 }
 
 template<geo_figure_vertex V>
 inline const vector2& edge_base<V>::b() const
 {
-    return base_t::get_t::get(base_t::_vertices[1]);
+    return base_t::get_t::convert(base_t::_vertices[1]);
 }
 
 template<geo_figure_vertex V>
@@ -63,3 +67,5 @@ inline bool operator==(const edge& e1, const edge& e2)
 {
     return e1.equal(e2);
 }
+
+} // namespace flp::geometry

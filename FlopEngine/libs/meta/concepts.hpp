@@ -2,7 +2,9 @@
 
 #include <utility>
 
-namespace flp
+#include "trait_convertible_to.hpp"
+
+namespace flp::concepts
 {
 
 template<typename T1, typename T2>
@@ -20,4 +22,4 @@ concept duration = requires(T t)
     { t.count() } -> std::integral;
 };
 
-}
+} // flp

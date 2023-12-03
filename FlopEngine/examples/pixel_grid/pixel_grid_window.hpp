@@ -7,7 +7,10 @@
 #include "libs/grid/grid.hpp"
 #include "libs/graphics/color.hpp"
 
-enum class iteration_algorithm : size_t
+namespace flp
+{
+
+    enum class iteration_algorithm : size_t
 {
     plane_iterator = 0,
     plane_for_each_seq,
@@ -17,12 +20,12 @@ enum class iteration_algorithm : size_t
     SIZE
 };
 
-inline auto iteration_algorithm_to_str = 
+inline auto iteration_algorithm_to_str =
 std::unordered_map<iteration_algorithm, std::string>{
-    {iteration_algorithm::plane_iterator,     "plane_iterator"    },
+    {iteration_algorithm::plane_iterator, "plane_iterator"},
     {iteration_algorithm::plane_for_each_seq, "plane_for_each_seq"},
     {iteration_algorithm::plane_for_each_par, "plane_for_each_par"},
-    {iteration_algorithm::classic,            "classic"           }
+    {iteration_algorithm::classic, "classic"}
 };
 
 struct pixel_grid_window : public flp::base_window
@@ -41,3 +44,5 @@ public:
 
 private:
 };
+
+} // namespace flp

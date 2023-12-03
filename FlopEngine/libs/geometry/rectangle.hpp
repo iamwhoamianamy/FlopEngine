@@ -1,7 +1,11 @@
 #pragma once
 
-#include "libs/geometry/vector2.hpp"
+#include "vector2.hpp"
+
 #include "libs/math/math.hpp"
+
+namespace flp::geometry
+{
 
 struct rectangle
 {
@@ -102,7 +106,7 @@ constexpr bool rectangle::contains(const vector2& point) const noexcept
 
 constexpr bool rectangle::intersects(const rectangle& other) const noexcept
 {
-    return 
+    return
         left() < other.right() && other.left() < right() &&
         bot() < other.top() && other.bot() < top();
 }
@@ -180,6 +184,8 @@ inline constexpr vector2 rectangle::center_bot() const noexcept
 inline float rectangle::diagonal() const
 {
     return 2.0f * std::sqrtf(
-        half_dimensions.x * half_dimensions.x + 
+        half_dimensions.x * half_dimensions.x +
         half_dimensions.y * half_dimensions.y);
 }
+
+} // namespace flp::geometry

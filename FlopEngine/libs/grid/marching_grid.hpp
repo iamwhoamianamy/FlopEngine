@@ -8,11 +8,14 @@
 #include "libs/math/math.hpp"
 #include "libs/graphics/drawing.hpp"
 
+namespace flp
+{
+
 template <size_t NodeCountX, size_t NodeCountY>
 class marching_grid
 {
 private:
-    std::array<float, NodeCountX * NodeCountY> _grid;
+    std::array<float, NodeCountX* NodeCountY> _grid;
 
 public:
     marching_grid(float width = 0, float height = 0);
@@ -33,7 +36,7 @@ private:
     void set(size_t x, size_t y, float val);
     float get(size_t x, size_t y) const;
 
-    auto point_to_id(const vector2& p) const -> std::pair<size_t, size_t>;
+    auto point_to_id(const vector2& p) const->std::pair<size_t, size_t>;
 
 private:
     float _width;
@@ -42,5 +45,7 @@ private:
     float _cell_width;
     float _cell_height;
 };
+
+} // namespace flp::grid
 
 #include "marching_grid_impl.hpp"

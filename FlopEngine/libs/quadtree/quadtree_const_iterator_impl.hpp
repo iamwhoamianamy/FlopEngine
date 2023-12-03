@@ -1,63 +1,67 @@
 #pragma once
+
 #include "quadtree_implementation.hpp"
 
-template<traits::quadtree_point Point>
+namespace flp
+{
+
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::const_iterator()
 {
 
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::const_iterator(
     const const_iterator& other)
 {
     copy_fields(other);
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::const_iterator(
     const_iterator&& other) noexcept
 {
     copy_fields(other);
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::const_iterator(
-    const quadtree& root, const rectangle& range)
+    const quadtree& root, const geo::rectangle& range)
     : _cb{std::make_shared<control_block>(root, range)}
 {
     _cb->is_end = false;
     find_first();
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::~const_iterator()
 {
 
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::reference
 quadtree<Point>::const_iterator::operator*() const
 {
     return *(*(_cb->node_iterator));
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::pointer
 quadtree<Point>::const_iterator::operator->() const
 {
     return *(*(_cb->node_iterator));
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline auto& quadtree<Point>::const_iterator::operator++()
 {
     find_next();
     return *this;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline auto quadtree<Point>::const_iterator::operator++(int)
 {
     auto result = const_iterator(*this);
@@ -67,7 +71,7 @@ inline auto quadtree<Point>::const_iterator::operator++(int)
     return result;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline bool quadtree<Point>::const_iterator::equal(
     const const_iterator& other) const
 {
@@ -85,7 +89,7 @@ inline bool quadtree<Point>::const_iterator::equal(
         return _cb->is_end == true;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline auto& quadtree<Point>::const_iterator::operator=(
     const const_iterator& other)
 {
@@ -94,7 +98,7 @@ inline auto& quadtree<Point>::const_iterator::operator=(
     return *this;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline auto& quadtree<Point>::const_iterator::operator=(
     const_iterator&& other) noexcept
 {
@@ -103,14 +107,14 @@ inline auto& quadtree<Point>::const_iterator::operator=(
     return *this;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator
 quadtree<Point>::const_iterator::make_end()
 {
     return const_iterator{};
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline void quadtree<Point>::const_iterator::find_first()
 {
     _cb->nodes_to_visit.push(_cb->node);
@@ -118,19 +122,19 @@ inline void quadtree<Point>::const_iterator::find_first()
     find_next_impl();
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline void quadtree<Point>::const_iterator::find_next()
 {
     _cb->node_iterator++;
 
     if (_cb->node_iterator != _cb->node->points().end() &&
-        _cb->range.contains(traits::access<Point>::position(*_cb->node_iterator)))
+        _cb->range.contains(flp::traits::converter<Point*, vector2>::convert(*_cb->node_iterator)))
         return;
 
     find_next_impl();
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline void quadtree<Point>::const_iterator::find_next_impl()
 {
     while (!_cb->nodes_to_visit.empty())
@@ -145,7 +149,7 @@ inline void quadtree<Point>::const_iterator::find_next_impl()
             _cb->node->points().begin(), _cb->node->points().end(),
             [&](const auto& point)
             {
-                return _cb->range.contains(traits::access<Point>::position(point));
+                return _cb->range.contains(flp::traits::converter<Point*, vector2>::convert(point));
             });
 
         if (find_iterator != _cb->node->points().end())
@@ -163,18 +167,20 @@ inline void quadtree<Point>::const_iterator::find_next_impl()
     _cb->is_end = true;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline void quadtree<Point>::const_iterator::copy_fields(
     const const_iterator& other)
 {
     _cb = other._cb;
 }
 
-template<traits::quadtree_point Point>
+template<flp::concepts::quadtree_point Point>
 inline quadtree<Point>::const_iterator::control_block::control_block(
-    const quadtree& root, const rectangle& range)
+    const quadtree& root, const geo::rectangle& range)
     : node{&root}
     , range{range}
 {
 
 }
+
+} // namespace flp

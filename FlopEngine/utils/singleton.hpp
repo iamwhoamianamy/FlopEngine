@@ -10,7 +10,7 @@
     class& operator=(const class&)     = delete; \
     class& operator=(class&&) noexcept = default; 
 
-namespace utils
+namespace flp::utils
 {
 
 template <typename T>
@@ -42,4 +42,4 @@ private:
 template <typename T>
 std::unique_ptr<T> singleton<T>::_instance{nullptr};
 
-}
+} // namespace flp::utils

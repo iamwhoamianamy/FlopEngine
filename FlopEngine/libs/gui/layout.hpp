@@ -3,9 +3,9 @@
 #include <unordered_set>
 #include <optional>
 
-#include "libs/gui/object.hpp"
+#include "object.hpp"
 
-namespace gui
+namespace flp::gui
 {
 
 struct layout : public object

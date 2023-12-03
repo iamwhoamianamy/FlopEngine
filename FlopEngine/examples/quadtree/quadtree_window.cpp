@@ -93,7 +93,7 @@ void quadtree_window::display()
     draw::draw_rect(_mouse_pos, _mouse_rectangle.half_dimensions.x, _mouse_rectangle.half_dimensions.y);
 
     quadtree<vector2> qtree{
-        rectangle{
+        geo::rectangle{
             vector2(_screen_w / 2, _screen_h / 2),
             vector2(_screen_w / 2, _screen_h / 2)
         }
@@ -148,7 +148,7 @@ void quadtree_window::display()
     fps = 1.0f / (fps / _fps_smother.size());
     
     draw::set_color(draw::color::black());
-    draw::draw_filled_rect(rectangle{{135, 50}, 135, 50});
+    draw::draw_filled_rect(geo::rectangle{{135, 50}, 135, 50});
 
     draw::set_color(draw::color::blue());
     draw::render_string({0, 15}, 15, std::format("fps: {:.3}", fps));

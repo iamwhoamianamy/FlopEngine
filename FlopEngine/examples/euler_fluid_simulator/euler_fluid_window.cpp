@@ -7,6 +7,8 @@
 
 #include "GL/freeglut.h"
 
+using namespace flp;
+
 euler_fluid_window::euler_fluid_window(
     flp::window_settings&& settings)
     : base_window{std::move(settings)}

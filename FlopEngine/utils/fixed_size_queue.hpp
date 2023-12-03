@@ -2,7 +2,7 @@
 
 #include <deque>
 
-namespace utils
+namespace flp::utils
 {
 
 template<typename T, size_t Capacity = 1>
@@ -150,4 +150,4 @@ inline auto fixed_size_queue<T, Capacity>::push_impl(T&& value) -> std::optional
     return std::nullopt;
 }
 
-} // namespace utils
+} // namespace flp::utils
