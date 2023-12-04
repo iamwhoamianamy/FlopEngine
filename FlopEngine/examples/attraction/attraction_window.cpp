@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <ranges>
+#include <random>
 
 #include "GL/freeglut.h"
 
@@ -13,7 +14,16 @@ using namespace flp;
 attraction_window::attraction_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
-    _agents = utils::agent::generate_random(screen_rectangle(), 2000, 0);
+    _agents = utils::agent::generate_random<flp::body>(
+        screen_rectangle(), 4000, 1.0f,
+        [](flp::body& b)
+        {
+            static std::mt19937 generator;
+            static std::normal_distribution<float> dist{3.0f, 2.0f};
+            b.mass = dist(generator);
+        });
+
+    //_agents.emplace_back(screen_rectangle().center, vector2{}, vector2{}, 30.0f);
 }
 
 void attraction_window::physics_loop()
@@ -54,14 +64,17 @@ void attraction_window::display()
         draw::draw_line(a, b);
     }*/
 
-    draw::set_line_width(0.1f);
-    draw::set_color(draw::color{0.4f, 0.4f, 0.0f, 0.1f});
-    draw_quadtree(_qtree);
+    //draw::set_line_width(0.1f);
+    //draw::set_color(draw::color{0.4f, 0.4f, 0.0f, 0.1f});
+    //draw_quadtree(_qtree);
 
-    draw::set_color(draw::color::orange());
-    for (const auto agent : _agents)
+    for (const auto& body : _agents)
     {
-        draw::draw_point(agent.position, 1.0f);
+        draw::set_color(draw::color{0.2f * body.mass, 0.05f * body.mass, 0.0f, 0.2f * body.mass});
+        draw::draw_point(body.position, body.mass);
+
+        //draw::set_color(draw::color{0.2f * body.mass, 0.05f * body.mass, 0.0f, 0.01f * body.mass});
+        //draw::draw_circle(body.position, 200.0f);
     }
 
     glFinish();
@@ -72,17 +85,17 @@ void attraction_window::resize(float w, float h)
 
 }
 
-void attraction_window::attract(utils::agent& a, utils::agent& b)
+void attraction_window::attract(flp::body& a, flp::body& b)
 {
     if (a.position == b.position)
         return;
 
-    const float scale = 4000.0f;
+    const float scale = 200.0f;
 
     auto direction = b.position - a.position;
     auto distance = direction.length();
 
-    auto force = scale / (distance * distance);
+    auto force = scale / (distance * distance) * a.mass * b.mass;
 
     a.acceleration += direction * force;
     b.acceleration -= direction * force;

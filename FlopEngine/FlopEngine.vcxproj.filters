@@ -22,9 +22,10 @@
     <ClCompile Include="examples\quadtree\quadtree_window.cpp" />
     <ClCompile Include="libs\gui\input_param_box.cpp" />
     <ClCompile Include="examples\euler_fluid_simulator\euler_fluid_window.cpp" />
-    <ClCompile Include="euler_fluid_simulator.cpp" />
+    <ClCompile Include="examples\euler_fluid_simulator\euler_fluid_simulator.cpp" />
     <ClCompile Include="examples\empty\empty_window.cpp" />
     <ClCompile Include="examples\attraction\attraction_window.cpp" />
+    <ClCompile Include="examples\attraction\barnes_hut_solver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -78,7 +79,7 @@
     <ClInclude Include="libs\grid\grid_iterator_impl.hpp" />
     <ClInclude Include="libs\gui\input_param_box.hpp" />
     <ClInclude Include="examples\euler_fluid_simulator\euler_fluid_window.hpp" />
-    <ClInclude Include="euler_fluid_simulator.hpp" />
+    <ClInclude Include="examples\euler_fluid_simulator\euler_fluid_simulator.hpp" />
     <ClInclude Include="examples\empty\empty_window.hpp" />
     <ClInclude Include="examples\attraction\attraction_window.hpp" />
     <ClInclude Include="libs\meta\physics_object_traits.hpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="libs\meta\converter.hpp" />
     <ClInclude Include="libs\meta\trait_convertible_to.hpp" />
     <ClInclude Include="examples\boids\boid.hpp" />
+    <ClInclude Include="barnes_hut_solver.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

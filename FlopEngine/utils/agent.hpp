@@ -28,10 +28,19 @@ struct agent
     void bounce_from_borders(const geo::rectangle& screen_borders);
 
     template<flp::concepts::physics_object Obj = agent>
-    static auto generate_random(
+    static std::vector<Obj>
+    generate_random(
         const geo::rectangle& range,
         size_t count,
-        float max_speed) -> std::vector<Obj>;
+        float max_speed,
+        std::invocable<Obj&> auto&& modificator);
+
+    template<flp::concepts::physics_object Obj = agent>
+    static std::vector<Obj>
+    generate_random(
+        const geo::rectangle& range,
+        size_t count,
+        float max_speed);
 };
 
 } // namespace flp::utils
@@ -86,22 +95,24 @@ inline void agent::update_position(float viscosity, concepts::duration auto ella
     velocity *= viscosity;
 }
 
-template<concepts::physics_object Obj>
-inline auto agent::generate_random(
+template<flp::concepts::physics_object Obj>
+inline std::vector<Obj>
+agent::generate_random(
     const geo::rectangle& range,
     size_t count,
-    float max_speed) -> std::vector<Obj>
+    float max_speed,
+    std::invocable<Obj&> auto&& modificator)
 {
     std::vector<Obj> result(count);
 
     std::ranges::generate_n(result.begin(), count,
-        [&range, max_speed]
+        [&range, max_speed, &modificator]
         {
             auto position{
                 vector2{
                     math::random_in_range(0, range.width()),
                     math::random_in_range(0, range.height())
-                }
+            }
             };
 
             auto velocity = math::generate_random_vector() * max_speed;
@@ -111,10 +122,22 @@ inline auto agent::generate_random(
             flp::traits::physics_object<Obj>::position(result_obj) = position;
             flp::traits::physics_object<Obj>::velocity(result_obj) = velocity;
 
+            modificator(result_obj);
+
             return result_obj;
         });
 
     return result;
+}
+
+template<concepts::physics_object Obj>
+inline std::vector<Obj>
+agent::generate_random(
+    const geo::rectangle& range,
+    size_t count,
+    float max_speed)
+{
+    return generate_random<Obj>(range, count, max_speed, [](auto&) {});
 }
 
 } // namespace flp::utils

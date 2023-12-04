@@ -30,6 +30,7 @@ public:
     void mouse(int button, int state, int x, int y);
     void mouse_passive(int x, int y);
     void exiting_function();
+
 private:
 };
 

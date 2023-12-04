@@ -14,6 +14,7 @@ class marching_window : public flp::base_window
 private:
     marching_grid<800, 400> _marching_grid;
     std::vector<utils::agent> _agents;
+
 public:
     marching_window(flp::window_settings&& settings);
 

@@ -11,7 +11,7 @@ using namespace flp;
 quadtree_window::quadtree_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
-    size_t point_count = 10000;
+    size_t point_count = 100;
     float step = 360.0f / point_count;
     float radius = 300;
     vector2 center = screen_rectangle().center;
@@ -24,7 +24,7 @@ quadtree_window::quadtree_window(flp::window_settings&& settings)
         _points.emplace_back(x, y);
     }
 
-    _points.append_range(utils::generate_random(screen_rectangle(), 10000));
+    _points.append_range(utils::generate_random(screen_rectangle(), 100));
 
     _mouse_rectangle = {{}, {40, 40}};
 }
@@ -89,7 +89,7 @@ void quadtree_window::display()
 
     auto point_color = draw::color(255, 255, 255);
 
-    draw::set_color(draw::color::red());
+    draw::set_color(draw::color::blue());
     draw::draw_rect(_mouse_pos, _mouse_rectangle.half_dimensions.x, _mouse_rectangle.half_dimensions.y);
 
     quadtree<vector2> qtree{
@@ -106,6 +106,7 @@ void quadtree_window::display()
         qtree.commit();
     }
 
+    draw::set_color(draw::color::red());
     draw_quadtree(qtree);
 
     for (auto& point : _points)
@@ -114,8 +115,7 @@ void quadtree_window::display()
         draw::draw_point(point, 5);
     }
 
-    auto found_point_color = draw::color(255, 0, 0);
-    draw::set_color(found_point_color);
+    draw::set_color(draw::color::blue());
 
     size_t point_count = 0;
 
