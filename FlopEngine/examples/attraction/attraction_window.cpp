@@ -40,7 +40,7 @@ void attraction_window::physics_loop()
     {
         auto range = geo::rectangle{agent.position, radius};
 
-        for (auto& neighbour : _qtree.quarry_as_range(range))
+        for (auto& neighbour : _qtree.quarry(range))
         {
             attract(agent, neighbour);
             _edges.emplace_back(agent.position, neighbour.position);

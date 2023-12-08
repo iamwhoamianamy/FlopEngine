@@ -11,7 +11,7 @@ using namespace flp;
 quadtree_window::quadtree_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
-    size_t point_count = 100;
+    size_t point_count = 10;
     float step = 360.0f / point_count;
     float radius = 300;
     vector2 center = screen_rectangle().center;
@@ -24,7 +24,7 @@ quadtree_window::quadtree_window(flp::window_settings&& settings)
         _points.emplace_back(x, y);
     }
 
-    _points.append_range(utils::generate_random(screen_rectangle(), 100));
+    _points.append_range(utils::generate_random(screen_rectangle(), 10));
 
     _mouse_rectangle = {{}, {40, 40}};
 }
@@ -33,11 +33,6 @@ void quadtree_window::keyboard_letters(unsigned char key, int x, int y)
 {
     switch (key)
     {
-        case 'q':
-        {
-            _range_based_query = !_range_based_query;
-            break;
-        }
         case 'c':
         {
             _commit_qtree = !_commit_qtree;
@@ -119,23 +114,10 @@ void quadtree_window::display()
 
     size_t point_count = 0;
 
-    if (_range_based_query)
+    for (const auto& point : qtree.quarry(_mouse_rectangle))
     {
-        for (const auto& point : qtree.quarry_as_range(_mouse_rectangle))
-        {
-            draw::draw_point(point, 5);
-            point_count++;
-        }
-    }
-    else
-    {
-        auto points = qtree.quarry(_mouse_rectangle);
-
-        for (auto point : points)
-        {
-            draw::draw_point(*point, 5);
-            point_count++;
-        }
+        draw::draw_point(point, 5);
+        point_count++;
     }
 
     float fps = 0.0f;
@@ -153,7 +135,6 @@ void quadtree_window::display()
     draw::set_color(draw::color::blue());
     draw::render_string({0, 15}, 15, std::format("fps: {:.3}", fps));
     draw::render_string({0, 35}, 15, std::format("point in range count: {}", point_count));
-    draw::render_string({0, 55}, 15, std::format("range base query: {}", _range_based_query ? "enabled" : "disabled"));
     draw::render_string({0, 75}, 15, std::format("commit qtree: {}", _commit_qtree ? "enabled" : "disabled"));
 
     glFinish();
