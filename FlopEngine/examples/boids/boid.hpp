@@ -70,14 +70,20 @@ inline void boid::align(
     concepts::duration auto ellapsed,
     auto&& projection)
 {
+    size_t count{};
+
     vector2 direction =
         std::transform_reduce(
             friends.begin(), friends.end(),
             vector2{},
             std::plus{},
-            projection);
+            [&count, &projection](auto& elem)
+            {
+                count++;
+                return projection(elem);
+            });
 
-    direction /= static_cast<float>(friends.size());
+    direction /= static_cast<float>(count);
     direction.set_length(velocity.length());
     direction = vector2::lerp(velocity, direction, strength);
     velocity = direction;
@@ -89,14 +95,20 @@ inline void boid::gather(
     concepts::duration auto ellapsed,
     auto&& projection)
 {
+    size_t count{};
+
     vector2 direction =
         std::transform_reduce(
             targets.begin(), targets.end(),
             vector2{},
             std::plus{},
-            projection);
+            [&count, &projection](auto& elem)
+            {
+                count++;
+                return projection(elem);
+            });
 
-    direction /= static_cast<float>(targets.size());
+    direction /= static_cast<float>(count);
     direction = vector2::direction(position, direction);
 
     acceleration += direction * strength;

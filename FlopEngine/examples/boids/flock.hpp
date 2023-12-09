@@ -149,13 +149,13 @@ inline void flock::perform_avoiding(boid& boid, concepts::duration auto ellapsed
 
     }
 
-    for (auto& boid_to_avoid : boids_to_avoid)
+    for (const auto& boid_to_avoid : boids_to_avoid)
     {
-        boid.avoid(boid_to_avoid->position, _boid_params.avoid_strength, ellapsed);
+        boid.avoid(boid_to_avoid.position, _boid_params.avoid_strength, ellapsed);
 
         if (debug)
         {
-            draw::draw_line(boid.position, boid_to_avoid->position);
+            draw::draw_line(boid.position, boid_to_avoid.position);
         }
     }
 }
@@ -164,9 +164,9 @@ inline void flock::perform_aligning(flp::boid& boid, concepts::duration auto ell
 {
     struct projection
     {
-        auto operator()(flp::boid* boid)
+        auto operator()(flp::boid& boid)
         {
-            return boid->velocity;
+            return boid.velocity;
         }
     };
 
@@ -180,9 +180,9 @@ inline void flock::perform_aligning(flp::boid& boid, concepts::duration auto ell
         draw::set_color(draw::color(255, 255, 0));
         glLineWidth(2);
 
-        for (auto& boid_to_align_to : boids_to_align_to)
+        for (const auto& boid_to_align_to : boids_to_align_to)
         {
-            draw::draw_line(boid.position, boid_to_align_to->position);
+            draw::draw_line(boid.position, boid_to_align_to.position);
         }
     }
 
@@ -194,9 +194,9 @@ inline void flock::perform_gathering(
 {
     struct projection
     {
-        auto operator()(flp::boid * boid)
+        auto operator()(flp::boid& boid)
         {
-            return boid->position;
+            return boid.position;
         }
     };
 
@@ -224,7 +224,7 @@ inline void flock::perform_fleeing(
 
         for (const auto& boid_to_flee_from : boids_to_flee_from)
         {
-            boid.avoid(boid_to_flee_from->position, _boid_params.flee_strength, ellapsed);
+            boid.avoid(boid_to_flee_from.position, _boid_params.flee_strength, ellapsed);
         }
     }
 }
