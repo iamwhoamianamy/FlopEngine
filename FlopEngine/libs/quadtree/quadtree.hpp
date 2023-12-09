@@ -35,29 +35,29 @@ concept quadtree_node = requires(Node node)
 
 } // namespace concepts
 
-template<concepts::quadtree_point Point>
-struct quadtree_node
+template<typename Derived, concepts::quadtree_point Point>
+struct quadtree_node_base
 {
 public:
-    using me_t                 = quadtree_node<Point>;
+    using me_t                 = Derived;
     using point_t              = Point;
     using point_container_t    = std::vector<point_t*>;
     using children_container_t = std::vector<std::unique_ptr<me_t>>;
 
 public:
-    static constexpr const size_t max_depth        = 15;
+    static constexpr const size_t max_depth = 15;
     
 public:
-    explicit quadtree_node(
+    explicit quadtree_node_base(
         const geo::rectangle& boundary,
         size_t capacity);
 
 public:
-    quadtree_node(const quadtree_node&)     = delete;
-    quadtree_node(quadtree_node&&) noexcept = delete;
+    quadtree_node_base(const quadtree_node_base&)     = delete;
+    quadtree_node_base(quadtree_node_base&&) noexcept = delete;
 
-    quadtree_node& operator=(const quadtree_node&)     = delete;
-    quadtree_node& operator=(quadtree_node&&) noexcept = delete;
+    quadtree_node_base& operator=(const quadtree_node_base&)     = delete;
+    quadtree_node_base& operator=(quadtree_node_base&&) noexcept = delete;
 
 public:
     void insert(point_t* point);
@@ -68,21 +68,22 @@ public:
     const auto&           points()   const;
 
     size_t capacity() const;
+    size_t level()    const;
 
     bool subdivided() const;
     bool empty()      const;
     bool useless()    const;
 
-private:
+protected:
     void subdivide();
 
-private:
-    explicit quadtree_node(
+protected:
+    explicit quadtree_node_base(
         const geo::rectangle& boundary,
         size_t capacity,
         size_t level);
 
-private:
+protected:
     geo::rectangle       _boundary{};
 
     size_t               _capacity{};
@@ -92,8 +93,14 @@ private:
     children_container_t _children;
 };
 
+template<concepts::quadtree_point Point>
+struct quadtree_node final : public quadtree_node_base<quadtree_node<Point>, Point>
+{
+    using quadtree_node_base<quadtree_node<Point>, Point>::quadtree_node_base;
+};
+
 template<concepts::quadtree Quadtree>
-struct quadtree_iterator
+struct quadtree_iterator final
 {
 public:
     using me_t    = quadtree_iterator<Quadtree>;
@@ -172,9 +179,9 @@ private:
 };
 
 template<
-    flp::concepts::quadtree_point Point,
-    flp::concepts::quadtree_node Node = quadtree_node<Point>>
-struct quadtree
+    concepts::quadtree_point Point = vector2,
+    concepts::quadtree_node Node = quadtree_node<Point>>
+struct quadtree final
 {
 public:
     using me_t       = quadtree<Point, Node>;
@@ -209,6 +216,9 @@ public:
     void commit();
 
     auto quarry(const geo::rectangle& range) const;
+
+    void traverse_by_depth(std::invocable<const node_t&> auto&& visitor) const;
+    void traverse_by_width(std::invocable<const node_t&> auto&& visitor) const;
 
 private:
     std::unique_ptr<node_t> _head;

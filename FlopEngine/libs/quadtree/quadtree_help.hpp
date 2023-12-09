@@ -10,17 +10,13 @@ static draw::color quadtree_color = draw::color::yellow();
 template <flp::concepts::quadtree_point Point>
 inline void draw_quadtree(const quadtree<Point>& qtree)
 {
-    //draw::draw_rect(qtree.bound().center,
-    //    qtree.box().half_dimensions.x,
-    //    qtree.box().half_dimensions.y);
+    using node_t = std::remove_cvref_t<decltype(qtree)>::node_t;
 
-    //if (qtree.subdivided())
-    //{
-    //    for (const auto& child : qtree.children())
-    //    {
-    //        draw_quadtree(*child);
-    //    }
-    //}
+    qtree.traverse_by_depth(
+        [](const node_t& node)
+        {
+            draw::draw_rect(node.boundary());
+        });
 }
 
 } // namespace flp

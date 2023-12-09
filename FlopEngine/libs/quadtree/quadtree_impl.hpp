@@ -2,13 +2,16 @@
 
 #include "quadtree.hpp"
 
+#include <stack>
+#include <queue>
+
 #include "utils/utils.hpp"
 
 namespace flp
 {
 template<
-    flp::concepts::quadtree_point Point,
-    flp::concepts::quadtree_node Node>
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
 inline quadtree<Point, Node>::quadtree(
     const geo::rectangle& boundary,
     size_t capacity)
@@ -18,8 +21,8 @@ inline quadtree<Point, Node>::quadtree(
 }
 
 template<
-    flp::concepts::quadtree_point Point,
-    flp::concepts::quadtree_node Node>
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::insert(std::vector<Point>& points)
 {
     for (auto& point : points)
@@ -29,8 +32,8 @@ inline void quadtree<Point, Node>::insert(std::vector<Point>& points)
 }
 
 template<
-    flp::concepts::quadtree_point Point,
-    flp::concepts::quadtree_node Node>
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::commit()
 {
     //std::stack<node_t*> nodes_to_visit;
@@ -59,8 +62,8 @@ inline void quadtree<Point, Node>::commit()
 }
 
 template<
-    flp::concepts::quadtree_point Point,
-    flp::concepts::quadtree_node Node>
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
 inline auto quadtree<Point, Node>::quarry(
     const geo::rectangle& range) const
 {
@@ -68,6 +71,48 @@ inline auto quadtree<Point, Node>::quarry(
         iterator_t{_head.get(), range},
         iterator_t::make_end()
     );
+}
+
+template<
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
+inline void quadtree<Point, Node>::traverse_by_depth(
+    std::invocable<const node_t&> auto&& visitor)  const
+{
+    std::stack<const node_t*> nodes_to_visit;
+    nodes_to_visit.push(_head.get());
+
+    while (nodes_to_visit.size())
+    {
+        const node_t* current_node = nodes_to_visit.top();
+        nodes_to_visit.pop();
+
+        visitor(*current_node);
+
+        for (auto& child : current_node->children())
+            nodes_to_visit.push(child.get());
+    }
+}
+
+template<
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
+inline void quadtree<Point, Node>::traverse_by_width(
+    std::invocable<const node_t&> auto&& visitor)  const
+{
+    std::queue<const node_t*> nodes_to_visit;
+    nodes_to_visit.push(_head.get());
+
+    while (nodes_to_visit.size())
+    {
+        const node_t* current_node = nodes_to_visit.front();
+        nodes_to_visit.pop();
+
+        visitor(*current_node);
+
+        for (auto& child : current_node->children())
+            nodes_to_visit.push(child.get());
+    }
 }
 
 } // namespace flp

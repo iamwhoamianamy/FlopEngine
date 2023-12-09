@@ -1,21 +1,22 @@
 #pragma once
 
 #include "quadtree_impl.hpp"
+#include "quadtree.hpp"
 
 namespace flp
 {
 
-template<concepts::quadtree_point Point>
-inline quadtree_node<Point>::quadtree_node(
+template<typename Derived, concepts::quadtree_point Point>
+inline quadtree_node_base<Derived, Point>::quadtree_node_base(
     const geo::rectangle& boundary,
     size_t capacity)
-    : quadtree_node{boundary, capacity, 0}
+    : quadtree_node_base{boundary, capacity, 0}
 {
 
 }
 
-template<concepts::quadtree_point Point>
-inline quadtree_node<Point>::quadtree_node(
+template<typename Derived, concepts::quadtree_point Point>
+inline quadtree_node_base<Derived, Point>::quadtree_node_base(
     const geo::rectangle& boundary,
     size_t capacity,
     size_t level)
@@ -26,8 +27,8 @@ inline quadtree_node<Point>::quadtree_node(
 
 }
 
-template<concepts::quadtree_point Point>
-inline void quadtree_node<Point>::insert(Point* point)
+template<typename Derived, concepts::quadtree_point Point>
+inline void quadtree_node_base<Derived, Point>::insert(Point* point)
 {
     if (!_boundary.contains(flp::traits::converter<Point*, vector2>::convert(point)))
     {
@@ -66,8 +67,8 @@ inline void quadtree_node<Point>::insert(Point* point)
     }
 }
 
-template<concepts::quadtree_point Point>
-inline void quadtree_node<Point>::subdivide()
+template<typename Derived, concepts::quadtree_point Point>
+inline void quadtree_node_base<Derived, Point>::subdivide()
 {
     float x = _boundary.center.x;
     float y = _boundary.center.y;
@@ -90,44 +91,50 @@ inline void quadtree_node<Point>::subdivide()
     _children.emplace_back(t4);
 }
 
-template<concepts::quadtree_point Point>
-inline const geo::rectangle& quadtree_node<Point>::boundary() const
+template<typename Derived, concepts::quadtree_point Point>
+inline size_t quadtree_node_base<Derived, Point>::level() const
 {
-    return this->_boundary;
+    return _level;
 }
 
-template<concepts::quadtree_point Point>
-inline const auto& quadtree_node<Point>::children() const
+template<typename Derived, concepts::quadtree_point Point>
+inline const geo::rectangle& quadtree_node_base<Derived, Point>::boundary() const
+{
+    return _boundary;
+}
+
+template<typename Derived, concepts::quadtree_point Point>
+inline const auto& quadtree_node_base<Derived, Point>::children() const
 {
     return _children;
 }
 
-template<concepts::quadtree_point Point>
-inline const auto& quadtree_node<Point>::points() const
+template<typename Derived, concepts::quadtree_point Point>
+inline const auto& quadtree_node_base<Derived, Point>::points() const
 {
     return _points;
 }
 
-template<concepts::quadtree_point Point>
-inline size_t quadtree_node<Point>::capacity() const
+template<typename Derived, concepts::quadtree_point Point>
+inline size_t quadtree_node_base<Derived, Point>::capacity() const
 {
     return _capacity;
 }
 
-template<concepts::quadtree_point Point>
-inline bool quadtree_node<Point>::subdivided() const
+template<typename Derived, concepts::quadtree_point Point>
+inline bool quadtree_node_base<Derived, Point>::subdivided() const
 {
     return !_children.empty();
 }
 
-template<concepts::quadtree_point Point>
-inline bool quadtree_node<Point>::empty() const
+template<typename Derived, concepts::quadtree_point Point>
+inline bool quadtree_node_base<Derived, Point>::empty() const
 {
     return _points.empty();
 }
 
-template<concepts::quadtree_point Point>
-inline bool quadtree_node<Point>::useless() const
+template<typename Derived, concepts::quadtree_point Point>
+inline bool quadtree_node_base<Derived, Point>::useless() const
 {
     return !subdivided() && empty();
 }

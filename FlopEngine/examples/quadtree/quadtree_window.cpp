@@ -11,7 +11,7 @@ using namespace flp;
 quadtree_window::quadtree_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
-    size_t point_count = 10;
+    /*size_t point_count = 10;
     float step = 360.0f / point_count;
     float radius = 300;
     vector2 center = screen_rectangle().center;
@@ -24,7 +24,7 @@ quadtree_window::quadtree_window(flp::window_settings&& settings)
         _points.emplace_back(x, y);
     }
 
-    _points.append_range(utils::generate_random(screen_rectangle(), 10));
+    _points.append_range(utils::generate_random(screen_rectangle(), 10));*/
 
     _mouse_rectangle = {{}, {40, 40}};
 }
@@ -47,6 +47,9 @@ void quadtree_window::mouse(int button, int state, int x, int y)
     {
         case 0:
         {
+            if (state != 0)
+                return;
+
             _points.emplace_back(static_cast<float>(x), static_cast<float>(y));
             break;
         }
@@ -72,6 +75,31 @@ void quadtree_window::mouse_passive(int x, int y)
 void quadtree_window::exiting_function()
 {
     std::cout << "DONE!";
+}
+
+void draw_qtree(const quadtree<>& qtree)
+{
+    draw::set_line_width(2.0f);
+
+    qtree.traverse_by_width(
+        [](const auto& node)
+        {
+            if (!node.empty())
+            {
+                draw::set_color(draw::color::red());
+                size_t level = node.level();
+
+                geo::rectangle boundary = node.boundary();
+                boundary.half_dimensions -= vector2{1.0f, 1.0f} * level;
+
+                draw::draw_rect(boundary);
+            }
+            else
+            {
+                draw::set_color(draw::color::white());
+                draw::draw_rect(node.boundary());
+            }
+        });
 }
 
 void quadtree_window::display()
@@ -101,8 +129,7 @@ void quadtree_window::display()
         qtree.commit();
     }
 
-    draw::set_color(draw::color::red());
-    draw_quadtree(qtree);
+    draw_qtree(qtree);
 
     for (auto& point : _points)
     {
