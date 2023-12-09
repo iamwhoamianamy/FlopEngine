@@ -99,6 +99,15 @@ struct quadtree_node final : public quadtree_node_base<quadtree_node<Point>, Poi
     using quadtree_node_base<quadtree_node<Point>, Point>::quadtree_node_base;
 };
 
+template<concepts::quadtree_point Point, typename Data>
+struct quadtree_node_with_data final
+    : public quadtree_node_base<quadtree_node_with_data<Point, Data>, Point>
+{
+    using quadtree_node_base<quadtree_node_with_data<Point, Data>, Point>::quadtree_node_base;
+
+    mutable Data data{};
+};
+
 template<concepts::quadtree Quadtree>
 struct quadtree_iterator final
 {
@@ -217,8 +226,10 @@ public:
 
     auto quarry(const geo::rectangle& range) const;
 
-    void traverse_by_depth(std::invocable<const node_t&> auto&& visitor) const;
-    void traverse_by_width(std::invocable<const node_t&> auto&& visitor) const;
+    void traverse_by_depth(std::invocable<const node_t*> auto&& visitor) const;
+    void traverse_by_width(std::invocable<const node_t*> auto&& visitor) const;
+
+    void traverse_by_width_reverse(std::invocable<const node_t*> auto&& visitor) const;
 
 private:
     std::unique_ptr<node_t> _head;

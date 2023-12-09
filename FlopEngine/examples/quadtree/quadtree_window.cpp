@@ -77,19 +77,20 @@ void quadtree_window::exiting_function()
     std::cout << "DONE!";
 }
 
-void draw_qtree(const quadtree<>& qtree)
+template<typename Point, typename Node>
+void draw_qtree(const quadtree<Point, Node>& qtree)
 {
     draw::set_line_width(2.0f);
 
     qtree.traverse_by_width(
-        [](const auto& node)
+        [](const auto* node)
         {
-            if (!node.empty())
+            if (!node->empty())
             {
                 draw::set_color(draw::color::red());
-                size_t level = node.level();
+                size_t level = node->level();
 
-                geo::rectangle boundary = node.boundary();
+                geo::rectangle boundary = node->boundary();
                 boundary.half_dimensions -= vector2{1.0f, 1.0f} * level;
 
                 draw::draw_rect(boundary);
@@ -97,8 +98,28 @@ void draw_qtree(const quadtree<>& qtree)
             else
             {
                 draw::set_color(draw::color::white());
-                draw::draw_rect(node.boundary());
+                draw::draw_rect(node->boundary());
             }
+        });
+
+    draw::set_line_width(1.0f);
+    draw::set_color(draw::color::green());
+
+    qtree.traverse_by_width_reverse(
+        [](const auto* node)
+        {
+            if (!node->subdivided())
+                node->data = node->points().size();
+            else
+            {
+                for (const auto& child : node->children())
+                    node->data += child.get()->data;
+            }
+
+            draw::render_string(
+                node->boundary().center,
+                15.0f,
+                std::to_string(node->data));
         });
 }
 
@@ -115,7 +136,7 @@ void quadtree_window::display()
     draw::set_color(draw::color::blue());
     draw::draw_rect(_mouse_pos, _mouse_rectangle.half_dimensions.x, _mouse_rectangle.half_dimensions.y);
 
-    quadtree<vector2> qtree{
+    quadtree<vector2, quadtree_node_with_data<vector2, size_t>> qtree{
         geo::rectangle{
             vector2(_screen_w / 2, _screen_h / 2),
             vector2(_screen_w / 2, _screen_h / 2)

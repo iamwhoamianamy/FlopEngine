@@ -77,7 +77,7 @@ template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::traverse_by_depth(
-    std::invocable<const node_t&> auto&& visitor)  const
+    std::invocable<const node_t*> auto&& visitor)  const
 {
     std::stack<const node_t*> nodes_to_visit;
     nodes_to_visit.push(_head.get());
@@ -87,7 +87,7 @@ inline void quadtree<Point, Node>::traverse_by_depth(
         const node_t* current_node = nodes_to_visit.top();
         nodes_to_visit.pop();
 
-        visitor(*current_node);
+        visitor(current_node);
 
         for (auto& child : current_node->children())
             nodes_to_visit.push(child.get());
@@ -98,7 +98,7 @@ template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::traverse_by_width(
-    std::invocable<const node_t&> auto&& visitor)  const
+    std::invocable<const node_t*> auto&& visitor)  const
 {
     std::queue<const node_t*> nodes_to_visit;
     nodes_to_visit.push(_head.get());
@@ -108,11 +108,30 @@ inline void quadtree<Point, Node>::traverse_by_width(
         const node_t* current_node = nodes_to_visit.front();
         nodes_to_visit.pop();
 
-        visitor(*current_node);
+        visitor(current_node);
 
         for (auto& child : current_node->children())
             nodes_to_visit.push(child.get());
     }
+}
+
+
+template<
+    concepts::quadtree_point Point,
+    concepts::quadtree_node Node>
+inline void quadtree<Point, Node>::traverse_by_width_reverse(
+    std::invocable<const node_t*> auto&& visitor)  const
+{
+    std::vector<const node_t*> nodes_to_visit;
+
+    traverse_by_width(
+        [&nodes_to_visit](const node_t* node)
+        {
+            nodes_to_visit.push_back(node);
+        });
+
+    for (const auto* node : nodes_to_visit | std::views::reverse)
+        visitor(node);
 }
 
 } // namespace flp
