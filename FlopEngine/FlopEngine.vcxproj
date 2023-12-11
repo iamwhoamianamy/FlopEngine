@@ -133,7 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="3rdparty\json\json.hpp" />
-    <ClInclude Include="barnes_hut_solver.hpp" />
+    <ClInclude Include="examples\attraction\barnes_hut_solver.hpp" />
     <ClInclude Include="examples\euler_fluid_simulator\euler_fluid_simulator.hpp" />
     <ClInclude Include="examples\attraction\attraction_window.hpp" />
     <ClInclude Include="examples\boids\boid.hpp" />
@@ -176,6 +176,7 @@
     <ClInclude Include="libs\geometry\rectangle.hpp" />
     <ClInclude Include="libs\meta\base_same_as.hpp" />
     <ClInclude Include="libs\meta\converter.hpp" />
+    <ClInclude Include="libs\meta\range_of.hpp" />
     <ClInclude Include="libs\meta\remove_all.hpp" />
     <ClInclude Include="libs\meta\trait_convertible_to.hpp" />
     <ClInclude Include="libs\quadtree\quadtree.hpp" />

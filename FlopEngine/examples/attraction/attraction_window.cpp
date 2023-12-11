@@ -15,7 +15,7 @@ attraction_window::attraction_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
     _agents = utils::agent::generate_random<flp::body>(
-        screen_rectangle(), 4000, 1.0f,
+        screen_rectangle(), 2000, 1.0f,
         [](flp::body& b)
         {
             static std::mt19937 generator;
@@ -29,9 +29,9 @@ attraction_window::attraction_window(flp::window_settings&& settings)
 void attraction_window::physics_loop()
 {
     _edges.clear();
-    _agent_center = calc_agent_center();
+    _agent_center = geo::rectangle::make_encompassing<flp::body>(_agents);
 
-    _qtree = decltype(_qtree){_agent_center, 32};
+    _qtree = decltype(_qtree){_agent_center, 8};
     _qtree.insert(_agents);
 
     const float radius = 200.0f;
@@ -64,9 +64,9 @@ void attraction_window::display()
         draw::draw_line(a, b);
     }*/
 
-    //draw::set_line_width(0.1f);
-    //draw::set_color(draw::color{0.4f, 0.4f, 0.0f, 0.1f});
-    //draw_quadtree(_qtree);
+    draw::set_line_width(0.1f);
+    draw::set_color(draw::color{0.6f, 0.4f, 0.0f, 0.1f});
+    draw_quadtree(_qtree);
 
     for (const auto& body : _agents)
     {
@@ -90,7 +90,7 @@ void attraction_window::attract(flp::body& a, flp::body& b)
     if (a.position == b.position)
         return;
 
-    const float scale = 200.0f;
+    const float scale = 100.0f;
 
     auto direction = b.position - a.position;
     auto distance = direction.length();
@@ -99,24 +99,4 @@ void attraction_window::attract(flp::body& a, flp::body& b)
 
     a.acceleration += direction * force;
     b.acceleration -= direction * force;
-}
-
-auto attraction_window::calc_agent_center() -> geo::rectangle
-{
-    auto [min_x, max_x] = std::ranges::minmax_element(_agents,
-        [](const utils::agent& a, const utils::agent& b)
-        {
-            return a.position.x < b.position.x;
-        });
-
-    auto [min_y, max_y] = std::ranges::minmax_element(_agents,
-        [](const utils::agent& a, const utils::agent& b)
-        {
-            return a.position.y < b.position.y;
-        });
-
-    return geo::rectangle::make_from_two_corners(
-        vector2{min_x->position.x, min_y->position.y},
-        vector2{max_x->position.x, max_y->position.y}
-    );
 }

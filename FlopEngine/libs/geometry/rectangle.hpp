@@ -1,8 +1,11 @@
 #pragma once
 
+#include <vector>
+
 #include "vector2.hpp"
 
 #include "libs/math/math.hpp"
+#include "libs/meta/range_of.hpp"
 
 namespace flp::geometry
 {
@@ -50,6 +53,34 @@ struct rectangle
     constexpr vector2 center_bot()   const noexcept;
 
     float diagonal() const;
+
+    template<
+        concepts::trait_convertible_to<vector2> Point,
+        concepts::range_of<Point> Range>
+    static rectangle make_encompassing(Range&& range)
+    {
+        auto convert =
+            [](const Point& p)
+            {
+                return traits::converter<Point, vector2>::convert(p);
+            };
+
+        auto [min_x, max_x] = std::ranges::minmax_element(range,
+            [&convert](const Point& a, const Point& b)
+            {
+                return convert(a).x < convert(b).x;
+            });
+
+        auto [min_y, max_y] = std::ranges::minmax_element(range,
+            [&convert](const Point& a, const Point& b)
+            {
+                return convert(a).y < convert(b).y;
+            });
+
+        return geo::rectangle::make_from_two_corners(
+            vector2{convert(*min_x).x, convert(*min_y).y},
+            vector2{convert(*max_x).x, convert(*max_y).y});
+    }
 };
 
 constexpr rectangle::rectangle() noexcept

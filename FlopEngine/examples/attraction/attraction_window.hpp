@@ -85,7 +85,6 @@ public:
 
 private:
     void attract(flp::body& a, flp::body& b);
-    auto calc_agent_center() -> geo::rectangle;
 };
 
 } // namespace flp
