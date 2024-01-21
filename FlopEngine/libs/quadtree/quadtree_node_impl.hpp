@@ -1,7 +1,9 @@
 #pragma once
 
 #include "quadtree_impl.hpp"
-#include "quadtree.hpp"
+
+#include <stack>
+#include <queue>
 
 namespace flp
 {
@@ -137,6 +139,80 @@ template<typename Derived, concepts::quadtree_point Point>
 inline bool quadtree_node_base<Derived, Point>::useless() const
 {
     return !subdivided() && empty();
+}
+
+template<typename Derived, concepts::quadtree_point Point>
+inline void quadtree_node_base<Derived, Point>::traverse_nodes_by_depth(
+    auto&& visitor) const
+{
+    std::stack<const me_t*> nodes_to_visit;
+    nodes_to_visit.push(this);
+
+    while (nodes_to_visit.size())
+    {
+        const me_t* current_node = nodes_to_visit.top();
+        nodes_to_visit.pop();
+
+        visitor(current_node);
+
+        for (auto& child : current_node->children())
+            nodes_to_visit.push(child.get());
+    }
+}
+
+template<typename Derived, concepts::quadtree_point Point>
+inline void quadtree_node_base<Derived, Point>::traverse_nodes_by_width(
+    auto&& visitor) const
+{
+    std::queue<decltype(this)> nodes_to_visit;
+    nodes_to_visit.push(this);
+
+    while (nodes_to_visit.size())
+    {
+        auto current_node = nodes_to_visit.front();
+        nodes_to_visit.pop();
+
+        visitor(static_cast<const me_t*>(current_node));
+
+        for (auto& child : current_node->children())
+            nodes_to_visit.push(child.get());
+    }
+}
+
+template<typename Derived, concepts::quadtree_point Point>
+inline void quadtree_node_base<Derived, Point>::traverse_nodes_by_width_reverse(
+    auto&& visitor) const
+{
+    std::vector<decltype(this)> nodes_to_visit;
+
+    traverse_nodes_by_width(
+        [&nodes_to_visit](const me_t* node)
+        {
+            nodes_to_visit.push_back(node);
+        });
+
+    for (const auto* node : nodes_to_visit | std::views::reverse)
+        visitor(static_cast<const me_t*>(node));
+}
+
+template<typename Derived, concepts::quadtree_point Point>
+inline void quadtree_node_base<Derived, Point>::traverse_points_by_depth(
+    auto&& visitor) const
+{
+    std::stack<decltype(this)> nodes_to_visit;
+    nodes_to_visit.push(this);
+
+    while (nodes_to_visit.size())
+    {
+        auto current_node = nodes_to_visit.top();
+        nodes_to_visit.pop();
+
+        for (auto& point : current_node->points())
+            visitor(point);
+
+        for (auto& child : current_node->children())
+            nodes_to_visit.push(child.get());
+    }
 }
 
 } // namespace flp

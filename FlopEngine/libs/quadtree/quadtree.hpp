@@ -74,6 +74,13 @@ public:
     bool empty()      const;
     bool useless()    const;
 
+public:
+    void traverse_nodes_by_depth(auto&& visitor) const;
+    void traverse_nodes_by_width(auto&& visitor) const;
+    void traverse_nodes_by_width_reverse(auto&& visitor) const;
+
+    void traverse_points_by_depth(auto&& visitor) const;
+
 protected:
     void subdivide();
 
@@ -218,7 +225,7 @@ public:
     quadtree& operator=(quadtree&&) noexcept = default;
 
 public:
-    void insert(std::vector<Point>& points);
+    void insert(concepts::range_of<Point> auto& points);
 
     // cuts down nodes without points or children
     // questionable usefulness
@@ -230,6 +237,8 @@ public:
     void traverse_by_width(std::invocable<const node_t*> auto&& visitor) const;
 
     void traverse_by_width_reverse(std::invocable<const node_t*> auto&& visitor) const;
+
+    const node_t* head() const;
 
 private:
     std::unique_ptr<node_t> _head;

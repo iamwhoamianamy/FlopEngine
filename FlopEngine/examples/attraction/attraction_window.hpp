@@ -1,5 +1,7 @@
 #pragma once
 
+#include "barnes_hut_solver.hpp"
+
 #include "libs/graphics/base_window.hpp"
 #include "utils/agent.hpp"
 #include "libs/quadtree/quadtree.hpp"
@@ -63,6 +65,20 @@ struct flp::traits::converter<flp::body*, vector2>
     }
 };
 
+template <>
+struct flp::traits::object_with_mass<flp::body>
+{
+    constexpr static float mass(flp::body& obj)
+    {
+        return obj.mass;
+    }
+
+    constexpr static float mass(const flp::body& obj)
+    {
+        return obj.mass;
+    }
+};
+
 } // namespace flp
 
 namespace flp
@@ -72,9 +88,6 @@ struct attraction_window : public flp::base_window
 {
 private:
     std::vector<body> _agents;
-    geo::rectangle _agent_center;
-    std::vector<std::pair<vector2, vector2>> _edges;
-    quadtree<body> _qtree;
 
 public:
     attraction_window(flp::window_settings&& settings);
@@ -83,8 +96,6 @@ public:
     void display() override;
     void resize(float w, float h) override;
 
-private:
-    void attract(flp::body& a, flp::body& b);
 };
 
 } // namespace flp

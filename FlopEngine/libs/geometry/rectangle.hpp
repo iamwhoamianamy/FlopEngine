@@ -52,6 +52,7 @@ struct rectangle
     constexpr vector2 center_right() const noexcept;
     constexpr vector2 center_bot()   const noexcept;
 
+    float radius()   const;
     float diagonal() const;
 
     template<
@@ -212,11 +213,16 @@ inline constexpr vector2 rectangle::center_bot() const noexcept
     return {center.x, bot()};
 }
 
-inline float rectangle::diagonal() const
+inline float rectangle::radius() const
 {
-    return 2.0f * std::sqrtf(
+    return std::sqrtf(
         half_dimensions.x * half_dimensions.x +
         half_dimensions.y * half_dimensions.y);
+}
+
+inline float rectangle::diagonal() const
+{
+    return 2.0f * radius();
 }
 
 } // namespace flp::geometry

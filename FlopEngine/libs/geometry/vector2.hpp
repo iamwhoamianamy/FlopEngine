@@ -18,8 +18,8 @@ struct vector2;
 
 struct vector2
 {
-    float x;
-    float y;
+    float x{};
+    float y{};
 
     constexpr vector2(const vector2& vector)    noexcept;
     constexpr vector2(vector2&& vector)         noexcept;

@@ -2,13 +2,11 @@
 
 #include "quadtree.hpp"
 
-#include <stack>
-#include <queue>
-
 #include "utils/utils.hpp"
 
 namespace flp
 {
+
 template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
@@ -23,7 +21,8 @@ inline quadtree<Point, Node>::quadtree(
 template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
-inline void quadtree<Point, Node>::insert(std::vector<Point>& points)
+inline void quadtree<Point, Node>::insert(
+    concepts::range_of<Point> auto& points)
 {
     for (auto& point : points)
     {
@@ -77,61 +76,33 @@ template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::traverse_by_depth(
-    std::invocable<const node_t*> auto&& visitor)  const
+    std::invocable<const node_t*> auto&& visitor) const
 {
-    std::stack<const node_t*> nodes_to_visit;
-    nodes_to_visit.push(_head.get());
-
-    while (nodes_to_visit.size())
-    {
-        const node_t* current_node = nodes_to_visit.top();
-        nodes_to_visit.pop();
-
-        visitor(current_node);
-
-        for (auto& child : current_node->children())
-            nodes_to_visit.push(child.get());
-    }
+    _head.get()->traverse_nodes_by_depth(std::forward<decltype(visitor)>(visitor));
 }
 
 template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::traverse_by_width(
-    std::invocable<const node_t*> auto&& visitor)  const
+    std::invocable<const node_t*> auto&& visitor) const
 {
-    std::queue<const node_t*> nodes_to_visit;
-    nodes_to_visit.push(_head.get());
-
-    while (nodes_to_visit.size())
-    {
-        const node_t* current_node = nodes_to_visit.front();
-        nodes_to_visit.pop();
-
-        visitor(current_node);
-
-        for (auto& child : current_node->children())
-            nodes_to_visit.push(child.get());
-    }
+    _head.get()->traverse_nodes_by_width(std::forward<decltype(visitor)>(visitor));
 }
-
 
 template<
     concepts::quadtree_point Point,
     concepts::quadtree_node Node>
 inline void quadtree<Point, Node>::traverse_by_width_reverse(
-    std::invocable<const node_t*> auto&& visitor)  const
+    std::invocable<const node_t*> auto&& visitor) const
 {
-    std::vector<const node_t*> nodes_to_visit;
+    _head.get()->traverse_nodes_by_width_reverse(std::forward<decltype(visitor)>(visitor));
+}
 
-    traverse_by_width(
-        [&nodes_to_visit](const node_t* node)
-        {
-            nodes_to_visit.push_back(node);
-        });
-
-    for (const auto* node : nodes_to_visit | std::views::reverse)
-        visitor(node);
+template<flp::concepts::quadtree_point Point, flp::concepts::quadtree_node Node>
+inline const quadtree<Point, Node>::node_t* quadtree<Point, Node>::head() const
+{
+    return _head.get();
 }
 
 } // namespace flp

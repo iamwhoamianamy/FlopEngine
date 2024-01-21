@@ -25,7 +25,6 @@
     <ClCompile Include="examples\euler_fluid_simulator\euler_fluid_simulator.cpp" />
     <ClCompile Include="examples\empty\empty_window.cpp" />
     <ClCompile Include="examples\attraction\attraction_window.cpp" />
-    <ClCompile Include="examples\attraction\barnes_hut_solver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="geometry\edge.hpp" />
@@ -91,6 +90,7 @@
     <ClInclude Include="libs\quadtree\quadtree_node_impl.hpp" />
     <ClInclude Include="examples\attraction\barnes_hut_solver.hpp" />
     <ClInclude Include="libs\meta\range_of.hpp" />
+    <ClInclude Include="examples\attraction\barnes_hut_solver_impl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

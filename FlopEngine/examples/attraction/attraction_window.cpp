@@ -15,66 +15,45 @@ attraction_window::attraction_window(flp::window_settings&& settings)
     : base_window{std::move(settings)}
 {
     _agents = utils::agent::generate_random<flp::body>(
-        screen_rectangle(), 2000, 1.0f,
+        screen_rectangle(), 10000, 0.0f,
         [](flp::body& b)
         {
             static std::mt19937 generator;
-            static std::normal_distribution<float> dist{3.0f, 2.0f};
-            b.mass = dist(generator);
+            //static std::normal_distribution<float> dist{4.0f, 1.0f};
+            static std::negative_binomial_distribution<int> dist{1, 0.05f};
+            b.mass = 10.0f + dist(generator);
         });
-
-    //_agents.emplace_back(screen_rectangle().center, vector2{}, vector2{}, 30.0f);
 }
 
 void attraction_window::physics_loop()
 {
-    _edges.clear();
-    _agent_center = geo::rectangle::make_encompassing<flp::body>(_agents);
 
-    _qtree = decltype(_qtree){_agent_center, 8};
-    _qtree.insert(_agents);
-
-    const float radius = 200.0f;
-    
-    for (auto& agent : _agents)
-    {
-        auto range = geo::rectangle{agent.position, radius};
-
-        for (auto& neighbour : _qtree.quarry(range))
-        {
-            attract(agent, neighbour);
-            _edges.emplace_back(agent.position, neighbour.position);
-        }
-    }
-
-    for (auto& agent : _agents)
-    {
-        agent.update_position(1.0f, _last_ellapsed);
-    }
 }
 
 void attraction_window::display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /*draw::set_line_width(1.0f);
-    draw::set_color(draw::color{0.4f, 0.2f, 0.1f, 0.01f});
-    for (const auto& [a, b] : _edges)
-    {
-        draw::draw_line(a, b);
-    }*/
+    flp::barnes_hut_solver<flp::body> solver;
+    auto total_forces = solver.solve(_agents);
 
-    draw::set_line_width(0.1f);
-    draw::set_color(draw::color{0.6f, 0.4f, 0.0f, 0.1f});
-    draw_quadtree(_qtree);
+    for (auto& agent : _agents)
+    {
+        agent.acceleration += total_forces[&agent] * 150.0f;
+        agent.update_position(1.0f, _last_ellapsed);
+    }
 
     for (const auto& body : _agents)
     {
-        draw::set_color(draw::color{0.2f * body.mass, 0.05f * body.mass, 0.0f, 0.2f * body.mass});
-        draw::draw_point(body.position, body.mass);
+        auto mass_factor = std::powf(body.mass, 1.0f / 3.0f);
 
-        //draw::set_color(draw::color{0.2f * body.mass, 0.05f * body.mass, 0.0f, 0.01f * body.mass});
-        //draw::draw_circle(body.position, 200.0f);
+        draw::set_color(
+            draw::color{
+                0.2f * mass_factor,
+                0.05f * mass_factor,
+                0.0f, 0.2f * mass_factor});
+
+        draw::draw_point(body.position, mass_factor);
     }
 
     glFinish();
@@ -83,20 +62,4 @@ void attraction_window::display()
 void attraction_window::resize(float w, float h)
 {
 
-}
-
-void attraction_window::attract(flp::body& a, flp::body& b)
-{
-    if (a.position == b.position)
-        return;
-
-    const float scale = 100.0f;
-
-    auto direction = b.position - a.position;
-    auto distance = direction.length();
-
-    auto force = scale / (distance * distance) * a.mass * b.mass;
-
-    a.acceleration += direction * force;
-    b.acceleration -= direction * force;
 }

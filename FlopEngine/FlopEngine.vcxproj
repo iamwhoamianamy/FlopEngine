@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="3rdparty\json\json.hpp" />
     <ClInclude Include="examples\attraction\barnes_hut_solver.hpp" />
+    <ClInclude Include="examples\attraction\barnes_hut_solver_impl.hpp" />
     <ClInclude Include="examples\euler_fluid_simulator\euler_fluid_simulator.hpp" />
     <ClInclude Include="examples\attraction\attraction_window.hpp" />
     <ClInclude Include="examples\boids\boid.hpp" />
@@ -198,7 +199,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="examples\attraction\barnes_hut_solver.cpp" />
     <ClCompile Include="examples\euler_fluid_simulator\euler_fluid_simulator.cpp" />
     <ClCompile Include="examples\attraction\attraction_window.cpp" />
     <ClCompile Include="examples\boids\boids_window.cpp" />
