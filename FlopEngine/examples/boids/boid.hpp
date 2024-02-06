@@ -147,14 +147,10 @@ struct flp::traits::physics_object<boid>
 template <>
 struct flp::traits::converter<boid, vector2>
 {
-    static vector2& convert(boid& a)
+    static flp::concepts::base_same_as<vector2> auto&& convert(
+           flp::concepts::base_same_as<boid>    auto&& a)
     {
         return a.position;
-    }
-
-    static vector2& convert(boid* a)
-    {
-        return a->position;
     }
 };
 

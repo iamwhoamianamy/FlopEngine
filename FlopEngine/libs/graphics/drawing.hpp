@@ -9,11 +9,15 @@
 #include "libs/graphics/color.hpp"
 #include "libs/grid/grid.hpp"
 
+#include "libs/meta/range_of.hpp"
+#include "libs/meta/trait_convertible_to.hpp"
+
 namespace flp::draw
 {
 
 void draw_line(const vector2& a, const vector2& b);
 void draw_point(const vector2& point, float size);
+void draw_points(concepts::range_of<vector2> auto&& points, float size);
 void draw_rect(const geo::rectangle& rect);
 void draw_rect(const vector2& center, float half_width, float half_height);
 void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d);
@@ -33,6 +37,8 @@ auto generate_random_color() -> color;
 
 void render_string(const vector2& position, float size, const std::string& string);
 void render_letter(const vector2& position, float size, char letter);
+
+void set_background_color(const color& color);
 
 void set_color(float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f);
 void set_color(const color& color);
@@ -57,6 +63,21 @@ inline void draw_point(const vector2& point, float size)
     glBegin(GL_POINTS);
     {
         glVertex2f(point.x, point.y);
+    }
+    glEnd();
+}
+
+template<concepts::trait_convertible_to<vector2> Point>
+inline void draw_points(concepts::range_of<Point> auto&& points, float size)
+{
+    glPointSize(size);
+    glBegin(GL_POINTS);
+    {
+        for (const auto& point : points)
+        {
+            const auto& position = traits::converter<Point, vector2>::convert(point);
+            glVertex2f(position.x, position.y);
+        }
     }
     glEnd();
 }

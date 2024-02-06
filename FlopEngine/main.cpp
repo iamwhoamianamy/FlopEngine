@@ -7,8 +7,8 @@ using namespace flp;
 
 int main(int argc, char** argv)
 {
-    flp::window = new quadtree_window({argc, argv, 800, 800, "Quadtree"});
-    //flp::window = new boids_window({argc, argv, 1600, 800, "Boids"});
+    //flp::window = new quadtree_window({argc, argv, 800, 800, "Quadtree"});
+    flp::window = new boids_window({argc, argv, 1600, 800, "Boids", 60, true});
     //flp::window = new marching_window({argc, argv, 1600, 800, "Marching"});
     //flp::window = new delaunay_window({argc, argv, 1600, 800, "Delaunay"});
     //flp::window = new pixel_grid_window({argc, argv, 1600, 800, "Pixel Grid"});

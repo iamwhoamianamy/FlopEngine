@@ -3,15 +3,6 @@
 
 using namespace flp;
 
-draw::color::color(float r, float g, float b, float a)
-    : r{r}
-    , g{g}
-    , b{b}
-    , a{a}
-{
-
-}
-    
 void draw::draw_triangle(const vector2& a, const vector2& b, const vector2& c, bool filled)
 {
     if(filled)
@@ -52,9 +43,9 @@ void draw::draw_circle(const vector2& center, float radius)
 auto draw::generate_random_color() -> color
 {
     return color(
-        math::random_in_range(0, 255),
-        math::random_in_range(0, 255),
-        math::random_in_range(0, 255));
+        math::random_in_range(0.0f, 1.0f),
+        math::random_in_range(0.0f, 1.0f),
+        math::random_in_range(0.0f, 1.0f));
 }
 
 constexpr float LETTER_SCALE = 0.01f;
@@ -88,4 +79,9 @@ void draw::render_letter(const vector2& position, float size, char letter)
         glPopMatrix();
     }
     glMatrixMode(GL_MODELVIEW);
+}
+
+void flp::draw::set_background_color(const color& color)
+{
+    glClearColor(color.r, color.g, color.b, color.a);
 }

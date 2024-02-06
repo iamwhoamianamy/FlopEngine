@@ -25,7 +25,7 @@ class boids_window : public flp::base_window
 {
 public:
     static const size_t flock_count = 3;
-    static const size_t boid_per_flock = 1000;
+    static const size_t boid_per_flock = 2000;
     const std::string boid_param_filename = "examples/boids/params.json";
 
 private:

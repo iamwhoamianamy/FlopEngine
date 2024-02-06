@@ -6,16 +6,16 @@
     "align_strength": 0.01,
 
     "gather_vision": 150,
-    "gather_strength": 14750,
+    "gather_strength": 24750,
 
     "flee_vision": 30,
-    "flee_strength": 150,
+    "flee_strength": 350,
 
     "wander_strength": 0.04,
     "size": 7,
 
-    "max_speed": 300,
-    "min_speed": 100,
+    "max_speed": 400,
+    "min_speed": 150,
 
 	"march_contribution": 25,
 

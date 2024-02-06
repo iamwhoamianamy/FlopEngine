@@ -82,10 +82,7 @@ void flock::draw() const
     {
         case flock_draw_type::points:
         {
-            for (const auto& boid : _boids)
-            {
-                draw::draw_point(boid.position, _boid_params.size);
-            }
+            draw::draw_points<flp::boid>(_boids, _boid_params.size);
 
             break;
         }

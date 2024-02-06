@@ -103,6 +103,7 @@ void boids_window::display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_POINT_SMOOTH);
+    draw::set_background_color(draw::color::black());
 
     draw_focks();
     draw_marching_squares();
@@ -121,6 +122,25 @@ void boids_window::keyboard_letters(unsigned char key, int x, int y)
             for(auto& flock : _flocks)
             {
                 flock.color() = draw::generate_random_color();
+            }
+
+            break;
+        }
+        case 'x':
+        {
+            for (size_t i = 0; i < _flocks.size(); i++)
+            {
+                const float saturation_step = 1.0f / _flocks.size();
+                _flocks[i].color() = draw::color{saturation_step * (i + 1)};
+            }
+
+            break;
+        }
+        case 'z':
+        {
+            for (size_t i = 0; i < _flocks.size(); i++)
+            {
+                _flocks[i].color() = draw::nice_colors[i];
             }
 
             break;

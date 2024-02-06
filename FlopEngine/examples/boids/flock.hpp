@@ -146,7 +146,6 @@ inline void flock::perform_avoiding(boid& boid, concepts::duration auto ellapsed
     {
         draw::set_color(draw::color(255, 0, 0));
         glLineWidth(3);
-
     }
 
     for (const auto& boid_to_avoid : boids_to_avoid)
@@ -185,7 +184,6 @@ inline void flock::perform_aligning(flp::boid& boid, concepts::duration auto ell
             draw::draw_line(boid.position, boid_to_align_to.position);
         }
     }
-
 }
 
 inline void flock::perform_gathering(
