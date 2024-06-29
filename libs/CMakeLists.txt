@@ -1,0 +1,8 @@
+#add_subdirectory(geometry)
+add_subdirectory(graphics)
+#add_subdirectory(grid)
+add_subdirectory(gui)
+add_subdirectory(logger)
+#add_subdirectory(math)
+#add_subdirectory(meta)
+#add_subdirectory(quadtree)
