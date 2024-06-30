@@ -3,6 +3,7 @@ add_subdirectory(boids)
 #add_subdirectory(delaunay)
 #add_subdirectory(empty)
 #add_subdirectory(euler_fluid_simulator)
+add_subdirectory(gui)
 #add_subdirectory(marching)
 #add_subdirectory(marching)
 #add_subdirectory(pixel_grid)
@@ -14,6 +15,7 @@ add_executable(examples
 
 target_link_libraries(examples
     examples_boids
+    examples_gui
     libs_graphics
     libs_gui
     libs_logger

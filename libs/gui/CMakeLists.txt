@@ -2,6 +2,7 @@ add_library(libs_gui
     button.cpp
     input_param_box.cpp
     input_param_list.cpp
+    label.cpp
     layout.cpp
     master.cpp
     object.cpp

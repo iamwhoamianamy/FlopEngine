@@ -8,3 +8,4 @@
 #include "pixel_grid/pixel_grid_window.hpp"
 #include "euler_fluid_simulator/euler_fluid_window.hpp"
 #include "attraction/attraction_window.hpp"
+#include "gui/gui_window.hpp"

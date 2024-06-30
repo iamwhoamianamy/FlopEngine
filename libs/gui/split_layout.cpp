@@ -47,24 +47,48 @@ void split_layout::resize_children()
 
     for (const auto& [child, markup, factor] : _init_container)
     {
-        vector2 center;
-        vector2 half_dim;
+        if (markup == init_container::markup::relative)
+        {
+            vector2 center;
+            vector2 half_dim;
 
-        half_dim[const_axis] = rect.half_dimensions[const_axis];
-        center[const_axis] = rect.center[const_axis];
+            half_dim[const_axis] = rect.half_dimensions[const_axis];
+            center[const_axis] = rect.center[const_axis];
 
-        half_dim[stretch_axis] = factor * rect.half_dimensions[stretch_axis];
-        center[stretch_axis] =
-            rect.center[stretch_axis] + rect.half_dimensions[stretch_axis] - rest_length +
-            half_dim[stretch_axis];
+            half_dim[stretch_axis] = factor * rect.half_dimensions[stretch_axis];
+            center[stretch_axis] =
+                rect.center[stretch_axis] + rect.half_dimensions[stretch_axis] - rest_length +
+                half_dim[stretch_axis];
 
-        frame_t new_frame_t{center, half_dim};
+            frame_t new_frame_t{center, half_dim};
 
-        rest_length -= new_frame_t.half_dimensions[stretch_axis] * 2.0f;
+            rest_length -= new_frame_t.half_dimensions[stretch_axis] * 2.0f;
 
-        new_frame_t = layout::fix_frame(new_frame_t);
+            new_frame_t = layout::fix_frame(new_frame_t);
 
-        child->resize(new_frame_t);
+            child->resize(new_frame_t);
+        }
+        else if (markup == init_container::markup::absolute)
+        {
+            vector2 center;
+            vector2 half_dim;
+
+            half_dim[const_axis] = rect.half_dimensions[const_axis];
+            center[const_axis] = rect.center[const_axis];
+
+            half_dim[stretch_axis] = factor;
+            center[stretch_axis] =
+                rect.center[stretch_axis] + rect.half_dimensions[stretch_axis] - rest_length +
+                half_dim[stretch_axis];
+
+            frame_t new_frame_t{center, half_dim};
+
+            rest_length -= new_frame_t.half_dimensions[stretch_axis] * 2.0f;
+
+            new_frame_t = layout::fix_frame(new_frame_t);
+
+            child->resize(new_frame_t);
+        }
     }
 }
 

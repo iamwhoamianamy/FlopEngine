@@ -17,7 +17,10 @@ namespace flp::draw
 
 void draw_line(const vector2& a, const vector2& b);
 void draw_point(const vector2& point, float size);
-void draw_points(concepts::range_of<vector2> auto&& points, float size);
+
+template<concepts::trait_convertible_to<vector2> Point>
+void draw_points(concepts::range_of<Point> auto&& points, float size);
+
 void draw_rect(const geo::rectangle& rect);
 void draw_rect(const vector2& center, float half_width, float half_height);
 void draw_rect(const vector2& a, const vector2& b, const vector2& c, const vector2& d);
