@@ -1,0 +1,8 @@
+add_subdirectory(attraction)
+add_subdirectory(boids)
+add_subdirectory(delaunay)
+add_subdirectory(empty)
+#add_subdirectory(euler_fluid_simulator)
+add_subdirectory(marching)
+add_subdirectory(pixel_grid)
+add_subdirectory(quadtree)
