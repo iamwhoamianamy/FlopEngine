@@ -48,6 +48,8 @@ protected:
 public:
     base_window(window_settings&& settings);
 
+    virtual ~base_window() = default;
+
     virtual void physics_loop();
     virtual void display() = 0;
     virtual void keyboard_letters(unsigned char key, int x, int y);
@@ -82,4 +84,4 @@ private:
     void base_special(int key, int x, int y);
 };
 
-}
+} // namespace flp

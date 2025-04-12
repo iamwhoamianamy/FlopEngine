@@ -112,7 +112,7 @@ constexpr rectangle::rectangle(const vector2& center, float half_width, float ha
 
 }
 
-inline constexpr rectangle rectangle::make_from_two_corners(
+constexpr rectangle rectangle::make_from_two_corners(
     const vector2& a, const vector2& b) noexcept
 {
     auto center = (b - a) * 0.5 + a;
@@ -173,44 +173,44 @@ constexpr float rectangle::height() const noexcept
     return 2.0f * half_dimensions.y;
 }
 
-inline constexpr vector2 rectangle::top_left() const noexcept
+constexpr vector2 rectangle::top_left() const noexcept
 {
-    return {left(), top()};
+    return vector2{left(), top()};
 }
 
-inline constexpr vector2 rectangle::top_right() const noexcept
+constexpr vector2 rectangle::top_right() const noexcept
 {
-    return {right(), top()};
+    return vector2{right(), top()};
 }
 
-inline constexpr vector2 rectangle::bot_left() const noexcept
+constexpr vector2 rectangle::bot_left() const noexcept
 {
-    return {left(), bot()};
+    return vector2{left(), bot()};
 }
 
-inline constexpr vector2 rectangle::bot_right() const noexcept
+constexpr vector2 rectangle::bot_right() const noexcept
 {
-    return {right(), bot()};
+    return vector2{right(), bot()};
 }
 
-inline constexpr vector2 rectangle::center_left() const noexcept
+constexpr vector2 rectangle::center_left() const noexcept
 {
-    return {left(), center.y};
+    return vector2{left(), center.y};
 }
 
-inline constexpr vector2 rectangle::center_top() const noexcept
+constexpr vector2 rectangle::center_top() const noexcept
 {
-    return {center.x, top()};
+    return vector2{center.x, top()};
 }
 
-inline constexpr vector2 rectangle::center_right() const noexcept
+constexpr vector2 rectangle::center_right() const noexcept
 {
-    return {right(), center.y};
+    return vector2{right(), center.y};
 }
 
-inline constexpr vector2 rectangle::center_bot() const noexcept
+constexpr vector2 rectangle::center_bot() const noexcept
 {
-    return {center.x, bot()};
+    return vector2{center.x, bot()};
 }
 
 inline float rectangle::radius() const

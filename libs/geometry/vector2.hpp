@@ -22,9 +22,9 @@ struct vector2
     float x{};
     float y{};
 
-    constexpr vector2(const vector2& vector)    noexcept;
-    constexpr vector2(vector2&& vector)         noexcept;
-    constexpr vector2(float x = 0, float y = 0) noexcept;
+    constexpr vector2(const vector2& vector)             noexcept;
+    constexpr vector2(vector2&& vector)                  noexcept;
+    constexpr explicit vector2(float x = 0, float y = 0) noexcept;
 
     float& operator[](int i);
     constexpr float operator[](int i) const noexcept;
@@ -34,20 +34,20 @@ struct vector2
 
     constexpr vector2 operator +(const vector2& rhs) const noexcept;
     constexpr vector2 operator -(const vector2& rhs) const noexcept;
-    constexpr vector2 operator *(const float fac)    const noexcept;
-    constexpr vector2 operator /(const float fac)    const noexcept;
+    constexpr vector2 operator *(float fac)          const noexcept;
+    constexpr vector2 operator /(float fac)          const noexcept;
 
     constexpr vector2& operator +=(const vector2& rhs) noexcept;
     constexpr vector2& operator -=(const vector2& rhs) noexcept;
     constexpr vector2& operator *=(float fac)          noexcept;
     constexpr vector2& operator /=(float fac)          noexcept;
 
-    float   length()         const;
-    float   length_squared() const;
-    vector2 normalized()     const;
+    [[nodiscard]] float   length()         const;
+    [[nodiscard]] float   length_squared() const;
+    [[nodiscard]] vector2 normalized()     const;
 
-    constexpr vector2 perp() const noexcept;
-    constexpr void    zero() noexcept;
+    [[nodiscard]] constexpr vector2 perp() const noexcept;
+    constexpr void zero() noexcept;
 
     void normalize ();
     void limit     (float max_length);
@@ -66,7 +66,7 @@ struct vector2
     constexpr static vector2 x_axis() noexcept;
     constexpr static vector2 y_axis() noexcept;
 
-    void print_with_width(std::ostream& os, size_t width);
+    void print_with_width(std::ostream& os, size_t width) const;
 };
 
 constexpr vector2::vector2(const vector2& vector) noexcept
@@ -97,7 +97,7 @@ inline float& vector2::operator[](int i)
 
 constexpr float vector2::operator[](int i) const noexcept
 {
-    return *((float*)this + (i % 2));
+    return *(const_cast<float*>(&this->x) + i % 2);
 }
 
 constexpr vector2& vector2::operator=(vector2&& vector) noexcept
@@ -195,9 +195,8 @@ constexpr vector2& vector2::operator /=(float fac) noexcept
 inline vector2 vector2::normalized() const
 {
     vector2 res;
-    float l = length();
 
-    if (l)
+    if (const float l = length())
     {
         res.x = x / l;
         res.y = y / l;
@@ -208,12 +207,7 @@ inline vector2 vector2::normalized() const
 
 inline void vector2::normalize()
 {
-    float l = length();
-
-    if (l)
-    {
-        operator/=(l);
-    }
+    operator/=(length());
 }
 
 inline void vector2::limit(float max_length)
@@ -273,7 +267,7 @@ constexpr vector2 vector2::y_axis() noexcept
     return vector2{0, 1};
 }
 
-inline void vector2::print_with_width(std::ostream& os, size_t width)
+inline void vector2::print_with_width(std::ostream& os, size_t width) const
 {
     os << std::fixed;
     os << "( ";
@@ -332,7 +326,7 @@ namespace flp { namespace geo = geometry; }
 template <>
 struct std::hash<vector2>
 {
-    size_t operator()(const vector2& vec) const
+    size_t operator()(const vector2& vec) const noexcept
     {
         return std::hash<float>()(vec.x) ^ std::hash<float>()(vec.y);
     }
@@ -341,7 +335,7 @@ struct std::hash<vector2>
 template <>
 struct std::hash<std::pair<vector2, vector2>>
 {
-    size_t operator()(const std::pair<vector2, vector2>& pair) const
+    size_t operator()(const std::pair<vector2, vector2>& pair) const noexcept
     {
         return std::hash<vector2>()(pair.first) ^ std::hash<vector2>()(pair.second);
     }

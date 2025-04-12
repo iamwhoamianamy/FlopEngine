@@ -18,10 +18,10 @@ struct agent
     vector2 velocity;
     vector2 acceleration;
 
-    agent(
-        const vector2& position = {},
-        const vector2& velocity = {},
-        const vector2& acceleration = {});
+    explicit agent(
+        const vector2& position = vector2{},
+        const vector2& velocity = vector2{},
+        const vector2& acceleration = vector2{});
 
     void update_position(float viscosity, concepts::duration auto ellapsed);
     void go_through_borders(const geo::rectangle& screen_borders);

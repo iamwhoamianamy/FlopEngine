@@ -1,11 +1,8 @@
 #pragma once
 
 #include <array>
-#include <algorithm>
-#include <cmath>
 
 #include "libs/geometry/vector2.hpp"
-#include "libs/math/math.hpp"
 #include "libs/graphics/drawing.hpp"
 
 namespace flp
@@ -15,7 +12,7 @@ template <size_t NodeCountX, size_t NodeCountY>
 class marching_grid
 {
 private:
-    std::array<float, NodeCountX* NodeCountY> _grid;
+    std::array<float, NodeCountX * NodeCountY> _grid;
 
 public:
     marching_grid(float width = 0, float height = 0);
@@ -32,11 +29,10 @@ public:
     const auto& grid() const;
 
 private:
-    size_t plain_id(size_t x, size_t y) const;
+    [[nodiscard]] size_t plain_id(size_t x, size_t y) const;
     void set(size_t x, size_t y, float val);
-    float get(size_t x, size_t y) const;
-
-    auto point_to_id(const vector2& p) const->std::pair<size_t, size_t>;
+    [[nodiscard]] float get(size_t x, size_t y) const;
+    [[nodiscard]] std::pair<size_t, size_t> point_to_id(const vector2& p) const;
 
 private:
     float _width;

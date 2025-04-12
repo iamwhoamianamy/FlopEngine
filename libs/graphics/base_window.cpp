@@ -100,14 +100,14 @@ void base_window::base_keyboard_letters(unsigned char key, int x, int y)
 
 void base_window::base_mouse(int button, int state, int x, int y)
 {
-    _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
+    _mouse_pos = vector2{static_cast<float>(x), static_cast<float>(y)};
     mouse(button, state, x, y);
     utils::singleton<gui::master>::get().register_mouse_click_status_change(_mouse_pos);
 }
 
 void base_window::base_mouse_passive(int x, int y)
 {
-    _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
+    _mouse_pos = vector2{static_cast<float>(x), static_cast<float>(y)};
     mouse_passive(x, y);
     utils::singleton<gui::master>::get().hover(_mouse_pos);
 }
@@ -156,10 +156,10 @@ void base_window::base_display()
     if (_debug_mode)
     {
         draw::set_color(draw::color::black());
-        draw::draw_filled_rect(geo::rectangle{{135, 10}, 135, 10});
+        draw::draw_filled_rect(geo::rectangle{vector2{135, 10}, 135, 10});
 
         draw::set_color(draw::color::blue());
-        draw::render_string({0, 15}, 15, std::format("fps: {:.3}", get_smooth_fps()));
+        draw::render_string(vector2{0, 15}, 15, std::format("fps: {:.3}", get_smooth_fps()));
     }
 
     glutSwapBuffers();

@@ -12,7 +12,7 @@ namespace flp
 class marching_window : public flp::base_window
 {
 private:
-    marching_grid<800, 400> _marching_grid;
+    marching_grid<400, 200> _marching_grid;
     std::vector<utils::agent> _agents;
 
 public:

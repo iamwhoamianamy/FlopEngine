@@ -28,7 +28,7 @@ inline vector2 generate_random_vector()
     float x = cosf(angle);
     float y = sinf(angle);
 
-    return {x, y};
+    return vector2{x, y};
 }
 
 template <class T>
